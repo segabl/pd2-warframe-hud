@@ -1,0 +1,20 @@
+{
+	"name" : "WFHud",
+	"description" : "Warframe styled HUD",
+	"author" : "Hoppip",
+	"contact" : "Hoppip#1630",
+	"priority" : -100,
+	"color" : "0.043 0.808 0.6",
+	"image" : "mod.png",
+	"version" : "1.0",
+	"hooks" : [
+		{ "hook_id" : "lib/managers/group_ai_states/groupaistatebase", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/managers/hud/hudassaultcorner", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/managers/hud/hudteammate", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/managers/hudmanager", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/managers/playermanager", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/units/beings/player/states/playerstandard", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/units/beings/player/playerdamage", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/units/player_team/teamaidamage", "script_path" : "mod.lua" },
+	]
+}
