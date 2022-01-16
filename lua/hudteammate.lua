@@ -5,7 +5,7 @@ Hooks:PostHook(HUDTeammate, "init", "init_wfhud", function (self, i, teammates_p
 	if self._main_player then
 		self._wfhud_panel._panel:set_righttop(main_panel:w(), 32)
 	else
-		self._wfhud_panel._panel:set_righttop(main_panel:w(), 32 + 96 + (i - 1) * self._wfhud_panel._panel:h())
+		self._wfhud_panel._panel:set_righttop(main_panel:w(), 32 + 80 + (i - 1) * (self._wfhud_panel._panel:h() + 4))
 	end
 	self._wfhud_panel._panel:set_visible(false)
 end)
@@ -27,7 +27,7 @@ Hooks:PostHook(HUDTeammate, "set_name", "set_name_wfhud", function (self, name)
 	self._wfhud_panel:set_name(name)
 end)
 
-Hooks:PostHook(HUDTeammate, "set_peer_id", "set_peer_id_wfhud", function (self, id)
+Hooks:PostHook(HUDTeammate, "set_callsign", "set_callsign", function (self, id)
 	self._wfhud_panel:set_peer_id(id)
 end)
 

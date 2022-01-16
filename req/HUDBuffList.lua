@@ -4,7 +4,7 @@ end
 
 HUDBuffListItem = class()
 
-HUDBuffListItem.ICON_SIZE = 48
+HUDBuffListItem.ICON_SIZE = 40
 HUDBuffListItem.ICON_SPACING = 4
 HUDBuffListItem.FONT_SIZE = 20
 HUDBuffListItem.NAME_DISPLAY_TIME = 3

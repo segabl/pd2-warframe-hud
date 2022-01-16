@@ -188,10 +188,8 @@ if not WFHud then
 				unit = unit:parent()
 			end
 
-			if unit:character_damage() and not unit:character_damage()._dead then
-				if unit ~= self._unit_aim_label._unit or self._unit_aim_label._fading_out then
-					self._unit_aim_label:set_unit(unit)
-				end
+			if unit:movement() and unit:character_damage() and not unit:character_damage()._dead then
+				self._unit_aim_label:set_unit(unit)
 				return
 			end
 		end

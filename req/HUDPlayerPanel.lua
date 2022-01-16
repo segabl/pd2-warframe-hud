@@ -40,16 +40,43 @@ function HUDPlayerPanel:init(panel, x, y, main_player)
 
 	-- healthbar
 	local health_bar_w = main_player and 160 or 96
-	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, health_bar_w, main_player and 8 or 5, main_player and 40 or 18)
+	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, health_bar_w, main_player and 8 or 5, main_player and 40 or 16)
 	self._health_bar._panel:set_right(main_player and self._panel:w() or self._peer_info_panel:x() - 4)
+
+
+	-- level bar
+	self._level_panel = self._panel:panel({
+		visible = not main_player,
+		x = self._health_bar._panel:x(),
+		y = self._health_bar._panel:bottom() + 1,
+		w = health_bar_w,
+		h = main_player and 0 or 2,
+		layer = -1
+	})
+
+	self._level_bar_bg = self._level_panel:bitmap({
+		texture = "guis/textures/wfhud/bar",
+		color = WFHud.colors.bg:with_alpha(0.5),
+		w = self._level_panel:w(),
+		h = self._level_panel:h(),
+		layer = -1
+	})
+
+	self._level_bar = self._level_panel:bitmap({
+		texture = "guis/textures/wfhud/bar",
+		color = WFHud.colors.default,
+		w = self._level_panel:w(),
+		h = self._level_panel:h()
+	})
 
 
 	-- peer id
 	self._peer_id_panel = self._panel:panel({
-		x = self._health_bar._panel:right() - 12,
-		y = self._health_bar._panel:h() + 3,
+		x = self._level_panel:right() - 12,
+		y = self._level_panel:bottom() + 3,
 		w = 12,
-		h = 12
+		h = 12,
+		layer = -1
 	})
 
 	self._peer_id_bg = self._peer_id_panel:bitmap({
@@ -76,13 +103,14 @@ function HUDPlayerPanel:init(panel, x, y, main_player)
 		font_size = 20,
 		color = WFHud.colors.default,
 		align = "right",
-		y = self._health_bar._panel:h(),
-		w = self._health_bar._panel:right() - (main_player and 20 or 16)
+		y = self._level_panel:bottom(),
+		w = self._level_panel:right() - (main_player and 20 or 16),
+		layer = -1
 	})
 
-	self._panel:set_h(self._health_bar._panel:h() + 20)
+	self._panel:set_h(self._peer_id_panel:bottom())
 
-	self._peer_info_panel:set_center_y(self._panel:h() * 0.5 - 2)
+	self._peer_info_panel:set_center_y(self._panel:h() * 0.5)
 end
 
 function HUDPlayerPanel:visible()
@@ -94,7 +122,7 @@ function HUDPlayerPanel:set_visible(state)
 end
 
 function HUDPlayerPanel:set_peer_id(id)
-	self._peer_id_text:set_text(tostring(id or 0))
+	self._peer_id_text:set_text(id)
 
 	if not id or self._is_main_player then
 		return
@@ -105,11 +133,12 @@ function HUDPlayerPanel:set_peer_id(id)
 		return
 	end
 
+	self._peer_rank:set_text(peer:rank())
+	self._level_bar:set_w(self._level_bar_bg:w() * (peer:level() / 100))
+
 	Steam:friend_avatar(Steam.SMALL_AVATAR, peer:user_id(), function (texture)
 		self._peer_avatar:set_image(texture)
 	end)
-
-	self._peer_rank:set_text(peer:rank())
 end
 
 function HUDPlayerPanel:set_name(name)

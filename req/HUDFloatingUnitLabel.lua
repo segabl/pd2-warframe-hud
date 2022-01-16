@@ -54,7 +54,7 @@ function HUDFloatingUnitLabel:init(panel)
 		texture_rect = { 32, 0, 32, 32 },
 		color = WFHud.colors.default:with_alpha(0.25),
 		x = self._panel:w() * 0.5 - 16,
-		y = self._health_bar._panel:bottom(),
+		y = self._health_bar._panel:bottom() - 4,
 		w = 32,
 		h = 32,
 		layer = -1
@@ -116,6 +116,10 @@ function HUDFloatingUnitLabel:_create_unit_level(unit_info)
 end
 
 function HUDFloatingUnitLabel:set_unit(unit)
+	if unit == self._unit and not self._fading_out then
+		return
+	end
+
 	local alpha = self._panel:alpha()
 
 	if alive(unit) then

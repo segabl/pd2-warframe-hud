@@ -16,7 +16,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size)
 		x = x,
 		y = y,
 		w = width,
-		h = (text_size and math.ceil(text_size * 0.95) or 0) + height,
+		h = (text_size and math.ceil(text_size * 0.85) or 0) + height,
 		layer = 1
 	})
 
@@ -31,15 +31,6 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size)
 		})
 	end
 
-	self._bg_bar = self._panel:bitmap({
-		texture = "guis/textures/wfhud/bar",
-		color = WFHud.colors.bg:with_alpha(0.5),
-		w = width,
-		h = height * 0.8,
-		layer = -1
-	})
-	self._bg_bar:set_bottom(self._panel:h() - height * 0.1)
-
 	self._health_bar = self._panel:bitmap({
 		texture = "guis/textures/wfhud/bar",
 		color = WFHud.colors.health,
@@ -47,6 +38,15 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size)
 		h = height
 	})
 	self._health_bar:set_bottom(self._panel:h())
+
+	self._bg_bar = self._panel:bitmap({
+		texture = "guis/textures/wfhud/bar",
+		color = WFHud.colors.bg:with_alpha(0.5),
+		w = width,
+		h = height * 0.85,
+		layer = -1
+	})
+	self._bg_bar:set_center_y(self._health_bar:center_y())
 
 	self._health_loss_indicator = panel:bitmap({
 		visible = false,
