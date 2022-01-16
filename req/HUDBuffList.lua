@@ -240,7 +240,7 @@ function HUDBuffList:_set_buff(upgrade_data, buff)
 end
 
 function HUDBuffList:add_buff(upgrade_data, value, duration)
-	log(tostring(upgrade_data.name_id), tostring(upgrade_data.key))
+	--log(tostring(upgrade_data.name_id), tostring(upgrade_data.key))
 	local buff = self:_get_existing_buff(upgrade_data)
 	if buff then
 		buff:set_values(value, duration)
