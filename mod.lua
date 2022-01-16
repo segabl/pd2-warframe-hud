@@ -203,12 +203,28 @@ if not WFHud then
 				unit = unit:parent()
 			end
 
-			if unit:movement() and unit:character_damage() and not unit:character_damage()._dead then
-				self._unit_aim_label:set_unit(unit)
+			local movement = unit:movement()
+			if movement and unit:character_damage() and not unit:character_damage()._dead then
+				if self._unit_aim_custom_label and movement._wfhud_label ~= self._unit_aim_custom_label then
+					self._unit_aim_custom_label:set_health_visible(false)
+					self._unit_aim_custom_label = nil
+				end
+
+				if movement._wfhud_label then
+					self._unit_aim_custom_label = movement._wfhud_label
+					self._unit_aim_custom_label:set_health_visible(true)
+				else
+					self._unit_aim_label:set_unit(unit)
+				end
+
 				return
 			end
 		end
 
+		if self._unit_aim_custom_label then
+			self._unit_aim_custom_label:set_health_visible(false)
+			self._unit_aim_custom_label = nil
+		end
 		self._unit_aim_label:set_unit(nil)
 	end
 
