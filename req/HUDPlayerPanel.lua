@@ -136,7 +136,14 @@ function HUDPlayerPanel:set_peer_id(id)
 	self._peer_rank:set_text(peer:rank())
 	self._level_bar:set_w(self._level_bar_bg:w() * ((peer:level() or 0) / 100))
 
+	local medium_res_done
 	Steam:friend_avatar(Steam.SMALL_AVATAR, peer:user_id(), function (texture)
+		if not medium_res_done then
+			self._peer_avatar:set_image(texture)
+		end
+	end)
+	Steam:friend_avatar(Steam.MEDIUM_AVATAR, peer:user_id(), function (texture)
+		medium_res_done = true
 		self._peer_avatar:set_image(texture)
 	end)
 end
