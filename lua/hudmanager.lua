@@ -20,6 +20,10 @@ function HUDManager:_add_name_label(data)
 			local wflabel = HUDFloatingUnitLabel:new(hud.panel, true)
 			wflabel:set_unit(data.unit)
 
+			if WFHud._unit_aim_label and WFHud._unit_aim_label._unit == data.unit then
+				WFHud._unit_aim_label:set_unit(nil, true)
+			end
+
 			self:add_updator("wfhud" .. id, callback(wflabel, wflabel, "update"))
 			label_data.movement._wfhud_label = wflabel
 		end

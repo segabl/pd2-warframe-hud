@@ -8,6 +8,8 @@ local tmp_vec = Vector3()
 HUDFloatingUnitLabel = class()
 
 function HUDFloatingUnitLabel:init(panel, compact)
+	self._compact = compact
+
 	self._panel = panel:panel({
 		visible = false,
 		w = 320
@@ -21,7 +23,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		align = "center"
 	})
 
-	self._health_bar = HUDHealthBar:new(self._panel, 0, 16, 128, 8, nil)
+	self._health_bar = HUDHealthBar:new(self._panel, 0, 18, 128, 8, nil)
 	self._health_bar._panel:set_center_x(self._panel:w() * 0.5)
 	self._health_bar._panel:set_alpha(compact and 0 or 1)
 	self._health_bar:set_direction(HUDHealthBar.LEFT_TO_RIGHT)
@@ -52,10 +54,10 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		visible = not compact,
 		text = "100",
 		font = tweak_data.menu.medium_font,
-		font_size = 26,
+		font_size = 24,
 		color = WFHud.colors.default,
 		align = "center",
-		y = self._health_bar._panel:bottom()
+		y = self._health_bar._panel:bottom() - 2
 	})
 
 	self._health_bar_pointer = self._panel:bitmap({
@@ -64,7 +66,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		texture_rect = { 32, 0, 32, 32 },
 		color = WFHud.colors.default:with_alpha(0.25),
 		x = self._panel:w() * 0.5 - 16,
-		y = self._health_bar._panel:bottom() - 4,
+		y = self._health_bar._panel:bottom() - 6,
 		w = 32,
 		h = 32,
 		layer = -1
@@ -98,9 +100,12 @@ function HUDFloatingUnitLabel:update(t, dt)
 	end
 
 	local hp, max_hp, armor, max_armor
-	if self._tracked_health_bar then
-		hp, max_hp = self._tracked_health_bar._health, self._tracked_health_bar._max_health
-		armor, max_armor = self._tracked_health_bar._armor, self._tracked_health_bar._max_armor
+	-- TODO: improve this garbage
+	local teammate_panel = managers.hud._teammate_panels[self._character_data and self._character_data.panel_id]
+	local health_bar = teammate_panel and teammate_panel._wfhud_panel and teammate_panel._wfhud_panel:health_bar()
+	if health_bar then
+		hp, max_hp = health_bar._health, health_bar._max_health
+		armor, max_armor = health_bar._armor, health_bar._max_armor
 	else
 		hp, max_hp = (self._unit:character_damage()._health or 10) * 10, (self._unit:character_damage()._HEALTH_INIT or 10) * 10
 		armor, max_armor = 0, 0
@@ -127,7 +132,7 @@ function HUDFloatingUnitLabel:_create_unit_level(unit_info)
 	return unit_info._level
 end
 
-function HUDFloatingUnitLabel:set_unit(unit)
+function HUDFloatingUnitLabel:set_unit(unit, instant)
 	if not alive(self._panel) then
 		return
 	end
@@ -143,19 +148,23 @@ function HUDFloatingUnitLabel:set_unit(unit)
 		self._unit_hp = nil
 		self._unit_armor = nil
 
-		local character_data = managers.criminals:character_data_by_unit(unit)
-		local teammate_panel = managers.hud._teammate_panels[character_data and character_data.panel_id]
-		self._tracked_health_bar = teammate_panel and teammate_panel._wfhud_panel and teammate_panel._wfhud_panel:health_bar()
+		self._character_data = managers.criminals:character_data_by_unit(unit)
 
 		local info = HopLib:unit_info_manager():get_info(unit)
 		if info then
-			self._unit_text:set_text(info:nickname():upper())
+			self._unit_text:set_text(self._compact and info:nickname() or info:nickname():upper())
 			self._level_text:set_text(tostring(info:level() or self:_create_unit_level(info)))
 		end
 
 		self._fading_out = false
 
 		self._panel:stop()
+
+		if instant then
+			self._panel:set_alpha(1)
+			return
+		end
+
 		self._panel:animate(function (o)
 			over((1 - alpha) * 0.25, function (t)
 				o:set_alpha(math.lerp(alpha, 1, t))
@@ -165,6 +174,12 @@ function HUDFloatingUnitLabel:set_unit(unit)
 		self._fading_out = true
 
 		self._panel:stop()
+
+		if instant then
+			self._panel:set_alpha(0)
+			return
+		end
+
 		self._panel:animate(function (o)
 			wait((not alive(self._unit) or self._unit:character_damage()._dead) and 0 or 0.5)
 			over(alpha * 0.25, function (t)

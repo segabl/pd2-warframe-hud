@@ -165,7 +165,7 @@ if not WFHud then
 		self._damage_pops = {}
 		self._damage_pop_key = 1
 
-		self._unit_slotmask = managers.slot:get_mask("persons")
+		self._unit_slotmask = managers.slot:get_mask("persons") + managers.slot:get_mask("bullet_impact_targets")
 
 		self._unit_aim_label = HUDFloatingUnitLabel:new(self._panel)
 		self._buff_list = HUDBuffList:new(self._panel, 0, 0, self._panel:w() - 240, 256)
@@ -195,7 +195,7 @@ if not WFHud then
 		mvec_set(tmp_vec, cam:forward())
 		mvec_mul(tmp_vec, 10000)
 		mvec_add(tmp_vec, from)
-		local ray = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask)
+		local ray = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask, "sphere_cast_radius", 50)
 
 		local unit = ray and ray.unit
 		if unit then
