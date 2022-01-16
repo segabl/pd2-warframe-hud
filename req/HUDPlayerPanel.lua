@@ -134,7 +134,7 @@ function HUDPlayerPanel:set_peer_id(id)
 	end
 
 	self._peer_rank:set_text(peer:rank())
-	self._level_bar:set_w(self._level_bar_bg:w() * (peer:level() / 100))
+	self._level_bar:set_w(self._level_bar_bg:w() * ((peer:level() or 0) / 100))
 
 	Steam:friend_avatar(Steam.SMALL_AVATAR, peer:user_id(), function (texture)
 		self._peer_avatar:set_image(texture)

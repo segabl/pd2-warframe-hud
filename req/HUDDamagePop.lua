@@ -1,3 +1,7 @@
+local mvec_add = mvector3.add
+local mvec_dir = mvector3.direction
+local mvec_dot = mvector3.dot
+local mvec_lerp = mvector3.lerp
 local tmp_vec = Vector3()
 
 HUDDamagePop = class()
@@ -67,11 +71,11 @@ function HUDDamagePop:animate()
 			self._damage_text:set_x(size)
 		end
 
-		local dis_scale = 200 / mvector3.direction(tmp_vec, cam:position(), self._pos)
-		self._panel:set_visible(mvector3.dot(cam:rotation():y(), tmp_vec) >= 0)
+		local dis_scale = 200 / mvec_dir(tmp_vec, cam:position(), self._pos)
+		self._panel:set_visible(mvec_dot(cam:rotation():y(), tmp_vec) >= 0)
 
-		mvector3.lerp(tmp_vec, self._dir, math.Y, t)
-		mvector3.add(self._offset, tmp_vec)
+		mvec_lerp(tmp_vec, self._dir, math.Y, t)
+		mvec_add(self._offset, tmp_vec)
 		local screen_pos = ws:world_to_screen(cam, self._pos)
 
 		self._panel:set_size(tw + (self._proc_bitmap and size or 0), size)

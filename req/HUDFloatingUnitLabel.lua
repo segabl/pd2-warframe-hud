@@ -1,3 +1,8 @@
+local mvec_add = mvector3.add
+local mvec_dir = mvector3.direction
+local mvec_dot = mvector3.dot
+local mvec_mul = mvector3.multiply
+local mvec_set = mvector3.set
 local tmp_vec = Vector3()
 
 HUDFloatingUnitLabel = class()
@@ -74,15 +79,15 @@ function HUDFloatingUnitLabel:update(t, dt)
 	if cam then
 		local movement = self._unit:movement()
 
-		mvector3.set(tmp_vec, math.UP)
-		mvector3.multiply(tmp_vec, 10)
-		mvector3.add(tmp_vec, movement._obj_head and movement._obj_head:position() or movement:m_head_pos())
+		mvec_set(tmp_vec, math.UP)
+		mvec_mul(tmp_vec, 15)
+		mvec_add(tmp_vec, movement._obj_head and movement._obj_head:position() or movement:m_head_pos())
 		local screen_pos = ws:world_to_screen(cam, tmp_vec)
 		self._panel:set_center_x(screen_pos.x)
 		self._panel:set_bottom(screen_pos.y)
 
-		mvector3.direction(tmp_vec, cam:position(), tmp_vec)
-		self._panel:set_visible(mvector3.dot(cam:rotation():y(), tmp_vec) >= 0)
+		mvec_dir(tmp_vec, cam:position(), tmp_vec)
+		self._panel:set_visible(mvec_dot(cam:rotation():y(), tmp_vec) >= 0)
 	end
 
 	local hp, max_hp, armor, max_armor
