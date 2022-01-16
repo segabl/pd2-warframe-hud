@@ -1,5 +1,10 @@
 if not WFHud then
 
+	local mvec_add = mvector3.add
+	local mvec_mul = mvector3.multiply
+	local mvec_set = mvector3.set
+	local tmp_vec = Vector3()
+
 	local ids_texture = Idstring("texture")
 	BLT.AssetManager:CreateEntry(Idstring("guis/textures/wfhud/skill_icons_clean"), ids_texture, ModPath .. "assets/guis/textures/wfhud/skill_icons_clean.dds")
 	BLT.AssetManager:CreateEntry(Idstring("guis/textures/wfhud/buff_categories"), ids_texture, ModPath .. "assets/guis/textures/wfhud/buff_categories.dds")
@@ -160,12 +165,15 @@ if not WFHud then
 		self._damage_pops = {}
 		self._damage_pop_key = 1
 
+		self._unit_slotmask = managers.slot:get_mask("persons")
+
 		self._unit_aim_label = HUDFloatingUnitLabel:new(self._panel)
 		self._buff_list = HUDBuffList:new(self._panel, 0, 0, self._panel:w() - 240, 256)
 	end
 
 	function WFHud:update(t, dt)
 		if self._unit_aim_label then
+			self:check_player_forward_ray()
 			self._unit_aim_label:update(t, dt)
 		end
 
@@ -176,13 +184,20 @@ if not WFHud then
 		self._t = t
 	end
 
-	function WFHud:check_player_forward_ray(ray)
-		if not self._unit_aim_label then
+	function WFHud:check_player_forward_ray()
+		local player = managers.player:local_player()
+		if not alive(player) then
 			return
 		end
 
-		local unit = ray and ray.unit
+		local cam = player:camera()
+		local from = cam:position()
+		mvec_set(tmp_vec, cam:forward())
+		mvec_mul(tmp_vec, 10000)
+		mvec_add(tmp_vec, from)
+		local ray = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask)
 
+		local unit = ray and ray.unit
 		if unit then
 			if unit:in_slot(8) and alive(unit:parent()) then
 				unit = unit:parent()
