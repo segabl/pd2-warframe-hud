@@ -101,11 +101,13 @@ function HUDFloatingUnitLabel:update(t, dt)
 
 	local hp, max_hp, armor, max_armor
 	-- TODO: improve this garbage
-	local teammate_panel = managers.hud._teammate_panels[self._character_data and self._character_data.panel_id]
-	local health_bar = teammate_panel and teammate_panel._wfhud_panel and teammate_panel._wfhud_panel:health_bar()
-	if health_bar then
-		hp, max_hp = health_bar._health, health_bar._max_health
-		armor, max_armor = health_bar._armor, health_bar._max_armor
+	if self._character_data and not self._linked_health_bar then
+		local teammate_panel = managers.hud._teammate_panels[self._character_data and self._character_data.panel_id]
+		self._linked_health_bar = teammate_panel and teammate_panel._wfhud_panel and teammate_panel._wfhud_panel:health_bar()
+	end
+	if self._linked_health_bar then
+		hp, max_hp = self._linked_health_bar._health, self._linked_health_bar._max_health
+		armor, max_armor = self._linked_health_bar._armor, self._linked_health_bar._max_armor
 	else
 		hp, max_hp = (self._unit:character_damage()._health or 10) * 10, (self._unit:character_damage()._HEALTH_INIT or 10) * 10
 		armor, max_armor = 0, 0
