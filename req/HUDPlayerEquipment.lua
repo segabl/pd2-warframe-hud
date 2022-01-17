@@ -101,13 +101,15 @@ end
 function HUDPlayerEquipment:set_ammo(wbase)
 	local mag_max, mag, total = wbase:ammo_info()
 	self._ammo_text:set_text(tostring(mag_max <= 1 and total or mag))
-	self._total_ammo_text:set_text(mag_max <= 1 and "  " or string.format("/%u", total - mag))
+	self._total_ammo_text:set_text(mag_max <= 1 and "   " or string.format("/%u", total - mag))
 
 	self:_align_ammo_text()
 end
 
 function HUDPlayerEquipment:set_fire_mode(wbase)
-	self._fire_mode_text:set_text(wbase:fire_mode():upper())
+	local gadget_base = wbase:gadget_overrides_weapon_functions()
+	local underbarrel_type = gadget_base and (gadget_base.GADGET_TYPE == "underbarrel_launcher" and "LAUNCHER" or "UNDERBARREL")
+	self._fire_mode_text:set_text(underbarrel_type or wbase:can_toggle_firemode() and wbase:fire_mode():upper() or "")
 	self:_align_weapon_text()
 end
 
