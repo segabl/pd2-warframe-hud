@@ -3,7 +3,7 @@ HUDHealthBar = class()
 HUDHealthBar.RIGHT_TO_LEFT = 1
 HUDHealthBar.LEFT_TO_RIGHT = 2
 
-function HUDHealthBar:init(panel, x, y, width, height, text_size)
+function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 	self._direction = HUDHealthBar.RIGHT_TO_LEFT
 
 	self._max_health = 1
@@ -41,11 +41,36 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size)
 	self._bg_bar = self._panel:bitmap({
 		texture = "guis/textures/wfhud/bar",
 		color = WFHud.colors.bg:with_alpha(0.5),
-		w = width,
+		x = has_caps and height * 0.25 or 0,
+		w = has_caps and width - height * 0.5 or width,
 		h = height * 0.85,
 		layer = -1
 	})
 	self._bg_bar:set_center_y(self._health_bar:center_y())
+
+	if has_caps then
+		self._health_bar_cap_l = self._panel:bitmap({
+			texture = "guis/textures/wfhud/bar_caps",
+			texture_rect = { 0, 0, 32, 32 },
+			color = WFHud.colors.default,
+			x = 0,
+			w = height,
+			h = height,
+			layer = 2
+		})
+		self._health_bar_cap_l:set_center_y(self._health_bar:center_y())
+
+		self._health_bar_cap_r = self._panel:bitmap({
+			texture = "guis/textures/wfhud/bar_caps",
+			texture_rect = { 32, 0, -32, 32 },
+			color = WFHud.colors.default,
+			x = self._panel:w() - height,
+			w = height,
+			h = height,
+			layer = 2
+		})
+		self._health_bar_cap_r:set_center_y(self._health_bar:center_y())
+	end
 
 	self._health_loss_indicator = panel:bitmap({
 		visible = false,
@@ -153,21 +178,6 @@ function HUDHealthBar:_set_health_armor_text()
 	end
 end
 
-function HUDHealthBar:update(t, dt)
-	if self._max_armor > 0 then
-		self._armor_bar_overlay_1:set_position(self._armor_bar:position())
-		self._armor_bar_overlay_2:set_position(self._armor_bar:position())
-
-		local w, h = self._armor_bar:size()
-
-		self._armor_bar_overlay_1:set_size(w, h)
-		self._armor_bar_overlay_2:set_size(w, h)
-
-		self._armor_bar_overlay_1:set_texture_rect(self._overlay_w - w - ((t * 80) % (self._overlay_w * 0.5)), (1 + math.sin(t * 10)) * 0.5 * (self._overlay_h - h), w, h)
-		self._armor_bar_overlay_2:set_texture_rect(self._overlay_w - w - ((t * 40) % (self._overlay_w * 0.5)), (1 + math.cos(t * 20)) * 0.5 * (self._overlay_h - h), w, h)
-	end
-end
-
 function HUDHealthBar:set_direction(dir)
 	self._direction = dir
 end
@@ -190,11 +200,11 @@ function HUDHealthBar:set_health(value, instant)
 	local max_ratio = self._max_health / (self._max_health + self._max_armor)
 
 	if instant then
-		self._health_bar:set_w((self._panel:w() / self._max_health) * value * max_ratio)
+		self._health_bar:set_w((self._bg_bar:w() / self._max_health) * value * max_ratio)
 		if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
-			self._health_bar:set_right(self._panel:w())
+			self._health_bar:set_right(self._bg_bar:right())
 		else
-			self._health_bar:set_left(0)
+			self._health_bar:set_left(self._bg_bar:x())
 		end
 		self._health = value
 
@@ -220,7 +230,7 @@ function HUDHealthBar:set_health(value, instant)
 
 		self:set_health(value, true)
 		self._health_loss_indicator:animate(function (o)
-			o:set_w((self._panel:w() / self._max_health) * (start - value) * max_ratio)
+			o:set_w((self._bg_bar:w() / self._max_health) * (start - value) * max_ratio)
 			if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
 				o:set_right(self._panel:x() + self._health_bar:x())
 			else
@@ -240,11 +250,11 @@ function HUDHealthBar:set_armor(value, instant)
 	local max_ratio = self._max_armor / (self._max_health + self._max_armor)
 
 	if instant then
-		self._armor_bar:set_w((self._panel:w() / self._max_armor) * value * max_ratio)
+		self._armor_bar:set_w((self._bg_bar:w() / self._max_armor) * value * max_ratio)
 		if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
-			self._armor_bar:set_right(self._panel:w() * max_ratio)
+			self._armor_bar:set_right(self._bg_bar:x() + self._bg_bar:w() * max_ratio)
 		else
-			self._armor_bar:set_left(self._panel:w() - self._panel:w() * max_ratio)
+			self._armor_bar:set_left(self._bg_bar:right() - self._bg_bar:w() * max_ratio)
 		end
 		self._armor = value
 
@@ -270,7 +280,7 @@ function HUDHealthBar:set_armor(value, instant)
 
 		self:set_armor(value, true)
 		self._armor_loss_indicator:animate(function (o)
-			o:set_w((self._panel:w() / self._max_armor) * (start - value) * max_ratio)
+			o:set_w((self._bg_bar:w() / self._max_armor) * (start - value) * max_ratio)
 			if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
 				o:set_right(self._panel:x() + self._armor_bar:x())
 			else

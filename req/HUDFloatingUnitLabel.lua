@@ -23,32 +23,10 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		align = "center"
 	})
 
-	self._health_bar = HUDHealthBar:new(self._panel, 0, 18, 128, 8, nil)
+	self._health_bar = HUDHealthBar:new(self._panel, 0, 18, 128, 8, nil, true)
 	self._health_bar._panel:set_center_x(self._panel:w() * 0.5)
 	self._health_bar._panel:set_alpha(compact and 0 or 1)
 	self._health_bar:set_direction(HUDHealthBar.LEFT_TO_RIGHT)
-
-	self._health_bar_cap_l = self._panel:bitmap({
-		alpha = compact and 0 or 1,
-		texture = "guis/textures/wfhud/bar_caps",
-		texture_rect = { 0, 0, 32, 32 },
-		color = WFHud.colors.default,
-		w = 8,
-		h = 8,
-		layer = 2
-	})
-	self._health_bar_cap_l:set_center(self._health_bar._panel:x() + 2, self._health_bar._panel:y() + self._health_bar._health_bar:center_y())
-
-	self._health_bar_cap_r = self._panel:bitmap({
-		alpha = compact and 0 or 1,
-		texture = "guis/textures/wfhud/bar_caps",
-		texture_rect = { 32, 0, -32, 32 },
-		color = WFHud.colors.default,
-		w = 8,
-		h = 8,
-		layer = 2
-	})
-	self._health_bar_cap_r:set_center(self._health_bar._panel:right() - 2, self._health_bar._panel:y() + self._health_bar._health_bar:center_y())
 
 	self._level_text = self._panel:text({
 		visible = not compact,
@@ -205,10 +183,7 @@ function HUDFloatingUnitLabel:set_health_visible(state)
 		self._health_bar._panel:stop()
 		self._health_bar._panel:animate(function (o)
 			over((1 - alpha) * 0.25, function (t)
-				local a = math.lerp(alpha, 1, t)
-				o:set_alpha(a)
-				self._health_bar_cap_l:set_alpha(a)
-				self._health_bar_cap_r:set_alpha(a)
+				o:set_alpha(math.lerp(alpha, 1, t))
 			end)
 		end)
 	elseif not self._health_fading_out then
@@ -217,10 +192,7 @@ function HUDFloatingUnitLabel:set_health_visible(state)
 		self._health_bar._panel:stop()
 		self._health_bar._panel:animate(function (o)
 			over(alpha * 0.25, function (t)
-				local a = math.lerp(alpha, 0, t)
-				o:set_alpha(a)
-				self._health_bar_cap_l:set_alpha(a)
-				self._health_bar_cap_r:set_alpha(a)
+				o:set_alpha(math.lerp(alpha, 0, t))
 			end)
 		end)
 	end
