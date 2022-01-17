@@ -10,6 +10,7 @@
 	"hooks" : [
 		{ "hook_id" : "lib/managers/group_ai_states/groupaistatebase", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/hud/hudassaultcorner", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/managers/hud/hudchat", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/hud/hudteammate", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/hudmanager", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/playermanager", "script_path" : "mod.lua" },
