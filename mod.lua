@@ -195,7 +195,7 @@ if not WFHud then
 		mvec_set(tmp_vec, cam:forward())
 		mvec_mul(tmp_vec, 10000)
 		mvec_add(tmp_vec, from)
-		local ray = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask, "sphere_cast_radius", 50)
+		local ray = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask, "sphere_cast_radius", 25)
 
 		local unit = ray and ray.unit
 		if unit then

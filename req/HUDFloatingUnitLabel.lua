@@ -38,7 +38,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		y = self._health_bar._panel:bottom() - 2
 	})
 
-	self._health_bar_pointer = self._panel:bitmap({
+	self._pointer = self._panel:bitmap({
 		visible = not compact,
 		texture = "guis/textures/wfhud/bar_caps",
 		texture_rect = { 32, 0, 32, 32 },
@@ -50,7 +50,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		layer = -1
 	})
 
-	self._panel:set_h(compact and self._health_bar_cap_r:bottom() or self._health_bar_pointer:bottom())
+	self._panel:set_h(compact and self._health_bar._panel:bottom() or self._pointer:bottom())
 end
 
 function HUDFloatingUnitLabel:update(t, dt)
