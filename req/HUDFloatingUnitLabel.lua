@@ -12,7 +12,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 
 	self._panel = panel:panel({
 		visible = false,
-		w = 320
+		w = 240
 	})
 
 	self._unit_text = self._panel:text({
@@ -23,7 +23,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		align = "center"
 	})
 
-	self._health_bar = HUDHealthBar:new(self._panel, 0, 18, 128, 8, nil, true)
+	self._health_bar = HUDHealthBar:new(self._panel, 0, 18, 112, 8, nil, true)
 	self._health_bar._panel:set_center_x(self._panel:w() * 0.5)
 	self._health_bar._panel:set_alpha(compact and 0 or 1)
 	self._health_bar:set_direction(HUDHealthBar.LEFT_TO_RIGHT)
@@ -50,7 +50,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		layer = -1
 	})
 
-	self._panel:set_h(compact and self._health_bar._panel:bottom() or self._pointer:bottom())
+	self._panel:set_h(compact and self._health_bar._health_loss_indicator:bottom() or self._pointer:bottom())
 end
 
 function HUDFloatingUnitLabel:update(t, dt)
@@ -91,15 +91,11 @@ function HUDFloatingUnitLabel:update(t, dt)
 		armor, max_armor = 0, 0
 	end
 
-	if self._unit_hp ~= hp or self._unit_armor ~= armor then
-		local skip_anim = self._unit_hp == nil or self._unit_armor == nil or self._panel:alpha() == 0 or self._health_bar._panel:alpha() == 0 or not self._panel:visible()
-		self._health_bar:set_max_health(max_hp)
-		self._health_bar:set_health(hp, skip_anim)
-		self._health_bar:set_max_armor(armor)
-		self._health_bar:set_armor(max_armor, skip_anim)
-		self._unit_hp = hp
-		self._unit_armor = armor
-	end
+	local skip_anim = self._skip_health_set_anim or self._panel:alpha() == 0 or self._health_bar._panel:alpha() == 0 or not self._panel:visible()
+	self._health_bar:set_health(hp, max_hp, skip_anim)
+	self._health_bar:set_armor(armor, max_armor, skip_anim)
+
+	self._skip_health_set_anim = false
 end
 
 function HUDFloatingUnitLabel:_create_unit_level(unit_info)
@@ -126,8 +122,7 @@ function HUDFloatingUnitLabel:set_unit(unit, instant)
 
 	if alive(unit) then
 		self._unit = unit
-		self._unit_hp = nil
-		self._unit_armor = nil
+		self._skip_health_set_anim = true
 
 		self._character_data = managers.criminals:character_data_by_unit(unit)
 

@@ -49,13 +49,11 @@ Hooks:PostHook(HUDTeammate, "set_callsign", "set_callsign", function (self, id)
 end)
 
 Hooks:PostHook(HUDTeammate, "set_health", "set_health_wfhud", function (self, data)
-	self._wfhud_panel:health_bar():set_max_health(data.total * 10)
-	self._wfhud_panel:health_bar():set_health(data.current * 10)
+	self._wfhud_panel:health_bar():set_health(data.current * 10, data.total * 10)
 end)
 
 Hooks:PostHook(HUDTeammate, "set_armor", "set_armor_wfhud", function (self, data)
-	self._wfhud_panel:health_bar():set_max_armor(data.total * 10)
-	self._wfhud_panel:health_bar():set_armor(data.current * 10)
+	self._wfhud_panel:health_bar():set_armor(data.current * 10, data.total * 10)
 end)
 
 function HUDTeammate:set_stamina(current, total)

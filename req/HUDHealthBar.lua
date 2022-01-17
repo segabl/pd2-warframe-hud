@@ -198,35 +198,24 @@ function HUDHealthBar:set_direction(dir)
 	self._direction = dir
 end
 
-function HUDHealthBar:set_max_health(max_health)
-	self._max_health = max_health
-end
-
-function HUDHealthBar:set_max_armor(max_armor)
-	self._max_armor = max_armor
-
-	if self._max_armor > 0 then
-		self:_start_shield_animation()
-	else
-		self:_stop_shield_animation()
+function HUDHealthBar:set_health(current, total, instant)
+	if self._health == current and self._max_health == total then
+		return
 	end
-end
 
-function HUDHealthBar:set_health(value, instant)
+	self._max_health = total
 	local max_ratio = self._max_health / (self._max_health + self._max_armor)
 
 	if instant then
-		if self._health ~= value then
-			self._health_bar:set_w((self._bg_bar:w() / self._max_health) * value * max_ratio)
-			if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
-				self._health_bar:set_right(self._bg_bar:right())
-			else
-				self._health_bar:set_left(self._bg_bar:x())
-			end
-			self._health = value
-
-			self:_set_health_armor_text()
+		self._health_bar:set_w((self._bg_bar:w() / self._max_health) * current * max_ratio)
+		if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
+			self._health_bar:set_right(self._bg_bar:right())
+		else
+			self._health_bar:set_left(self._bg_bar:x())
 		end
+		self._health = current
+
+		self:_set_health_armor_text()
 		return
 	end
 
@@ -235,19 +224,19 @@ function HUDHealthBar:set_health(value, instant)
 	self._health_loss_indicator:set_visible(false)
 
 	local start = self._health
-	if value > self._health then
+	if current > self._health then
 
 		self._health_bar:animate(function ()
 			over(0.5, function (t)
-				self:set_health(math.lerp(start, value, t), true)
+				self:set_health(math.lerp(start, current, t), total, true)
 			end)
 		end)
 
 	else
 
-		self:set_health(value, true)
+		self:set_health(current, total, true)
 		self._health_loss_indicator:animate(function (o)
-			o:set_w((self._bg_bar:w() / self._max_health) * (start - value) * max_ratio)
+			o:set_w((self._bg_bar:w() / self._max_health) * (start - current) * max_ratio)
 			if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
 				o:set_right(self._panel:x() + self._health_bar:x())
 			else
@@ -263,21 +252,30 @@ function HUDHealthBar:set_health(value, instant)
 	end
 end
 
-function HUDHealthBar:set_armor(value, instant)
+function HUDHealthBar:set_armor(current, total, instant)
+	if self._armor == current and self._max_armor == total then
+		return
+	end
+
+	if self._max_armor <= 0 and total > 0 then
+		self:_start_shield_animation()
+	else
+		self:_stop_shield_animation()
+	end
+
+	self._max_armor = total
 	local max_ratio = self._max_armor / (self._max_health + self._max_armor)
 
 	if instant then
-		if self._armor ~= value then
-			self._armor_bar:set_w((self._bg_bar:w() / self._max_armor) * value * max_ratio)
-			if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
-				self._armor_bar:set_right(self._bg_bar:x() + self._bg_bar:w() * max_ratio)
-			else
-				self._armor_bar:set_left(self._bg_bar:right() - self._bg_bar:w() * max_ratio)
-			end
-			self._armor = value
-
-			self:_set_health_armor_text()
+		self._armor_bar:set_w((self._bg_bar:w() / self._max_armor) * current * max_ratio)
+		if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
+			self._armor_bar:set_right(self._bg_bar:x() + self._bg_bar:w() * max_ratio)
+		else
+			self._armor_bar:set_left(self._bg_bar:right() - self._bg_bar:w() * max_ratio)
 		end
+		self._armor = current
+
+		self:_set_health_armor_text()
 		return
 	end
 
@@ -286,19 +284,19 @@ function HUDHealthBar:set_armor(value, instant)
 	self._armor_loss_indicator:set_visible(false)
 
 	local start = self._armor
-	if value > self._armor then
+	if current > self._armor then
 
 		self._armor_bar:animate(function ()
 			over(0.5, function (t)
-				self:set_armor(math.lerp(start, value, t), true)
+				self:set_armor(math.lerp(start, current, t), total, true)
 			end)
 		end)
 
 	else
 
-		self:set_armor(value, true)
+		self:set_armor(current, total, true)
 		self._armor_loss_indicator:animate(function (o)
-			o:set_w((self._bg_bar:w() / self._max_armor) * (start - value) * max_ratio)
+			o:set_w((self._bg_bar:w() / self._max_armor) * (start - current) * max_ratio)
 			if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
 				o:set_right(self._panel:x() + self._armor_bar:x())
 			else

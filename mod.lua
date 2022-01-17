@@ -170,7 +170,7 @@ if not WFHud then
 		self._unit_slotmask = managers.slot:get_mask("persons") + managers.slot:get_mask("bullet_impact_targets")
 
 		self._unit_aim_label = HUDFloatingUnitLabel:new(self._panel)
-		self._buff_list = HUDBuffList:new(self._panel, 0, 0, self._panel:w() - 240, 256)
+		self._buff_list = HUDBuffList:new(self._panel, 0, 8, self._panel:w() - 240, 256)
 	end
 
 	function WFHud:update(t, dt)
