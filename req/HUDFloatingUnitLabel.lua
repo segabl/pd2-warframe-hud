@@ -92,7 +92,7 @@ function HUDFloatingUnitLabel:update(t, dt)
 	end
 
 	if self._unit_hp ~= hp or self._unit_armor ~= armor then
-		local skip_anim = self._unit_hp == nil or self._unit_armor == nil or self._panel:alpha() == 0 or not self._panel:visible()
+		local skip_anim = self._unit_hp == nil or self._unit_armor == nil or self._panel:alpha() == 0 or self._health_bar._panel:alpha() == 0 or not self._panel:visible()
 		self._health_bar:set_max_health(max_hp)
 		self._health_bar:set_health(hp, skip_anim)
 		self._health_bar:set_max_armor(armor)

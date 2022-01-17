@@ -168,13 +168,29 @@ function HUDHealthBar:_stop_shield_animation()
 end
 
 function HUDHealthBar:_set_health_armor_text()
-	if self._health_armor_text then
-		local health = tostring(math.ceil(self._health))
-		local armor = self._max_armor > 0 and tostring(math.ceil(self._armor)) or ""
-		local full = string.format("%s%s", armor, health)
-		self._health_armor_text:set_text(full)
+	if not self._health_armor_text or self._custom_text then
+		return
+	end
+
+	local health = tostring(math.round(self._health))
+	local armor = self._max_armor > 0 and tostring(math.round(self._armor)) or ""
+	local full = string.format("%s%s", armor, health)
+	self._health_armor_text:set_text(full)
+	self._health_armor_text:set_color(WFHud.colors.health)
+	self._health_armor_text:set_range_color(0, armor:len(), WFHud.colors.shield)
+end
+
+function HUDHealthBar:set_custom_text(text)
+	if not self._health_armor_text then
+		return
+	end
+
+	self._custom_text = text
+	if text then
+		self._health_armor_text:set_text(text)
 		self._health_armor_text:set_color(WFHud.colors.health)
-		self._health_armor_text:set_range_color(0, armor:len(), WFHud.colors.shield)
+	else
+		self:_set_health_armor_text()
 	end
 end
 
@@ -200,16 +216,17 @@ function HUDHealthBar:set_health(value, instant)
 	local max_ratio = self._max_health / (self._max_health + self._max_armor)
 
 	if instant then
-		self._health_bar:set_w((self._bg_bar:w() / self._max_health) * value * max_ratio)
-		if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
-			self._health_bar:set_right(self._bg_bar:right())
-		else
-			self._health_bar:set_left(self._bg_bar:x())
+		if self._health ~= value then
+			self._health_bar:set_w((self._bg_bar:w() / self._max_health) * value * max_ratio)
+			if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
+				self._health_bar:set_right(self._bg_bar:right())
+			else
+				self._health_bar:set_left(self._bg_bar:x())
+			end
+			self._health = value
+
+			self:_set_health_armor_text()
 		end
-		self._health = value
-
-		self:_set_health_armor_text()
-
 		return
 	end
 
@@ -250,16 +267,17 @@ function HUDHealthBar:set_armor(value, instant)
 	local max_ratio = self._max_armor / (self._max_health + self._max_armor)
 
 	if instant then
-		self._armor_bar:set_w((self._bg_bar:w() / self._max_armor) * value * max_ratio)
-		if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
-			self._armor_bar:set_right(self._bg_bar:x() + self._bg_bar:w() * max_ratio)
-		else
-			self._armor_bar:set_left(self._bg_bar:right() - self._bg_bar:w() * max_ratio)
+		if self._armor ~= value then
+			self._armor_bar:set_w((self._bg_bar:w() / self._max_armor) * value * max_ratio)
+			if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
+				self._armor_bar:set_right(self._bg_bar:x() + self._bg_bar:w() * max_ratio)
+			else
+				self._armor_bar:set_left(self._bg_bar:right() - self._bg_bar:w() * max_ratio)
+			end
+			self._armor = value
+
+			self:_set_health_armor_text()
 		end
-		self._armor = value
-
-		self:_set_health_armor_text()
-
 		return
 	end
 

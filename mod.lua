@@ -16,6 +16,7 @@ if not WFHud then
 
 	dofile(ModPath .. "req/HUDHealthBar.lua")
 	dofile(ModPath .. "req/HUDPlayerPanel.lua")
+	dofile(ModPath .. "req/HUDPlayerEquipment.lua")
 	dofile(ModPath .. "req/HUDFloatingUnitLabel.lua")
 	dofile(ModPath .. "req/HUDBuffList.lua")
 	dofile(ModPath .. "req/HUDDamagePop.lua")
@@ -25,6 +26,7 @@ if not WFHud then
 	WFHud.skill_map = {}
 	WFHud.colors = {
 		default = Color.white,
+		muted = Color(0.5, 0.5, 0.5),
 		buff = Color(0.012, 0.74, 0.89),
 		debuff = Color(0.667, 0.153, 0.141),
 		shield = Color(0.012, 0.74, 0.89),

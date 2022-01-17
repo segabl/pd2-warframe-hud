@@ -1,11 +1,9 @@
 HUDPlayerPanel = class()
 
-function HUDPlayerPanel:init(panel, x, y, main_player)
+function HUDPlayerPanel:init(panel, main_player)
 	self._is_main_player = main_player
 
 	self._panel = panel:panel({
-		x = x,
-		y = y,
 		w = 400
 	})
 

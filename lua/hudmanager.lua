@@ -35,7 +35,7 @@ end
 Hooks:PreHook(HUDManager, "_remove_name_label", "_remove_name_label_wfhud", function (self, id)
 	for _, data in pairs(self._hud.name_labels) do
 		if data.id == id then
-			if data.movement._wfhud_label then
+			if data.movement and data.movement._wfhud_label then
 				self:remove_updator("wfhud" .. id)
 				data.movement._wfhud_label:destroy()
 			end
@@ -45,3 +45,12 @@ Hooks:PreHook(HUDManager, "_remove_name_label", "_remove_name_label_wfhud", func
 end)
 
 function HUDManager:_update_name_labels(t, dt) end
+
+
+Hooks:PostHook(HUDManager, "set_stamina_value", "set_stamina_value_wfhud", function (self, value)
+	self._teammate_panels[HUDManager.PLAYER_PANEL]:set_stamina(value, nil)
+end)
+
+Hooks:PostHook(HUDManager, "set_max_stamina", "set_max_stamina_wfhud", function (self, value)
+	self._teammate_panels[HUDManager.PLAYER_PANEL]:set_stamina(nil, value)
+end)
