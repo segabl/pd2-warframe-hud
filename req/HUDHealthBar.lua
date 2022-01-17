@@ -26,8 +26,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size)
 			text = "123456",
 			font = tweak_data.menu.pd2_large_font,
 			font_size = text_size,
-			align = "right",
-			layer = 2
+			align = "right"
 		})
 	end
 
@@ -52,7 +51,8 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size)
 		visible = false,
 		texture = "guis/textures/wfhud/bar",
 		color = WFHud.colors.health,
-		h = height * 4
+		h = height * 4,
+		layer = 2
 	})
 	self._health_loss_indicator:set_center_y(self._panel:y() + self._health_bar:center_y())
 
@@ -68,7 +68,8 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size)
 		visible = false,
 		texture = "guis/textures/wfhud/bar",
 		color = WFHud.colors.shield,
-		h = height * 4
+		h = height * 4,
+		layer = 2
 	})
 	self._armor_loss_indicator:set_center_y(self._panel:y() + self._health_bar:center_y())
 
