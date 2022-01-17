@@ -146,7 +146,7 @@ if not WFHud then
 		-- Create custom mappings
 		self.skill_map.player.stoic_dot = {
 			key = "player.stoic_dot",
-			icon_category = "damage",
+			icon_category = "health",
 			name_id = "wfhud_dot",
 			texture_rect = { 96, 0, 48, 48 },
 			texture = "guis/textures/wfhud/damage_types",

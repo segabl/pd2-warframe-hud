@@ -122,7 +122,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 	end
 
 	self:set_values(value, duration)
-	self:set_category_icon_visibility(true)
+	self:set_category_icon_visibility(not upgrade_data.is_debuff)
 end
 
 function HUDBuffListItem:set_values(value, duration)
