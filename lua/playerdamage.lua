@@ -26,3 +26,12 @@ end)
 Hooks:PostHook(PlayerDamage, "clear_delayed_damage", "clear_delayed_damage_wfhud", function (self)
 	WFHud:remove_buff("player", "stoic_dot")
 end)
+
+
+Hooks:PostHook(PlayerDamage, "add_armor_stored_health", "add_armor_stored_health_wfhud", function (self)
+	WFHud:add_buff("player", "armor_health_store_amount", WFHud.value_format.default(self._armor_stored_health * 10))
+end)
+
+Hooks:PostHook(PlayerDamage, "clear_armor_stored_health", "clear_armor_stored_health_wfhud", function ()
+	WFHud:remove_buff("player", "armor_health_store_amount")
+end)
