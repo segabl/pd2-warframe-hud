@@ -120,18 +120,21 @@ function HUDPlayerPanel:set_visible(state)
 end
 
 function HUDPlayerPanel:set_peer_id(id)
-	self._peer_id_text:set_text(id)
+	self._peer_id_text:set_text(tostring(id))
 
-	if not id or self._is_main_player then
+	if self._is_main_player then
 		return
 	end
 
 	local peer = managers.network:session():peer(id)
 	if not peer then
+		self._peer_rank:set_text("0")
+		self._level_bar:set_w(self._level_bar_bg:w())
+		self._peer_avatar:set_image("guis/textures/wfhud/avatar_placeholder")
 		return
 	end
 
-	self._peer_rank:set_text(peer:rank())
+	self._peer_rank:set_text(tostring(peer:rank()))
 	self._level_bar:set_w(self._level_bar_bg:w() * ((peer:level() or 0) / 100))
 
 	local medium_res_done
