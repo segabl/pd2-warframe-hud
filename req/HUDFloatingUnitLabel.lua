@@ -100,7 +100,7 @@ function HUDFloatingUnitLabel:update(t, dt)
 	end
 
 	local hp, max_hp, armor, max_armor
-	-- TODO: improve this garbage
+	-- TODO: improve this garbage (can't do this stuff on unit set cause aparently name labels are created before teammate panels are registered)
 	if self._character_data and not self._linked_health_bar then
 		local teammate_panel = managers.hud._teammate_panels[self._character_data and self._character_data.panel_id]
 		self._linked_health_bar = teammate_panel and teammate_panel._wfhud_panel and teammate_panel._wfhud_panel:health_bar()
@@ -114,10 +114,11 @@ function HUDFloatingUnitLabel:update(t, dt)
 	end
 
 	if self._unit_hp ~= hp or self._unit_armor ~= armor then
+		local skip_anim = self._unit_hp == nil or self._unit_armor == nil or self._panel:alpha() == 0 or not self._panel:visible()
 		self._health_bar:set_max_health(max_hp)
-		self._health_bar:set_health(hp, self._unit_hp == nil)
+		self._health_bar:set_health(hp, skip_anim)
 		self._health_bar:set_max_armor(armor)
-		self._health_bar:set_armor(max_armor, self._unit_armor == nil)
+		self._health_bar:set_armor(max_armor, skip_anim)
 		self._unit_hp = hp
 		self._unit_armor = armor
 	end
