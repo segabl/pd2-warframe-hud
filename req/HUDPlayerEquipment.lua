@@ -108,8 +108,13 @@ end
 
 function HUDPlayerEquipment:set_fire_mode(wbase)
 	local gadget_base = wbase:gadget_overrides_weapon_functions()
-	local underbarrel_type = gadget_base and (gadget_base.GADGET_TYPE == "underbarrel_launcher" and "LAUNCHER" or "UNDERBARREL")
-	self._fire_mode_text:set_text(underbarrel_type or wbase:can_toggle_firemode() and wbase:fire_mode():upper() or "")
+	local fire_mode_text
+	if HopLib:is_object_of_class(gadget_base, WeaponUnderbarrel) then
+		fire_mode_text = managers.localization:to_upper_text("hud_fire_mode_" .. gadget_base.GADGET_TYPE)
+	elseif wbase:can_toggle_firemode() then
+		fire_mode_text = managers.localization:to_upper_text("hud_fire_mode_" .. wbase:fire_mode())
+	end
+	self._fire_mode_text:set_text(fire_mode_text or "")
 	self:_align_weapon_text()
 end
 

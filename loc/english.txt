@@ -1,0 +1,7 @@
+{
+	"hud_fire_mode_auto" : "Auto",
+	"hud_fire_mode_single" : "Single",
+	"hud_fire_mode_underbarrel" : "Underbarrel",
+	"hud_fire_mode_underbarrel_raycast" : "Underbarrel",
+	"hud_fire_mode_underbarrel_launcher" : "Launcher"
+}

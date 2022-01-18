@@ -373,6 +373,10 @@ if not WFHud then
 		return HUDDamagePop:new(self._panel, pos, attack_data.raw_damage or attack_data.damage, proc, attack_data.critical_hit, attack_data.headshot)
 	end
 
+	Hooks:Add("LocalizationManagerPostInit", "LocalizationManagerPostInitWFHud", function(loc)
+		HopLib:load_localization(WFHud.mod_path .. "loc/", loc)
+	end)
+
 end
 
 if RequiredScript then
