@@ -114,7 +114,7 @@ function HUDPlayerEquipment:set_fire_mode(wbase)
 end
 
 function HUDPlayerEquipment:set_weapon(wbase)
-	local tweak = wbase:weapon_tweak_data()
+	local tweak = tweak_data.weapon[wbase._name_id]
 
 	self._weapon_name:set_text(managers.localization:to_upper_text(tweak.name_id))
 
