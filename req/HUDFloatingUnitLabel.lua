@@ -78,24 +78,21 @@ function HUDFloatingUnitLabel:update(t, dt)
 	end
 
 	local hp, max_hp, armor, max_armor
-	-- TODO: improve this garbage (can't do this stuff on unit set cause aparently name labels are created before teammate panels are registered)
+	-- TODO: improve this mess
 	if self._character_data and not self._linked_health_bar then
 		local teammate_panel = managers.hud._teammate_panels[self._character_data and self._character_data.panel_id]
 		self._linked_health_bar = teammate_panel and teammate_panel._wfhud_panel and teammate_panel._wfhud_panel:health_bar()
 	end
 	if self._linked_health_bar then
-		hp, max_hp = self._linked_health_bar._health, self._linked_health_bar._max_health
-		armor, max_armor = self._linked_health_bar._armor, self._linked_health_bar._max_armor
+		hp, max_hp = self._linked_health_bar._health_ratio * self._linked_health_bar._max_health_ratio * 100, self._linked_health_bar._max_health_ratio * 100
+		armor, max_armor = self._linked_health_bar._armor_ratio * self._linked_health_bar._max_armor_ratio * 100, self._linked_health_bar._max_armor_ratio * 100
 	else
 		hp, max_hp = (self._unit:character_damage()._health or 10) * 10, (self._unit:character_damage()._HEALTH_INIT or 10) * 10
 		armor, max_armor = 0, 0
 	end
 
-	local skip_anim = self._skip_health_set_anim or self._panel:alpha() == 0 or self._health_bar._panel:alpha() == 0 or not self._panel:visible()
-	self._health_bar:set_health(hp, max_hp, skip_anim)
-	self._health_bar:set_armor(armor, max_armor, skip_anim)
-
-	self._skip_health_set_anim = false
+	local skip_anim = self._panel:alpha() == 0 or self._health_bar._panel:alpha() == 0 or not self._panel:visible()
+	self._health_bar:set_data(hp, max_hp, armor, max_armor, skip_anim)
 end
 
 function HUDFloatingUnitLabel:_create_unit_level(unit_info)
@@ -122,7 +119,8 @@ function HUDFloatingUnitLabel:set_unit(unit, instant)
 
 	if alive(unit) then
 		self._unit = unit
-		self._skip_health_set_anim = true
+
+		self._health_bar._set_data_instant = true
 
 		self._character_data = managers.criminals:character_data_by_unit(unit)
 
