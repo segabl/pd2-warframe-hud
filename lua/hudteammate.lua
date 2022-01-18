@@ -29,11 +29,21 @@ Hooks:PostHook(HUDTeammate, "add_panel", "add_panel_wfhud", function (self)
 end)
 
 Hooks:PostHook(HUDTeammate, "remove_panel", "remove_panel_wfhud", function (self)
+	self._health_data.current = 0
+	self._health_data.total = 0
+	self._armor_data.current = 0
+	self._armor_data.total = 0
+
 	self._wfhud_panel._panel:set_visible(false)
+	self._wfhud_panel:health_bar()._set_data_instant = true
 
 	if self._wfhud_equipment_panel then
 		self._wfhud_equipment_panel._panel:set_visible(false)
 	end
+end)
+
+Hooks:PostHook(HUDTeammate, "set_waiting", "set_waiting_wfhud", function (self)
+	self._panel:set_visible(false)
 end)
 
 Hooks:PostHook(HUDTeammate, "set_name", "set_name_wfhud", function (self, name)
@@ -44,18 +54,20 @@ Hooks:PostHook(HUDTeammate, "set_name", "set_name_wfhud", function (self, name)
 	self._wfhud_panel:set_name(name)
 end)
 
-Hooks:PostHook(HUDTeammate, "set_callsign", "set_callsign", function (self, id)
+Hooks:PostHook(HUDTeammate, "set_callsign", "set_callsign_wfhud", function (self, id)
 	self._wfhud_panel:set_peer_id(id)
 end)
 
 Hooks:PostHook(HUDTeammate, "set_health", "set_health_wfhud", function (self)
-	--self._wfhud_panel:health_bar():set_health(data.current * 10, data.total * 10)
-	self._wfhud_panel:health_bar():set_data(self._health_data.current * 10, self._health_data.total * 10, self._armor_data.current * 10, self._armor_data.total * 10)
+	if self._health_data.total > 0 then
+		self._wfhud_panel:health_bar():set_data(self._health_data.current * 10, self._health_data.total * 10, self._armor_data.current * 10, self._armor_data.total * 10)
+	end
 end)
 
 Hooks:PostHook(HUDTeammate, "set_armor", "set_armor_wfhud", function (self)
-	--self._wfhud_panel:health_bar():set_armor(data.current * 10, data.total * 10)
-	self._wfhud_panel:health_bar():set_data(self._health_data.current * 10, self._health_data.total * 10, self._armor_data.current * 10, self._armor_data.total * 10)
+	if self._health_data.total > 0 then
+		self._wfhud_panel:health_bar():set_data(self._health_data.current * 10, self._health_data.total * 10, self._armor_data.current * 10, self._armor_data.total * 10)
+	end
 end)
 
 function HUDTeammate:set_stamina(current, total)
@@ -76,8 +88,8 @@ Hooks:PostHook(HUDTeammate, "set_condition", "set_condition_wfhud", function (se
 		self._wfhud_panel:health_bar():set_health_text(text:upper():gsub("%p", ""), true)
 		self._wfhud_panel:health_bar():set_armor_text("", true)
 	else
-		self._wfhud_panel:health_bar():set_health_text("", false)
-		self._wfhud_panel:health_bar():set_armor_text("", false)
+		self._wfhud_panel:health_bar():set_health_text(nil, false)
+		self._wfhud_panel:health_bar():set_armor_text(nil, false)
 	end
 end)
 

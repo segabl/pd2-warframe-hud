@@ -195,21 +195,25 @@ function HUDHealthBar:set_health_text(text, override)
 		return
 	end
 
-	if override == nil and self._health_text_override then
-		self._health_text_override = text
-		return
+	if override == nil then
+		if self._health_text_override then
+			self._health_text_override = text
+			return
+		else
+			self._health_text:set_text(text)
+		end
 	elseif override then
 		if not self._health_text_override then
 			self._health_text_override = self._health_text:text()
 		end
 		self._health_text:set_text(text)
-	elseif override ~= nil then
+	else
 		if self._health_text_override then
 			self._health_text:set_text(self._health_text_override)
 			self._health_text_override = nil
+		else
+			return
 		end
-	else
-		self._health_text:set_text(text)
 	end
 
 	self:_layout_health_armor_text()
@@ -220,21 +224,25 @@ function HUDHealthBar:set_armor_text(text, override)
 		return
 	end
 
-	if override == nil and self._armor_text_override then
-		self._armor_text_override = text
-		return
+	if override == nil then
+		if self._armor_text_override then
+			self._armor_text_override = text
+			return
+		else
+			self._armor_text:set_text(text)
+		end
 	elseif override then
 		if not self._armor_text_override then
 			self._armor_text_override = self._armor_text:text()
 		end
 		self._armor_text:set_text(text)
-	elseif override ~= nil then
+	else
 		if self._armor_text_override then
 			self._armor_text:set_text(self._armor_text_override)
 			self._armor_text_override = nil
+		else
+			return
 		end
-	else
-		self._armor_text:set_text(text)
 	end
 
 	self:_layout_health_armor_text()
@@ -304,7 +312,7 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 		end
 	end
 
-	if max_armor > 0 then
+	if max_armor_ratio > 0 then
 		if self._max_armor_ratio == 0 then
 			self:_start_shield_animation()
 		end
@@ -316,7 +324,7 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 		self._armor_bar:stop()
 
 		self._armor_bar:set_w(self._bg_bar:w() * max_armor_ratio * armor_ratio)
-		self:set_armor_text(max_armor > 0 and tostring(math.round(armor)) or "")
+		self:set_armor_text(max_armor_ratio > 0 and tostring(math.round(armor)) or "")
 
 		if not instant then
 			-- animate armor loss
