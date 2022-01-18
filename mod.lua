@@ -6,13 +6,18 @@ if not WFHud then
 	local tmp_vec = Vector3()
 
 	local ids_texture = Idstring("texture")
-	BLT.AssetManager:CreateEntry(Idstring("guis/textures/wfhud/skill_icons_clean"), ids_texture, ModPath .. "assets/guis/textures/wfhud/skill_icons_clean.dds")
-	BLT.AssetManager:CreateEntry(Idstring("guis/textures/wfhud/buff_categories"), ids_texture, ModPath .. "assets/guis/textures/wfhud/buff_categories.dds")
-	BLT.AssetManager:CreateEntry(Idstring("guis/textures/wfhud/damage_types"), ids_texture, ModPath .. "assets/guis/textures/wfhud/damage_types.dds")
-	BLT.AssetManager:CreateEntry(Idstring("guis/textures/wfhud/bar"), ids_texture, ModPath .. "assets/guis/textures/wfhud/bar.dds")
-	BLT.AssetManager:CreateEntry(Idstring("guis/textures/wfhud/bar_caps"), ids_texture, ModPath .. "assets/guis/textures/wfhud/bar_caps.dds")
-	BLT.AssetManager:CreateEntry(Idstring("guis/textures/wfhud/shield_overlay"), ids_texture, ModPath .. "assets/guis/textures/wfhud/shield_overlay.dds")
-	BLT.AssetManager:CreateEntry(Idstring("guis/textures/wfhud/avatar_placeholder"), ids_texture, ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds")
+	local function add_asset(type_ids, path, file)
+		if not DB:has(type_ids, path) then
+			BLT.AssetManager:CreateEntry(Idstring(path), type_ids, file)
+		end
+	end
+	add_asset(ids_texture, "guis/textures/wfhud/skill_icons_clean", ModPath .. "assets/guis/textures/wfhud/skill_icons_clean.dds")
+	add_asset(ids_texture, "guis/textures/wfhud/buff_categories", ModPath .. "assets/guis/textures/wfhud/buff_categories.dds")
+	add_asset(ids_texture, "guis/textures/wfhud/damage_types", ModPath .. "assets/guis/textures/wfhud/damage_types.dds")
+	add_asset(ids_texture, "guis/textures/wfhud/bar", ModPath .. "assets/guis/textures/wfhud/bar.dds")
+	add_asset(ids_texture, "guis/textures/wfhud/bar_caps",  ModPath .. "assets/guis/textures/wfhud/bar_caps.dds")
+	add_asset(ids_texture, "guis/textures/wfhud/shield_overlay", ModPath .. "assets/guis/textures/wfhud/shield_overlay.dds")
+	add_asset(ids_texture, "guis/textures/wfhud/avatar_placeholder", ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds")
 
 	dofile(ModPath .. "req/HUDHealthBar.lua")
 	dofile(ModPath .. "req/HUDPlayerPanel.lua")
