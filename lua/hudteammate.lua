@@ -29,10 +29,8 @@ Hooks:PostHook(HUDTeammate, "add_panel", "add_panel_wfhud", function (self)
 end)
 
 Hooks:PostHook(HUDTeammate, "remove_panel", "remove_panel_wfhud", function (self)
-	self._health_data.current = 0
-	self._health_data.total = 0
-	self._armor_data.current = 0
-	self._armor_data.total = 0
+	self._health_set = nil
+	self._armor_set = nil
 
 	self._wfhud_panel._panel:set_visible(false)
 	self._wfhud_panel:health_bar()._set_data_instant = true
@@ -59,13 +57,15 @@ Hooks:PostHook(HUDTeammate, "set_callsign", "set_callsign_wfhud", function (self
 end)
 
 Hooks:PostHook(HUDTeammate, "set_health", "set_health_wfhud", function (self)
-	if self._health_data.total > 0 then
+	self._health_set = true
+	if self._health_set and self._armor_set then
 		self._wfhud_panel:health_bar():set_data(self._health_data.current * 10, self._health_data.total * 10, self._armor_data.current * 10, self._armor_data.total * 10)
 	end
 end)
 
 Hooks:PostHook(HUDTeammate, "set_armor", "set_armor_wfhud", function (self)
-	if self._health_data.total > 0 then
+	self._armor_set = true
+	if self._health_set and self._armor_set then
 		self._wfhud_panel:health_bar():set_data(self._health_data.current * 10, self._health_data.total * 10, self._armor_data.current * 10, self._armor_data.total * 10)
 	end
 end)

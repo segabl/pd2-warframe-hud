@@ -13,6 +13,11 @@ function TeamAIDamage:_set_hud_panel_hp()
 		total = self._HEALTH_INIT,
 		max = self._HEALTH_INIT
 	})
+	managers.hud:set_teammate_armor(self._panel_id, {
+		current = 0,
+		total = 0,
+		max = 0
+	})
 end
 
 Hooks:PostHook(TeamAIDamage, "_apply_damage", "_apply_damage_wfhud", TeamAIDamage._set_hud_panel_hp)

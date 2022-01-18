@@ -9,11 +9,11 @@ HUDHealthBar.ANIM_TIME_LOSS = 0.2
 function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 	self._direction = HUDHealthBar.RIGHT_TO_LEFT
 
-	self._max_health_ratio = 1
+	self._max_health_ratio = 0
 	self._max_armor_ratio = 0
 
-	self._health_ratio = 1
-	self._armor_ratio = 1
+	self._health_ratio = 0
+	self._armor_ratio = 0
 
 	self._set_data_instant = true
 
@@ -46,8 +46,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 	self._health_bar = self._panel:bitmap({
 		texture = "guis/textures/wfhud/bar",
 		color = WFHud.colors.health,
-		x = has_caps and height * 0.25 or 0,
-		w = has_caps and width - height * 0.5 or width,
+		w = 0,
 		h = height
 	})
 	self._health_bar:set_bottom(self._panel:h())
@@ -269,22 +268,35 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 		self._health_bar:stop()
 
 		self._health_bar:set_w(self._bg_bar:w() * max_health_ratio * health_ratio)
-		self:set_health_text(tostring(math.round(health)))
 
-		if not instant then
+		if instant then
+			self:set_health_text(tostring(math.round(health)))
+		else
 			-- animate health loss
 			self._health_loss_indicator:stop()
 			self._health_loss_indicator:animate(function (o)
 				o:set_w(self._bg_bar:w() * max_health_ratio * (self._health_ratio - health_ratio))
 				if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
-					o:set_right(self._panel:x() + self._health_bar:x())
+					o:set_x(self._panel:x() + self._health_bar:x())
 				else
 					o:set_x(self._panel:x() + self._health_bar:right())
 				end
 				o:set_alpha(1)
-				over(HUDHealthBar.ANIM_TIME_LOSS, function (t) o:set_alpha(1 - t) end)
+				over(HUDHealthBar.ANIM_TIME_LOSS, function (t)
+					o:set_alpha(1 - t)
+				end)
 				o:set_alpha(0)
 			end)
+
+			if self._health_text then
+				self._health_text:stop()
+				self._health_text:animate(function (o)
+					local from = self._health_ratio * max_health
+					over(HUDHealthBar.ANIM_TIME_LOSS, function (t)
+						self:set_health_text(tostring(math.round(math.lerp(from, health, t))))
+					end)
+				end)
+			end
 		end
 	elseif health_ratio > self._health_ratio then
 		-- animate health gain
@@ -324,22 +336,35 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 		self._armor_bar:stop()
 
 		self._armor_bar:set_w(self._bg_bar:w() * max_armor_ratio * armor_ratio)
-		self:set_armor_text(max_armor_ratio > 0 and tostring(math.round(armor)) or "")
 
-		if not instant then
+		if instant then
+			self:set_armor_text(max_armor_ratio > 0 and tostring(math.round(armor)) or "")
+		else
 			-- animate armor loss
 			self._armor_loss_indicator:stop()
 			self._armor_loss_indicator:animate(function (o)
-				o:set_w(self._bg_bar:w() * max_armor_ratio * (self._health_ratio - health_ratio))
+				o:set_w(self._bg_bar:w() * max_armor_ratio * (self._armor_ratio - armor_ratio))
 				if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
-					o:set_right(self._panel:x() + self._armor_bar:x())
+					o:set_x(self._panel:x() + self._armor_bar:x())
 				else
-					o:set_left(self._panel:x() + self._armor_bar:right())
+					o:set_x(self._panel:x() + self._armor_bar:right())
 				end
 				o:set_alpha(1)
-				over(HUDHealthBar.ANIM_TIME_LOSS, function (t) o:set_alpha(1 - t) end)
+				over(HUDHealthBar.ANIM_TIME_LOSS, function (t)
+					o:set_alpha(1 - t)
+				end)
 				o:set_alpha(0)
 			end)
+
+			if self._armor_text then
+				self._armor_text:stop()
+				self._armor_text:animate(function (o)
+					local from = self._armor_ratio * max_armor
+					over(HUDHealthBar.ANIM_TIME_LOSS, function (t)
+						self:set_armor_text(tostring(math.round(math.lerp(from, armor, t))))
+					end)
+				end)
+			end
 		end
 	elseif max_armor > 0 and armor_ratio > self._max_armor_ratio then
 		-- animate armor gain
