@@ -61,17 +61,20 @@ if not WFHud then
 			{ "speed", "speed" },
 			{ "crit", "critical_hit" },
 		  { "dmg_dampener", "damage_dampener" },
+			{ "damage_dampener", "damage_dampener" },
 			{ "damage_resist", "damage_dampener" },
 			{ "damage_reduction", "damage_dampener" },
 			{ "dmg", "damage" },
-			{ "damage", "damage" }
+			{ "damage", "damage" },
+			{ "health", "health" },
+			{ "stamina", "stamina" }
 		}
 		local function get_category(cat, up)
 			if cat_by_up[up] then
 				return cat_by_up[up]
 			end
 			for _, v in ipairs(cat_find) do
-				if up:find(v[1]) then
+				if cat:find(v[1]) or up:find(v[1]) then
 					return v[2]
 				end
 			end
