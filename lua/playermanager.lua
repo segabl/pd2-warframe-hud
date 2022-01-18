@@ -146,9 +146,7 @@ Hooks:PostHook(PlayerManager, "count_down_player_minions", "count_down_player_mi
 
 
 Hooks:PostHook(PlayerManager, "on_damage_dealt", "on_damage_dealt_wfhud", function (self, unit, attack_data)
-	if type(attack_data.damage) ~= "number" or attack_data.damage <= 0 or attack_data.is_fire_dot_damage then
-		return
+	if type(attack_data.damage) == "number" and attack_data.damage > 0 then
+		WFHud:add_damage_pop(unit, attack_data)
 	end
-
-	WFHud:add_damage_pop(unit, attack_data)
 end)

@@ -54,7 +54,8 @@ if not WFHud then
 		hurt = "impact",
 		heavy_hurt = "impact",
 		shield_knock = "impact",
-		expl_hurt = "blast"
+		expl_hurt = "blast",
+		taser_tased = "electricity"
 	}
 
 	function WFHud:_create_skill_icon_map()
@@ -351,7 +352,7 @@ if not WFHud then
 		local pos = not attack_data.fire_dot_data and (col_ray.position or col_ray.hit_position or attack_data.pos) or mvector3.copy(unit:movement():m_stand_pos())
 
 		local proc
-		if attack_data.variant == "fire" and attack_data.fire_dot_data and managers.fire:is_set_on_fire(unit) then
+		if attack_data.variant == "fire" and not attack_data.is_fire_dot_damage and managers.fire:is_set_on_fire(unit) then
 			proc = "heat"
 		elseif unit:character_damage()._has_plate and col_ray.body and col_ray.body:name() == unit:character_damage()._ids_plate_name then
 			proc = "puncture"
