@@ -180,6 +180,10 @@ function HUDBuffListItem:set_index(i)
 		self._panel:animate(function (o)
 			over(HUDBuffListItem.PANEL_SHIFT_TIME, function (f)
 				o:set_center_x(o:parent():w() - (HUDBuffListItem.ICON_SIZE + HUDBuffListItem.ICON_SPACING) * ((i * f + old_i * (1 - f)) - 1) - HUDBuffListItem.ICON_SIZE * 0.5)
+				local outside = o:x() + self._name:right() - o:parent():w()
+				if outside > 0 then
+					self._name:set_x(self._name:x() - outside)
+				end
 			end)
 		end)
 	else

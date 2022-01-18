@@ -45,10 +45,10 @@ if not WFHud then
 		}
 	}
 	WFHud.value_format = {
-		default = function (val) return val < 1 and math.round(val * 100) / 100 or val < 10 and math.round(val * 10) / 10 or val end,
+		default = function (val) return tostring(val < 1 and math.round(val * 100) / 100 or val < 10 and math.round(val * 10) / 10 or math.round(val)) end,
 		percentage_mul = function (val) return math.abs(math.ceil((val - 1) * 100)) .. "%" end,
 		percentage = function (val) return math.ceil(val * 100) .. "%" end,
-		damage = function (val) return math.ceil(val * 10) end
+		damage = function (val) return tostring(math.ceil(val * 100) / 10) end
 	}
 	WFHud.proc_type = {
 		hurt = "impact",
@@ -59,20 +59,21 @@ if not WFHud then
 
 	function WFHud:_create_skill_icon_map()
 		local cat_by_up = {
-			interacting_damage_multiplier = "damage_dampener"
+			interacting_damage_multiplier = "damage_dampener",
+			hostage_absorption = "damage_dampener"
 		}
 		local cat_find = {
 			{ "reload", "reload_speed" },
 			{ "speed", "speed" },
 			{ "crit", "critical_hit" },
-		  { "dmg_dampener", "damage_dampener" },
+			{ "health", "health" },
+			{ "stamina", "stamina" },
+			{ "dmg_dampener", "damage_dampener" },
 			{ "damage_dampener", "damage_dampener" },
 			{ "damage_resist", "damage_dampener" },
 			{ "damage_reduction", "damage_dampener" },
 			{ "dmg", "damage" },
-			{ "damage", "damage" },
-			{ "health", "health" },
-			{ "stamina", "stamina" }
+			{ "damage", "damage" }
 		}
 		local function get_category(cat, up)
 			if cat_by_up[up] then
@@ -97,11 +98,11 @@ if not WFHud then
 			melee_life_leech = WFHud.value_format.percentage
 		}
 		local function get_value_format(icon_cat, up)
-			if cat_format[icon_cat] then
-				return cat_format[icon_cat]
-			end
 			if up_format[up] then
 				return up_format[up]
+			end
+			if cat_format[icon_cat] then
+				return cat_format[icon_cat]
 			end
 			return WFHud.value_format.default
 		end
@@ -255,6 +256,93 @@ if not WFHud then
 			if upgrade_data then
 				self._buff_list:remove_buff(upgrade_data)
 			end
+		end
+	end
+
+	local categories = { "speed", "stamina", "critical_hit", "damage_dampener", "health", "armor" }
+	function WFHud:check_hostage_buffs()
+		local mul
+		local pm = managers.player
+		local minions = pm:num_local_minions() or 0
+		local hostages_total = managers.groupai:state()._hostage_headcount + minions
+		local hostage_max_num
+		for _, v in pairs(categories) do
+			hostage_max_num = math.min(hostages_total, tweak_data:get_raw_value("upgrades", "hostage_max_num", v) or hostages_total)
+
+			-- Multiplier bonuses
+			mul = 1 + (pm:team_upgrade_value(v, "hostage_multiplier", 1) - 1) * hostage_max_num
+			if mul ~= 1 then
+				self:add_buff(v, "hostage_multiplier", self.value_format.percentage_mul(mul))
+			else
+				WFHud:remove_buff(v, "hostage_multiplier")
+			end
+
+			mul = 1 + (pm:team_upgrade_value(v, "passive_hostage_multiplier", 1) - 1) * hostage_max_num
+			if mul ~= 1 then
+				self:add_buff(v, "passive_hostage_multiplier", self.value_format.percentage_mul(mul))
+			else
+				self:remove_buff(v, "passive_hostage_multiplier")
+			end
+
+			mul = 1 + (pm:upgrade_value("player", "hostage_" .. v .. "_multiplier", 1) - 1) * hostage_max_num
+			if mul ~= 1 then
+				self:add_buff("player", "hostage_" .. v .. "_multiplier", self.value_format.percentage_mul(mul))
+			else
+				self:remove_buff("player", "hostage_" .. v .. "_multiplier")
+			end
+
+			mul = 1 + (pm:upgrade_value("player", "passive_hostage_" .. v .. "_multiplier", 1) - 1) * hostage_max_num
+			if mul ~= 1 then
+				self:add_buff("player", "passive_hostage_" .. v .. "_multiplier", self.value_format.percentage_mul(mul))
+			else
+				self:remove_buff("player", "passive_hostage_" .. v .. "_multiplier")
+			end
+
+			-- Additive bonuses
+			mul = pm:team_upgrade_value(v, "hostage_addend", 0) * hostage_max_num
+			if mul ~= 0 then
+				self:add_buff(v, "hostage_addend", mul)
+			else
+				self:remove_buff(v, "hostage_addend")
+			end
+
+			mul = pm:team_upgrade_value(v, "passive_hostage_addend", 0) * hostage_max_num
+			if mul ~= 0 then
+				self:add_buff(v, "passive_hostage_addend", mul)
+			else
+				self:remove_buff(v, "passive_hostage_addend")
+			end
+
+			mul = pm:upgrade_value("player", "hostage_" .. v .. "_addend", 0) * hostage_max_num
+			if mul ~= 0 then
+				self:add_buff("player", "hostage_" .. v .. "_addend", mul)
+			else
+				self:remove_buff("player", "hostage_" .. v .. "_addend")
+			end
+
+			mul = pm:upgrade_value("player", "passive_hostage_" .. v .. "_addend", 0) * hostage_max_num
+			if mul ~= 0 then
+				self:add_buff("player", "passive_hostage_" .. v .. "_addend", mul)
+			else
+				self:remove_buff("player", "passive_hostage_" .. v .. "_addend")
+			end
+		end
+
+		if minions > 0 then
+			self:add_buff("player", "convert_enemies", minions)
+
+			mul = pm:upgrade_value("player", "minion_master_speed_multiplier", 1)
+			if mul > 1 then
+				self:add_buff("player", "minion_master_speed_multiplier", self.value_format.percentage_mul(mul))
+			end
+			mul = pm:upgrade_value("player", "minion_master_health_multiplier", 1)
+			if mul > 1 then
+				self:add_buff("player", "minion_master_health_multiplier", self.value_format.percentage_mul(mul))
+			end
+		else
+			self:remove_buff("player", "convert_enemies")
+			self:remove_buff("player", "minion_master_speed_multiplier")
+			self:remove_buff("player", "minion_master_health_multiplier")
 		end
 	end
 

@@ -140,6 +140,11 @@ Hooks:PostHook(PlayerManager, "activate_temporary_property", "activate_temporary
 Hooks:PostHook(PlayerManager, "add_to_temporary_property", "add_to_temporary_property_wfhud", check_property)
 
 
+local check_hostage_buffs = function ()	WFHud:check_hostage_buffs() end
+Hooks:PostHook(PlayerManager, "count_up_player_minions", "count_up_player_minions_wfhud", check_hostage_buffs)
+Hooks:PostHook(PlayerManager, "count_down_player_minions", "count_down_player_minions_wfhud", check_hostage_buffs)
+
+
 Hooks:PostHook(PlayerManager, "on_damage_dealt", "on_damage_dealt_wfhud", function (self, unit, attack_data)
 	if type(attack_data.damage) ~= "number" or attack_data.damage <= 0 or attack_data.is_fire_dot_damage then
 		return
