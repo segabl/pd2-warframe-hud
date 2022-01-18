@@ -83,12 +83,18 @@ function HUDFloatingUnitLabel:update(t, dt)
 		local teammate_panel = managers.hud._teammate_panels[self._character_data and self._character_data.panel_id]
 		self._linked_health_bar = teammate_panel and teammate_panel._wfhud_panel and teammate_panel._wfhud_panel:health_bar()
 	end
+
 	if self._linked_health_bar then
 		hp, max_hp = self._linked_health_bar._health_ratio * self._linked_health_bar._max_health_ratio * 100, self._linked_health_bar._max_health_ratio * 100
 		armor, max_armor = self._linked_health_bar._armor_ratio * self._linked_health_bar._max_armor_ratio * 100, self._linked_health_bar._max_armor_ratio * 100
+
+		self._health_bar:set_invulnerable(self._linked_health_bar._invulnerable)
 	else
-		hp, max_hp = (self._unit:character_damage()._health or 10) * 10, (self._unit:character_damage()._HEALTH_INIT or 10) * 10
+		local char_dmg = self._unit:character_damage()
+		hp, max_hp = (char_dmg._health or 10) * 10, (char_dmg._HEALTH_INIT or 10) * 10
 		armor, max_armor = 0, 0
+
+		self._health_bar:set_invulnerable(char_dmg._immortal or char_dmg._invulnerable)
 	end
 
 	local skip_anim = self._panel:alpha() == 0 or self._health_bar._panel:alpha() == 0 or not self._panel:visible()

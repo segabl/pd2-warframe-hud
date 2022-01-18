@@ -4,10 +4,21 @@ local values_swap = {
 local hide_value = {
 	armor_break_invulnerable = true
 }
+local function set_invulnerable(state)
+	local teammate_panel = managers.hud and managers.hud:get_teammate_panel_by_peer()
+	if teammate_panel then
+		teammate_panel:set_invulnerable(state)
+	end
+end
 Hooks:PostHook(PlayerManager, "activate_temporary_upgrade", "activate_temporary_upgrade_wfhud", function (self, category, upgrade)
 	local data = self:upgrade_value(category, upgrade)
 	if type(data) == "table" then
 		WFHud:add_buff(category, upgrade, not hide_value[upgrade] and (values_swap[upgrade] and data[2] or data[1]), values_swap[upgrade] and data[1] or data[2])
+		-- not the best way but works
+		if upgrade == "armor_break_invulnerable" then
+			set_invulnerable(true)
+			DelayedCalls:Add("wfhud_player_invul_end", data[1], set_invulnerable)
+		end
 	end
 end)
 Hooks:PostHook(PlayerManager, "activate_temporary_upgrade_by_level", "activate_temporary_upgrade_by_level_wfhud", function (self, category, upgrade, level)

@@ -38,11 +38,7 @@ end)
 
 
 -- why would you update the armor hud every frame?
-function PlayerDamage:_update_armor_hud(t, dt)
-	if self._hurt_value then
-		self._hurt_value = math.min(1, self._hurt_value + dt)
-	end
-end
+function PlayerDamage:_update_armor_hud(t, dt) end
 
 Hooks:PostHook(PlayerDamage, "set_armor", "set_armor_wfhud", function (self)
 	managers.hud:set_player_armor({

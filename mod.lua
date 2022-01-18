@@ -18,6 +18,7 @@ if not WFHud then
 	add_asset(ids_texture, "guis/textures/wfhud/bar_caps",  ModPath .. "assets/guis/textures/wfhud/bar_caps.dds")
 	add_asset(ids_texture, "guis/textures/wfhud/shield_overlay", ModPath .. "assets/guis/textures/wfhud/shield_overlay.dds")
 	add_asset(ids_texture, "guis/textures/wfhud/avatar_placeholder", ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds")
+	add_asset(ids_texture, "guis/textures/wfhud/invulnerability_overlay", ModPath .. "assets/guis/textures/wfhud/invulnerability_overlay.dds")
 
 	dofile(ModPath .. "req/HUDHealthBar.lua")
 	dofile(ModPath .. "req/HUDPlayerPanel.lua")
@@ -67,14 +68,14 @@ if not WFHud then
 			{ "reload", "reload_speed" },
 			{ "speed", "speed" },
 			{ "crit", "critical_hit" },
-			{ "health", "health" },
 			{ "stamina", "stamina" },
 			{ "dmg_dampener", "damage_dampener" },
 			{ "damage_dampener", "damage_dampener" },
 			{ "damage_resist", "damage_dampener" },
 			{ "damage_reduction", "damage_dampener" },
 			{ "dmg", "damage" },
-			{ "damage", "damage" }
+			{ "damage", "damage" },
+			{ "health", "health" }
 		}
 		local function get_category(cat, up)
 			if cat_by_up[up] then
@@ -348,11 +349,15 @@ if not WFHud then
 	end
 
 	function WFHud:add_damage_pop(unit, attack_data)
+		if attack_data.is_fire_dot_damage then
+			return
+		end
+
 		local col_ray = attack_data.col_ray or {}
 		local pos = not attack_data.fire_dot_data and (col_ray.position or col_ray.hit_position or attack_data.pos) or mvector3.copy(unit:movement():m_stand_pos())
 
 		local proc
-		if attack_data.variant == "fire" and not attack_data.is_fire_dot_damage and managers.fire:is_set_on_fire(unit) then
+		if attack_data.variant == "fire" and managers.fire:is_set_on_fire(unit) then
 			proc = "heat"
 		elseif unit:character_damage()._has_plate and col_ray.body and col_ray.body:name() == unit:character_damage()._ids_plate_name then
 			proc = "puncture"

@@ -70,6 +70,10 @@ Hooks:PostHook(HUDTeammate, "set_armor", "set_armor_wfhud", function (self)
 	end
 end)
 
+function HUDTeammate:set_invulnerable(state)
+	self._wfhud_panel:health_bar():set_invulnerable(state)
+end
+
 function HUDTeammate:set_stamina(current, total)
 	if not self._wfhud_equipment_panel then
 		return
