@@ -157,26 +157,24 @@ function HUDHealthBar:_start_shield_animation()
 	self._armor_bar_overlay_2:set_visible(true)
 
 	self._armor_bar_overlay_1:animate(function (o)
+		local t = 0
 		while true do
-			over(7, function (t)
-				local w, h = self._armor_bar:size()
-
-				o:set_position(self._armor_bar:position())
-				o:set_size(w, h)
-				o:set_texture_rect(self._overlay_w - (self._overlay_w * t * 2) % self._overlay_w, (1 + math.sin(t * 360)) * 0.5 * (self._overlay_h - h), w, h)
-			end)
+			local w, h = self._armor_bar:size()
+			o:set_position(self._armor_bar:position())
+			o:set_size(w, h)
+			o:set_texture_rect(self._overlay_w - (self._overlay_w * t * 0.35) % self._overlay_w, (1 + math.sin(t * 30)) * 0.5 * (self._overlay_h - h), w, h)
+			t = t + coroutine.yield()
 		end
 	end)
 
 	self._armor_bar_overlay_2:animate(function (o)
+		local t = 0
 		while true do
-			over(12, function (t)
-				local w, h = self._armor_bar:size()
-
-				o:set_position(self._armor_bar:position())
-				o:set_size(w, h)
-				o:set_texture_rect(self._overlay_w - (self._overlay_w * t * 2) % self._overlay_w, (1 + math.cos(t * 360)) * 0.5 * (self._overlay_h - h), w, h)
-			end)
+			local w, h = self._armor_bar:size()
+			o:set_position(self._armor_bar:position())
+			o:set_size(w, h)
+			o:set_texture_rect(self._overlay_w - (self._overlay_w * t * 0.2) % self._overlay_w, (1 + math.cos(t * 45)) * 0.5 * (self._overlay_h - h), w, h)
+			t = t + coroutine.yield()
 		end
 	end)
 end
