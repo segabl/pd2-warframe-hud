@@ -1,3 +1,16 @@
+local HUDBGBox_create_original = HUDBGBox_create
+function HUDBGBox_create(panel, ...)
+	local box_panel = HUDBGBox_create_original(panel, ...)
+
+	box_panel:child("bg"):set_visible(false)
+	box_panel:child("left_top"):set_visible(false)
+	box_panel:child("left_bottom"):set_visible(false)
+	box_panel:child("right_top"):set_visible(false)
+	box_panel:child("right_bottom"):set_visible(false)
+
+	return box_panel
+end
+
 Hooks:PostHook(HUDObjectives, "init", "init_wfhud", function (self)
 	local objective_panel = self._hud_panel:child("objectives_panel")
 	objective_panel:set_y(200)
@@ -10,12 +23,16 @@ Hooks:PostHook(HUDObjectives, "init", "init_wfhud", function (self)
 	local objective_text = objective_panel:child("objective_text")
 	objective_text:set_font(Idstring(tweak_data.menu.medium_font))
 	objective_text:set_font_size(24)
-	objective_text:set_y(objective_icon:center_y() - 10)
+	objective_text:set_vertical("center")
+	objective_text:set_h(objective_icon:h())
+	objective_text:set_y(objective_icon:y())
 
 	local amount_text = objective_panel:child("amount_text")
 	amount_text:set_font(Idstring(tweak_data.menu.medium_font))
 	amount_text:set_font_size(24)
-	amount_text:set_y(objective_icon:center_y() - 10)
+	amount_text:set_vertical("center")
+	amount_text:set_h(objective_icon:h())
+	amount_text:set_y(objective_icon:y())
 
 	self._bg_box:set_alpha(0)
 end)
