@@ -62,8 +62,7 @@ function HUDFloatingUnitLabel:update(t, dt)
 	local cam = managers.viewport:get_current_camera()
 
 	if cam then
-		local movement = self._unit:movement()
-		local pos = movement._obj_head and movement._obj_head:position() or movement:m_head_pos()
+		local pos = self._unit_mvmt and (self._unit_mvmt._obj_head and self._unit_mvmt._obj_head:position() or self._unit_mvmt:m_head_pos()) or self._unit:position()
 
 		local dis = mvec_dir(tmp_vec, cam:position(), pos)
 		self._panel:set_visible(mvec_dot(cam:rotation():y(), tmp_vec) >= 0)
@@ -77,7 +76,7 @@ function HUDFloatingUnitLabel:update(t, dt)
 		self._panel:set_bottom(screen_pos.y)
 	end
 
-	local hp, max_hp, armor, max_armor
+	local hp, max_hp, armor, max_armor, invulnerable
 	-- TODO: improve this mess
 	if self._character_data and not self._linked_health_bar then
 		local teammate_panel = managers.hud._teammate_panels[self._character_data and self._character_data.panel_id]
@@ -87,18 +86,20 @@ function HUDFloatingUnitLabel:update(t, dt)
 	if self._linked_health_bar then
 		hp, max_hp = self._linked_health_bar._health_ratio * self._linked_health_bar._max_health_ratio * 100, self._linked_health_bar._max_health_ratio * 100
 		armor, max_armor = self._linked_health_bar._armor_ratio * self._linked_health_bar._max_armor_ratio * 100, self._linked_health_bar._max_armor_ratio * 100
-
-		self._health_bar:set_invulnerable(self._linked_health_bar._invulnerable)
-	else
-		local char_dmg = self._unit:character_damage()
-		hp, max_hp = (char_dmg._health or 10) * 10, (char_dmg._HEALTH_INIT or 10) * 10
+		invulnerable = self._linked_health_bar._invulnerable
+	elseif self._unit_dmg then
+		hp, max_hp = (self._unit_dmg._health or 10) * 10, (self._unit_dmg._HEALTH_INIT or 10) * 10
 		armor, max_armor = 0, 0
-
-		self._health_bar:set_invulnerable(char_dmg._immortal or char_dmg._invulnerable)
+		invulnerable = self._unit_dmg._immortal or self._unit_dmg._invulnerable
+	else
+		hp, max_hp = 1, 1
+		armor, max_armor = 0, 0
+		invulnerable = true
 	end
 
 	local skip_anim = self._panel:alpha() == 0 or self._health_bar._panel:alpha() == 0 or not self._panel:visible()
 	self._health_bar:set_data(hp, max_hp, armor, max_armor, skip_anim)
+	self._health_bar:set_invulnerable(invulnerable)
 end
 
 function HUDFloatingUnitLabel:_create_unit_level(unit_info)
@@ -122,19 +123,18 @@ function HUDFloatingUnitLabel:set_unit(unit, instant)
 	end
 
 	local alpha = self._panel:alpha()
-
-	if alive(unit) then
+	local unit_info = alive(unit) and HopLib:unit_info_manager():get_info(unit)
+	if unit_info then
 		self._unit = unit
+		self._unit_dmg = unit:character_damage()
+		self._unit_mvmt = unit:movement()
 
 		self._health_bar._set_data_instant = true
 
 		self._character_data = managers.criminals:character_data_by_unit(unit)
 
-		local info = HopLib:unit_info_manager():get_info(unit)
-		if info then
-			self._unit_text:set_text(self._compact and info:nickname() or info:nickname():upper())
-			self._level_text:set_text(tostring(info:level() or self:_create_unit_level(info)))
-		end
+		self._unit_text:set_text(self._compact and unit_info:nickname() or unit_info:nickname():upper())
+		self._level_text:set_text(tostring(unit_info:level() or self:_create_unit_level(unit_info)))
 
 		self._fading_out = false
 
@@ -161,7 +161,9 @@ function HUDFloatingUnitLabel:set_unit(unit, instant)
 		end
 
 		self._panel:animate(function (o)
-			wait((not alive(self._unit) or self._unit:character_damage()._dead) and 0 or 0.5)
+			local is_deleted = not alive(self._unit) or self._unit:in_slot(0)
+			local is_dead = self._unit_dmg and (self._unit_dmg._dead or self._unit_dmg._health and self._unit_dmg._health <= 0)
+			wait((is_deleted or is_dead) and 0 or 0.5)
 			over(alpha * 0.25, function (t)
 				o:set_alpha(math.lerp(alpha, 0, t))
 			end)

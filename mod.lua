@@ -6,20 +6,17 @@ if not WFHud then
 	local tmp_vec = Vector3()
 
 	local ids_texture = Idstring("texture")
-	local function add_asset(type_ids, path, file)
-		if not DB:has(type_ids, path) then
-			BLT.AssetManager:CreateEntry(Idstring(path), type_ids, file)
-		end
-	end
-	add_asset(ids_texture, "guis/textures/wfhud/skill_icons_clean", ModPath .. "assets/guis/textures/wfhud/skill_icons_clean.dds")
-	add_asset(ids_texture, "guis/textures/wfhud/buff_categories", ModPath .. "assets/guis/textures/wfhud/buff_categories.dds")
-	add_asset(ids_texture, "guis/textures/wfhud/damage_types", ModPath .. "assets/guis/textures/wfhud/damage_types.dds")
-	add_asset(ids_texture, "guis/textures/wfhud/bar", ModPath .. "assets/guis/textures/wfhud/bar.dds")
-	add_asset(ids_texture, "guis/textures/wfhud/bar_caps",  ModPath .. "assets/guis/textures/wfhud/bar_caps.dds")
-	add_asset(ids_texture, "guis/textures/wfhud/shield_overlay", ModPath .. "assets/guis/textures/wfhud/shield_overlay.dds")
-	add_asset(ids_texture, "guis/textures/wfhud/avatar_placeholder", ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds")
-	add_asset(ids_texture, "guis/textures/wfhud/invulnerability_overlay", ModPath .. "assets/guis/textures/wfhud/invulnerability_overlay.dds")
-	add_asset(ids_texture, "guis/textures/wfhud/objective", ModPath .. "assets/guis/textures/wfhud/objective.dds")
+	HopLib:load_assets({
+		{ ext = ids_texture, path = "guis/textures/wfhud/skill_icons_clean", file = ModPath .. "assets/guis/textures/wfhud/skill_icons_clean.dds" },
+		{ ext = ids_texture, path = "guis/textures/wfhud/buff_categories", file = ModPath .. "assets/guis/textures/wfhud/buff_categories.dds" },
+		{ ext = ids_texture, path = "guis/textures/wfhud/damage_types", file = ModPath .. "assets/guis/textures/wfhud/damage_types.dds" },
+		{ ext = ids_texture, path = "guis/textures/wfhud/bar", file = ModPath .. "assets/guis/textures/wfhud/bar.dds" },
+		{ ext = ids_texture, path = "guis/textures/wfhud/bar_caps", file =  ModPath .. "assets/guis/textures/wfhud/bar_caps.dds" },
+		{ ext = ids_texture, path = "guis/textures/wfhud/shield_overlay", file = ModPath .. "assets/guis/textures/wfhud/shield_overlay.dds" },
+		{ ext = ids_texture, path = "guis/textures/wfhud/avatar_placeholder", file = ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds" },
+		{ ext = ids_texture, path = "guis/textures/wfhud/invulnerability_overlay", file = ModPath .. "assets/guis/textures/wfhud/invulnerability_overlay.dds" },
+		{ ext = ids_texture, path = "guis/textures/wfhud/objective", file = ModPath .. "assets/guis/textures/wfhud/objective.dds" }
+	})
 
 	dofile(ModPath .. "req/HUDHealthBar.lua")
 	dofile(ModPath .. "req/HUDPlayerPanel.lua")
@@ -202,6 +199,7 @@ if not WFHud then
 	function WFHud:check_player_forward_ray()
 		local player = managers.player:local_player()
 		if not alive(player) then
+			self._unit_aim_label:set_unit(nil)
 			return
 		end
 
@@ -210,7 +208,7 @@ if not WFHud then
 		mvec_set(tmp_vec, cam:forward())
 		mvec_mul(tmp_vec, 10000)
 		mvec_add(tmp_vec, from)
-		local ray = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask, "sphere_cast_radius", 25)
+		local ray = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask, "sphere_cast_radius", 20)
 
 		local unit = ray and ray.unit
 		if unit then
@@ -218,15 +216,16 @@ if not WFHud then
 				unit = unit:parent()
 			end
 
-			local movement = unit:movement()
-			if movement and unit:character_damage() and not unit:character_damage()._dead then
-				if self._unit_aim_custom_label and movement._wfhud_label ~= self._unit_aim_custom_label then
+			if unit:movement() and unit:character_damage() and not unit:character_damage()._dead then
+				local unit_data = unit:unit_data()
+
+				if self._unit_aim_custom_label and unit_data._wfhud_label ~= self._unit_aim_custom_label then
 					self._unit_aim_custom_label:set_health_visible(false)
 					self._unit_aim_custom_label = nil
 				end
 
-				if movement._wfhud_label then
-					self._unit_aim_custom_label = movement._wfhud_label
+				if unit_data._wfhud_label then
+					self._unit_aim_custom_label = unit_data._wfhud_label
 					self._unit_aim_custom_label:set_health_visible(true)
 				else
 					self._unit_aim_label:set_unit(unit)

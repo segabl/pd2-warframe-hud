@@ -53,7 +53,7 @@ end)
 Hooks:PostHook(PlayerManager, "set_synced_cocaine_stacks", "set_synced_cocaine_stacks_wfhud", function (self)
 	local absorption = self:get_best_cocaine_damage_absorption(managers.network:session():local_peer():id())
 	if absorption > 0 then
-		WFHud:add_buff("player", "cocaine_stacking", WFHud.value_format.damage(absorption))
+		WFHud:add_buff("player", "cocaine_stacking", tostring(math.ceil(absorption * 10)))
 	else
 		WFHud:remove_buff("player", "cocaine_stacking")
 	end
