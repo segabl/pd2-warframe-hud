@@ -19,6 +19,7 @@ if not WFHud then
 	add_asset(ids_texture, "guis/textures/wfhud/shield_overlay", ModPath .. "assets/guis/textures/wfhud/shield_overlay.dds")
 	add_asset(ids_texture, "guis/textures/wfhud/avatar_placeholder", ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds")
 	add_asset(ids_texture, "guis/textures/wfhud/invulnerability_overlay", ModPath .. "assets/guis/textures/wfhud/invulnerability_overlay.dds")
+	add_asset(ids_texture, "guis/textures/wfhud/objective", ModPath .. "assets/guis/textures/wfhud/objective.dds")
 
 	dofile(ModPath .. "req/HUDHealthBar.lua")
 	dofile(ModPath .. "req/HUDPlayerPanel.lua")
@@ -38,6 +39,7 @@ if not WFHud then
 		shield = Color(0.012, 0.74, 0.89),
 		health = Color(0.667, 0.153, 0.141),
 		bg = Color(0.75, 0.25, 0.25, 0.25),
+		objective = Color(0.85, 0.65, 0.04),
 		damage = {
 			Color(1, 1, 1, 1),
 			Color(1, 1, 1, 0),
