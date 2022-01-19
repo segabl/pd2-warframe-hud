@@ -5,6 +5,7 @@ Hooks:PostHook(HUDObjectives, "init", "init_wfhud", function (self)
 	local objective_icon = objective_panel:child("icon_objectivebox")
 	objective_icon:set_image("guis/textures/wfhud/objective")
 	objective_icon:set_color(WFHud.colors.objective)
+	objective_icon:set_y(8)
 
 	local objective_text = objective_panel:child("objective_text")
 	objective_text:set_font(Idstring(tweak_data.menu.medium_font))
@@ -32,3 +33,13 @@ Hooks:PostHook(HUDObjectives, "update_amount_objective", "update_amount_objectiv
 	amount_text:set_text(string.format(" (%u/%u)", data.current_amount or 0, data.amount))
 	amount_text:set_x(objective_text:x() + w)
 end)
+
+function HUDObjectives:_animate_icon_objectivebox(icon_objectivebox)
+	icon_objectivebox:set_y(8)
+
+	over(2, function (t)
+		icon_objectivebox:set_y(8 + math.round(math.sin(t * 360 * 4) * 8 * (1 - t)))
+	end)
+
+	icon_objectivebox:set_y(8)
+end
