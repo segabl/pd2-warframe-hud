@@ -23,8 +23,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		align = "center"
 	})
 
-	self._health_bar = HUDHealthBar:new(self._panel, 0, 18, 112, 8, nil, true)
-	self._health_bar._panel:set_center_x(self._panel:w() * 0.5)
+	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, 112, 8, nil, true)
 	self._health_bar._panel:set_alpha(compact and 0 or 1)
 	self._health_bar:set_direction(HUDHealthBar.LEFT_TO_RIGHT)
 
@@ -34,8 +33,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		font = tweak_data.menu.medium_font,
 		font_size = 24,
 		color = WFHud.colors.default,
-		align = "center",
-		y = self._health_bar._panel:bottom() - 2
+		align = "center"
 	})
 
 	self._pointer = self._panel:bitmap({
@@ -50,7 +48,23 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		layer = -1
 	})
 
-	self._panel:set_h(compact and self._health_bar._health_loss_indicator:bottom() or self._pointer:bottom())
+	self:_layout_panel()
+end
+
+function HUDFloatingUnitLabel:_layout_panel()
+	local w = self._panel:w()
+
+	self._unit_text:set_position(0, 0)
+
+	self._health_bar._panel:set_center_x(w * 0.5)
+	self._health_bar._panel:set_y(self._unit_text:font_size() * 0.9)
+
+	self._level_text:set_position(0, self._health_bar._panel:bottom() - 2)
+
+	self._pointer:set_center_x(w * 0.5)
+	self._pointer:set_y(self._health_bar._panel:bottom() - 6)
+
+	self._panel:set_h(self._compact and self._health_bar._health_loss_indicator:bottom() or self._pointer:bottom())
 end
 
 function HUDFloatingUnitLabel:update(t, dt)
@@ -140,6 +154,8 @@ function HUDFloatingUnitLabel:set_unit(unit, instant)
 
 		self._panel:stop()
 
+		self:_layout_panel() -- idk why but sometimes the panel gets fucked up, so redo the layout everytime the unit is set
+
 		if instant then
 			self._panel:set_alpha(1)
 			return
@@ -176,18 +192,24 @@ function HUDFloatingUnitLabel:set_health_visible(state)
 		return
 	end
 
-	local alpha = self._health_bar._panel:alpha()
+	if not self._health_fading_out == not state then
+		return
+	end
 
+	local alpha = self._health_bar._panel:alpha()
 	if state then
 		self._health_fading_out = false
 
 		self._health_bar._panel:stop()
+
+		self:_layout_panel() -- idk why but sometimes the panel gets fucked up, so redo the layout everytime the unit is set
+
 		self._health_bar._panel:animate(function (o)
 			over((1 - alpha) * 0.25, function (t)
 				o:set_alpha(math.lerp(alpha, 1, t))
 			end)
 		end)
-	elseif not self._health_fading_out then
+	else
 		self._health_fading_out = true
 
 		self._health_bar._panel:stop()
