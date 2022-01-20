@@ -15,7 +15,7 @@
 		{ "hook_id" : "lib/managers/hud/hudobjectives", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/hud/hudteammate", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/hud/hudtemp", "script_path" : "mod.lua" },
-		{ "hook_id" : "lib/managers/hudmanager", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/managers/hudmanagerpd2", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/playermanager", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/units/beings/player/states/playerstandard", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/units/beings/player/playerdamage", "script_path" : "mod.lua" },

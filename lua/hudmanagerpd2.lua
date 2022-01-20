@@ -68,3 +68,38 @@ end)
 Hooks:PostHook(HUDManager, "set_max_stamina", "set_max_stamina_wfhud", function (self, value)
 	self._teammate_panels[HUDManager.PLAYER_PANEL]:set_stamina(nil, value)
 end)
+
+
+function HUDManager:set_ai_stopped(ai_id, stopped)
+	local teammate_panel = self._teammate_panels[ai_id]
+
+	if not teammate_panel or stopped and not teammate_panel._ai or not teammate_panel._wfhud_item_list then
+		return
+	end
+
+	if stopped then
+		teammate_panel._wfhud_item_list:add_icon("ai_stop", tweak_data.hud_icons.ai_stopped.texture, tweak_data.hud_icons.ai_stopped.texture_rect)
+	else
+		teammate_panel._wfhud_item_list:remove_icon("ai_stop")
+	end
+end
+
+if Keepers then
+	Hooks:PostHook(Keepers, "reset_label", "reset_label_wfhud", function (self, unit, is_converted, icon)
+		if is_converted then
+			return
+		end
+
+		local data = managers.criminals:character_data_by_unit(unit)
+		local teammate_panel = data and managers.hud._teammate_panels[data.panel_id]
+		if not teammate_panel or not teammate_panel._ai or not teammate_panel._wfhud_item_list then
+			return
+		end
+
+		if icon then
+			teammate_panel._wfhud_item_list:add_icon("ai_stop", tweak_data.hud_icons:get_icon_data(icon))
+		else
+			teammate_panel._wfhud_item_list:remove_icon("ai_stop")
+		end
+	end)
+end
