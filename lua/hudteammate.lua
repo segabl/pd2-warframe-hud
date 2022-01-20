@@ -190,7 +190,7 @@ Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount_from_string", "set_
 
 	self._wfhud_equipment_panel._equipment_list:add_icon("equipment", tweak_data.hud_icons:get_icon_data(data.icon))
 	self._wfhud_equipment_panel._equipment_list:set_icon_value("equipment", table.concat(data.amount, "|"))
-	self._wfhud_equipment_panel._equipment_list:set_icon_enabled("equipment", table.sum(data.amount) > 0)
+	self._wfhud_equipment_panel._equipment_list:set_icon_enabled("equipment", table.inject(data.amount, 0, function (a, b) return a + b end) > 0)
 	self._wfhud_equipment_panel:_align_equipment()
 end)
 

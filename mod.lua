@@ -168,9 +168,11 @@ if not WFHud then
 
 	end
 
-	function WFHud:setup(hud_manager)
-		local hud = hud_manager:script(PlayerBase.PLAYER_INFO_HUD_FULLSCREEN_PD2)
-		self._panel = hud.panel
+	function WFHud:setup()
+		self._ws = self._ws or managers.gui_data:create_fullscreen_workspace()
+		self._panel = self._panel or self._ws:panel():panel({
+			layer = -10
+		})
 		self._t = 0
 
 		self:_create_skill_icon_map()
@@ -195,6 +197,18 @@ if not WFHud then
 		end
 
 		self._t = t
+	end
+
+	function WFHud:destroy()
+		if alive(self._ws) then
+			managers.gui_data:destroy_workspace(self._ws)
+		end
+		self._ws = nil
+		self._panel = nil
+	end
+
+	function WFHud:panel()
+		return self._panel
 	end
 
 	function WFHud:check_player_forward_ray()

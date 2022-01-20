@@ -1,9 +1,21 @@
-Hooks:PostHook(HUDManager, "_setup_player_info_hud_pd2", "_setup_player_info_hud_pd2_wfhud", function (self)
-	WFHud:setup(self)
+Hooks:PreHook(HUDManager, "init", "init_wfhud", function (self)
+	WFHud:setup()
 end)
 
 Hooks:PostHook(HUDManager, "update", "update_wfhud", function (self, t, dt)
 	WFHud:update(t, dt)
+end)
+
+Hooks:PostHook(HUDManager, "destroy", "destroy_wfhud", function (self)
+	WFHud:destroy()
+end)
+
+Hooks:PostHook(HUDManager, "set_enabled", "set_enabled_wfhud", function (self)
+	WFHud:panel():show()
+end)
+
+Hooks:PostHook(HUDManager, "set_disabled", "set_disabled_wfhud", function (self)
+	WFHud:panel():hide()
 end)
 
 
@@ -15,9 +27,7 @@ function HUDManager:_add_name_label(data)
 	if label_data and label_data.id == id then
 		label_data.panel:set_visible(false)
 
-		local hud = self:script(PlayerBase.PLAYER_INFO_HUD_FULLSCREEN_PD2)
-
-		local wflabel = HUDFloatingUnitLabel:new(hud.panel, true)
+		local wflabel = HUDFloatingUnitLabel:new(WFHud:panel(), true)
 		wflabel:set_unit(data.unit)
 
 		if WFHud._unit_aim_label and WFHud._unit_aim_label._unit == data.unit then
