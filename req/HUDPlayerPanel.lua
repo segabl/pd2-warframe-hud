@@ -111,14 +111,6 @@ function HUDPlayerPanel:init(panel, main_player)
 	self._peer_info_panel:set_center_y(self._panel:h() * 0.5)
 end
 
-function HUDPlayerPanel:visible()
-	return self._panel:visible()
-end
-
-function HUDPlayerPanel:set_visible(state)
-	self._panel:set_visible(state)
-end
-
 function HUDPlayerPanel:set_peer_id(id)
 	self._peer_id_text:set_text(tostring(id))
 

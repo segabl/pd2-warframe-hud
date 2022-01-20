@@ -39,9 +39,14 @@ function HUDPlayerEquipment:init(panel)
 
 	self:_align_weapon_text()
 
+	self._equipment_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), 24, 24, WFHud.colors.default)
+	self._item_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), self._panel:w(), 24, WFHud.colors.default)
+
+	self:_align_equipment()
+
 	self._stamina_panel = self._panel:panel({
 		x = self._panel:w() - 128,
-		y = self._fire_mode_text:bottom() + 4,
+		y = self._item_list._panel:bottom() + 4,
 		w = 128,
 		h = 5
 	})
@@ -96,6 +101,13 @@ function HUDPlayerEquipment:_align_weapon_text()
 
 	self._fire_mode_text:set_right(self._panel:w())
 	self._weapon_name:set_right(self._fire_mode_text:x() - self._fire_mode_text:h() * 0.25)
+end
+
+function HUDPlayerEquipment:_align_equipment()
+	self._equipment_list._panel:set_w((self._equipment_list._size + self._equipment_list._spacing) * #self._equipment_list._panel:children())
+	self._equipment_list:_layout_panel()
+	self._equipment_list._panel:set_right(self._panel:w())
+	self._item_list._panel:set_right(self._equipment_list._panel:x() - self._equipment_list._spacing)
 end
 
 function HUDPlayerEquipment:set_ammo(wbase)

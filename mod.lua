@@ -19,6 +19,7 @@ if not WFHud then
 	})
 
 	dofile(ModPath .. "req/HUDHealthBar.lua")
+	dofile(ModPath .. "req/HUDIconList.lua")
 	dofile(ModPath .. "req/HUDPlayerPanel.lua")
 	dofile(ModPath .. "req/HUDPlayerEquipment.lua")
 	dofile(ModPath .. "req/HUDFloatingUnitLabel.lua")
