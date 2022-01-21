@@ -15,7 +15,8 @@ if not WFHud then
 		{ ext = ids_texture, path = "guis/textures/wfhud/shield_overlay", file = ModPath .. "assets/guis/textures/wfhud/shield_overlay.dds" },
 		{ ext = ids_texture, path = "guis/textures/wfhud/avatar_placeholder", file = ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds" },
 		{ ext = ids_texture, path = "guis/textures/wfhud/invulnerability_overlay", file = ModPath .. "assets/guis/textures/wfhud/invulnerability_overlay.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/objective", file = ModPath .. "assets/guis/textures/wfhud/objective.dds" }
+		{ ext = ids_texture, path = "guis/textures/wfhud/objective", file = ModPath .. "assets/guis/textures/wfhud/objective.dds" },
+		{ ext = ids_texture, path = "guis/textures/wfhud/hud_progress_32px_invalid", file = ModPath .. "assets/guis/textures/wfhud/hud_progress_32px_invalid.dds" }
 	})
 
 	dofile(ModPath .. "req/HUDHealthBar.lua")
