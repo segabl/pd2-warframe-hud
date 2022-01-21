@@ -9,14 +9,14 @@ function HUDPlayerEquipment:init(panel)
 		color = WFHud.colors.default,
 		text = "123",
 		font = WFHud.fonts.large,
-		font_size = 40
+		font_size = WFHud.font_sizes.huge
 	})
 
 	self._total_ammo_text = self._panel:text({
 		color = WFHud.colors.default,
 		text = "/456",
 		font = WFHud.fonts.large,
-		font_size = 20
+		font_size = WFHud.font_sizes.default
 	})
 
 	self:_align_ammo_text()
@@ -25,7 +25,7 @@ function HUDPlayerEquipment:init(panel)
 		color = WFHud.colors.default,
 		text = "AMCAR RIFLE",
 		font = WFHud.fonts.default,
-		font_size = 20,
+		font_size = WFHud.font_sizes.small,
 		y = self._total_ammo_text:bottom()
 	})
 
@@ -33,7 +33,7 @@ function HUDPlayerEquipment:init(panel)
 		color = WFHud.colors.muted,
 		text = "AUTO",
 		font = WFHud.fonts.default,
-		font_size = 20,
+		font_size = WFHud.font_sizes.small,
 		y = self._total_ammo_text:bottom()
 	})
 
@@ -70,14 +70,14 @@ function HUDPlayerEquipment:init(panel)
 		color = WFHud.colors.default,
 		text = "50",
 		font = WFHud.fonts.default,
-		font_size = 20,
+		font_size = WFHud.font_sizes.small,
 		align = "right",
 		y = self._stamina_panel:bottom()
 	})
 
 	self._stamina_ratio = 1
 
-	self._panel:set_h(self._stamina_panel:bottom() + 20)
+	self._panel:set_h(self._stamina_panel:bottom() + self._stamina_text:font_size())
 
 end
 

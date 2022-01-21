@@ -25,7 +25,7 @@ function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 		layer = self._crit_mod
 	})
 
-	local size = 24 + 8 * self._crit_mod
+	local size = WFHud.font_sizes.default + 8 * self._crit_mod
 
 	if self.PROC_TYPE_TEXTURE_RECTS[proc_type] then
 		self._proc_bitmap = self._panel:bitmap({
@@ -62,7 +62,7 @@ function HUDDamagePop:animate()
 			return
 		end
 
-		local size = (24 + 8 * self._crit_mod) * math.bezier(self.SCALE_CURVE, t)
+		local size = (WFHud.font_sizes.default + 8 * self._crit_mod) * math.bezier(self.SCALE_CURVE, t)
 
 		self._damage_text:set_font_size(size)
 		local _, _, tw, _ = self._damage_text:text_rect()

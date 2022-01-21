@@ -21,7 +21,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 	self._unit_text = self._panel:text({
 		text = "ENEMY",
 		font = WFHud.fonts.default,
-		font_size = 20,
+		font_size = WFHud.font_sizes.small,
 		color = WFHud.colors.default,
 		align = "center"
 	})
@@ -34,7 +34,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		visible = not compact,
 		text = "100",
 		font = WFHud.fonts.default,
-		font_size = 24,
+		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default,
 		align = "center"
 	})

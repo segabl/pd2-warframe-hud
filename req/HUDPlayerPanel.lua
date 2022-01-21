@@ -27,7 +27,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		text = "0",
 		color = WFHud.colors.default,
 		font = WFHud.fonts.default,
-		font_size = 20,
+		font_size = WFHud.font_sizes.small,
 		layer = 1,
 		w = self._peer_info_panel:w() - 4,
 		h = self._peer_info_panel:h() + 2 -- font sizes be accurate for once smh
@@ -38,7 +38,7 @@ function HUDPlayerPanel:init(panel, main_player)
 
 	-- healthbar
 	local health_bar_w = main_player and 160 or 96
-	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, health_bar_w, main_player and 8 or 5, main_player and 40 or 16)
+	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, health_bar_w, main_player and 8 or 5, main_player and WFHud.font_sizes.huge or WFHud.font_sizes.tiny)
 	self._health_bar._panel:set_right(main_player and self._panel:w() or self._peer_info_panel:x() - 4)
 
 
@@ -85,8 +85,8 @@ function HUDPlayerPanel:init(panel, main_player)
 
 	self._peer_id_text = self._peer_id_panel:text({
 		text = "0",
-		font = WFHud.fonts.small,
-		font_size = 8,
+		font = WFHud.fonts.default_no_shadow,
+		font_size = WFHud.font_sizes.tiny * 0.5,
 		color = Color.black,
 		align = "center",
 		vertical = "center",
@@ -98,7 +98,7 @@ function HUDPlayerPanel:init(panel, main_player)
 	self._name_text = self._panel:text({
 		text = "Player",
 		font = WFHud.fonts.default,
-		font_size = 20,
+		font_size = WFHud.font_sizes.small,
 		color = WFHud.colors.default,
 		align = "right",
 		y = self._level_panel:bottom(),

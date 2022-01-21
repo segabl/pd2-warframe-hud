@@ -14,7 +14,7 @@ Hooks:PostHook(HUDChat, "_create_input_panel", "_create_input_panel_wfhud", func
 
 	local input_text = self._input_panel:child("input_text")
 	input_text:set_font(Idstring(WFHud.fonts.default))
-	input_text:set_font_size(20)
+	input_text:set_font_size(WFHud.font_sizes.small)
 end)
 
 Hooks:PostHook(HUDChat, "_on_focus", "_on_focus_wfhud", function (self)
@@ -42,7 +42,7 @@ function HUDChat:receive_message(name, message, color, icon)
 		layer = 0,
 		text = time_name .. message,
 		font = WFHud.fonts.default,
-		font_size = 20,
+		font_size = WFHud.font_sizes.small,
 		x = 0,
 		color = color
 	})

@@ -22,7 +22,7 @@ Hooks:PostHook(HUDAssaultCorner, "_update_noreturn", "_update_noreturn_wfhud", f
 	point_of_no_return_text:set_align("left")
 	point_of_no_return_text:set_blend_mode("normal")
 	point_of_no_return_text:set_font(Idstring(WFHud.fonts.default))
-	point_of_no_return_text:set_font_size(24)
+	point_of_no_return_text:set_font_size(WFHud.font_sizes.default)
 
 	local _, _, w = point_of_no_return_text:text_rect()
 	point_of_no_return_timer:set_position(w + 5, 0)
@@ -30,7 +30,7 @@ Hooks:PostHook(HUDAssaultCorner, "_update_noreturn", "_update_noreturn_wfhud", f
 	point_of_no_return_timer:set_align("left")
 	point_of_no_return_timer:set_blend_mode("normal")
 	point_of_no_return_timer:set_font(Idstring(WFHud.fonts.default))
-	point_of_no_return_timer:set_font_size(24)
+	point_of_no_return_timer:set_font_size(WFHud.font_sizes.default)
 end)
 
 Hooks:PostHook(HUDAssaultCorner, "setup_wave_display", "setup_wave_display_wfhud", function (self, top, right)
@@ -53,7 +53,7 @@ Hooks:PostHook(HUDAssaultCorner, "setup_wave_display", "setup_wave_display_wfhud
 	num_waves:set_valign("top")
 	num_waves:set_blend_mode("normal")
 	num_waves:set_font(Idstring(WFHud.fonts.default))
-	num_waves:set_font_size(24)
+	num_waves:set_font_size(WFHud.font_sizes.default)
 	num_waves:set_position(0, 0)
 	num_waves:set_size(wave_panel:w(), wave_panel:h())
 end)

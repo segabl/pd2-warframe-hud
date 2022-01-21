@@ -4,14 +4,14 @@ Hooks:PostHook(HUDInteraction, "init", "init_wfhud", function (self)
 
 	local interact_text = self._hud_panel:child(self._child_name_text)
 	interact_text:set_font(Idstring(WFHud.fonts.default))
-	interact_text:set_font_size(24)
-	interact_text:set_h(24)
+	interact_text:set_font_size(WFHud.font_sizes.default)
+	interact_text:set_h(WFHud.font_sizes.default)
 	interact_text:set_center(self._hud_panel:w() * 0.5, self._hud_panel:h() * 0.5)
 
 	local invalid_text = self._hud_panel:child(self._child_ivalid_name_text)
 	invalid_text:set_font(Idstring(WFHud.fonts.default))
-	invalid_text:set_font_size(24)
-	invalid_text:set_h(24)
+	invalid_text:set_font_size(WFHud.font_sizes.default)
+	invalid_text:set_h(WFHud.font_sizes.default)
 	invalid_text:set_center(self._hud_panel:w() * 0.5, self._hud_panel:h() * 0.5)
 end)
 

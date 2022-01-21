@@ -29,7 +29,7 @@ Hooks:PostHook(HUDObjectives, "init", "init_wfhud", function (self)
 
 	local amount_text = objective_panel:child("amount_text")
 	amount_text:set_font(Idstring(WFHud.fonts.default))
-	amount_text:set_font_size(24)
+	amount_text:set_font_size(WFHud.font_sizes.default)
 	amount_text:set_vertical("center")
 	amount_text:set_h(objective_icon:h())
 	amount_text:set_y(objective_icon:y())

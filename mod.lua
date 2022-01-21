@@ -5,6 +5,7 @@ if not WFHud then
 	local mvec_set = mvector3.set
 	local tmp_vec = Vector3()
 
+	local ids_font = Idstring("font")
 	local ids_texture = Idstring("texture")
 	HopLib:load_assets({
 		{ ext = ids_texture, path = "guis/textures/wfhud/skill_icons_clean", file = ModPath .. "assets/guis/textures/wfhud/skill_icons_clean.dds" },
@@ -49,8 +50,13 @@ if not WFHud then
 	WFHud.fonts = {
 		default = "fonts/font_medium_shadow_mf",
 		default_no_shadow = "fonts/font_medium_mf",
-		small = "fonts/font_small_noshadow_mf",
 		large = "fonts/font_large_mf"
+	}
+	WFHud.font_sizes = {
+		tiny = 16,
+		small = 20,
+		default = 24,
+		huge = 40
 	}
 	WFHud.value_format = {
 		default = function (val) return tostring(val < 1 and math.round(val * 100) / 100 or val < 10 and math.round(val * 10) / 10 or math.round(val)) end,
