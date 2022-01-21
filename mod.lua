@@ -17,7 +17,19 @@ if not WFHud then
 		{ ext = ids_texture, path = "guis/textures/wfhud/avatar_placeholder", file = ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds" },
 		{ ext = ids_texture, path = "guis/textures/wfhud/invulnerability_overlay", file = ModPath .. "assets/guis/textures/wfhud/invulnerability_overlay.dds" },
 		{ ext = ids_texture, path = "guis/textures/wfhud/objective", file = ModPath .. "assets/guis/textures/wfhud/objective.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/hud_progress_32px_invalid", file = ModPath .. "assets/guis/textures/wfhud/hud_progress_32px_invalid.dds" }
+		{ ext = ids_texture, path = "guis/textures/wfhud/hud_progress_32px_invalid", file = ModPath .. "assets/guis/textures/wfhud/hud_progress_32px_invalid.dds" },
+		{ ext = ids_texture, path = "fonts/wfhud/default", file = ModPath .. "assets/fonts/wfhud/default.dds" },
+		{ ext = ids_texture, path = "fonts/wfhud/default_no_shadow", file = ModPath .. "assets/fonts/wfhud/default_no_shadow.dds" },
+		{ ext = ids_texture, path = "fonts/wfhud/bold", file = ModPath .. "assets/fonts/wfhud/bold.dds" },
+		{ ext = ids_texture, path = "fonts/wfhud/bold_no_shadow", file = ModPath .. "assets/fonts/wfhud/bold_no_shadow.dds" },
+		{ ext = ids_texture, path = "fonts/wfhud/large", file = ModPath .. "assets/fonts/wfhud/large.dds" },
+		{ ext = ids_texture, path = "fonts/wfhud/large_no_shadow", file = ModPath .. "assets/fonts/wfhud/large_no_shadow.dds" },
+		{ ext = ids_font, path = "fonts/wfhud/default", file = ModPath .. "assets/fonts/wfhud/default.font" },
+		{ ext = ids_font, path = "fonts/wfhud/default_no_shadow", file = ModPath .. "assets/fonts/wfhud/default_no_shadow.font" },
+		{ ext = ids_font, path = "fonts/wfhud/bold", file = ModPath .. "assets/fonts/wfhud/bold.font" },
+		{ ext = ids_font, path = "fonts/wfhud/bold_no_shadow", file = ModPath .. "assets/fonts/wfhud/bold_no_shadow.font" },
+		{ ext = ids_font, path = "fonts/wfhud/large", file = ModPath .. "assets/fonts/wfhud/large.font" },
+		{ ext = ids_font, path = "fonts/wfhud/large_no_shadow", file = ModPath .. "assets/fonts/wfhud/large_no_shadow.font" },
 	})
 
 	dofile(ModPath .. "req/HUDHealthBar.lua")
@@ -35,9 +47,9 @@ if not WFHud then
 		default = Color.white,
 		muted = Color(0.5, 0.5, 0.5),
 		buff = Color(0.012, 0.74, 0.89),
-		debuff = Color(0.667, 0.153, 0.141),
+		debuff = Color(0.753, 0.180, 0.173),
 		shield = Color(0.012, 0.74, 0.89),
-		health = Color(0.667, 0.153, 0.141),
+		health = Color(0.753, 0.180, 0.173),
 		bg = Color(0.75, 0.25, 0.25, 0.25),
 		objective = Color(0.85, 0.65, 0.04),
 		damage = {
@@ -48,15 +60,19 @@ if not WFHud then
 		}
 	}
 	WFHud.fonts = {
-		default = "fonts/font_medium_shadow_mf",
-		default_no_shadow = "fonts/font_medium_mf",
-		large = "fonts/font_large_mf"
+		default = "fonts/wfhud/default",
+		default_no_shadow = "fonts/wfhud/default_no_shadow",
+		bold = "fonts/wfhud/bold",
+		bold_no_shadow = "fonts/wfhud/bold_no_shadow",
+		large = "fonts/wfhud/large",
+		large_no_shadow = "fonts/wfhud/large_no_shadow"
 	}
 	WFHud.font_sizes = {
-		tiny = 16,
-		small = 20,
-		default = 24,
-		huge = 40
+		tiny = 12,
+		small = 16,
+		default = 18,
+		large = 22,
+		huge = 44
 	}
 	WFHud.value_format = {
 		default = function (val) return tostring(val < 1 and math.round(val * 100) / 100 or val < 10 and math.round(val * 10) / 10 or math.round(val)) end,
@@ -182,6 +198,10 @@ if not WFHud then
 	end
 
 	function WFHud:setup()
+		for _, v in pairs(self.fonts) do
+			managers.dyn_resource:load(ids_font, Idstring(v), managers.dyn_resource.DYN_RESOURCES_PACKAGE)
+		end
+
 		self._ws = self._ws or managers.gui_data:create_fullscreen_workspace()
 		self._panel = self._panel or self._ws:panel():panel({
 			layer = -10
@@ -196,7 +216,7 @@ if not WFHud then
 		self._unit_slotmask = managers.slot:get_mask("persons") + managers.slot:get_mask("bullet_impact_targets")
 
 		self._unit_aim_label = HUDFloatingUnitLabel:new(self._panel)
-		self._buff_list = HUDBuffList:new(self._panel, 0, 8, self._panel:w() - 240, 256)
+		self._buff_list = HUDBuffList:new(self._panel, 0, 0, self._panel:w() - 240, 256)
 	end
 
 	function WFHud:update(t, dt)

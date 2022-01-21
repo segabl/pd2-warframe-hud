@@ -22,7 +22,7 @@ Hooks:PostHook(HUDObjectives, "init", "init_wfhud", function (self)
 
 	local objective_text = objective_panel:child("objective_text")
 	objective_text:set_font(Idstring(WFHud.fonts.default))
-	objective_text:set_font_size(24)
+	objective_text:set_font_size(WFHud.font_sizes.default)
 	objective_text:set_vertical("center")
 	objective_text:set_h(objective_icon:h())
 	objective_text:set_y(objective_icon:y())

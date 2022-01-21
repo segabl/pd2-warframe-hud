@@ -39,7 +39,7 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 		texture = texture,
 		texture_rect = texture_rect,
 		color = self._icon_color,
-		alpha = 0.75,
+		alpha = 0.85,
 		w = self._size,
 		h = self._size
 	})
@@ -53,8 +53,8 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.tiny,
 		layer = 1,
-		w = self._size,
-		h = self._size + 4
+		w = self._size - 2,
+		h = self._size
 	})
 
 	self:_layout_panel()

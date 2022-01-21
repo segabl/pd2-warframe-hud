@@ -42,7 +42,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		align = "center",
 		color = WFHud.colors.default,
 		font_size = WFHud.font_sizes.small,
-		font = WFHud.fonts.default,
+		font = WFHud.fonts.bold,
 	})
 	local _, _, _, h = self._icon_text:text_rect()
 	self._icon_text:set_h(h)
@@ -104,12 +104,12 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 
 	self._name = self._panel:text({
 		visible = not upgrade_data.hide_name,
-		text = managers.localization:text(upgrade_data.name_id):pretty(true) or "",
+		text = managers.localization:text(upgrade_data.name_id):pretty(true),
 		align = "center",
 		color = upgrade_data.is_debuff and WFHud.colors.debuff or WFHud.colors.buff,
 		alpha = 0,
 		font_size = WFHud.font_sizes.small,
-		font = WFHud.fonts.default_no_shadow
+		font = WFHud.fonts.bold
 	})
 	local _, _, w, h = self._name:text_rect()
 	self._name:set_size(w, h)

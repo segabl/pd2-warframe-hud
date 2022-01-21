@@ -17,15 +17,22 @@ end)
 
 Hooks:PostHook(HUDInteraction, "show_interact", "show_interact_wfhud", function (self)
 	local interact_text = self._hud_panel:child(self._child_name_text)
-	local _, _, tw = interact_text:text_rect()
+
+	local unit = managers.interaction:active_unit()
+	if unit and self._interact_circle then
+		local action_text = managers.localization:to_upper_text(unit:interaction()._tweak_data.action_text_id or "hud_action_generic")
+		self._old_interaction_text = self._old_interaction_text or interact_text:text()
+		interact_text:set_text(action_text)
+	end
+
 	interact_text:set_center(self._hud_panel:w() * 0.5, self._hud_panel:h() * 0.5)
 
 	if self._interact_circle then
-		self._interact_circle:set_position(interact_text:center_x() - tw * 0.5 - self._circle_radius * 2 - 4, interact_text:y() + 2)
-	end
-
-	if self._interact_circle_locked then -- press2hold compat
-		self._interact_circle_locked:set_position(interact_text:center_x() - tw * 0.5 - self._circle_radius * 2 - 4, interact_text:y() + 2)
+		local _, _, tw = interact_text:text_rect()
+		self._interact_circle:set_position(interact_text:center_x() - tw * 0.5 - self._circle_radius * 2 - 4, interact_text:y())
+		if self._interact_circle_locked then -- press2hold compat
+			self._interact_circle_locked:set_position(interact_text:center_x() - tw * 0.5 - self._circle_radius * 2 - 4, interact_text:y())
+		end
 	end
 
 	interact_text:stop()
@@ -39,10 +46,10 @@ Hooks:PostHook(HUDInteraction, "show_interact", "show_interact_wfhud", function 
 				local screen_pos = ws:world_to_screen(cam, pos)
 				o:set_center(screen_pos.x, screen_pos.y)
 				if self._interact_circle then
-					_, _, tw = interact_text:text_rect()
-					self._interact_circle:set_position(o:center_x() - tw * 0.5 - self._circle_radius * 2 - 4, o:y() + 2)
+					local _, _, tw = interact_text:text_rect()
+					self._interact_circle:set_position(o:center_x() - tw * 0.5 - self._circle_radius * 2 - 4, o:y())
 					if self._interact_circle_locked then -- press2hold compat
-						self._interact_circle_locked:set_position(o:center_x() - tw * 0.5 - self._circle_radius * 2 - 4, o:y() + 2)
+						self._interact_circle_locked:set_position(o:center_x() - tw * 0.5 - self._circle_radius * 2 - 4, o:y())
 					end
 				end
 			end
@@ -110,5 +117,5 @@ Hooks:PostHook(HUDInteraction, "set_bar_valid", "set_bar_valid_wfhud", function 
 
 	local text = self._hud_panel:child(valid and self._child_name_text or self._child_ivalid_name_text)
 	local _, _, tw = text:text_rect()
-	self._interact_circle:set_position(text:center_x() - tw * 0.5 - self._circle_radius * 2 - 4, text:y() + 2)
+	self._interact_circle:set_position(text:center_x() - tw * 0.5 - self._circle_radius * 2 - 4, text:y())
 end)

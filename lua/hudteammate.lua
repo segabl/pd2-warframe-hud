@@ -5,7 +5,7 @@ Hooks:PostHook(HUDTeammate, "init", "init_wfhud", function (self, i, teammates_p
 	self._wfhud_panel._panel:set_visible(false)
 
 	if self._main_player then
-		self._wfhud_panel._panel:set_righttop(main_panel:w(), 32)
+		self._wfhud_panel._panel:set_righttop(main_panel:w(), 16)
 
 		self._wfhud_equipment_panel = HUDPlayerEquipment:new(main_panel)
 		self._wfhud_equipment_panel._panel:set_visible(false)
@@ -60,10 +60,6 @@ Hooks:PostHook(HUDTeammate, "set_waiting", "set_waiting_wfhud", function (self)
 end)
 
 Hooks:PostHook(HUDTeammate, "set_name", "set_name_wfhud", function (self, name)
-	if self._main_player then
-		local spec = managers.skilltree:get_specialization_value("current_specialization")
-		name = string.format("%s [%u]", managers.localization:to_upper_text(tweak_data.skilltree.specializations[spec].name_id), managers.experience:current_level())
-	end
 	self._wfhud_panel:set_name(name)
 end)
 

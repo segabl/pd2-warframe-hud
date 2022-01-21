@@ -33,7 +33,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 	self._level_text = self._panel:text({
 		visible = not compact,
 		text = "100",
-		font = WFHud.fonts.default,
+		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default,
 		align = "center"
@@ -62,7 +62,7 @@ function HUDFloatingUnitLabel:_layout()
 	self._health_bar:_layout()
 
 	self._health_bar._panel:set_center_x(w * 0.5)
-	self._health_bar._panel:set_y(self._unit_text:font_size() * 0.9)
+	self._health_bar._panel:set_y(self._unit_text:font_size())
 
 	self._level_text:set_position(0, self._health_bar._panel:bottom() - 2)
 

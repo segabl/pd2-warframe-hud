@@ -23,7 +23,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		x = x,
 		y = y,
 		w = width,
-		h = (text_size and math.ceil(text_size * 0.85) or 0) + height,
+		h = (text_size and math.ceil(text_size * 0.9) or 0) + height,
 		layer = 1
 	})
 
@@ -31,7 +31,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		self._health_text = self._panel:text({
 			color = WFHud.colors.health,
 			text = "100",
-			font = WFHud.fonts.large,
+			font = text_size > WFHud.font_sizes.default and WFHud.fonts.large or WFHud.fonts.default,
 			font_size = text_size,
 			align = "right"
 		})
@@ -39,7 +39,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		self._armor_text = self._panel:text({
 			color = WFHud.colors.shield,
 			text = "100",
-			font = WFHud.fonts.large,
+			font = text_size > WFHud.font_sizes.default and WFHud.fonts.large or WFHud.fonts.default,
 			font_size = text_size,
 			align = "right"
 		})

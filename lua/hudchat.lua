@@ -27,7 +27,7 @@ end)
 
 function HUDChat:receive_message(name, message, color, icon)
 	local output_panel = self._panel:child("output_panel")
-	local time_name = string.format("[%s] %s: ", os.date("%H:%M"), name)
+	local time_name = string.format("[%s] %s", os.date("%H:%M"), name)
 	local len = utf8.len(time_name)
 
 	local line = output_panel:text({
@@ -40,7 +40,7 @@ function HUDChat:receive_message(name, message, color, icon)
 		word_wrap = true,
 		y = 0,
 		layer = 0,
-		text = time_name .. message,
+		text = string.format("%s: %s", time_name, message),
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.small,
 		x = 0,
