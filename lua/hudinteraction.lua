@@ -86,8 +86,8 @@ function HUDInteraction:hide_interaction_bar(complete)
 	local interact_text = self._hud_panel:child(self._child_name_text)
 	local unit = managers.interaction:active_unit()
 	if unit and self._old_interaction_text then
-		interact_text:set_text(self._old_interaction_text)
-		self._old_interaction_text = nil
+		interact_text:set_text(complete and "" or self._old_interaction_text)
+		self._old_interaction_text = complete and self._old_interaction_text
 	end
 
 	if self._interact_circle then
