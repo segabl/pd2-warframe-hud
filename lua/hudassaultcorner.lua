@@ -21,7 +21,7 @@ Hooks:PostHook(HUDAssaultCorner, "_update_noreturn", "_update_noreturn_wfhud", f
 	point_of_no_return_text:set_h(icon_noreturnbox:h())
 	point_of_no_return_text:set_align("left")
 	point_of_no_return_text:set_blend_mode("normal")
-	point_of_no_return_text:set_font(Idstring(tweak_data.menu.medium_font))
+	point_of_no_return_text:set_font(Idstring(WFHud.fonts.default))
 	point_of_no_return_text:set_font_size(24)
 
 	local _, _, w = point_of_no_return_text:text_rect()
@@ -29,7 +29,7 @@ Hooks:PostHook(HUDAssaultCorner, "_update_noreturn", "_update_noreturn_wfhud", f
 	point_of_no_return_timer:set_h(icon_noreturnbox:h())
 	point_of_no_return_timer:set_align("left")
 	point_of_no_return_timer:set_blend_mode("normal")
-	point_of_no_return_timer:set_font(Idstring(tweak_data.menu.medium_font))
+	point_of_no_return_timer:set_font(Idstring(WFHud.fonts.default))
 	point_of_no_return_timer:set_font_size(24)
 end)
 
@@ -52,10 +52,27 @@ Hooks:PostHook(HUDAssaultCorner, "setup_wave_display", "setup_wave_display_wfhud
 	num_waves:set_halign("left")
 	num_waves:set_valign("top")
 	num_waves:set_blend_mode("normal")
-	num_waves:set_font(Idstring(tweak_data.menu.medium_font))
+	num_waves:set_font(Idstring(WFHud.fonts.default))
 	num_waves:set_font_size(24)
 	num_waves:set_position(0, 0)
 	num_waves:set_size(wave_panel:w(), wave_panel:h())
+end)
+
+Hooks:PostHook(HUDAssaultCorner, "set_buff_enabled", "set_buff_enabled_wfhud", function (self, buff_name, enabled)
+	if not enabled then
+		return
+	end
+
+	local buffs_panel = self._hud_panel:child("buffs_panel")
+
+	buffs_panel:set_position(0, 270)
+	buffs_panel:set_w(500)
+
+	self._vip_bg_box:set_size(buffs_panel:w(), buffs_panel:h())
+	self._vip_bg_box:set_position(0, 0)
+
+	self._vip_bg_box:child("vip_icon"):set_size(24, 24)
+	self._vip_bg_box:child("vip_icon"):set_position(0, 0)
 end)
 
 function HUDAssaultCorner:get_completed_waves_string()

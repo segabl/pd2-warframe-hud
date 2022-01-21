@@ -43,7 +43,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		align = "center",
 		color = WFHud.colors.default,
 		font_size = HUDBuffListItem.FONT_SIZE,
-		font = tweak_data.menu.medium_font,
+		font = WFHud.fonts.default,
 	})
 	local _, _, _, h = self._icon_text:text_rect()
 	self._icon_text:set_h(h)
@@ -69,7 +69,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		vertical = "center",
 		color = WFHud.colors.default,
 		font_size = HUDBuffListItem.FONT_SIZE * 0.8,
-		font = tweak_data.hud.medium_font_noshadow
+		font = WFHud.fonts.default_no_shadow
 	})
 
 	-- Overlay icon
@@ -110,7 +110,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		color = upgrade_data.is_debuff and WFHud.colors.debuff or WFHud.colors.buff,
 		alpha = 0,
 		font_size = HUDBuffListItem.FONT_SIZE,
-		font = tweak_data.hud.medium_font_noshadow
+		font = WFHud.fonts.default_no_shadow
 	})
 	local _, _, w, h = self._name:text_rect()
 	self._name:set_size(w, h)

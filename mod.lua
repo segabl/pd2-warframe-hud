@@ -46,6 +46,12 @@ if not WFHud then
 			Color(1, 1, 0, 0)
 		}
 	}
+	WFHud.fonts = {
+		default = "fonts/font_medium_shadow_mf",
+		default_no_shadow = "fonts/font_medium_mf",
+		small = "fonts/font_small_noshadow_mf",
+		large = "fonts/font_large_mf"
+	}
 	WFHud.value_format = {
 		default = function (val) return tostring(val < 1 and math.round(val * 100) / 100 or val < 10 and math.round(val * 10) / 10 or math.round(val)) end,
 		percentage_mul = function (val) return math.abs(math.ceil((val - 1) * 100)) .. "%" end,

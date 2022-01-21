@@ -39,7 +39,7 @@ function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 
 	self._damage_text = self._panel:text({
 		text = string.format("%u", damage * 10),
-		font = tweak_data.menu.medium_font,
+		font = WFHud.fonts.default,
 		font_size = size,
 		color = WFHud.colors.damage[self._crit_mod + 1],
 		x = 0

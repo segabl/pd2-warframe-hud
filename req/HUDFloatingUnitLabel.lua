@@ -10,14 +10,17 @@ HUDFloatingUnitLabel = class()
 function HUDFloatingUnitLabel:init(panel, compact)
 	self._compact = compact
 
+	self._health_faded_out = true
+	self._panel_faded_out = true
+
 	self._panel = panel:panel({
-		visible = false,
+		alpha = 0,
 		w = 240
 	})
 
 	self._unit_text = self._panel:text({
 		text = "ENEMY",
-		font = tweak_data.menu.medium_font,
+		font = WFHud.fonts.default,
 		font_size = 20,
 		color = WFHud.colors.default,
 		align = "center"
@@ -30,7 +33,7 @@ function HUDFloatingUnitLabel:init(panel, compact)
 	self._level_text = self._panel:text({
 		visible = not compact,
 		text = "100",
-		font = tweak_data.menu.medium_font,
+		font = WFHud.fonts.default,
 		font_size = 24,
 		color = WFHud.colors.default,
 		align = "center"
@@ -48,13 +51,15 @@ function HUDFloatingUnitLabel:init(panel, compact)
 		layer = -1
 	})
 
-	self:_layout_panel()
+	self:_layout()
 end
 
-function HUDFloatingUnitLabel:_layout_panel()
+function HUDFloatingUnitLabel:_layout()
 	local w = self._panel:w()
 
 	self._unit_text:set_position(0, 0)
+
+	self._health_bar:_layout()
 
 	self._health_bar._panel:set_center_x(w * 0.5)
 	self._health_bar._panel:set_y(self._unit_text:font_size() * 0.9)
@@ -132,7 +137,7 @@ function HUDFloatingUnitLabel:set_unit(unit, instant)
 		return
 	end
 
-	if unit == self._unit and not self._fading_out then
+	if unit == self._unit and not self._panel_faded_out then
 		return
 	end
 
@@ -150,11 +155,11 @@ function HUDFloatingUnitLabel:set_unit(unit, instant)
 		self._unit_text:set_text(self._compact and unit_info:nickname() or unit_info:nickname():upper())
 		self._level_text:set_text(tostring(unit_info:level() or self:_create_unit_level(unit_info)))
 
-		self._fading_out = false
+		self._panel_faded_out = false
 
 		self._panel:stop()
 
-		self:_layout_panel() -- idk why but sometimes the panel gets fucked up, so redo the layout everytime the unit is set
+		self:_layout() -- idk why but sometimes the panel gets fucked up, so redo the layout everytime the unit is set
 
 		if instant then
 			self._panel:set_alpha(1)
@@ -166,8 +171,8 @@ function HUDFloatingUnitLabel:set_unit(unit, instant)
 				o:set_alpha(math.lerp(alpha, 1, t))
 			end)
 		end)
-	elseif not self._fading_out then
-		self._fading_out = true
+	elseif not self._panel_faded_out then
+		self._panel_faded_out = true
 
 		self._panel:stop()
 
@@ -192,17 +197,17 @@ function HUDFloatingUnitLabel:set_health_visible(state)
 		return
 	end
 
-	if not self._health_fading_out == not state then
+	if not self._health_faded_out ~= not state then
 		return
 	end
 
 	local alpha = self._health_bar._panel:alpha()
 	if state then
-		self._health_fading_out = false
+		self._health_faded_out = false
 
 		self._health_bar._panel:stop()
 
-		self:_layout_panel() -- idk why but sometimes the panel gets fucked up, so redo the layout everytime the unit is set
+		self:_layout() -- idk why but sometimes the panel gets fucked up, so redo the layout everytime the unit is set
 
 		self._health_bar._panel:animate(function (o)
 			over((1 - alpha) * 0.25, function (t)
@@ -210,7 +215,7 @@ function HUDFloatingUnitLabel:set_health_visible(state)
 			end)
 		end)
 	else
-		self._health_fading_out = true
+		self._health_faded_out = true
 
 		self._health_bar._panel:stop()
 		self._health_bar._panel:animate(function (o)

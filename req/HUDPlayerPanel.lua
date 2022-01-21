@@ -26,7 +26,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		vertical = "bottom",
 		text = "0",
 		color = WFHud.colors.default,
-		font = tweak_data.menu.medium_font,
+		font = WFHud.fonts.default,
 		font_size = 20,
 		layer = 1,
 		w = self._peer_info_panel:w() - 4,
@@ -85,7 +85,7 @@ function HUDPlayerPanel:init(panel, main_player)
 
 	self._peer_id_text = self._peer_id_panel:text({
 		text = "0",
-		font = tweak_data.menu.small_font_noshadow,
+		font = WFHud.fonts.small,
 		font_size = 8,
 		color = Color.black,
 		align = "center",
@@ -97,7 +97,7 @@ function HUDPlayerPanel:init(panel, main_player)
 	-- name
 	self._name_text = self._panel:text({
 		text = "Player",
-		font = tweak_data.menu.medium_font,
+		font = WFHud.fonts.default,
 		font_size = 20,
 		color = WFHud.colors.default,
 		align = "right",

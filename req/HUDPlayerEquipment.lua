@@ -8,14 +8,14 @@ function HUDPlayerEquipment:init(panel)
 	self._ammo_text = self._panel:text({
 		color = WFHud.colors.default,
 		text = "123",
-		font = tweak_data.menu.pd2_large_font,
+		font = WFHud.fonts.large,
 		font_size = 40
 	})
 
 	self._total_ammo_text = self._panel:text({
 		color = WFHud.colors.default,
 		text = "/456",
-		font = tweak_data.menu.pd2_large_font,
+		font = WFHud.fonts.large,
 		font_size = 20
 	})
 
@@ -24,7 +24,7 @@ function HUDPlayerEquipment:init(panel)
 	self._weapon_name = self._panel:text({
 		color = WFHud.colors.default,
 		text = "AMCAR RIFLE",
-		font = tweak_data.menu.medium_font,
+		font = WFHud.fonts.default,
 		font_size = 20,
 		y = self._total_ammo_text:bottom()
 	})
@@ -32,7 +32,7 @@ function HUDPlayerEquipment:init(panel)
 	self._fire_mode_text = self._panel:text({
 		color = WFHud.colors.muted,
 		text = "AUTO",
-		font = tweak_data.menu.medium_font,
+		font = WFHud.fonts.default,
 		font_size = 20,
 		y = self._total_ammo_text:bottom()
 	})
@@ -69,7 +69,7 @@ function HUDPlayerEquipment:init(panel)
 	self._stamina_text = self._panel:text({
 		color = WFHud.colors.default,
 		text = "50",
-		font = tweak_data.menu.medium_font,
+		font = WFHud.fonts.default,
 		font_size = 20,
 		align = "right",
 		y = self._stamina_panel:bottom()

@@ -15,6 +15,8 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 	self._health_ratio = 0
 	self._armor_ratio = 0
 
+	self._has_caps = has_caps
+
 	self._set_data_instant = true
 
 	self._panel = panel:panel({
@@ -29,7 +31,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		self._health_text = self._panel:text({
 			color = WFHud.colors.health,
 			text = "100",
-			font = tweak_data.menu.pd2_large_font,
+			font = WFHud.fonts.large,
 			font_size = text_size,
 			align = "right"
 		})
@@ -37,7 +39,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		self._armor_text = self._panel:text({
 			color = WFHud.colors.shield,
 			text = "100",
-			font = tweak_data.menu.pd2_large_font,
+			font = WFHud.fonts.large,
 			font_size = text_size,
 			align = "right"
 		})
@@ -49,40 +51,25 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		w = 0,
 		h = height
 	})
-	self._health_bar:set_bottom(self._panel:h())
-
-	self._bg_bar = self._panel:bitmap({
-		texture = "guis/textures/wfhud/bar",
-		color = WFHud.colors.bg:with_alpha(0.5),
-		x = has_caps and height * 0.25 or 0,
-		w = has_caps and width - height * 0.5 or width,
-		h = height * 0.85,
-		layer = -1
-	})
-	self._bg_bar:set_center_y(self._health_bar:center_y())
 
 	if has_caps then
 		self._health_bar_cap_l = self._panel:bitmap({
 			texture = "guis/textures/wfhud/bar_caps",
 			texture_rect = { 0, 0, 32, 32 },
 			color = WFHud.colors.default,
-			x = 0,
 			w = height,
 			h = height,
 			layer = 2
 		})
-		self._health_bar_cap_l:set_center_y(self._health_bar:center_y())
 
 		self._health_bar_cap_r = self._panel:bitmap({
 			texture = "guis/textures/wfhud/bar_caps",
 			texture_rect = { 32, 0, -32, 32 },
 			color = WFHud.colors.default,
-			x = self._panel:w() - height,
 			w = height,
 			h = height,
 			layer = 2
 		})
-		self._health_bar_cap_r:set_center_y(self._health_bar:center_y())
 	end
 
 	self._health_loss_indicator = panel:bitmap({
@@ -92,7 +79,6 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		h = height * 4,
 		layer = 2
 	})
-	self._health_loss_indicator:set_center_y(self._panel:y() + self._health_bar:center_y())
 
 	self._armor_bar = self._panel:bitmap({
 		texture = "guis/textures/wfhud/bar",
@@ -100,7 +86,6 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		w = 0,
 		h = height
 	})
-	self._armor_bar:set_bottom(self._panel:h())
 
 	self._armor_loss_indicator = panel:bitmap({
 		alpha = 0,
@@ -109,7 +94,6 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		h = height * 4,
 		layer = 2
 	})
-	self._armor_loss_indicator:set_center_y(self._panel:y() + self._health_bar:center_y())
 
 	self._armor_bar_overlay_1 = self._panel:bitmap({
 		visible = false,
@@ -133,6 +117,14 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		layer = 1
 	})
 
+	self._bg_bar = self._panel:bitmap({
+		texture = "guis/textures/wfhud/bar",
+		color = WFHud.colors.bg:with_alpha(0.5),
+		w = has_caps and width - height * 0.5 or width,
+		h = height * 0.85,
+		layer = -1
+	})
+
 	self._invulnerability_overlay = self._panel:bitmap({
 		visible = false,
 		texture = "guis/textures/wfhud/invulnerability_overlay",
@@ -140,10 +132,31 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		layer = 2
 	})
 	self._invulnerability_overlay:set_w(self._invulnerability_overlay:texture_width() * (height / self._invulnerability_overlay:texture_height()))
-	self._invulnerability_overlay:set_center(self._bg_bar:center_x(), self._bg_bar:center_y())
 
 	self._overlay_w = self._armor_bar_overlay_1:texture_width() * 0.5
 	self._overlay_h = self._armor_bar_overlay_1:texture_height()
+
+	self:_layout()
+end
+
+function HUDHealthBar:_layout()
+	self._health_bar:set_bottom(self._panel:h())
+	self._armor_bar:set_bottom(self._panel:h())
+
+	self._health_loss_indicator:set_center_y(self._panel:y() + self._health_bar:center_y())
+	self._armor_loss_indicator:set_center_y(self._panel:y() + self._armor_bar:center_y())
+
+	self._bg_bar:set_center(self._panel:w() * 0.5, self._health_bar:center_y())
+
+	self._invulnerability_overlay:set_center(self._bg_bar:center_x(), self._bg_bar:center_y())
+
+	if self._has_caps then
+		self._health_bar_cap_l:set_x(0)
+		self._health_bar_cap_l:set_center_y(self._bg_bar:center_y())
+
+		self._health_bar_cap_r:set_right(self._panel:w())
+		self._health_bar_cap_r:set_center_y(self._bg_bar:center_y())
+	end
 end
 
 function HUDHealthBar:_start_shield_animation()

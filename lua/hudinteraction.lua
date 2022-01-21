@@ -3,13 +3,13 @@ Hooks:PostHook(HUDInteraction, "init", "init_wfhud", function (self)
 	self._sides = 8
 
 	local interact_text = self._hud_panel:child(self._child_name_text)
-	interact_text:set_font(Idstring(tweak_data.menu.medium_font))
+	interact_text:set_font(Idstring(WFHud.fonts.default))
 	interact_text:set_font_size(24)
 	interact_text:set_h(24)
 	interact_text:set_center(self._hud_panel:w() * 0.5, self._hud_panel:h() * 0.5)
 
 	local invalid_text = self._hud_panel:child(self._child_ivalid_name_text)
-	invalid_text:set_font(Idstring(tweak_data.menu.medium_font))
+	invalid_text:set_font(Idstring(WFHud.fonts.default))
 	invalid_text:set_font_size(24)
 	invalid_text:set_h(24)
 	invalid_text:set_center(self._hud_panel:w() * 0.5, self._hud_panel:h() * 0.5)
@@ -68,7 +68,7 @@ Hooks:PostHook(HUDInteraction, "show_interaction_bar", "show_interaction_bar_wfh
 	local unit = managers.interaction:active_unit()
 	if unit then
 		local action_text = managers.localization:to_upper_text(unit:interaction()._tweak_data.action_text_id or "hud_action_generic")
-		self._old_interaction_text = interact_text:text()
+		self._old_interaction_text = self._old_interaction_text or interact_text:text()
 		interact_text:set_text(action_text)
 	end
 
@@ -87,33 +87,7 @@ function HUDInteraction:hide_interaction_bar(complete)
 	local unit = managers.interaction:active_unit()
 	if unit and self._old_interaction_text then
 		interact_text:set_text(self._old_interaction_text)
-	end
-
-	if complete and self._interact_circle then
-		local bitmap = self._hud_panel:bitmap({
-			texture = "guis/textures/pd2/hud_progress_32px",
-			blend_mode = "add",
-			layer = 2,
-			align = "center",
-			valign = "center",
-			w = self._circle_radius * 2,
-			h = self._circle_radius * 2
-		})
-
-		bitmap:set_position(self._interact_circle._circle:x(), self._interact_circle._circle:y())
-
-		local circle = CircleBitmapGuiObject:new(self._hud_panel, {
-			sides = self._sides,
-			current = self._sides,
-			total = self._sides,
-			blend_mode = "normal",
-			layer = 3,
-			radius = self._circle_radius,
-			color = Color.white:with_alpha(1)
-		})
-
-		circle:set_position(self._interact_circle._circle:x(), self._interact_circle._circle:y())
-		bitmap:animate(callback(self, self, "_animate_interaction_complete"), circle)
+		self._old_interaction_text = nil
 	end
 
 	if self._interact_circle then

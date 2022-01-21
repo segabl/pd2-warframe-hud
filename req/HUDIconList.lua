@@ -50,7 +50,7 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 		vertical = "bottom",
 		text = "",
 		color = WFHud.colors.default,
-		font = tweak_data.menu.medium_font,
+		font = WFHud.fonts.default,
 		font_size = 18,
 		layer = 1,
 		w = self._size,
