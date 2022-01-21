@@ -2,7 +2,7 @@ HUDIconList = class()
 
 function HUDIconList:init(panel, x, y, width, height, icon_color)
 	self._size = height
-	self._spacing = height / 6
+	self._spacing = height / 8
 	self._icon_color = icon_color
 
 	self._panel = panel:panel({

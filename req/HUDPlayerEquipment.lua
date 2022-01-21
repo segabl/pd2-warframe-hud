@@ -107,7 +107,7 @@ function HUDPlayerEquipment:_align_equipment()
 	self._equipment_list._panel:set_w((self._equipment_list._size + self._equipment_list._spacing) * #self._equipment_list._panel:children())
 	self._equipment_list:_layout_panel()
 	self._equipment_list._panel:set_right(self._panel:w())
-	self._item_list._panel:set_right(self._equipment_list._panel:x() - self._equipment_list._spacing)
+	self._item_list._panel:set_right(self._equipment_list._panel:x())
 end
 
 function HUDPlayerEquipment:set_ammo(wbase)
