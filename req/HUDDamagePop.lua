@@ -22,7 +22,7 @@ function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 	self._crit_mod = (is_crit and 1 or 0) + (is_headshot and 1 or 0)
 
 	self._panel = panel:panel({
-		layer = self._crit_mod
+		layer = -99 + self._crit_mod
 	})
 
 	local size = WFHud.font_sizes.default + 8 * self._crit_mod
@@ -54,7 +54,6 @@ function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 end
 
 function HUDDamagePop:animate()
-	local ws = managers.hud._workspace
 	local cam = managers.viewport:get_current_camera()
 
 	over(1, function (t)
@@ -78,7 +77,7 @@ function HUDDamagePop:animate()
 		mvec_set(tmp_vec, self._offset)
 		mvec_add(tmp_vec, self._pos)
 
-		local screen_pos = ws:world_to_screen(cam, tmp_vec)
+		local screen_pos = WFHud._ws:world_to_screen(cam, tmp_vec)
 		self._panel:set_size(tw + (self._proc_bitmap and size * 0.8 or 0), size)
 		self._panel:set_center(screen_pos.x, screen_pos.y)
 		self._panel:set_alpha(math.bezier(self.ALPHA_CURVE, t))

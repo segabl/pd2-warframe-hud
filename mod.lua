@@ -17,7 +17,6 @@ if not WFHud then
 		{ ext = ids_texture, path = "guis/textures/wfhud/avatar_placeholder", file = ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds" },
 		{ ext = ids_texture, path = "guis/textures/wfhud/invulnerability_overlay", file = ModPath .. "assets/guis/textures/wfhud/invulnerability_overlay.dds" },
 		{ ext = ids_texture, path = "guis/textures/wfhud/objective", file = ModPath .. "assets/guis/textures/wfhud/objective.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/hud_progress_32px_invalid", file = ModPath .. "assets/guis/textures/wfhud/hud_progress_32px_invalid.dds" },
 		{ ext = ids_texture, path = "fonts/wfhud/default", file = ModPath .. "assets/fonts/wfhud/default.dds" },
 		{ ext = ids_texture, path = "fonts/wfhud/default_no_shadow", file = ModPath .. "assets/fonts/wfhud/default_no_shadow.dds" },
 		{ ext = ids_texture, path = "fonts/wfhud/bold", file = ModPath .. "assets/fonts/wfhud/bold.dds" },
@@ -39,6 +38,7 @@ if not WFHud then
 	dofile(ModPath .. "req/HUDFloatingUnitLabel.lua")
 	dofile(ModPath .. "req/HUDBuffList.lua")
 	dofile(ModPath .. "req/HUDDamagePop.lua")
+	dofile(ModPath .. "req/HUDInteractDisplay.lua")
 
 	WFHud = {}
 	WFHud.mod_path = ModPath
@@ -87,6 +87,8 @@ if not WFHud then
 		expl_hurt = "blast",
 		taser_tased = "electricity"
 	}
+	WFHud.MARGIN_H = 48
+	WFHud.MARGIN_V = 32
 
 	function WFHud:_create_skill_icon_map()
 		local cat_by_up = {
@@ -203,9 +205,8 @@ if not WFHud then
 		end
 
 		self._ws = self._ws or managers.gui_data:create_fullscreen_workspace()
-		self._panel = self._panel or self._ws:panel():panel({
-			layer = -10
-		})
+		self._ws:panel():set_layer(-10)
+
 		self._t = 0
 
 		self:_create_skill_icon_map()
@@ -215,33 +216,25 @@ if not WFHud then
 
 		self._unit_slotmask = managers.slot:get_mask("persons") + managers.slot:get_mask("bullet_impact_targets")
 
-		self._unit_aim_label = HUDFloatingUnitLabel:new(self._panel)
-		self._buff_list = HUDBuffList:new(self._panel, 0, 0, self._panel:w() - 240, 256)
+		self._unit_aim_label = HUDFloatingUnitLabel:new(self:panel())
+		self._buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - 240, 256)
+		self._equipment_panel = HUDPlayerEquipment:new(self:panel())
+		self._equipment_panel._panel:set_rightbottom(self:panel():w() - WFHud.MARGIN_H, self:panel():h() - WFHud.MARGIN_V)
+		self._interact_display = HUDInteractDisplay:new(self:panel())
 	end
 
 	function WFHud:update(t, dt)
-		if self._unit_aim_label then
-			self:check_player_forward_ray()
-			self._unit_aim_label:update(t, dt)
-		end
+		self:check_player_forward_ray()
 
-		if self._buff_list then
-			self._buff_list:update(t, dt)
-		end
+		self._unit_aim_label:update(t, dt)
+		self._buff_list:update(t, dt)
+		self._interact_display:update(t, dt)
 
 		self._t = t
 	end
 
-	function WFHud:destroy()
-		if alive(self._ws) then
-			managers.gui_data:destroy_workspace(self._ws)
-		end
-		self._ws = nil
-		self._panel = nil
-	end
-
 	function WFHud:panel()
-		return self._panel
+		return self._ws:panel()
 	end
 
 	function WFHud:check_player_forward_ray()
@@ -419,7 +412,7 @@ if not WFHud then
 			self._damage_pops[self._damage_pop_key]:destroy()
 		end
 
-		return HUDDamagePop:new(self._panel, pos, attack_data.raw_damage or attack_data.damage, proc, attack_data.critical_hit, attack_data.headshot)
+		return HUDDamagePop:new(self:panel(), pos, attack_data.raw_damage or attack_data.damage, proc, attack_data.critical_hit, attack_data.headshot)
 	end
 
 	Hooks:Add("LocalizationManagerPostInit", "LocalizationManagerPostInitWFHud", function(loc)

@@ -6,10 +6,6 @@ Hooks:PostHook(HUDManager, "update", "update_wfhud", function (self, t, dt)
 	WFHud:update(t, dt)
 end)
 
-Hooks:PostHook(HUDManager, "destroy", "destroy_wfhud", function (self)
-	WFHud:destroy()
-end)
-
 Hooks:PostHook(HUDManager, "set_enabled", "set_enabled_wfhud", function (self)
 	WFHud:panel():show()
 end)

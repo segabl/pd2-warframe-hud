@@ -15,7 +15,8 @@ function HUDFloatingUnitLabel:init(panel, compact)
 
 	self._panel = panel:panel({
 		alpha = 0,
-		w = 240
+		w = 240,
+		layer = -100
 	})
 
 	self._unit_text = self._panel:text({
