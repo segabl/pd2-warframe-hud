@@ -36,7 +36,7 @@ Hooks:PostHook(HUDTeammate, "remove_panel", "remove_panel_wfhud", function (self
 	self._wfhud_panel:health_bar()._set_data_instant = true
 
 	if self._main_player then
-		WFHud._equipment_panel._item_list:clear()
+		WFHud._equipment_panel._item_list._panel:clear()
 	else
 		self._wfhud_item_list._panel:set_visible(false)
 		self._wfhud_item_list._panel:clear()

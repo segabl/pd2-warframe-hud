@@ -332,7 +332,7 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 	if health_ratio < self._health_ratio or instant then
 		self._health_bar:stop()
 
-		self._health_bar:set_w(self._bg_bar:w() * max_health_ratio * health_ratio)
+		self._health_bar:set_w(math.round(self._bg_bar:w() * max_health_ratio * health_ratio))
 
 		if instant then
 			self:set_health_text(tostring(math.round(health)))
@@ -340,7 +340,7 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 			-- animate health loss
 			self._health_loss_indicator:stop()
 			self._health_loss_indicator:animate(function (o)
-				o:set_w(self._bg_bar:w() * max_health_ratio * (self._health_ratio - health_ratio))
+				o:set_w(math.round(self._bg_bar:w() * max_health_ratio * (self._health_ratio - health_ratio)))
 				if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
 					o:set_x(self._panel:x() + self._health_bar:x())
 				else
@@ -369,7 +369,7 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 		self._health_bar:animate(function (o)
 			local from = self._health_ratio
 			over(HUDHealthBar.ANIM_TIME_GAIN, function (t)
-				o:set_w(self._bg_bar:w() * max_health_ratio * math.lerp(from, health_ratio, t))
+				o:set_w(math.round(self._bg_bar:w() * max_health_ratio * math.lerp(from, health_ratio, t)))
 				if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
 					o:set_right(self._bg_bar:right())
 				else
@@ -400,7 +400,7 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 	if armor_ratio < self._armor_ratio or instant then
 		self._armor_bar:stop()
 
-		self._armor_bar:set_w(self._bg_bar:w() * max_armor_ratio * armor_ratio)
+		self._armor_bar:set_w(math.round(self._bg_bar:w() * max_armor_ratio * armor_ratio))
 
 		if instant then
 			self:set_armor_text(max_armor_ratio > 0 and tostring(math.round(armor)) or "")
@@ -408,7 +408,7 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 			-- animate armor loss
 			self._armor_loss_indicator:stop()
 			self._armor_loss_indicator:animate(function (o)
-				o:set_w(self._bg_bar:w() * max_armor_ratio * (self._armor_ratio - armor_ratio))
+				o:set_w(math.round(self._bg_bar:w() * max_armor_ratio * (self._armor_ratio - armor_ratio)))
 				if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
 					o:set_x(self._panel:x() + self._armor_bar:x())
 				else
@@ -437,11 +437,11 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 		self._armor_bar:animate(function (o)
 			local from = self._armor_ratio
 			over(HUDHealthBar.ANIM_TIME_GAIN, function (t)
-				o:set_w(self._bg_bar:w() * max_armor_ratio * math.lerp(from, armor_ratio, t))
+				o:set_w(math.round(self._bg_bar:w() * max_armor_ratio * math.lerp(from, armor_ratio, t)))
 				if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
-					o:set_right(self._bg_bar:x() + self._bg_bar:w() * max_armor_ratio)
+					o:set_right(math.round(self._bg_bar:x() + self._bg_bar:w() * max_armor_ratio))
 				else
-					o:set_left(self._bg_bar:right() - self._bg_bar:w() * max_armor_ratio)
+					o:set_left(math.round(self._bg_bar:right() - self._bg_bar:w() * max_armor_ratio))
 				end
 			end)
 		end)
@@ -460,10 +460,10 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 	-- set bar positions
 	if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
 		self._health_bar:set_right(self._bg_bar:right())
-		self._armor_bar:set_right(self._bg_bar:x() + self._bg_bar:w() * max_armor_ratio)
+		self._armor_bar:set_right(math.round(self._bg_bar:x() + self._bg_bar:w() * max_armor_ratio))
 	else
 		self._health_bar:set_left(self._bg_bar:x())
-		self._armor_bar:set_left(self._bg_bar:right() - self._bg_bar:w() * max_armor_ratio)
+		self._armor_bar:set_left(math.round(self._bg_bar:right() - self._bg_bar:w() * max_armor_ratio))
 	end
 
 	self._set_data_instant = nil
