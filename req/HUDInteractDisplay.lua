@@ -76,8 +76,17 @@ function HUDInteractDisplay:hide_interact()
 	self._panel:set_visible(false)
 end
 
-function HUDInteractDisplay:show_interaction_circle(text)
+function HUDInteractDisplay:show_interaction_circle(text, duration)
 	self._interact_active = true
+
+	self._interact_circle._circle:stop()
+	if duration then
+		self._interact_circle._circle:animate(function ()
+			over(duration, function (t)
+				self._interact_circle:set_current(t)
+			end)
+		end)
+	end
 
 	if not text then
 		return
@@ -97,6 +106,7 @@ function HUDInteractDisplay:hide_interaction_circle()
 
 	self._interact_text:set_visible(self._interact_visible)
 	self._interact_text_active:set_visible(false)
+	self._interact_circle._circle:stop()
 	self._interact_circle:set_current(0)
 
 	self._panel:set_visible(false)
