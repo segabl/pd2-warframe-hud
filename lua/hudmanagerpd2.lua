@@ -117,7 +117,6 @@ Hooks:OverrideFunction(HUDManager, "pd_start_progress", function (self, current,
 		return
 	end
 
-	WFHud._interact_display:show_interact(utf8.to_upper(managers.localization:text(msg)))
 	WFHud._interact_display:show_interaction_circle(utf8.to_upper(managers.localization:text(msg)), total)
 
 	self._hud_player_downed:hide_timer()
@@ -129,7 +128,6 @@ Hooks:OverrideFunction(HUDManager, "pd_stop_progress", function (self)
 	end
 
 	WFHud._interact_display:hide_interaction_circle()
-	WFHud._interact_display:hide_interact()
 
 	self._hud_player_downed:show_timer()
 end)

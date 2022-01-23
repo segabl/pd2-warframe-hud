@@ -88,11 +88,11 @@ function HUDInteractDisplay:show_interaction_circle(text, duration)
 		end)
 	end
 
+	self._interacting_text = text
+
 	if not text then
 		return
 	end
-
-	self._interacting_text = true
 
 	self._interact_text:set_visible(false)
 	self._interact_text_active:set_text(text)
