@@ -117,6 +117,16 @@ function HUDObjectivePanel:set_objective_detail(text)
 	self:_layout()
 end
 
+function HUDObjectivePanel:set_escape(state)
+	if state then
+		self._objective_icon:set_texture_rect(48, 48, 48, 48)
+		self._objective_icon:set_color(WFHud.colors.extract)
+	else
+		self._objective_icon:set_texture_rect(0, managers.skirmish:is_skirmish() and 48 or 0, 48, 48)
+		self._objective_icon:set_color(WFHud.colors.objective)
+	end
+end
+
 function HUDObjectivePanel:set_time(time, is_point_of_no_return)
 	time = math.abs(time)
 	if math.floor(time) == self._last_time or self._point_of_no_return and not is_point_of_no_return then

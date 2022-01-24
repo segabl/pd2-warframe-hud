@@ -54,6 +54,7 @@ if not WFHud then
 		bg = Color(0.75, 0.25, 0.25, 0.25),
 		objective = Color(0.85, 0.65, 0.04),
 		attack = Color(0.784, 0.16, 0.24),
+		extract = Color(0.263, 0.7, 0.24),
 		damage = {
 			Color(1, 1, 1, 1),
 			Color(1, 1, 1, 0),
