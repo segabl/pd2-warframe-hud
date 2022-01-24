@@ -23,8 +23,8 @@ function HUDManager:_add_name_label(data)
 	if label_data and label_data.id == id then
 		label_data.panel:set_visible(false)
 
-		local wflabel = HUDFloatingUnitLabel:new(WFHud:panel(), true)
-		wflabel:set_unit(data.unit)
+		local wflabel = HUDFloatingUnitLabel:new(WFHud:panel())
+		wflabel:set_unit(data.unit, true, true)
 
 		if WFHud._unit_aim_label and WFHud._unit_aim_label._unit == data.unit then
 			WFHud._unit_aim_label:set_unit(nil, true)
@@ -44,7 +44,16 @@ function HUDManager:add_vehicle_name_label(data)
 	local label_data = self._hud.name_labels[#self._hud.name_labels]
 	if label_data and label_data.id == id then
 		label_data.panel:set_visible(false)
-		-- TODO (maybe)
+
+		local wflabel = HUDFloatingUnitLabel:new(WFHud:panel())
+		wflabel:set_unit(data.unit, true, true)
+
+		if WFHud._unit_aim_label and WFHud._unit_aim_label._unit == data.unit then
+			WFHud._unit_aim_label:set_unit(nil, true)
+		end
+
+		self:add_updator("wfhud" .. id, callback(wflabel, wflabel, "update"))
+		data.unit:unit_data()._wfhud_label = wflabel
 	end
 
 	return id

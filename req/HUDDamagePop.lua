@@ -57,7 +57,7 @@ function HUDDamagePop:animate()
 	local cam = managers.viewport:get_current_camera()
 
 	over(1, function (t)
-		if not alive(cam) then
+		if not alive(cam) or not alive(WFHud._ws) then
 			return
 		end
 

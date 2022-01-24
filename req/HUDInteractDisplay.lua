@@ -133,7 +133,7 @@ function HUDInteractDisplay:set_interaction_progress(t)
 end
 
 function HUDInteractDisplay:update(t, dt)
-	if not self._interact_visible and not self._interact_active then
+	if not self._interact_visible and not self._interact_active or not alive(WFHud._ws) then
 		self._panel:set_visible(false)
 		return
 	end

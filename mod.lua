@@ -112,7 +112,7 @@ if not WFHud then
 
 		self._unit_slotmask = managers.slot:get_mask("persons") + managers.slot:get_mask("bullet_impact_targets")
 
-		self._unit_aim_label = HUDFloatingUnitLabel:new(self:panel())
+		self._unit_aim_label = HUDFloatingUnitLabel:new(self:panel(), true)
 		self._buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - 240, 256)
 		self._equipment_panel = HUDPlayerEquipment:new(self:panel())
 		self._interact_display = HUDInteractDisplay:new(self:panel())
@@ -285,7 +285,7 @@ if not WFHud then
 				unit = unit:parent()
 			end
 
-			if unit:movement() and unit:character_damage() and not unit:character_damage()._dead then
+			if unit:character_damage() and not unit:character_damage()._dead then
 				local unit_data = unit:unit_data()
 
 				if self._unit_aim_custom_label and unit_data._wfhud_label ~= self._unit_aim_custom_label then

@@ -3,15 +3,15 @@ local mvec_dir = mvector3.direction
 local mvec_dot = mvector3.dot
 local mvec_mul = mvector3.multiply
 local mvec_set = mvector3.set
-local tmp_vec = Vector3()
+local tmp_vec1 = Vector3()
+local tmp_vec2 = Vector3()
 
 HUDFloatingUnitLabel = class()
 
-function HUDFloatingUnitLabel:init(panel, compact)
-	self._compact = compact
-
+function HUDFloatingUnitLabel:init(panel, health_visible)
 	self._health_faded_out = true
 	self._panel_faded_out = true
+	self._health_visible = health_visible -- this is to keep the health bar visible on non permanent labels
 
 	self._panel = panel:panel({
 		alpha = 0,
@@ -28,7 +28,6 @@ function HUDFloatingUnitLabel:init(panel, compact)
 	})
 
 	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, 112, 8, nil, true)
-	self._health_bar._panel:set_alpha(compact and 0 or 1)
 	self._health_bar:set_direction(HUDHealthBar.LEFT_TO_RIGHT)
 
 	self._level_text = self._panel:text({
@@ -62,11 +61,14 @@ function HUDFloatingUnitLabel:_layout()
 
 	self._health_bar:_layout()
 
+	self._health_bar._panel:set_alpha((self._health_visible or not self._compact) and 1 or 0)
 	self._health_bar._panel:set_center_x(w * 0.5)
 	self._health_bar._panel:set_y(self._unit_text:font_size())
 
+	self._level_text:set_visible(not self._compact)
 	self._level_text:set_position(0, self._health_bar._panel:bottom() - 2)
 
+	self._pointer:set_visible(not self._compact)
 	self._pointer:set_center_x(w * 0.5)
 	self._pointer:set_y(self._health_bar._panel:bottom() - 6)
 
@@ -82,16 +84,22 @@ function HUDFloatingUnitLabel:update(t, dt)
 	local cam = managers.viewport:get_current_camera()
 
 	if cam then
-		local pos = self._unit_mvmt and (self._unit_mvmt._obj_head and self._unit_mvmt._obj_head:position() or self._unit_mvmt:m_head_pos()) or self._unit:position()
+		local pos = self._unit_mvmt and (self._unit_mvmt._obj_head and self._unit_mvmt._obj_head:position() or self._unit_mvmt:m_head_pos())
+		if not pos then
+			pos = tmp_vec2
+			mvec_set(pos, math.UP)
+			mvec_mul(pos, self._health_bar_offset or 100)
+			mvec_add(pos, self._unit:position())
+		end
 
-		local dis = mvec_dir(tmp_vec, cam:position(), pos)
-		self._panel:set_visible(mvec_dot(cam:rotation():y(), tmp_vec) >= 0)
+		local dis = mvec_dir(tmp_vec1, cam:position(), pos)
+		self._panel:set_visible(mvec_dot(cam:rotation():y(), tmp_vec1) >= 0)
 
-		mvec_set(tmp_vec, math.UP)
-		mvec_mul(tmp_vec, 15 + 1000 / dis)
-		mvec_add(tmp_vec, pos)
+		mvec_set(tmp_vec1, math.UP)
+		mvec_mul(tmp_vec1, 15 + 1000 / dis)
+		mvec_add(tmp_vec1, pos)
 
-		local screen_pos = ws:world_to_screen(cam, tmp_vec)
+		local screen_pos = ws:world_to_screen(cam, tmp_vec1)
 		self._panel:set_center_x(screen_pos.x)
 		self._panel:set_bottom(screen_pos.y)
 	end
@@ -108,7 +116,7 @@ function HUDFloatingUnitLabel:update(t, dt)
 		armor, max_armor = self._linked_health_bar._armor_ratio * self._linked_health_bar._max_armor_ratio * 100, self._linked_health_bar._max_armor_ratio * 100
 		invulnerable = self._linked_health_bar._invulnerable
 	elseif self._unit_dmg then
-		hp, max_hp = (self._unit_dmg._health or 10) * 10, (self._unit_dmg._HEALTH_INIT or 10) * 10
+		hp, max_hp = (self._unit_dmg._health or 10) * 10, (self._unit_dmg._HEALTH_INIT or self._unit_dmg._current_max_health or 10) * 10
 		armor, max_armor = 0, 0
 		invulnerable = self._unit_dmg._immortal or self._unit_dmg._invulnerable
 	else
@@ -133,7 +141,7 @@ function HUDFloatingUnitLabel:_create_unit_level(unit_info)
 	return unit_info._level
 end
 
-function HUDFloatingUnitLabel:set_unit(unit, instant)
+function HUDFloatingUnitLabel:set_unit(unit, instant, compact_override)
 	if not alive(self._panel) then
 		return
 	end
@@ -153,21 +161,32 @@ function HUDFloatingUnitLabel:set_unit(unit, instant)
 
 		self._character_data = managers.criminals:character_data_by_unit(unit)
 
+		if unit:vehicle_driving() then
+			self._health_bar._health_bar:set_color(WFHud.colors.object)
+			self._health_bar_offset = unit:vehicle_driving().hud_label_offset
+			self._compact = true
+		else
+			if unit:base() and unit:base().has_tag and unit:base():has_tag("tank") then
+				self._health_bar._health_bar:set_color(WFHud.colors.armor)
+			else
+				self._health_bar._health_bar:set_color(WFHud.colors.health)
+			end
+			self._health_bar_offset = 100
+			self._compact = false
+		end
+
+		if compact_override ~= nil then
+			self._compact = compact_override
+		end
+
 		self._unit_text:set_text(self._compact and unit_info:nickname() or unit_info:nickname():upper())
 		self._level_text:set_text(tostring(unit_info:level() or self:_create_unit_level(unit_info)))
-		if unit:base().has_tag and unit:base():has_tag("tank") then
-			self._health_bar._health_bar:set_color(WFHud.colors.armor)
-		elseif unit:vehicle_driving() then
-			self._health_bar._health_bar:set_color(WFHud.colors.object)
-		else
-			self._health_bar._health_bar:set_color(WFHud.colors.health)
-		end
 
 		self._panel_faded_out = false
 
 		self._panel:stop()
 
-		self:_layout() -- idk why but sometimes the panel gets fucked up, so redo the layout everytime the unit is set
+		self:_layout()
 
 		if instant then
 			self._panel:set_alpha(1)
@@ -215,7 +234,7 @@ function HUDFloatingUnitLabel:set_health_visible(state)
 
 		self._health_bar._panel:stop()
 
-		self:_layout() -- idk why but sometimes the panel gets fucked up, so redo the layout everytime the unit is set
+		self:_layout()
 
 		self._health_bar._panel:animate(function (o)
 			over((1 - alpha) * 0.25, function (t)
