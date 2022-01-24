@@ -155,6 +155,13 @@ function HUDFloatingUnitLabel:set_unit(unit, instant)
 
 		self._unit_text:set_text(self._compact and unit_info:nickname() or unit_info:nickname():upper())
 		self._level_text:set_text(tostring(unit_info:level() or self:_create_unit_level(unit_info)))
+		if unit:base().has_tag and unit:base():has_tag("tank") then
+			self._health_bar._health_bar:set_color(WFHud.colors.armor)
+		elseif unit:vehicle_driving() then
+			self._health_bar._health_bar:set_color(WFHud.colors.object)
+		else
+			self._health_bar._health_bar:set_color(WFHud.colors.health)
+		end
 
 		self._panel_faded_out = false
 

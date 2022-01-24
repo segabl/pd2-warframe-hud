@@ -47,19 +47,21 @@ if not WFHud then
 	WFHud.colors = {
 		default = Color.white,
 		muted = Color(0.5, 0.5, 0.5),
-		buff = Color(0.012, 0.74, 0.89),
-		debuff = Color(0.753, 0.180, 0.173),
-		shield = Color(0.012, 0.74, 0.89),
-		health = Color(0.753, 0.180, 0.173),
 		bg = Color(0.75, 0.25, 0.25, 0.25),
-		objective = Color(0.85, 0.65, 0.04),
-		attack = Color(0.784, 0.16, 0.24),
-		extract = Color(0.263, 0.7, 0.24),
+		buff = Color("01d8ff"),
+		debuff = Color("cc2a28"),
+		shield = Color("01d8ff"),
+		health = Color("cc2a28"),
+		armor = Color("e0a635"),
+		object = Color("6dada7"),
+		objective = Color("e9ba08"),
+		attack = Color("c80406"),
+		extract = Color("43b306"),
 		damage = {
-			Color(1, 1, 1, 1),
-			Color(1, 1, 1, 0),
-			Color(1, 1, 0.5, 0),
-			Color(1, 1, 0, 0)
+			Color.white,
+			Color("ffff00"),
+			Color("fe6c09"),
+			Color("fe0000")
 		}
 	}
 	WFHud.fonts = {
