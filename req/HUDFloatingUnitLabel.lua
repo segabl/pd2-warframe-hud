@@ -161,6 +161,8 @@ function HUDFloatingUnitLabel:set_unit(unit, instant, compact_override)
 
 		self._character_data = managers.criminals:character_data_by_unit(unit)
 
+		self._health_bar:set_invulnerable(false)
+
 		if unit:vehicle_driving() then
 			self._health_bar._health_bar:set_color(WFHud.colors.object)
 			self._health_bar_offset = unit:vehicle_driving().hud_label_offset
