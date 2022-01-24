@@ -100,7 +100,7 @@ function HUDPlayerEquipment:init(panel)
 	self._stamina_ratio = 1
 
 	self._panel:set_h(self._stamina_panel:bottom() + self._stamina_text:font_size())
-
+	self._panel:set_rightbottom(panel:w() - WFHud.MARGIN_H, panel:h() - WFHud.MARGIN_V)
 end
 
 function HUDPlayerEquipment:_align_bag_text()
