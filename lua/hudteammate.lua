@@ -7,7 +7,7 @@ Hooks:PostHook(HUDTeammate, "init", "init_wfhud", function (self, i, teammates_p
 	else
 		self._wfhud_panel._panel:set_righttop(WFHud:panel():w() - WFHud.MARGIN_H, WFHud.MARGIN_V + 80 + (i - 1) * (self._wfhud_panel._panel:h() + 4))
 
-		self._wfhud_item_list = HUDIconList:new(WFHud:panel(), 0, self._wfhud_panel._panel:center_y() - 12, WFHud:panel():w() - 200, 24, WFHud.colors.buff)
+		self._wfhud_item_list = HUDIconList:new(WFHud:panel(), 0, self._wfhud_panel._panel:center_y() - 12, WFHud:panel():w() - 224, 24, WFHud.colors.buff)
 		self._wfhud_item_list._panel:set_visible(false)
 	end
 end)

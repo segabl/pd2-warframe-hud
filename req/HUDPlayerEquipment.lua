@@ -2,7 +2,7 @@ HUDPlayerEquipment = class()
 
 function HUDPlayerEquipment:init(panel)
 	self._panel = panel:panel({
-		w = 400
+		w = 600
 	})
 
 	self._bag_icon = self._panel:bitmap({
@@ -144,6 +144,7 @@ function HUDPlayerEquipment:set_bag(bag_text)
 		self._bag_icon:set_visible(true)
 		self._bag_text:set_text(bag_text)
 		self._bag_text:set_visible(true)
+		self:_align_bag_text()
 	else
 		self._bag_icon:set_visible(false)
 		self._bag_text:set_visible(false)
