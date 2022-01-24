@@ -106,6 +106,7 @@ function HUDInteractDisplay:hide_interaction_circle()
 
 	self._interact_text:set_visible(self._interact_visible)
 	self._interact_text_active:set_visible(false)
+	self._interact_text_invalid:set_visible(false)
 	self._interact_circle._circle:stop()
 	self._interact_circle:set_current(0)
 
