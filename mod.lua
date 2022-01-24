@@ -16,7 +16,7 @@ if not WFHud then
 		{ ext = ids_texture, path = "guis/textures/wfhud/shield_overlay", file = ModPath .. "assets/guis/textures/wfhud/shield_overlay.dds" },
 		{ ext = ids_texture, path = "guis/textures/wfhud/avatar_placeholder", file = ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds" },
 		{ ext = ids_texture, path = "guis/textures/wfhud/invulnerability_overlay", file = ModPath .. "assets/guis/textures/wfhud/invulnerability_overlay.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/objective", file = ModPath .. "assets/guis/textures/wfhud/objective.dds" },
+		{ ext = ids_texture, path = "guis/textures/wfhud/icons", file = ModPath .. "assets/guis/textures/wfhud/icons.dds" },
 		{ ext = ids_texture, path = "fonts/wfhud/default", file = ModPath .. "assets/fonts/wfhud/default.dds" },
 		{ ext = ids_texture, path = "fonts/wfhud/default_no_shadow", file = ModPath .. "assets/fonts/wfhud/default_no_shadow.dds" },
 		{ ext = ids_texture, path = "fonts/wfhud/bold", file = ModPath .. "assets/fonts/wfhud/bold.dds" },
@@ -39,6 +39,7 @@ if not WFHud then
 	dofile(ModPath .. "req/HUDBuffList.lua")
 	dofile(ModPath .. "req/HUDDamagePop.lua")
 	dofile(ModPath .. "req/HUDInteractDisplay.lua")
+	dofile(ModPath .. "req/HUDObjectivePanel.lua")
 
 	WFHud = {}
 	WFHud.mod_path = ModPath
@@ -52,6 +53,7 @@ if not WFHud then
 		health = Color(0.753, 0.180, 0.173),
 		bg = Color(0.75, 0.25, 0.25, 0.25),
 		objective = Color(0.85, 0.65, 0.04),
+		attack = Color(0.784, 0.16, 0.24),
 		damage = {
 			Color(1, 1, 1, 1),
 			Color(1, 1, 1, 0),
@@ -221,6 +223,7 @@ if not WFHud then
 		self._equipment_panel = HUDPlayerEquipment:new(self:panel())
 		self._equipment_panel._panel:set_rightbottom(self:panel():w() - WFHud.MARGIN_H, self:panel():h() - WFHud.MARGIN_V)
 		self._interact_display = HUDInteractDisplay:new(self:panel())
+		self._objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.MARGIN_H, 200)
 	end
 
 	function WFHud:update(t, dt)

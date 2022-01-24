@@ -1,9 +1,25 @@
 Hooks:PostHook(HUDTemp, "init", "init_wfhud", function (self)
-	local bag_text = self._bg_box:child("bag_text")
-	bag_text:set_font(Idstring(WFHud.fonts.default))
-	bag_text:set_font_size(WFHud.font_sizes.default)
-	bag_text:set_align("right")
-	bag_text:set_x(0)
+	self._hud_panel:child("temp_panel"):set_alpha(0)
+	self._hud_panel:child("temp_panel"):hide()
 end)
 
-function HUDTemp:set_throw_bag_text() end
+Hooks:OverrideFunction(HUDTemp, "show_carry_bag", function (self, carry_id, value)
+	local carry_data = tweak_data.carry[carry_id]
+	WFHud._equipment_panel:set_bag(managers.localization:to_upper_text(carry_data and carry_data.name_id))
+end)
+
+Hooks:OverrideFunction(HUDTemp, "hide_carry_bag", function (self)
+	WFHud._equipment_panel:set_bag(nil)
+end)
+
+Hooks:OverrideFunction(HUDTemp, "set_throw_bag_text", function (self) end)
+
+Hooks:OverrideFunction(HUDTemp, "set_stamina_value", function (self, value)
+	self._curr_stamina = value
+	WFHud._equipment_panel:set_stamina(self._curr_stamina, self._max_stamina)
+end)
+
+Hooks:OverrideFunction(HUDTemp, "set_max_stamina", function (self, value)
+	self._max_stamina = value
+	WFHud._equipment_panel:set_stamina(self._curr_stamina, self._max_stamina)
+end)

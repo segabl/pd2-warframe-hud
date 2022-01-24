@@ -1,8 +1,7 @@
-Hooks:PostHook(HUDHeistTimer, "init", "init_hophud", function (self)
-	self._timer_text:set_font(Idstring(WFHud.fonts.default))
-	self._timer_text:set_font_size(WFHud.font_sizes.default)
-	self._timer_text:set_align("left")
+Hooks:PostHook(HUDHeistTimer, "init", "init_wfhud", function (self)
+	self._heist_timer_panel:set_visible(false)
+end)
 
-	self._heist_timer_panel:set_x(34)
-	self._heist_timer_panel:set_y(230)
+Hooks:OverrideFunction(HUDHeistTimer, "set_time", function (self, time)
+	WFHud._objective_panel:set_time(time)
 end)

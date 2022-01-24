@@ -5,18 +5,40 @@ function HUDPlayerEquipment:init(panel)
 		w = 400
 	})
 
+	self._bag_icon = self._panel:bitmap({
+		visible = false,
+		texture = "guis/textures/pd2/hud_tabs",
+		texture_rect = { 2, 34, 20, 17 },
+		color = WFHud.colors.default,
+		x = self._panel:w() - 20,
+		w = 20,
+		h = 17
+	})
+
+	self._bag_text = self._panel:text({
+		visible = false,
+		text = "THERMAL DRILL",
+		font = WFHud.fonts.default,
+		font_size = WFHud.font_sizes.default,
+		color = WFHud.colors.default,
+	})
+
+	self:_align_bag_text()
+
 	self._ammo_text = self._panel:text({
 		color = WFHud.colors.default,
 		text = "30",
 		font = WFHud.fonts.large,
-		font_size = WFHud.font_sizes.huge
+		font_size = WFHud.font_sizes.huge,
+		y = self._bag_icon:bottom() + 32
 	})
 
 	self._total_ammo_text = self._panel:text({
 		color = WFHud.colors.default,
 		text = "/ 120",
 		font = WFHud.fonts.bold,
-		font_size = WFHud.font_sizes.default
+		font_size = WFHud.font_sizes.default,
+		y = self._ammo_text:y()
 	})
 
 	self:_align_ammo_text()
@@ -81,6 +103,13 @@ function HUDPlayerEquipment:init(panel)
 
 end
 
+function HUDPlayerEquipment:_align_bag_text()
+	local _, _, w, h = self._bag_text:text_rect()
+	self._bag_text:set_size(w, h)
+	self._bag_text:set_right(self._bag_icon:x() - 8)
+	self._bag_text:set_center_y(self._bag_icon:center_y())
+end
+
 function HUDPlayerEquipment:_align_ammo_text()
 	local _, _, w, h = self._ammo_text:text_rect()
 	self._ammo_text:set_size(w, h)
@@ -108,6 +137,17 @@ function HUDPlayerEquipment:_align_equipment()
 	self._equipment_list:_layout_panel()
 	self._equipment_list._panel:set_right(self._panel:w())
 	self._item_list._panel:set_right(self._equipment_list._panel:x())
+end
+
+function HUDPlayerEquipment:set_bag(bag_text)
+	if bag_text then
+		self._bag_icon:set_visible(true)
+		self._bag_text:set_text(bag_text)
+		self._bag_text:set_visible(true)
+	else
+		self._bag_icon:set_visible(false)
+		self._bag_text:set_visible(false)
+	end
 end
 
 function HUDPlayerEquipment:set_ammo(wbase)
@@ -140,6 +180,10 @@ function HUDPlayerEquipment:set_weapon(wbase)
 end
 
 function HUDPlayerEquipment:set_stamina(current, total, instant)
+	if not current or not total then
+		return
+	end
+
 	local ratio = math.min(current / total, 1)
 
 	if instant then

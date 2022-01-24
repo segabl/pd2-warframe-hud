@@ -67,15 +67,6 @@ end)
 function HUDManager:_update_name_labels(t, dt) end
 
 
-Hooks:PostHook(HUDManager, "set_stamina_value", "set_stamina_value_wfhud", function (self, value)
-	self._teammate_panels[HUDManager.PLAYER_PANEL]:set_stamina(value, nil)
-end)
-
-Hooks:PostHook(HUDManager, "set_max_stamina", "set_max_stamina_wfhud", function (self, value)
-	self._teammate_panels[HUDManager.PLAYER_PANEL]:set_stamina(nil, value)
-end)
-
-
 function HUDManager:set_ai_stopped(ai_id, stopped)
 	local teammate_panel = self._teammate_panels[ai_id]
 

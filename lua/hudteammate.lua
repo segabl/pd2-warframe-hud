@@ -73,19 +73,6 @@ function HUDTeammate:set_invulnerable(state)
 	self._wfhud_panel:health_bar():set_invulnerable(state)
 end
 
-function HUDTeammate:set_stamina(current, total)
-	if not self._main_player then
-		return
-	end
-
-	self._current_stamina = current or self._current_stamina
-	self._total_stamina = total or self._total_stamina
-
-	if self._current_stamina and self._total_stamina then
-		WFHud._equipment_panel:set_stamina(self._current_stamina, self._total_stamina)
-	end
-end
-
 Hooks:PostHook(HUDTeammate, "set_condition", "set_condition_wfhud", function (self, icon, text)
 	if text and text ~= "" then
 		self._wfhud_panel:health_bar():set_health_text(text:upper():gsub("%p", ""), true)
@@ -150,7 +137,7 @@ end)
 Hooks:PostHook(HUDTeammate, "set_special_equipment_amount", "set_special_equipment_amount_wfhud", function (self, equipment_id, amount)
 	local item_list = self._main_player and WFHud._equipment_panel._item_list or self._wfhud_item_list
 	if item_list then
-		item_list:set_icon_value(equipment_id, amount)
+		item_list:set_icon_value(equipment_id, amount > 1 and amount)
 	end
 end)
 
