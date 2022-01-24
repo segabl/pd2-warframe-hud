@@ -144,10 +144,13 @@ function HUDInteractDisplay:update(t, dt)
 	local unit = managers.interaction:active_unit()
 	local pos = unit and unit:interaction():interact_position()
 	if pos then
-		mvec_set(tmp_vec, pos)
-		mvec_add(tmp_vec, label_offset)
-		local screen_pos = WFHud._ws:world_to_screen(managers.viewport:get_current_camera(), tmp_vec)
-		self._panel:set_position(screen_pos.x - half_width, screen_pos.y - self._panel:h() * 0.5)
+		local cam = managers.viewport:get_current_camera()
+		if cam then
+			mvec_set(tmp_vec, pos)
+			mvec_add(tmp_vec, label_offset)
+			local screen_pos = WFHud._ws:world_to_screen(cam, tmp_vec)
+			self._panel:set_position(screen_pos.x - half_width, screen_pos.y - self._panel:h() * 0.5)
+		end
 	else
 		self._panel:set_position(self._panel:parent():w() * 0.5 - half_width, self._panel:parent():h() * 0.5 - self._panel:h() * 0.5)
 	end

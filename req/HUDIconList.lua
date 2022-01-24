@@ -20,12 +20,13 @@ function HUDIconList:_layout_panel()
 end
 
 function HUDIconList:add_icon(name, texture, texture_rect)
+	if not texture then
+		return
+	end
+
 	local icon_panel = self._panel:child(name)
 	if icon_panel then
-		if texture then
-			icon_panel:child("bitmap"):set_image(texture, unpack(texture_rect))
-		end
-		return
+		self._panel:remove(icon_panel)
 	end
 
 	icon_panel = self._panel:panel({
@@ -44,11 +45,7 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 		h = self._size
 	})
 	local ratio = texture_rect and texture_rect[4] / texture_rect[3] or image:texture_height() / image:texture_width()
-	if ratio < 1 then
-		image:set_h(self._size * ratio)
-	else
-		image:set_w(self._size / ratio)
-	end
+	image:set_size(ratio < 1 and self._size or self._size / ratio, ratio < 1 and self._size * ratio or self._size)
 	image:set_center(icon_panel:center())
 
 	icon_panel:text({
