@@ -1,4 +1,4 @@
-HUDChat.line_height = 20
+HUDChat.line_height = WFHud.font_sizes.small
 
 Hooks:PostHook(HUDChat, "init", "init_wfhud", function (self)
 	self._panel:set_h(self._panel:parent():h())
@@ -14,7 +14,7 @@ Hooks:PostHook(HUDChat, "_create_input_panel", "_create_input_panel_wfhud", func
 
 	local input_text = self._input_panel:child("input_text")
 	input_text:set_font(Idstring(WFHud.fonts.default))
-	input_text:set_font_size(WFHud.font_sizes.small)
+	input_text:set_font_size(HUDChat.line_height)
 end)
 
 Hooks:PostHook(HUDChat, "_on_focus", "_on_focus_wfhud", function (self)
@@ -42,7 +42,7 @@ function HUDChat:receive_message(name, message, color, icon)
 		layer = 0,
 		text = string.format("%s: %s", time_name, message),
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.small,
+		font_size = HUDChat.line_height,
 		x = 0,
 		color = color
 	})
@@ -64,4 +64,12 @@ function HUDChat:receive_message(name, message, color, icon)
 		output_panel:animate(callback(self, self, "_animate_show_component"), output_panel:alpha())
 		output_panel:animate(callback(self, self, "_animate_fade_output"))
 	end
+end
+
+function HUDChat:_animate_fade_output()
+	wait(15)
+	over(1, function (t)
+		self:set_output_alpha(1 - t)
+	end)
+	self:set_output_alpha(0)
 end
