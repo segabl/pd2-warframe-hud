@@ -161,17 +161,15 @@ function HUDFloatingUnitLabel:set_unit(unit, instant, compact_override)
 
 		self._character_data = managers.criminals:character_data_by_unit(unit)
 
-		self._health_bar:set_invulnerable(false)
-
 		if unit:vehicle_driving() then
-			self._health_bar._health_bar:set_color(WFHud.colors.object)
+			self._health_bar:set_health_color(WFHud.colors.object)
 			self._health_bar_offset = unit:vehicle_driving().hud_label_offset
 			self._compact = true
 		else
 			if unit:base() and unit:base().has_tag and unit:base():has_tag("tank") then
-				self._health_bar._health_bar:set_color(WFHud.colors.armor)
+				self._health_bar:set_health_color(WFHud.colors.armor)
 			else
-				self._health_bar._health_bar:set_color(WFHud.colors.health)
+				self._health_bar:set_health_color(WFHud.colors.health)
 			end
 			self._health_bar_offset = 100
 			self._compact = false
