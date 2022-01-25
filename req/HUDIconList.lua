@@ -26,14 +26,14 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 
 	local icon_panel = self._panel:child(name)
 	if icon_panel then
-		self._panel:remove(icon_panel)
+		icon_panel:clear()
+	else
+		icon_panel = self._panel:panel({
+			name = name,
+			w = self._size,
+			h = self._size
+		})
 	end
-
-	icon_panel = self._panel:panel({
-		name = name,
-		w = self._size,
-		h = self._size
-	})
 
 	local image = icon_panel:bitmap({
 		name = "bitmap",
@@ -46,7 +46,7 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 	})
 	local ratio = texture_rect and texture_rect[4] / texture_rect[3] or image:texture_height() / image:texture_width()
 	image:set_size(ratio < 1 and self._size or self._size / ratio, ratio < 1 and self._size * ratio or self._size)
-	image:set_center(icon_panel:center())
+	image:set_center(self._size * 0.5, self._size * 0.5)
 
 	icon_panel:text({
 		name = "value",
