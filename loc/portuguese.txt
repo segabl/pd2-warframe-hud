@@ -1,0 +1,12 @@
+{
+	"hud_fire_mode_auto" : "Automático",
+	"hud_fire_mode_single" : "Unitário",
+	"hud_fire_mode_underbarrel" : "Cano Inferior",
+	"hud_fire_mode_underbarrel_raycast" : "Cano Inferior",
+	"hud_fire_mode_underbarrel_launcher" : "Lança-Granadas",
+	"hud_objectives_completed" : "Concluído: $CURRENT/$TOTAL",
+	"hud_objectives_defeat_winters" : "Derrote Capitão Winters",
+	"hud_objectives_damage_resistance" : "Resistência de Dano do Inimigo: $NUM%",
+	"hud_waves_remaining" : "Ondas Restantes: $NUM",
+	"debug_mugshot_electrified" : "Eletrocutado"
+}
