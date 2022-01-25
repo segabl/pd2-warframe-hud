@@ -1,0 +1,12 @@
+{
+	"hud_fire_mode_auto" : "Auto",
+	"hud_fire_mode_single" : "Einzel",
+	"hud_fire_mode_underbarrel" : "Unterlauf",
+	"hud_fire_mode_underbarrel_raycast" : "Unterlauf",
+	"hud_fire_mode_underbarrel_launcher" : "Granatwerfer",
+	"hud_objectives_completed" : "Abgeschlossen: $CURRENT/$TOTAL",
+	"hud_objectives_defeat_winters" : "Besiege Captain Winters",
+	"hud_objectives_damage_resistance" : "Gegner Schadensreduktion: $NUM%",
+	"hud_waves_remaining" : "Ausstehende Wellen: $NUM",
+	"debug_mugshot_electrified" : "Geschockt"
+}
