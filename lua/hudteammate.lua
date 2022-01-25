@@ -124,6 +124,9 @@ Hooks:PostHook(HUDTeammate, "add_special_equipment", "add_special_equipment_wfhu
 	local item_list = self._main_player and WFHud._equipment_panel._item_list or self._wfhud_item_list
 	if item_list then
 		item_list:add_icon(data.id, tweak_data.hud_icons:get_icon_data(data.icon))
+		if data.amount then
+			item_list:set_icon_value(data.id, data.amount > 1 and data.amount)
+		end
 	end
 end)
 
