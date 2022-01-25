@@ -1,7 +1,7 @@
 local mvec_add = mvector3.add
 local mvec_set = mvector3.set
 local tmp_vec = Vector3()
-local label_offset = Vector3(0, 0, 10)
+local label_offset = Vector3(0, 0, 20)
 
 HUDInteractDisplay = class()
 
