@@ -113,6 +113,8 @@ if not WFHud then
 		self._damage_pop_key = 1
 
 		self._unit_slotmask = managers.slot:get_mask("persons") + managers.slot:get_mask("bullet_impact_targets")
+		self._unit_slotmask_no_walls = self._unit_slotmask - managers.slot:get_mask("bullet_blank_impact_targets")
+		self._next_unit_raycast_t = 0
 
 		self._unit_aim_label = HUDFloatingUnitLabel:new(self:panel(), true)
 		self._buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - 240, 256)
@@ -122,7 +124,7 @@ if not WFHud then
 	end
 
 	function WFHud:update(t, dt)
-		self:_check_player_forward_ray()
+		self:_check_player_forward_ray(t)
 
 		self._unit_aim_label:update(t, dt)
 		self._buff_list:update(t, dt)
@@ -267,7 +269,13 @@ if not WFHud then
 		end
 	end
 
-	function WFHud:_check_player_forward_ray()
+	function WFHud:_check_player_forward_ray(t)
+		if self._next_unit_raycast_t > t then
+			return
+		end
+
+		self._next_unit_raycast_t = t + 0.05
+
 		local player = managers.player:local_player()
 		if not alive(player) then
 			self._unit_aim_label:set_unit(nil)
@@ -279,9 +287,10 @@ if not WFHud then
 		mvec_set(tmp_vec, cam:forward())
 		mvec_mul(tmp_vec, 10000)
 		mvec_add(tmp_vec, from)
-		local ray = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask, "sphere_cast_radius", 20)
+		local ray1 = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask_no_walls, "sphere_cast_radius", 30)
+		local ray2 = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask)
 
-		local unit = ray and ray.unit
+		local unit = ray1 and (not ray2 or ray2.unit == ray1.unit or ray2.distance > ray1.distance) and ray1.unit or ray2 and ray2.unit
 		if unit then
 			if unit:in_slot(8) and alive(unit:parent()) then
 				unit = unit:parent()
