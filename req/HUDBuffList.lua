@@ -57,7 +57,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		layer = 1,
 		halign = "grow",
 		valign = "grow",
-		color = WFHud.colors.bg
+		color = WFHud.colors.bg:with_alpha(0.75)
 	})
 	self._overlay_text = self._overlay_text_panel:text({
 		layer = 2,

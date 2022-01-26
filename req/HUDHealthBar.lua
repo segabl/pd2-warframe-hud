@@ -20,6 +20,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 	self._set_data_instant = true
 
 	self._health_color = WFHud.colors.health
+	self._shield_color = WFHud.colors.shield
 
 	self._panel = panel:panel({
 		x = x,
@@ -218,57 +219,41 @@ function HUDHealthBar:set_invulnerable(state)
 		return
 	end
 
-	if state then
-		self._health_bar:set_color(WFHud.colors.health_invulnerable)
-		self._armor_bar:set_color(WFHud.colors.shield_invulnerable)
-
-		self._health_loss_indicator:set_color(WFHud.colors.health_invulnerable)
-		self._armor_loss_indicator:set_color(WFHud.colors.shield_invulnerable)
-
-		self._armor_bar_overlay_1:set_color(WFHud.colors.shield_invulnerable)
-		self._armor_bar_overlay_2:set_color(WFHud.colors.shield_invulnerable)
-
-		if self._health_text then
-			self._health_text:set_color(WFHud.colors.health_invulnerable)
-		end
-		if self._armor_text then
-			self._armor_text:set_color(WFHud.colors.shield_invulnerable)
-		end
-	else
-		self._health_bar:set_color(self._health_color)
-		self._armor_bar:set_color(WFHud.colors.shield)
-
-		self._health_loss_indicator:set_color(self._health_color)
-		self._armor_loss_indicator:set_color(WFHud.colors.shield)
-
-		self._armor_bar_overlay_1:set_color(WFHud.colors.shield)
-		self._armor_bar_overlay_2:set_color(WFHud.colors.shield)
-
-		if self._health_text then
-			self._health_text:set_color(self._health_color)
-		end
-		if self._armor_text then
-			self._armor_text:set_color(WFHud.colors.shield)
-		end
-	end
-
-	self._invulnerability_overlay:set_visible(state)
-
 	self._invulnerable = state
+	self._invulnerability_overlay:set_visible(state)
+	self:set_health_color(self._health_color)
+	self:set_shield_color(self._shield_color)
 end
 
 function HUDHealthBar:set_health_color(color)
 	self._health_color = color or WFHud.colors.health
 
-	if self._invulnerable then
-		return
+	local avg = (self._health_color.r + self._health_color.g + self._health_color.b) / 3
+	self._health_color_invul = Color(avg, avg, avg)
+
+	local use_color = self._invulnerable and self._health_color_invul or self._health_color
+	self._health_bar:set_color(use_color)
+	self._health_loss_indicator:set_color(use_color)
+	if self._health_text then
+		self._health_text:set_color(use_color)
+	end
+end
+
+function HUDHealthBar:set_shield_color(color)
+	self._shield_color = color or WFHud.colors.shield
+
+	local avg = (self._shield_color.r + self._shield_color.g + self._shield_color.b) / 3
+	self._shield_color_invul = Color(avg, avg, avg)
+
+	local use_color = self._invulnerable and self._shield_color_invul or self._shield_color
+	self._armor_bar:set_color(use_color)
+	self._armor_loss_indicator:set_color(use_color)
+	if self._armor_text then
+		self._armor_text:set_color(use_color)
 	end
 
-	self._health_bar:set_color(self._health_color)
-	self._health_loss_indicator:set_color(self._health_color)
-	if self._health_text then
-		self._health_text:set_color(self._health_color)
-	end
+	self._armor_bar_overlay_1:set_color(use_color)
+	self._armor_bar_overlay_2:set_color(use_color)
 end
 
 function HUDHealthBar:set_health_text(text, override)

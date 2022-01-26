@@ -45,22 +45,20 @@ if not WFHud then
 	WFHud.mod_path = ModPath
 	WFHud.skill_map = {}
 	WFHud.colors = {
-		default = Color.white,
-		muted = Color(0.5, 0.5, 0.5),
-		bg = Color(0.75, 0.25, 0.25, 0.25),
+		default = Color("ffffff"),
+		muted = Color("808080"),
+		bg = Color("404040"),
 		buff = Color("01d8ff"),
 		debuff = Color("cc2a28"),
 		shield = Color("01d8ff"),
-		shield_invulnerable = Color("9c9c9a"),
 		health = Color("cc2a28"),
-		health_invulnerable = Color("585858"),
 		armor = Color("e0a635"),
 		object = Color("6dada7"),
 		objective = Color("e9ba08"),
 		attack = Color("c80406"),
 		extract = Color("43b306"),
 		damage = {
-			Color.white,
+			Color("ffffff"),
 			Color("ffff00"),
 			Color("fe6c09"),
 			Color("fe0000")
