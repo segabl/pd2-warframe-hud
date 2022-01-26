@@ -402,7 +402,7 @@ if not WFHud then
 						local def = tweak_data.upgrades.definitions[upgrade]
 						local cat = def and def.upgrade and def.upgrade.category
 						local up = def and def.upgrade and def.upgrade.upgrade
-						if cat and up and (not self.skill_map[cat] or not self.skill_map[cat][up] or deck_index == my_deck_index) then
+						if cat and up and (not self.skill_map[cat] or not self.skill_map[cat][up] or not self.skill_map[cat][up].my_deck) then
 							self.skill_map[cat] = self.skill_map[cat] or {}
 							self.skill_map[cat][up] = {}
 							self.skill_map[cat][up].key = cat .. "." .. up
@@ -411,6 +411,7 @@ if not WFHud then
 							self.skill_map[cat][up].texture_rect = { card.icon_xy[1] * 64, card.icon_xy[2] * 64, 64, 64 }
 							self.skill_map[cat][up].texture = "guis/" .. (card.texture_bundle_folder and "dlcs/" .. tostring(card.texture_bundle_folder) .. "/" or "")  .. "textures/pd2/specialization/icons_atlas"
 							self.skill_map[cat][up].value_format = get_value_format(self.skill_map[cat][up].icon_category, up)
+							self.skill_map[cat][up].my_deck = deck_index == my_deck_index
 						end
 					end
 				end
