@@ -161,3 +161,15 @@ Hooks:PostHook(PlayerManager, "on_damage_dealt", "on_damage_dealt_wfhud", functi
 		WFHud:add_damage_pop(unit, attack_data)
 	end
 end)
+
+
+local _attempt_pocket_ecm_jammer_original = PlayerManager._attempt_pocket_ecm_jammer
+function PlayerManager:_attempt_pocket_ecm_jammer(...)
+	local result = _attempt_pocket_ecm_jammer_original(self, ...)
+
+	if result then
+		WFHud:add_buff("player", "pocket_ecm_jammer_base", nil, self:player_unit():inventory():get_jammer_time())
+	end
+
+	return result
+end
