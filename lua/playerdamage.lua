@@ -1,20 +1,28 @@
+local skill_checks = {
+	"melee_damage_health_ratio_multiplier", -- berserker
+	"damage_health_ratio_multiplier", -- berserker
+	"armor_regen_damage_health_ratio_multiplier", -- yakuza
+	"movement_speed_damage_health_ratio_multiplier" -- yakuza
+}
 Hooks:PostHook(PlayerDamage, "set_health", "set_health_wfhud", function (self, health)
 	local pm = managers.player
 	local health_ratio = self:health_ratio()
 	local damage_health_ratio = pm:get_damage_health_ratio(health_ratio, "melee")
 
-	local mul = pm:upgrade_value("player", "melee_damage_health_ratio_multiplier", 0) * damage_health_ratio
-	if mul > 0 then
-		WFHud:add_buff("player", "melee_damage_health_ratio_multiplier", WFHud.value_format.percentage(mul))
-	else
-		WFHud:remove_buff("player", "melee_damage_health_ratio_multiplier")
+	for _, v in pairs(skill_checks) do
+		local mul = pm:upgrade_value("player", v, 0) * damage_health_ratio
+		if mul > 0 then
+			WFHud:add_buff("player", v, WFHud.value_format.percentage(mul))
+		else
+			WFHud:remove_buff("player", v)
+		end
 	end
 
-	mul = pm:upgrade_value("player", "damage_health_ratio_multiplier", 0) * damage_health_ratio
-	if mul > 0 then
-		WFHud:add_buff("player", "damage_health_ratio_multiplier", WFHud.value_format.percentage(mul))
-	else
-		WFHud:remove_buff("player", "damage_health_ratio_multiplier")
+	-- leech remaining hits
+	if pm:has_activate_temporary_upgrade("temporary", "copr_ability") then
+		local max_health = self:_max_health() * self._max_health_reduction
+		local health_chunk = max_health * pm:upgrade_value("player", "copr_static_damage_ratio", 0)
+		WFHud:add_buff("temporary", "copr_ability", math.max(0, math.ceil(math.min(health, max_health) / health_chunk)))
 	end
 end)
 
@@ -45,4 +53,12 @@ Hooks:PostHook(PlayerDamage, "set_armor", "set_armor_wfhud", function (self)
 		current = self:get_real_armor(),
 		total = self:_max_armor()
 	})
+end)
+
+
+-- grinder heal over time
+Hooks:PostHook(PlayerDamage, "add_damage_to_hot", "add_damage_to_hot_wfhud", function (self)
+	local hot = self._damage_to_hot_stack[#self._damage_to_hot_stack]
+	local duration = hot.next_tick - TimerManager:game():time() + (self._doh_data.tick_time or 1) * (hot.ticks_left - 1)
+	WFHud:add_buff("player", "damage_to_hot", nil, duration)
 end)

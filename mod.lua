@@ -330,6 +330,7 @@ if not WFHud then
 			{ "speed", "speed" },
 			{ "crit", "critical_hit" },
 			{ "stamina", "stamina" },
+			{ "armor", "armor" },
 			{ "dmg_dampener", "damage_dampener" },
 			{ "damage_dampener", "damage_dampener" },
 			{ "damage_resist", "damage_dampener" },
@@ -358,7 +359,8 @@ if not WFHud then
 			reload_speed = WFHud.value_format.percentage_mul
 		}
 		local up_format = {
-			melee_life_leech = WFHud.value_format.percentage
+			melee_life_leech = WFHud.value_format.percentage,
+			chico_injector = WFHud.value_format.percentage
 		}
 		local function get_value_format(icon_cat, up)
 			if up_format[up] then

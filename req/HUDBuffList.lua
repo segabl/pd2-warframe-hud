@@ -121,7 +121,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 	end
 
 	self:set_values(value, duration)
-	self:set_category_icon_visibility(not upgrade_data.is_debuff)
+	self:set_category_icon_visibility(not upgrade_data.is_debuff and not self._upgrade_data.icon_category == "damage")
 end
 
 function HUDBuffListItem:set_values(value, duration)
@@ -142,6 +142,8 @@ function HUDBuffListItem:set_values(value, duration)
 	end
 
 	if duration then
+		self._duration = duration
+
 		self._icon_text:stop()
 		self._icon_text:animate(function (o)
 			local val
@@ -157,7 +159,7 @@ function HUDBuffListItem:set_values(value, duration)
 		if type(value) == "number" then
 			value = self._upgrade_data.value_format(value)
 		end
-		if duration then
+		if self._duration then
 			self._overlay_text:set_text(tostring(value))
 			local _, _, w, h = self._overlay_text:text_rect()
 			self._overlay_text_panel:set_size(w + 4, h + 2)
