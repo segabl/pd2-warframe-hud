@@ -1,4 +1,8 @@
 Hooks:PostHook(HUDTemp, "init", "init_wfhud", function (self)
+	if not self._hud_panel then
+		return
+	end
+
 	self._hud_panel:child("temp_panel"):set_alpha(0)
 	self._hud_panel:child("temp_panel"):hide()
 end)

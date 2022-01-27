@@ -1,4 +1,8 @@
 Hooks:PostHook(HUDAssaultCorner, "init", "init_wfhud", function (self)
+	if not self._hud_panel then
+		return
+	end
+
 	self._hud_panel:child("assault_panel"):set_alpha(0)
 	self._hud_panel:child("assault_panel"):hide()
 	self._hud_panel:child("hostages_panel"):set_alpha(0)

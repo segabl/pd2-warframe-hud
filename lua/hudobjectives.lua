@@ -1,4 +1,8 @@
 Hooks:PostHook(HUDObjectives, "init", "init_wfhud", function (self)
+	if not self._hud_panel then
+		return
+	end
+
 	local objective_panel = self._hud_panel:child("objectives_panel")
 	objective_panel:hide()
 	objective_panel:set_alpha(0)
