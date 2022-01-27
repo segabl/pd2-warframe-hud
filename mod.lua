@@ -102,6 +102,8 @@ if not WFHud then
 			managers.dyn_resource:load(ids_font, Idstring(v), managers.dyn_resource.DYN_RESOURCES_PACKAGE)
 		end
 
+		self:_check_font_replacements()
+
 		self._ws = self._ws or managers.gui_data:create_fullscreen_workspace()
 		self._ws:panel():set_layer(-10)
 
@@ -429,6 +431,21 @@ if not WFHud then
 			is_debuff = true,
 			hide_name = true
 		}
+	end
+
+	function WFHud:_check_font_replacements()
+		local replace_languages = {
+			schinese = true,
+			japanese = true,
+			korean = true
+		}
+		if not replace_languages[HopLib:get_game_language()] then
+			return
+		end
+		WFHud.fonts.default = "fonts/font_medium_shadow_mf"
+		WFHud.fonts.bold = "fonts/font_medium_shadow_mf"
+		WFHud.fonts.default_no_shadow = "fonts/font_medium_mf"
+		WFHud.fonts.bold_no_shadow = "fonts/font_medium_mf"
 	end
 
 	Hooks:Add("LocalizationManagerPostInit", "LocalizationManagerPostInitWFHud", function(loc)
