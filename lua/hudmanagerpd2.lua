@@ -26,12 +26,13 @@ function HUDManager:_add_name_label(data)
 
 		local wflabel = HUDFloatingUnitLabel:new(WFHud:panel())
 		wflabel:set_unit(data.unit, true, true)
+		wflabel._upd_id = "wfhud_name_label" .. id
 
 		if WFHud._unit_aim_label and WFHud._unit_aim_label._unit == data.unit then
 			WFHud._unit_aim_label:set_unit(nil, true)
 		end
 
-		self:add_updator("wfhud" .. id, callback(wflabel, wflabel, "update"))
+		self:add_updator(wflabel._upd_id, callback(wflabel, wflabel, "update"))
 		data.unit:unit_data()._wfhud_label = wflabel
 	end
 
@@ -48,12 +49,13 @@ function HUDManager:add_vehicle_name_label(data)
 
 		local wflabel = HUDFloatingUnitLabel:new(WFHud:panel())
 		wflabel:set_unit(data.unit, true, true)
+		wflabel._upd_id = "wfhud_vehicle_label" .. id
 
 		if WFHud._unit_aim_label and WFHud._unit_aim_label._unit == data.unit then
 			WFHud._unit_aim_label:set_unit(nil, true)
 		end
 
-		self:add_updator("wfhud" .. id, callback(wflabel, wflabel, "update"))
+		self:add_updator(wflabel._upd_id, callback(wflabel, wflabel, "update"))
 		data.unit:unit_data()._wfhud_label = wflabel
 	end
 
@@ -65,7 +67,7 @@ Hooks:PreHook(HUDManager, "_remove_name_label", "_remove_name_label_wfhud", func
 		if data.id == id then
 			local unit_data = data.movement and data.movement._unit:unit_data() or data.vehicle and data.vehicle:unit_data()
 			if unit_data and unit_data._wfhud_label then
-				self:remove_updator("wfhud" .. id)
+				self:remove_updator(unit_data._wfhud_label._upd_id)
 				unit_data._wfhud_label:destroy()
 				unit_data._wfhud_label = nil
 			end

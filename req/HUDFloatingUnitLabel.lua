@@ -77,6 +77,11 @@ end
 
 function HUDFloatingUnitLabel:update(t, dt)
 	if not alive(self._unit) or not alive(self._panel) then
+		if self._upd_id and managers.hud then
+			managers.hud:remove_updator(self._upd_id)
+			self._upd_id = nil
+			self:destroy()
+		end
 		return
 	end
 
@@ -254,6 +259,8 @@ function HUDFloatingUnitLabel:set_health_visible(state)
 end
 
 function HUDFloatingUnitLabel:destroy()
-	self._panel:stop()
-	self._panel:parent():remove(self._panel)
+	if alive(self._panel) then
+		self._panel:stop()
+		self._panel:parent():remove(self._panel)
+	end
 end
