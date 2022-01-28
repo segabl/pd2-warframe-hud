@@ -1,5 +1,16 @@
 HUDObjectivePanel = class()
 
+HUDObjectivePanel.ICON_TEXTURE_RECTS = {
+	default = { 0, 0, 48, 48 },
+	defend = { 0, 48, 48, 48 },
+	extract = { 48, 48, 48, 48 }
+}
+
+HUDObjectivePanel.ICON_COLORS = {
+	default = WFHud.colors.objective,
+	extract = WFHud.colors.extract
+}
+
 function HUDObjectivePanel:init(panel, x, y)
 	self._last_time = 0
 
@@ -12,7 +23,7 @@ function HUDObjectivePanel:init(panel, x, y)
 	self._objective_icon = self._panel:bitmap({
 		visible = false,
 		texture = "guis/textures/wfhud/icons",
-		texture_rect = { 0, managers.skirmish:is_skirmish() and 48 or 0, 48, 48 },
+		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.default,
 		color = WFHud.colors.objective,
 		w = 24,
 		h = 24
@@ -31,6 +42,16 @@ function HUDObjectivePanel:init(panel, x, y)
 	self._objective_detail = self._panel:text({
 		visible = false,
 		text = "CRIMES DONE: 0/99",
+		font = WFHud.fonts.default,
+		font_size = WFHud.font_sizes.default,
+		color = WFHud.colors.default,
+		h = 24,
+		vertical = "center"
+	})
+
+	self._waves_text = self._panel:text({
+		visible = false,
+		text = "WAVES REMAINING: 3",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default,
@@ -85,12 +106,18 @@ function HUDObjectivePanel:_layout()
 
 	local text_x = self._objective_icon:right() + 8
 	self._objective_text:set_position(text_x, self._objective_icon:y())
-	self._objective_detail:set_position(text_x, self._objective_text:bottom())
-	self._time_text:set_position(text_x, self._objective_detail:visible() and self._objective_detail:bottom() or self._objective_text:bottom())
+	self._objective_detail:set_position(text_x, self._objective_detail:visible() and self._objective_text:bottom() or self._objective_text:y())
+	self._waves_text:set_position(text_x, self._waves_text:visible() and self._objective_detail:bottom() or self._objective_detail:y())
+	self._time_text:set_position(text_x, self._waves_text:bottom())
 
 	self._vip_icon:set_position(0, self._time_text:bottom() + self._vip_icon:h())
 	self._vip_text:set_position(text_x, self._vip_icon:y())
 	self._vip_detail:set_position(text_x, self._vip_text:bottom())
+end
+
+function HUDObjectivePanel:set_icon(icon)
+	self._objective_icon:set_texture_rect(unpack(HUDObjectivePanel.ICON_TEXTURE_RECTS[icon] or HUDObjectivePanel.ICON_TEXTURE_RECTS.default))
+	self._objective_icon:set_color(HUDObjectivePanel.ICON_COLORS[icon] or HUDObjectivePanel.ICON_COLORS.default)
 end
 
 function HUDObjectivePanel:set_objective(text)
@@ -117,14 +144,15 @@ function HUDObjectivePanel:set_objective_detail(text)
 	self:_layout()
 end
 
-function HUDObjectivePanel:set_escape(state)
-	if state then
-		self._objective_icon:set_texture_rect(48, 48, 48, 48)
-		self._objective_icon:set_color(WFHud.colors.extract)
+function HUDObjectivePanel:set_waves_text(text)
+	if text then
+		self._waves_text:set_text(text)
+		self._waves_text:set_visible(true)
 	else
-		self._objective_icon:set_texture_rect(0, managers.skirmish:is_skirmish() and 48 or 0, 48, 48)
-		self._objective_icon:set_color(WFHud.colors.objective)
+		self._waves_text:set_visible(false)
 	end
+
+	self:_layout()
 end
 
 function HUDObjectivePanel:set_time(time, is_point_of_no_return)
@@ -153,8 +181,8 @@ function HUDObjectivePanel:set_time(time, is_point_of_no_return)
 	self._time_text:set_text(text)
 end
 
-function HUDObjectivePanel:set_point_of_no_return(text_id)
-	self._point_of_no_return = managers.localization:to_upper_text(text_id)
+function HUDObjectivePanel:set_point_of_no_return(text)
+	self._point_of_no_return = text
 end
 
 function HUDObjectivePanel:set_vip(buff)

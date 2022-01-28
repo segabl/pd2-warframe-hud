@@ -31,16 +31,6 @@ if not WFHud then
 		{ ext = ids_font, path = "fonts/wfhud/large_no_shadow", file = ModPath .. "assets/fonts/wfhud/large_no_shadow.font" },
 	})
 
-	dofile(ModPath .. "req/HUDHealthBar.lua")
-	dofile(ModPath .. "req/HUDIconList.lua")
-	dofile(ModPath .. "req/HUDPlayerPanel.lua")
-	dofile(ModPath .. "req/HUDPlayerEquipment.lua")
-	dofile(ModPath .. "req/HUDFloatingUnitLabel.lua")
-	dofile(ModPath .. "req/HUDBuffList.lua")
-	dofile(ModPath .. "req/HUDDamagePop.lua")
-	dofile(ModPath .. "req/HUDInteractDisplay.lua")
-	dofile(ModPath .. "req/HUDObjectivePanel.lua")
-
 	WFHud = {}
 	WFHud.mod_path = ModPath
 	WFHud.skill_map = {}
@@ -94,6 +84,16 @@ if not WFHud then
 	}
 	WFHud.MARGIN_H = 48
 	WFHud.MARGIN_V = 32
+
+	dofile(ModPath .. "req/HUDHealthBar.lua")
+	dofile(ModPath .. "req/HUDIconList.lua")
+	dofile(ModPath .. "req/HUDPlayerPanel.lua")
+	dofile(ModPath .. "req/HUDPlayerEquipment.lua")
+	dofile(ModPath .. "req/HUDFloatingUnitLabel.lua")
+	dofile(ModPath .. "req/HUDBuffList.lua")
+	dofile(ModPath .. "req/HUDDamagePop.lua")
+	dofile(ModPath .. "req/HUDInteractDisplay.lua")
+	dofile(ModPath .. "req/HUDObjectivePanel.lua")
 
 	function WFHud:setup()
 		self:_create_skill_icon_map()

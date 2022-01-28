@@ -34,7 +34,7 @@ end
 
 Hooks:OverrideFunction(HUDAssaultCorner, "show_point_of_no_return_timer", function (self, id)
 	local noreturn_data = self:_get_noreturn_data(id)
-	WFHud._objective_panel:set_point_of_no_return(noreturn_data.text_id)
+	WFHud._objective_panel:set_point_of_no_return(managers.localization:to_upper_text(noreturn_data.text_id))
 end)
 
 Hooks:OverrideFunction(HUDAssaultCorner, "hide_point_of_no_return_timer", function (self)
@@ -51,7 +51,7 @@ Hooks:OverrideFunction(HUDAssaultCorner, "get_completed_waves_string", function 
 	local remaining = self._assault and max - current + 1 or max - current
 	local text = managers.localization:to_upper_text("hud_waves_remaining", { NUM = remaining })
 
-	WFHud._objective_panel:set_objective_detail(text)
+	WFHud._objective_panel:set_waves_text(text)
 
 	return text
 end)

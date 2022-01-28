@@ -7,6 +7,8 @@
 	"hud_objectives_completed" : "Abgeschlossen: $CURRENT/$TOTAL",
 	"hud_objectives_defeat_winters" : "Besiege Captain Winters",
 	"hud_objectives_damage_resistance" : "Gegner Schadensreduktion: $NUM%",
+	"hud_objectives_protect_bags" : "Verteidige euer Geld",
 	"hud_waves_remaining" : "Ausstehende Wellen: $NUM",
+	"hud_bags_remaining" : "Übrige Taschen: $NUM",
 	"debug_mugshot_electrified" : "Geschockt"
 }

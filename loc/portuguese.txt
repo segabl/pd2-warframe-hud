@@ -7,6 +7,8 @@
 	"hud_objectives_completed" : "Concluído: $CURRENT/$TOTAL",
 	"hud_objectives_defeat_winters" : "Derrote Capitão Winters",
 	"hud_objectives_damage_resistance" : "Resistência de Dano do Inimigo: $NUM%",
-	"hud_waves_remaining" : "Ondas Restantes: $NUM",
+	"hud_objectives_protect_bags" : "Defende o seu dinheiro",
+	"hud_waves_remaining" : "Ondas restantes: $NUM",
+	"hud_bags_remaining" : "Bolsas restantes: $NUM",
 	"debug_mugshot_electrified" : "Eletrocutado"
 }

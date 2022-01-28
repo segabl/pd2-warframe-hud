@@ -8,15 +8,38 @@ Hooks:PostHook(HUDObjectives, "init", "init_wfhud", function (self)
 	objective_panel:set_alpha(0)
 end)
 
+local function set_objective_detail(data)
+	if data.amount then
+		if data.id == "heist_chill2" then
+			WFHud._objective_panel:set_objective_detail(managers.localization:to_upper_text("hud_bags_remaining", { NUM = data.current_amount }))
+		else
+			WFHud._objective_panel:set_objective_detail(managers.localization:to_upper_text("hud_objectives_completed", { CURRENT = data.current_amount or 0, TOTAL = data.amount }))
+		end
+	else
+		WFHud._objective_panel:set_objective_detail(nil)
+	end
+end
+
+local obj_id_icons = {
+	heist_chill2 = "defend",
+	hud_skm_1 = "defend"
+}
+
 Hooks:OverrideFunction(HUDObjectives, "activate_objective", function (self, data)
 	self._active_objective_id = data.id
 
-	WFHud._objective_panel:set_objective(data.text:upper())
-	if data.amount then
-		WFHud._objective_panel:set_objective_detail(managers.localization:to_upper_text("hud_objectives_completed", { CURRENT = data.current_amount or 0, TOTAL = data.amount }))
-	elseif not managers.skirmish:is_skirmish() then
-		WFHud._objective_panel:set_objective_detail(nil)
+	WFHud._objective_panel:set_icon(obj_id_icons[data.id])
+	WFHud._objective_panel:set_objective(data.id == "heist_chill2" and managers.localization:to_upper_text("hud_objectives_protect_bags") or data.text:upper())
+
+	set_objective_detail(data)
+end)
+
+Hooks:OverrideFunction(HUDObjectives, "update_amount_objective", function (self, data)
+	if self._active_objective_id ~= data.id then
+		return
 	end
+
+	set_objective_detail(data)
 end)
 
 Hooks:OverrideFunction(HUDObjectives, "complete_objective", function (self, data)
@@ -25,19 +48,5 @@ Hooks:OverrideFunction(HUDObjectives, "complete_objective", function (self, data
 	end
 
 	WFHud._objective_panel:set_objective(nil)
-	if not managers.skirmish:is_skirmish() then
-		WFHud._objective_panel:set_objective_detail(nil)
-	end
-end)
-
-Hooks:OverrideFunction(HUDObjectives, "update_amount_objective", function (self, data)
-	if self._active_objective_id ~= data.id then
-		return
-	end
-
-	if data.amount then
-		WFHud._objective_panel:set_objective_detail(managers.localization:to_upper_text("hud_objectives_completed", { CURRENT = data.current_amount, TOTAL = data.amount }))
-	elseif not managers.skirmish:is_skirmish() then
-		WFHud._objective_panel:set_objective_detail(nil)
-	end
+	WFHud._objective_panel:set_objective_detail(nil)
 end)
