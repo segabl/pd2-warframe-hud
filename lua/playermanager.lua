@@ -173,3 +173,17 @@ function PlayerManager:_attempt_pocket_ecm_jammer(...)
 
 	return result
 end
+
+
+-- tag team duration is basically impossible to figure out thanks to lots of local functions
+Hooks:PostHook(PlayerManager, "sync_tag_team", "sync_tag_team_wfhud", function (self, tagged)
+	if tagged == self:local_player() then
+		WFHud:add_buff("player", "tag_team_base", nil, nil)
+	end
+end)
+
+Hooks:PostHook(PlayerManager, "end_tag_team", "end_tag_team_wfhud", function (self, tagged)
+	if tagged == self:local_player() then
+		WFHud:remove_buff("player", "tag_team_base")
+	end
+end)
