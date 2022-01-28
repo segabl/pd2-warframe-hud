@@ -31,6 +31,8 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 	})
 
 	if text_size then
+		self._font_size = text_size
+
 		self._health_text = self._panel:text({
 			color = self._health_color,
 			text = "100",
@@ -273,9 +275,13 @@ function HUDHealthBar:set_health_text(text, override)
 			self._health_text_override = self._health_text:text()
 		end
 		self._health_text:set_text(text)
+		local _, _, w = self._health_text:text_rect()
+		local scale = math.min(self._health_text:parent():w() / w, 1)
+		self._health_text:set_font_size(self._font_size * scale)
 	else
 		if self._health_text_override then
 			self._health_text:set_text(self._health_text_override)
+			self._health_text:set_font_size(self._font_size)
 			self._health_text_override = nil
 		else
 			return
