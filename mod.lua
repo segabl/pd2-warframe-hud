@@ -187,8 +187,16 @@ if not WFHud then
 		local mul
 		local pm = managers.player
 		local minions = pm:num_local_minions() or 0
-		local hostages_total = managers.groupai:state()._hostage_headcount + minions
+		local hostages =  managers.groupai:state()._hostage_headcount
+		local hostages_total = hostages + minions
 		local hostage_max_num
+
+		if hostages > 0 then
+			self:add_buff("game", "hostages", hostages)
+		else
+			self:remove_buff("game", "hostages")
+		end
+
 		for _, v in pairs(categories) do
 			hostage_max_num = math.min(hostages_total, tweak_data:get_raw_value("upgrades", "hostage_max_num", v) or hostages_total)
 
@@ -197,7 +205,7 @@ if not WFHud then
 			if mul ~= 1 then
 				self:add_buff(v, "hostage_multiplier", self.value_format.percentage_mul(mul))
 			else
-				WFHud:remove_buff(v, "hostage_multiplier")
+				self:remove_buff(v, "hostage_multiplier")
 			end
 
 			mul = 1 + (pm:team_upgrade_value(v, "passive_hostage_multiplier", 1) - 1) * hostage_max_num
@@ -423,13 +431,23 @@ if not WFHud then
 		-- Create custom mappings
 		self.skill_map.player.stoic_dot = {
 			key = "player.stoic_dot",
-			icon_category = "health",
 			name_id = "wfhud_dot",
 			texture_rect = { 96, 0, 48, 48 },
 			texture = "guis/textures/wfhud/damage_types",
 			value_format = WFHud.value_format.default,
 			is_debuff = true,
 			hide_name = true
+		}
+
+		-- non player specific mappings
+		self.skill_map.game = {
+			hostages = {
+				key = "game.hostages",
+				name_id = "hud_hostages",
+				texture_rect = { 4 * 80, 7 * 80, 80, 80 },
+				texture = "guis/textures/wfhud/skill_icons_clean",
+				value_format = WFHud.value_format.default,
+			}
 		}
 	end
 
