@@ -10,5 +10,6 @@
 	"hud_objectives_protect_bags" : "Protege tu dinero",
 	"hud_waves_remaining" : "Hordas restantes: $NUM",
 	"hud_bags_remaining" : "Bolsas restantes: $NUM",
+	"hud_hostages" : "Rehenes",
 	"debug_mugshot_electrified" : "Electrocutado"
 }
