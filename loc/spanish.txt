@@ -1,0 +1,15 @@
+{
+	"hud_fire_mode_auto" : "Automatico",
+	"hud_fire_mode_single" : "Un disparo",
+	"hud_fire_mode_underbarrel" : "Boquilla Inferior",
+	"hud_fire_mode_underbarrel_raycast" : "Boquilla Inferior",
+	"hud_fire_mode_underbarrel_launcher" : "Lanzador",
+	"hud_objectives_completed" : "Completado: $CURRENT/$TOTAL",
+	"hud_objectives_defeat_winters" : "Derrota al Capitán Winters",
+	"hud_objectives_damage_resistance" : "Reducción de Daño Enemigo: $NUM%",
+	"hud_objectives_protect_bags" : "Protege tu dinero",
+	"hud_waves_remaining" : "Hordas restantes: $NUM",
+	"hud_bags_remaining" : "Bolsas restantes: $NUM",
+	"hud_hostages" : "Rehenes",
+	"debug_mugshot_electrified" : "Electrocutado"
+}
