@@ -3,11 +3,13 @@ HUDObjectivePanel = class()
 HUDObjectivePanel.ICON_TEXTURE_RECTS = {
 	default = { 0, 0, 48, 48 },
 	defend = { 0, 48, 48, 48 },
+	attack = { 48, 0, 48, 48 },
 	extract = { 48, 48, 48, 48 }
 }
 
 HUDObjectivePanel.ICON_COLORS = {
 	default = WFHud.colors.objective,
+	attack = WFHud.colors.attack,
 	extract = WFHud.colors.extract
 }
 
@@ -72,7 +74,7 @@ function HUDObjectivePanel:init(panel, x, y)
 	self._vip_icon = self._panel:bitmap({
 		visible = false,
 		texture = "guis/textures/wfhud/icons",
-		texture_rect = { 48, 0, 48, 48 },
+		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.attack,
 		color = WFHud.colors.attack,
 		w = 24,
 		h = 24
@@ -183,6 +185,7 @@ end
 
 function HUDObjectivePanel:set_point_of_no_return(text)
 	self._point_of_no_return = text
+	self._time_text:set_font(Idstring(text and WFHud.fonts.bold or WFHud.fonts.default))
 end
 
 function HUDObjectivePanel:set_vip(buff)

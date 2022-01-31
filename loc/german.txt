@@ -10,5 +10,6 @@
 	"hud_objectives_protect_bags" : "Verteidige euer Geld",
 	"hud_waves_remaining" : "Ausstehende Wellen: $NUM",
 	"hud_bags_remaining" : "Übrige Taschen: $NUM",
+	"hud_hostages" : "Geiseln",
 	"debug_mugshot_electrified" : "Geschockt"
 }
