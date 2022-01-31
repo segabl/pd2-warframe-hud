@@ -185,6 +185,7 @@ end
 
 function HUDObjectivePanel:set_point_of_no_return(text)
 	self._point_of_no_return = text
+	self._time_text:set_font(Idstring(text and WFHud.fonts.bold or WFHud.fonts.default))
 end
 
 function HUDObjectivePanel:set_vip(buff)
