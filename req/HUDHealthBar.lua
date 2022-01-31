@@ -334,15 +334,15 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 	local max_armor_ratio = max_armor / total_value
 	local health_ratio = math.min(health / max_health, 1)
 	local armor_ratio = math.min(armor / max_armor, 1)
+	local max_ratio_changed = max_health_ratio ~= self._max_health_ratio or max_armor_ratio ~= self._max_armor_ratio
 
 	instant = instant or self._set_data_instant
 
-	if health_ratio < self._health_ratio or instant then
+	if health_ratio < self._health_ratio or instant or max_ratio_changed then
 		self._health_bar:stop()
-
 		self._health_bar:set_w(math.round(self._bg_bar:w() * max_health_ratio * health_ratio))
 
-		if instant then
+		if instant or health_ratio >= self._health_ratio then
 			self:set_health_text(tostring(math.round(health)))
 		else
 			-- animate health loss
@@ -405,12 +405,11 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 		self:_stop_shield_animation()
 	end
 
-	if armor_ratio < self._armor_ratio or instant then
+	if armor_ratio < self._armor_ratio or instant or max_ratio_changed then
 		self._armor_bar:stop()
-
 		self._armor_bar:set_w(math.round(self._bg_bar:w() * max_armor_ratio * armor_ratio))
 
-		if instant then
+		if instant or armor_ratio >= self._armor_ratio then
 			self:set_armor_text(max_armor_ratio > 0 and tostring(math.round(armor)) or "")
 		else
 			-- animate armor loss
