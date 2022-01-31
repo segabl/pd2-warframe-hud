@@ -153,8 +153,15 @@ end
 
 function HUDPlayerEquipment:set_ammo(wbase)
 	local mag_max, mag, total = wbase:ammo_info()
-	self._ammo_text:set_text(tostring(mag_max <= 1 and total or mag))
-	self._total_ammo_text:set_text(mag_max <= 1 and "   " or string.format("/ %u", total - mag))
+	if mag_max <= 1 then
+		self._ammo_text:set_text(tostring(total))
+		self._ammo_text:set_alpha(mag < 1 and 0.5 or 1)
+		self._total_ammo_text:set_text("   ")
+	else
+		self._ammo_text:set_text(tostring(mag))
+		self._ammo_text:set_alpha(1)
+		self._total_ammo_text:set_text(string.format("/ %u", total - mag))
+	end
 
 	self:_align_ammo_text()
 end
