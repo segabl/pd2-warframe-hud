@@ -315,6 +315,7 @@ if not WFHud then
 				if unit_data._wfhud_label then
 					self._unit_aim_custom_label = unit_data._wfhud_label
 					self._unit_aim_custom_label:set_health_visible(true)
+					self._unit_aim_label:set_unit(nil)
 				else
 					self._unit_aim_label:set_unit(unit)
 				end
