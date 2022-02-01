@@ -151,9 +151,9 @@ Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount", "set_deployable_e
 		return
 	end
 
-	WFHud._equipment_panel._equipment_list:add_icon("equipment", tweak_data.hud_icons:get_icon_data(data.icon))
-	WFHud._equipment_panel._equipment_list:set_icon_value("equipment", data.amount > 1 and data.amount)
-	WFHud._equipment_panel._equipment_list:set_icon_enabled("equipment", data.amount > 0)
+	WFHud._equipment_panel._equipment_list:add_icon("equipment" .. index, tweak_data.hud_icons:get_icon_data(data.icon))
+	WFHud._equipment_panel._equipment_list:set_icon_value("equipment" .. index, data.amount > 1 and data.amount)
+	WFHud._equipment_panel._equipment_list:set_icon_enabled("equipment" .. index, data.amount > 0)
 	WFHud._equipment_panel:_align_equipment()
 end)
 
@@ -162,9 +162,11 @@ Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount_from_string", "set_
 		return
 	end
 
-	WFHud._equipment_panel._equipment_list:add_icon("equipment", tweak_data.hud_icons:get_icon_data(data.icon))
-	WFHud._equipment_panel._equipment_list:set_icon_value("equipment", table.concat(data.amount, "|"))
-	WFHud._equipment_panel._equipment_list:set_icon_enabled("equipment", table.inject(data.amount, 0, function (a, b) return a + b end) > 0)
+	for i, v in ipairs(data.amount) do
+		WFHud._equipment_panel._equipment_list:add_icon("equipment" .. i, tweak_data.hud_icons:get_icon_data(data.icon))
+		WFHud._equipment_panel._equipment_list:set_icon_value("equipment" .. i, v > 1 and v)
+		WFHud._equipment_panel._equipment_list:set_icon_enabled("equipment" .. i, v > 0)
+	end
 	WFHud._equipment_panel:_align_equipment()
 end)
 
