@@ -2,7 +2,7 @@ ElementAreaTrigger.ACTIVE_ESCAPES = 0
 
 local function check_executed_objects(area_trigger, current, recursion_depth)
 	current = current or area_trigger
-	recursion_depth = recursion_depth or 1
+	recursion_depth = recursion_depth or 2
 
 	for _, params in pairs(current._values.on_executed) do
 		local element = current:get_mission_element(params.id)
@@ -18,7 +18,7 @@ local function check_executed_objects(area_trigger, current, recursion_depth)
 				end
 			end
 			return true
-		elseif recursion_depth > 0 and element_class == MissionScriptElement then
+		elseif element_class == MissionScriptElement and recursion_depth > 0 then
 			if check_executed_objects(area_trigger, element, recursion_depth - 1) then
 				return true
 			end

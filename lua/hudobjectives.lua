@@ -28,7 +28,7 @@ local obj_id_icons = {
 Hooks:OverrideFunction(HUDObjectives, "activate_objective", function (self, data)
 	self._active_objective_id = data.id
 
-	WFHud._objective_panel:set_icon(obj_id_icons[data.id])
+	WFHud._objective_panel:set_icon(ElementAreaTrigger.ACTIVE_ESCAPES > 0 and "extract" or obj_id_icons[data.id])
 	WFHud._objective_panel:set_objective(data.id == "heist_chill2" and managers.localization:to_upper_text("hud_objectives_protect_bags") or data.text:upper())
 
 	set_objective_detail(data)
