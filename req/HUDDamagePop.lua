@@ -67,7 +67,7 @@ function HUDDamagePop:animate()
 		local _, _, tw, _ = self._damage_text:text_rect()
 
 		if self._proc_bitmap then
-			self._proc_bitmap:set_size(size * 0.8, size * 0.8)
+			self._proc_bitmap:set_size(size, size)
 			self._proc_bitmap:set_x(tw)
 		end
 
@@ -78,7 +78,7 @@ function HUDDamagePop:animate()
 		mvec_add(tmp_vec, self._pos)
 
 		local screen_pos = WFHud._ws:world_to_screen(cam, tmp_vec)
-		self._panel:set_size(tw + (self._proc_bitmap and size * 0.8 or 0), size)
+		self._panel:set_size(tw + (self._proc_bitmap and size or 0), size)
 		self._panel:set_center(screen_pos.x, screen_pos.y)
 		self._panel:set_alpha(math.bezier(self.ALPHA_CURVE, t))
 
