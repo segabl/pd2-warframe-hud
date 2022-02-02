@@ -12,7 +12,7 @@ local function check_executed_objects(area_trigger, current, recursion_depth)
 				ElementAreaTrigger.ACTIVE_ESCAPES = ElementAreaTrigger.ACTIVE_ESCAPES + 1
 				WFHud._objective_panel:set_icon("extract")
 			else
-				ElementAreaTrigger.ACTIVE_ESCAPES = ElementAreaTrigger.ACTIVE_ESCAPES - 1
+				ElementAreaTrigger.ACTIVE_ESCAPES = math.max(ElementAreaTrigger.ACTIVE_ESCAPES - 1, 0)
 				if ElementAreaTrigger.ACTIVE_ESCAPES <= 0 then
 					WFHud._objective_panel:set_icon(nil)
 				end
