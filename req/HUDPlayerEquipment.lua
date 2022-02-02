@@ -61,8 +61,8 @@ function HUDPlayerEquipment:init(panel)
 
 	self:_align_weapon_text()
 
-	self._equipment_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom() + 2, 24, 24, WFHud.colors.default)
-	self._item_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom() + 2, self._panel:w(), 24, WFHud.colors.default)
+	self._equipment_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), 24, 24, WFHud.colors.default)
+	self._item_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), self._panel:w(), 24, WFHud.colors.default)
 
 	self:_align_equipment()
 

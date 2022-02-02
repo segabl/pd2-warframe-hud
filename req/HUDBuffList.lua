@@ -67,7 +67,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		align = "center",
 		vertical = "center",
 		color = WFHud.colors.default,
-		font_size = WFHud.font_sizes.small * 0.8,
+		font_size = WFHud.font_sizes.tiny,
 		font = WFHud.fonts.default_no_shadow
 	})
 

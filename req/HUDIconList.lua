@@ -9,7 +9,7 @@ function HUDIconList:init(panel, x, y, width, height, icon_color)
 		x = x,
 		y = y,
 		w = width,
-		h = height
+		h = height + 8
 	})
 end
 
@@ -31,7 +31,7 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 		icon_panel = self._panel:panel({
 			name = name,
 			w = self._size,
-			h = self._size
+			h = self._panel:h()
 		})
 	end
 
@@ -46,19 +46,34 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 	})
 	local ratio = texture_rect and texture_rect[4] / texture_rect[3] or image:texture_height() / image:texture_width()
 	image:set_size(ratio < 1 and self._size or self._size / ratio, ratio < 1 and self._size * ratio or self._size)
-	image:set_center(self._size * 0.5, self._size * 0.5)
+	image:set_center(icon_panel:w() * 0.5, icon_panel:h() * 0.5)
 
-	icon_panel:text({
-		name = "value",
-		align = "right",
-		vertical = "bottom",
+	local panel = icon_panel:panel({
+		layer = 1,
+		name = "value_panel",
+		w = self._size * 0.6,
+		h = self._size * 0.5
+	})
+	panel:set_center_x(icon_panel:w() * 0.5)
+	panel:set_bottom(icon_panel:h())
+
+	panel:rect({
+		halign = "grow",
+		valign = "grow",
+		color = WFHud.colors.bg:with_alpha(0.75)
+	})
+
+	panel:text({
+		layer = 1,
+		name = "value_text",
+		halign = "grow",
+		valign = "grow",
+		align = "center",
+		vertical = "center",
 		text = "",
 		color = WFHud.colors.default,
-		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.tiny,
-		layer = 1,
-		w = self._size - 2,
-		h = self._size
+		font = WFHud.fonts.default_no_shadow,
+		font_size = WFHud.font_sizes.tiny
 	})
 
 	self:_layout_panel()
@@ -75,7 +90,13 @@ end
 function HUDIconList:set_icon_value(name, value)
 	local icon_panel = self._panel:child(name)
 	if icon_panel then
-		icon_panel:child("value"):set_text(value and tostring(value) or "")
+		local value_panel = icon_panel:child("value_panel")
+		if value then
+			value_panel:child("value_text"):set_text(tostring(value))
+			value_panel:show()
+		else
+			value_panel:hide()
+		end
 	end
 end
 
