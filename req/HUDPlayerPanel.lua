@@ -70,15 +70,15 @@ function HUDPlayerPanel:init(panel, main_player)
 
 	-- peer id
 	self._peer_id_panel = self._panel:panel({
-		x = self._level_panel:right() - 12,
-		y = (main_player and self._health_bar._panel:bottom() or self._level_panel:bottom()) + 2,
-		w = 12,
-		h = 12,
+		x = self._level_panel:right() - 16,
+		y = main_player and self._health_bar._panel:bottom() or self._level_panel:bottom(),
+		w = 16,
+		h = 16,
 		layer = -1
 	})
 
 	self._peer_id_bg = self._peer_id_panel:bitmap({
-		texture = "guis/textures/pd2/hud_progress_32px",
+		texture = "guis/textures/wfhud/peer_bg",
 		w = self._peer_id_panel:h(),
 		h = self._peer_id_panel:w()
 	})
@@ -103,7 +103,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		color = WFHud.colors.default,
 		align = "right",
 		y = main_player and self._health_bar._panel:bottom() or self._level_panel:bottom(),
-		w = self._level_panel:right() - (main_player and 20 or 16),
+		w = self._level_panel:right() - (main_player and 24 or 20),
 		layer = -1
 	})
 
@@ -114,7 +114,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		color = WFHud.colors.default,
 		align = "right",
 		y = main_player and self._health_bar._panel:bottom() or self._level_panel:bottom(),
-		w = self._level_panel:right() - (main_player and 20 or 16),
+		w = self._level_panel:right() - (main_player and 24 or 20),
 		layer = -1
 	})
 
@@ -163,7 +163,7 @@ function HUDPlayerPanel:set_name(name)
 
 		self._level_text:set_text(string.format(" [%u]", managers.experience:current_level()))
 		local _, _, tw = self._level_text:text_rect()
-		self._name_text:set_w(self._level_panel:right() - 20 - tw)
+		self._name_text:set_w(self._level_panel:right() - 24 - tw)
 		name = managers.localization:to_upper_text(tweak_data.skilltree.specializations[spec].name_id)
 	end
 

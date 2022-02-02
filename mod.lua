@@ -17,6 +17,7 @@ if not WFHud then
 		{ ext = ids_texture, path = "guis/textures/wfhud/avatar_placeholder", file = ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds" },
 		{ ext = ids_texture, path = "guis/textures/wfhud/invulnerability_overlay", file = ModPath .. "assets/guis/textures/wfhud/invulnerability_overlay.dds" },
 		{ ext = ids_texture, path = "guis/textures/wfhud/icons", file = ModPath .. "assets/guis/textures/wfhud/icons.dds" },
+		{ ext = ids_texture, path = "guis/textures/wfhud/peer_bg", file = ModPath .. "assets/guis/textures/wfhud/peer_bg.dds" },
 		{ ext = ids_texture, path = "fonts/wfhud/default", file = ModPath .. "assets/fonts/wfhud/default.dds" },
 		{ ext = ids_texture, path = "fonts/wfhud/default_no_shadow", file = ModPath .. "assets/fonts/wfhud/default_no_shadow.dds" },
 		{ ext = ids_texture, path = "fonts/wfhud/bold", file = ModPath .. "assets/fonts/wfhud/bold.dds" },
