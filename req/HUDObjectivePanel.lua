@@ -31,6 +31,17 @@ function HUDObjectivePanel:init(panel, x, y)
 		h = 24
 	})
 
+	self._objective_icon_overlay = panel:bitmap({
+		layer = 10,
+		visible = false,
+		texture = "guis/textures/wfhud/icons",
+		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.default,
+		color = WFHud.colors.objective,
+		w = 24,
+		h = 24,
+		blend_mode = "add"
+	})
+
 	self._objective_text = self._panel:text({
 		visible = false,
 		text = "GO DO A CRIME",
@@ -80,6 +91,17 @@ function HUDObjectivePanel:init(panel, x, y)
 		h = 24
 	})
 
+	self._vip_icon_overlay = panel:bitmap({
+		layer = 10,
+		visible = false,
+		texture = "guis/textures/wfhud/icons",
+		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.attack,
+		color = WFHud.colors.attack,
+		w = 24,
+		h = 24,
+		blend_mode = "add"
+	})
+
 	self._vip_text = self._panel:text({
 		visible = false,
 		text = managers.localization:to_upper_text("hud_objectives_defeat_winters"),
@@ -117,19 +139,51 @@ function HUDObjectivePanel:_layout()
 	self._vip_detail:set_position(text_x, self._vip_text:bottom())
 end
 
+function HUDObjectivePanel:_animate_show_icon(overlay_icon, icon)
+	local w, h = icon:size()
+	icon:show()
+	overlay_icon:show()
+	over(1, function (t)
+		local s = math.lerp(1, 1.5, math.sin(t * 180))
+		overlay_icon:set_size(w * s, h * s)
+		overlay_icon:set_center(self._panel:x() + icon:center_x(), self._panel:y() + icon:center_y())
+		overlay_icon:set_alpha(math.sin(t * 180))
+	end)
+	overlay_icon:hide()
+end
+
+function HUDObjectivePanel:_animate_show_text(text)
+	local w = self._panel:w()
+	text:set_w(0)
+	text:show()
+	over(0.5, function (t)
+		text:set_w(t * w)
+	end)
+	text:set_w(w)
+end
+
 function HUDObjectivePanel:set_icon(icon)
-	self._objective_icon:set_texture_rect(unpack(HUDObjectivePanel.ICON_TEXTURE_RECTS[icon] or HUDObjectivePanel.ICON_TEXTURE_RECTS.default))
-	self._objective_icon:set_color(HUDObjectivePanel.ICON_COLORS[icon] or HUDObjectivePanel.ICON_COLORS.default)
+	local x, y, w, h = unpack(HUDObjectivePanel.ICON_TEXTURE_RECTS[icon] or HUDObjectivePanel.ICON_TEXTURE_RECTS.default)
+	local color = HUDObjectivePanel.ICON_COLORS[icon] or HUDObjectivePanel.ICON_COLORS.default
+
+	self._objective_icon:set_texture_rect(x, y, w, h)
+	self._objective_icon:set_color(color)
+
+	self._objective_icon_overlay:set_texture_rect(x, y, w, h)
+	self._objective_icon_overlay:set_color(color)
 end
 
 function HUDObjectivePanel:set_objective(text)
 	if text then
-		self._objective_icon:set_visible(true)
+		self._objective_icon:stop()
+		self._objective_icon:animate(callback(self, self, "_animate_show_icon", self._objective_icon_overlay))
+
 		self._objective_text:set_text(text)
-		self._objective_text:set_visible(true)
+		self._objective_text:stop()
+		self._objective_text:animate(callback(self, self, "_animate_show_text"))
 	else
-		self._objective_icon:set_visible(false)
-		self._objective_text:set_visible(false)
+		self._objective_icon:hide()
+		self._objective_text:hide()
 	end
 
 	self:_layout()
@@ -138,9 +192,11 @@ end
 function HUDObjectivePanel:set_objective_detail(text)
 	if text then
 		self._objective_detail:set_text(text)
-		self._objective_detail:set_visible(true)
+		if not self._objective_detail:visible() then
+			self._objective_detail:animate(callback(self, self, "_animate_show_text"))
+		end
 	else
-		self._objective_detail:set_visible(false)
+		self._objective_detail:hide()
 	end
 
 	self:_layout()
@@ -149,9 +205,11 @@ end
 function HUDObjectivePanel:set_waves_text(text)
 	if text then
 		self._waves_text:set_text(text)
-		self._waves_text:set_visible(true)
+		if not self._waves_text:visible() then
+			self._waves_text:animate(callback(self, self, "_animate_show_text"))
+		end
 	else
-		self._waves_text:set_visible(false)
+		self._waves_text:hide()
 	end
 
 	self:_layout()
@@ -190,14 +248,22 @@ end
 
 function HUDObjectivePanel:set_vip(buff)
 	if buff then
-		self._vip_icon:set_visible(true)
-		self._vip_text:set_visible(true)
+		if not self._vip_icon:visible() then
+			self._vip_icon:animate(callback(self, self, "_animate_show_icon", self._vip_icon_overlay))
+		end
+
+		if not self._vip_text:visible() then
+			self._vip_text:animate(callback(self, self, "_animate_show_text"))
+		end
+
 		self._vip_detail:set_text(managers.localization:to_upper_text("hud_objectives_damage_resistance", { NUM = buff }))
-		self._vip_detail:set_visible(true)
+		if not self._vip_detail:visible() then
+			self._vip_detail:animate(callback(self, self, "_animate_show_text"))
+		end
 	else
-		self._vip_icon:set_visible(false)
-		self._vip_text:set_visible(false)
-		self._vip_detail:set_visible(false)
+		self._vip_icon:hide()
+		self._vip_text:hide()
+		self._vip_detail:hide()
 	end
 
 	self:_layout()
