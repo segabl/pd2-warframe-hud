@@ -9,7 +9,7 @@ function HUDIconList:init(panel, x, y, width, height, icon_color)
 		x = x,
 		y = y,
 		w = width,
-		h = height + 8
+		h = height + 4
 	})
 end
 
@@ -46,13 +46,14 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 	})
 	local ratio = texture_rect and texture_rect[4] / texture_rect[3] or image:texture_height() / image:texture_width()
 	image:set_size(ratio < 1 and self._size or self._size / ratio, ratio < 1 and self._size * ratio or self._size)
-	image:set_center(icon_panel:w() * 0.5, icon_panel:h() * 0.5)
+	image:set_center(icon_panel:w() * 0.5, self._size * 0.5)
 
 	local panel = icon_panel:panel({
 		layer = 1,
 		name = "value_panel",
-		w = self._size * 0.6,
-		h = self._size * 0.5
+		w = WFHud.font_sizes.tiny * 1.25,
+		h = WFHud.font_sizes.tiny,
+		visible = false
 	})
 	panel:set_center_x(icon_panel:w() * 0.5)
 	panel:set_bottom(icon_panel:h())
