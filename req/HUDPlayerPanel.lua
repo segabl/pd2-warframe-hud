@@ -134,12 +134,14 @@ function HUDPlayerPanel:set_peer_id(id)
 	if not peer then
 		self._peer_rank:set_text("0")
 		self._level_bar:set_w(self._level_bar_bg:w())
+		self._level_bar:set_right(self._level_bar_bg:right())
 		self._peer_avatar:set_image("guis/textures/wfhud/avatar_placeholder")
 		return
 	end
 
 	self._peer_rank:set_text(tostring(peer:rank()))
 	self._level_bar:set_w(self._level_bar_bg:w() * ((peer:level() or 0) / 100))
+	self._level_bar:set_right(self._level_bar_bg:right())
 
 	local medium_res_done
 	Steam:friend_avatar(Steam.SMALL_AVATAR, peer:user_id(), function (texture)
