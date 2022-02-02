@@ -170,16 +170,16 @@ function HUDManager:add_waypoint(id, data, ...)
 	wp_data.arrow:set_size(ratio < 1 and icon_size or icon_size / ratio, ratio < 1 and icon_size * ratio or icon_size)
 	wp_data.arrow:set_color((data.color or WFHud.colors.default):with_alpha(1))
 
-	wp_data.text:set_font(Idstring(WFHud.fonts.default))
+	wp_data.text:set_font(WFHud.font_ids.default)
 	wp_data.text:set_font_size(WFHud.font_sizes.small)
 	local _, _, w, _ = wp_data.text:text_rect()
 	wp_data.text:set_w(w)
 	if wp_data.distance then
-		wp_data.distance:set_font(Idstring(WFHud.fonts.default))
+		wp_data.distance:set_font(WFHud.font_ids.default)
 		wp_data.distance:set_font_size(WFHud.font_sizes.small)
 	end
 	if wp_data.timer_gui then
-		wp_data.timer_gui:set_font(Idstring(WFHud.fonts.default))
+		wp_data.timer_gui:set_font(WFHud.font_ids.default)
 		wp_data.timer_gui:set_font_size(WFHud.font_sizes.small)
 	end
 

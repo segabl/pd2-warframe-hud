@@ -5,32 +5,30 @@ if not WFHud then
 	local mvec_set = mvector3.set
 	local tmp_vec = Vector3()
 
-	local ids_font = Idstring("font")
-	local ids_texture = Idstring("texture")
-	HopLib:load_assets({
-		{ ext = ids_texture, path = "guis/textures/wfhud/skill_icons_clean", file = ModPath .. "assets/guis/textures/wfhud/skill_icons_clean.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/buff_categories", file = ModPath .. "assets/guis/textures/wfhud/buff_categories.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/damage_types", file = ModPath .. "assets/guis/textures/wfhud/damage_types.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/bar", file = ModPath .. "assets/guis/textures/wfhud/bar.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/bar_caps", file =  ModPath .. "assets/guis/textures/wfhud/bar_caps.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/shield_overlay", file = ModPath .. "assets/guis/textures/wfhud/shield_overlay.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/avatar_placeholder", file = ModPath .. "assets/guis/textures/wfhud/avatar_placeholder.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/invulnerability_overlay", file = ModPath .. "assets/guis/textures/wfhud/invulnerability_overlay.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/icons", file = ModPath .. "assets/guis/textures/wfhud/icons.dds" },
-		{ ext = ids_texture, path = "guis/textures/wfhud/peer_bg", file = ModPath .. "assets/guis/textures/wfhud/peer_bg.dds" },
-		{ ext = ids_texture, path = "fonts/wfhud/default", file = ModPath .. "assets/fonts/wfhud/default.dds" },
-		{ ext = ids_texture, path = "fonts/wfhud/default_no_shadow", file = ModPath .. "assets/fonts/wfhud/default_no_shadow.dds" },
-		{ ext = ids_texture, path = "fonts/wfhud/bold", file = ModPath .. "assets/fonts/wfhud/bold.dds" },
-		{ ext = ids_texture, path = "fonts/wfhud/bold_no_shadow", file = ModPath .. "assets/fonts/wfhud/bold_no_shadow.dds" },
-		{ ext = ids_texture, path = "fonts/wfhud/large", file = ModPath .. "assets/fonts/wfhud/large.dds" },
-		{ ext = ids_texture, path = "fonts/wfhud/large_no_shadow", file = ModPath .. "assets/fonts/wfhud/large_no_shadow.dds" },
-		{ ext = ids_font, path = "fonts/wfhud/default", file = ModPath .. "assets/fonts/wfhud/default.font" },
-		{ ext = ids_font, path = "fonts/wfhud/default_no_shadow", file = ModPath .. "assets/fonts/wfhud/default_no_shadow.font" },
-		{ ext = ids_font, path = "fonts/wfhud/bold", file = ModPath .. "assets/fonts/wfhud/bold.font" },
-		{ ext = ids_font, path = "fonts/wfhud/bold_no_shadow", file = ModPath .. "assets/fonts/wfhud/bold_no_shadow.font" },
-		{ ext = ids_font, path = "fonts/wfhud/large", file = ModPath .. "assets/fonts/wfhud/large.font" },
-		{ ext = ids_font, path = "fonts/wfhud/large_no_shadow", file = ModPath .. "assets/fonts/wfhud/large_no_shadow.font" },
-	})
+	local ext_mapping = {
+		dds = Idstring("texture"),
+		font = Idstring("font")
+	}
+	local function collect_files(base_dir, dir, tbl)
+		dir = dir or ""
+		tbl = tbl or {}
+		for _, dname in pairs(file.GetDirectories(base_dir .. dir)) do
+			collect_files(base_dir, dir .. dname .. "/", tbl)
+		end
+		for _, fname in pairs(file.GetFiles(base_dir .. dir)) do
+			local name, ext = fname:match("(.+)%.([^.]+)")
+			if ext_mapping[ext] then
+				table.insert(tbl, {
+					ext = ext_mapping[ext],
+					path = dir .. name,
+					file = base_dir .. dir .. fname
+				})
+			end
+		end
+		return tbl
+	end
+
+	HopLib:load_assets(collect_files(ModPath .. "assets/"))
 
 	WFHud = {}
 	WFHud.mod_path = ModPath
@@ -63,6 +61,7 @@ if not WFHud then
 		bold_no_shadow = "fonts/wfhud/bold_no_shadow",
 		large_no_shadow = "fonts/wfhud/large_no_shadow"
 	}
+	WFHud.font_ids = table.remap(WFHud.fonts, function (k, v) return k, Idstring(v) end)
 	WFHud.font_sizes = {
 		tiny = 12,
 		small = 16,
@@ -99,8 +98,8 @@ if not WFHud then
 	function WFHud:setup()
 		self:_create_skill_icon_map()
 
-		for _, v in pairs(self.fonts) do
-			managers.dyn_resource:load(ids_font, Idstring(v), managers.dyn_resource.DYN_RESOURCES_PACKAGE)
+		for _, v in pairs(self.font_ids) do
+			managers.dyn_resource:load(ext_mapping.font, v, managers.dyn_resource.DYN_RESOURCES_PACKAGE)
 		end
 
 		self:_check_font_replacements()
@@ -462,10 +461,13 @@ if not WFHud then
 		if not replace_languages[HopLib:get_game_language()] then
 			return
 		end
-		WFHud.fonts.default = "fonts/font_medium_shadow_mf"
-		WFHud.fonts.bold = "fonts/font_medium_shadow_mf"
-		WFHud.fonts.default_no_shadow = "fonts/font_medium_mf"
-		WFHud.fonts.bold_no_shadow = "fonts/font_medium_mf"
+
+		self.fonts.default = "fonts/font_medium_shadow_mf"
+		self.fonts.bold = "fonts/font_medium_shadow_mf"
+		self.fonts.default_no_shadow = "fonts/font_medium_mf"
+		self.fonts.bold_no_shadow = "fonts/font_medium_mf"
+
+		self.font_ids = table.remap(self.fonts, function (k, v) return k, Idstring(v) end)
 	end
 
 	Hooks:Add("LocalizationManagerPostInit", "LocalizationManagerPostInitWFHud", function(loc)

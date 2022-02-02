@@ -13,7 +13,7 @@ Hooks:PostHook(HUDChat, "_create_input_panel", "_create_input_panel_wfhud", func
 	self._input_panel:child("say"):set_w(0)
 
 	local input_text = self._input_panel:child("input_text")
-	input_text:set_font(Idstring(WFHud.fonts.default))
+	input_text:set_font(WFHud.font_ids.default)
 	input_text:set_font_size(HUDChat.line_height)
 end)
 
