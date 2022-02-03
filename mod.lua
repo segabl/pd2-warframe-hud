@@ -48,12 +48,10 @@ if not WFHud then
 		extract = Color("43b306"),
 		friendly = Color("0795d5"),
 		enemy = Color("c80406"),
-		damage = {
-			Color("ffffff"),
-			Color("ffff00"),
-			Color("fe6c09"),
-			Color("fe0000")
-		}
+		damage = Color("ffffff"),
+		yellow_crit = Color("ffff00"),
+		orange_crit = Color("fe6c09"),
+		red_crit = Color("fe0000")
 	}
 	WFHud.fonts = {
 		default = "fonts/wfhud/default",

@@ -17,6 +17,12 @@ HUDDamagePop.PROC_TYPE_TEXTURE_RECTS = {
 	toxin = { 96, 48, 48, 48 },
 	blast = { 144, 48, 48, 48 }
 }
+HUDDamagePop.COLORS = {
+	WFHud.colors.damage,
+	WFHud.colors.yellow_crit,
+	WFHud.colors.orange_crit,
+	WFHud.colors.red_crit
+}
 
 function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 	self._crit_mod = (is_crit and 1 or 0) + (is_headshot and 1 or 0)
@@ -31,7 +37,7 @@ function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 		self._proc_bitmap = self._panel:bitmap({
 			texture = "guis/textures/wfhud/damage_types",
 			texture_rect = self.PROC_TYPE_TEXTURE_RECTS[proc_type],
-			color = WFHud.colors.damage[self._crit_mod + 1],
+			color = HUDDamagePop.COLORS[self._crit_mod + 1],
 			w = size,
 			h = size
 		})
@@ -41,7 +47,7 @@ function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 		text = string.format("%u", math.ceil(damage * 10)),
 		font = WFHud.fonts.default,
 		font_size = size,
-		color = WFHud.colors.damage[self._crit_mod + 1],
+		color = HUDDamagePop.COLORS[self._crit_mod + 1],
 		x = 0
 	})
 
