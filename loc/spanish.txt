@@ -11,6 +11,7 @@
 	"hud_waves_remaining" : "Hordas restantes: $NUM",
 	"hud_bags_remaining" : "Bolsas restantes: $NUM",
 	"hud_hostages" : "Rehenes",
+	"hud_sub_name_alm" : "Hajrudin",
 	"hud_sub_name_bru" : "Eddie",
 	"hud_sub_name_btc" : "La Butcher",
 	"hud_sub_name_bul" : "Buluc",

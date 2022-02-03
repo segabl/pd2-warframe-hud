@@ -11,6 +11,7 @@
 	"hud_waves_remaining" : "Ausstehende Wellen: $NUM",
 	"hud_bags_remaining" : "Übrige Taschen: $NUM",
 	"hud_hostages" : "Geiseln",
+	"hud_sub_name_alm" : "Hajrudin",
 	"hud_sub_name_bru" : "Eddie",
 	"hud_sub_name_btc" : "Die Schlächterin",
 	"hud_sub_name_bul" : "Buluc",
