@@ -7,12 +7,6 @@ HUDObjectivePanel.ICON_TEXTURE_RECTS = {
 	extract = { 48, 48, 48, 48 }
 }
 
-HUDObjectivePanel.ICON_COLORS = {
-	default = WFHud.colors.objective,
-	attack = WFHud.colors.attack,
-	extract = WFHud.colors.extract
-}
-
 function HUDObjectivePanel:init(panel, x, y)
 	self._last_time = 0
 
@@ -164,7 +158,7 @@ end
 
 function HUDObjectivePanel:set_icon(icon)
 	local x, y, w, h = unpack(HUDObjectivePanel.ICON_TEXTURE_RECTS[icon] or HUDObjectivePanel.ICON_TEXTURE_RECTS.default)
-	local color = HUDObjectivePanel.ICON_COLORS[icon] or HUDObjectivePanel.ICON_COLORS.default
+	local color = WFHud.colors[icon] or WFHud.colors.objective
 
 	self._objective_icon:set_texture_rect(x, y, w, h)
 	self._objective_icon:set_color(color)
