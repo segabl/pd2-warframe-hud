@@ -46,6 +46,8 @@ if not WFHud then
 		objective = Color("e9ba08"),
 		attack = Color("c80406"),
 		extract = Color("43b306"),
+		friendly = Color("0795d5"),
+		enemy = Color("c80406"),
 		damage = {
 			Color("ffffff"),
 			Color("ffff00"),
@@ -94,6 +96,7 @@ if not WFHud then
 	dofile(ModPath .. "req/HUDDamagePop.lua")
 	dofile(ModPath .. "req/HUDInteractDisplay.lua")
 	dofile(ModPath .. "req/HUDObjectivePanel.lua")
+	dofile(ModPath .. "req/HUDSubtitlePanel.lua")
 
 	function WFHud:setup()
 		self:_create_skill_icon_map()
@@ -120,7 +123,8 @@ if not WFHud then
 		self._buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - 240, 256)
 		self._equipment_panel = HUDPlayerEquipment:new(self:panel())
 		self._interact_display = HUDInteractDisplay:new(self:panel())
-		self._objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.MARGIN_H, 200)
+		self._objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.MARGIN_H, 192)
+		self._subtitle_panel = HUDSubtitlePanel:new(self:panel(), WFHud.MARGIN_H, 352)
 	end
 
 	function WFHud:update(t, dt)
