@@ -412,6 +412,7 @@ end)
 -- present hints as mid text
 function HUDManager:show_hint(params)
 	params.time = params.time or 2
+	params.is_hint = true
 	self:present_mid_text(params)
 end
 

@@ -34,26 +34,39 @@ Hooks:PostHook(HUDPresenter, "init", "init_wfhud", function (self)
 	})
 end)
 
+Hooks:OverrideFunction(HUDPresenter, "present", function (self, params)
+	self._present_queue = self._present_queue or {}
+
+	-- Don't present objectives, we have an objective panel for that
+	if params.event == managers.objectives:get_stinger_id() then
+		managers.hud._sound_source:post_event(params.event)
+		return
+	end
+
+	if self._presenting and not self._presenting.is_hint and params.is_hint then
+		table.insert(self._present_queue, params)
+		return
+	end
+
+	self:_present_information(params)
+end)
+
 Hooks:OverrideFunction(HUDPresenter, "_present_information", function (self, params)
 	if params.event then
 		managers.hud._sound_source:post_event(params.event)
-		-- Don't present objectives, we have an objective panel for that
-		if params.event == managers.objectives:get_stinger_id() then
-			return
-		end
 	end
+
+	self._presenting = params
 
 	self._present_title:set_text(params.title and utf8.to_upper(params.title) or "")
 	self._present_text:set_text(utf8.to_upper(params.text:gsub("%p$", "")))
 
+	self._present_panel:stop()
 	self._present_panel:animate(function (o)
-		self._presenting = true
-
 		local x = o:parent():w() * 0.5
 		local w = o:parent():w()
 
 		o:set_w(0)
-		o:set_center_x(x)
 		o:show()
 		over(1, function (t)
 			o:set_w(w * t)
@@ -66,6 +79,6 @@ Hooks:OverrideFunction(HUDPresenter, "_present_information", function (self, par
 		end)
 		o:hide()
 
-		self._presenting = false
+		self:_present_done()
 	end)
 end)
