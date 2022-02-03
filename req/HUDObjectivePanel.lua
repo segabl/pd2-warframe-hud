@@ -7,6 +7,14 @@ HUDObjectivePanel.ICON_TEXTURE_RECTS = {
 	extract = { 48, 48, 48, 48 }
 }
 
+HUDObjectivePanel.CHARACTER_COLORS = {
+	default = WFHud.colors.friendly,
+	bul = WFHud.colors.enemy,
+	com = WFHud.colors.enemy,
+	mrb = Color("ffff99"),
+	mrp = Color("ff66aa")
+}
+
 function HUDObjectivePanel:init(panel, x, y)
 	self._last_time = 0
 
@@ -108,12 +116,34 @@ function HUDObjectivePanel:init(panel, x, y)
 
 	self._vip_detail = self._panel:text({
 		visible = false,
-		text = managers.localization:to_upper_text("hud_objectives_damage_resistance", { NUM = "0" }),
+		text = "ENEMY DAMAGE RESISTANCE: 69%",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default,
 		h = 24,
 		vertical = "center"
+	})
+
+
+	self._subtitle_panel = self._panel:panel({
+		alpha = 0,
+		w = 300
+	})
+
+	self._subtitle_name = self._subtitle_panel:text({
+		font = WFHud.fonts.bold,
+		font_size = WFHud.font_sizes.default,
+		color = WFHud.colors.friendly,
+		h = WFHud.font_sizes.default
+	})
+
+	self._subtitle_text = self._subtitle_panel:text({
+		font = WFHud.fonts.default,
+		font_size = WFHud.font_sizes.default,
+		color = WFHud.colors.default,
+		y = WFHud.font_sizes.default,
+		wrap = true,
+		word_wrap = true
 	})
 
 	self:_layout()
@@ -131,6 +161,8 @@ function HUDObjectivePanel:_layout()
 	self._vip_icon:set_position(0, self._time_text:bottom() + self._vip_icon:h())
 	self._vip_text:set_position(text_x, self._vip_icon:y())
 	self._vip_detail:set_position(text_x, self._vip_text:bottom())
+
+	self._subtitle_panel:set_position(text_x, self._vip_detail:bottom())
 end
 
 function HUDObjectivePanel:_animate_show_icon(overlay_icon, icon)
@@ -154,6 +186,18 @@ function HUDObjectivePanel:_animate_show_text(text)
 		text:set_w(t * w)
 	end)
 	text:set_w(w)
+end
+
+function HUDObjectivePanel:_animate_show_subtitle(duration, panel)
+	panel:set_alpha(0)
+	over(0.1, function (t)
+		panel:set_alpha(t)
+	end)
+	wait(duration)
+	over(0.1, function (t)
+		panel:set_alpha(1 - t)
+	end)
+	panel:set_alpha(0)
 end
 
 function HUDObjectivePanel:set_icon(icon)
@@ -261,4 +305,15 @@ function HUDObjectivePanel:set_vip(buff)
 	end
 
 	self:_layout()
+end
+
+function HUDObjectivePanel:set_subtitle(speaker, text, duration)
+	local loc_id = speaker and "hud_sub_name_" .. speaker
+	local name = loc_id and managers.localization:exists(loc_id) and managers.localization:to_upper_text(loc_id) or speaker and speaker:upper() or ""
+
+	self._subtitle_name:set_text(name)
+	self._subtitle_name:set_color(HUDObjectivePanel.CHARACTER_COLORS[speaker] or HUDObjectivePanel.CHARACTER_COLORS.default)
+	self._subtitle_text:set_text(text or "")
+	self._subtitle_panel:stop()
+	self._subtitle_panel:animate(callback(self, self, "_animate_show_subtitle", duration or 3))
 end

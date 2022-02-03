@@ -94,7 +94,6 @@ if not WFHud then
 	dofile(ModPath .. "req/HUDDamagePop.lua")
 	dofile(ModPath .. "req/HUDInteractDisplay.lua")
 	dofile(ModPath .. "req/HUDObjectivePanel.lua")
-	dofile(ModPath .. "req/HUDSubtitlePanel.lua")
 
 	function WFHud:setup()
 		self:_create_skill_icon_map()
@@ -122,7 +121,6 @@ if not WFHud then
 		self._equipment_panel = HUDPlayerEquipment:new(self:panel())
 		self._interact_display = HUDInteractDisplay:new(self:panel())
 		self._objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.MARGIN_H, 192)
-		self._subtitle_panel = HUDSubtitlePanel:new(self:panel(), WFHud.MARGIN_H, 352)
 	end
 
 	function WFHud:update(t, dt)
