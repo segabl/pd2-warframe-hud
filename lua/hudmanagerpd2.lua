@@ -407,3 +407,22 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 		end
 	end
 end)
+
+
+-- present hints as mid text
+function HUDManager:show_hint(params)
+	params.time = params.time or 2
+	self:present_mid_text(params)
+end
+
+
+-- move mask on text
+Hooks:PostHook(HUDManager, "show", "show_wfhud", function (self, name)
+	local mask_off_hud = Idstring("guis/mask_off_hud")
+	if name == mask_off_hud and self:alive("guis/mask_off_hud") then
+		local mask_on_text = self:script("guis/mask_off_hud").mask_on_text
+		mask_on_text:set_font(WFHud.font_ids.default)
+		mask_on_text:set_font_size(WFHud.font_sizes.default)
+		mask_on_text:parent():set_y(mask_on_text:parent():parent():h() * 0.75)
+	end
+end)

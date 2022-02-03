@@ -44,7 +44,7 @@ Hooks:OverrideFunction(HUDPresenter, "_present_information", function (self, par
 	end
 
 	self._present_title:set_text(params.title and utf8.to_upper(params.title) or "")
-	self._present_text:set_text(utf8.to_upper(params.text))
+	self._present_text:set_text(utf8.to_upper(params.text:gsub("%p$", "")))
 
 	self._present_panel:animate(function (o)
 		self._presenting = true
@@ -59,7 +59,7 @@ Hooks:OverrideFunction(HUDPresenter, "_present_information", function (self, par
 			o:set_w(w * t)
 			o:set_center_x(x)
 		end)
-		wait(params.time or 4)
+		wait(params.time or 3)
 		over(1, function (t)
 			o:set_w(w * (1 - t))
 			o:set_center_x(x)
