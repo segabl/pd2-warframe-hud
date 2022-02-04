@@ -1,12 +1,12 @@
 HUDObjectivePanel = class()
 
+HUDObjectivePanel.ICON_SIZE = 24
 HUDObjectivePanel.ICON_TEXTURE_RECTS = {
 	default = { 0, 0, 48, 48 },
 	defend = { 0, 48, 48, 48 },
 	attack = { 48, 0, 48, 48 },
 	extract = { 48, 48, 48, 48 }
 }
-
 HUDObjectivePanel.CHARACTER_COLORS = {
 	default = WFHud.colors.friendly,
 	bul = WFHud.colors.enemy,
@@ -29,8 +29,8 @@ function HUDObjectivePanel:init(panel, x, y)
 		texture = "guis/textures/wfhud/icons",
 		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.default,
 		color = WFHud.colors.objective,
-		w = 24,
-		h = 24
+		w = HUDObjectivePanel.ICON_SIZE,
+		h = HUDObjectivePanel.ICON_SIZE
 	})
 
 	self._objective_icon_overlay = panel:bitmap({
@@ -39,8 +39,8 @@ function HUDObjectivePanel:init(panel, x, y)
 		texture = "guis/textures/wfhud/icons",
 		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.default,
 		color = WFHud.colors.objective,
-		w = 24,
-		h = 24,
+		w = HUDObjectivePanel.ICON_SIZE,
+		h = HUDObjectivePanel.ICON_SIZE,
 		blend_mode = "add"
 	})
 
@@ -50,7 +50,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default,
-		h = 24,
+		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
 
@@ -60,7 +60,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default,
-		h = 24,
+		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
 
@@ -70,7 +70,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default,
-		h = 24,
+		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
 
@@ -79,7 +79,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default,
-		h = 24,
+		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
 
@@ -89,8 +89,8 @@ function HUDObjectivePanel:init(panel, x, y)
 		texture = "guis/textures/wfhud/icons",
 		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.attack,
 		color = WFHud.colors.attack,
-		w = 24,
-		h = 24
+		w = HUDObjectivePanel.ICON_SIZE,
+		h = HUDObjectivePanel.ICON_SIZE
 	})
 
 	self._vip_icon_overlay = panel:bitmap({
@@ -99,8 +99,8 @@ function HUDObjectivePanel:init(panel, x, y)
 		texture = "guis/textures/wfhud/icons",
 		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.attack,
 		color = WFHud.colors.attack,
-		w = 24,
-		h = 24,
+		w = HUDObjectivePanel.ICON_SIZE,
+		h = HUDObjectivePanel.ICON_SIZE,
 		blend_mode = "add"
 	})
 
@@ -110,7 +110,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default,
-		h = 24,
+		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
 
@@ -120,7 +120,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default,
-		h = 24,
+		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
 
@@ -134,14 +134,14 @@ function HUDObjectivePanel:init(panel, x, y)
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.friendly,
-		h = WFHud.font_sizes.default
+		h = HUDObjectivePanel.ICON_SIZE
 	})
 
 	self._subtitle_text = self._subtitle_panel:text({
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default,
-		y = WFHud.font_sizes.default,
+		y = self._subtitle_name:bottom(),
 		wrap = true,
 		word_wrap = true
 	})
@@ -166,12 +166,11 @@ function HUDObjectivePanel:_layout()
 end
 
 function HUDObjectivePanel:_animate_show_icon(overlay_icon, icon)
-	local w, h = icon:size()
 	icon:show()
 	overlay_icon:show()
 	over(1, function (t)
 		local s = math.lerp(1, 1.5, math.sin(t * 180))
-		overlay_icon:set_size(w * s, h * s)
+		overlay_icon:set_size(HUDObjectivePanel.ICON_SIZE * s, HUDObjectivePanel.ICON_SIZE * s)
 		overlay_icon:set_center(self._panel:x() + icon:center_x(), self._panel:y() + icon:center_y())
 		overlay_icon:set_alpha(math.sin(t * 180))
 	end)
