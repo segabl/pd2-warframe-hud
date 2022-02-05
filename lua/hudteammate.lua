@@ -84,37 +84,20 @@ Hooks:PostHook(HUDTeammate, "set_condition", "set_condition_wfhud", function (se
 end)
 
 Hooks:PostHook(HUDTeammate, "set_weapon_selected", "set_weapon_selected_wfhud", function (self, index)
-	if not self._main_player or not managers.player:local_player() then
-		return
-	end
-
-	self._weapon_index = index
-
-	local unit = managers.player:local_player():inventory():unit_by_selection(self._weapon_index)
-	if unit then
-		WFHud._equipment_panel:set_weapon(unit:base())
+	if self._main_player and managers.player:local_player() then
+		WFHud._equipment_panel:set_weapon(index)
 	end
 end)
 
 Hooks:PostHook(HUDTeammate, "set_weapon_firemode", "set_weapon_firemode_wfhud", function (self)
-	if not self._main_player or not managers.player:local_player() then
-		return
-	end
-
-	local unit = managers.player:local_player():inventory():unit_by_selection(self._weapon_index)
-	if unit then
-		WFHud._equipment_panel:set_fire_mode(unit:base())
+	if self._main_player and managers.player:local_player() then
+		WFHud._equipment_panel:set_fire_mode()
 	end
 end)
 
 Hooks:PostHook(HUDTeammate, "set_ammo_amount_by_type", "set_ammo_amount_by_type_wfhud", function (self)
-	if not self._main_player or not managers.player:local_player() then
-		return
-	end
-
-	local unit = managers.player:local_player():inventory():unit_by_selection(self._weapon_index)
-	if unit then
-		WFHud._equipment_panel:set_ammo(unit:base())
+	if self._main_player and managers.player:local_player() then
+		WFHud._equipment_panel:set_ammo()
 	end
 end)
 

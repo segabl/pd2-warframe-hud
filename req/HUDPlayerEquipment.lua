@@ -1,6 +1,8 @@
 HUDPlayerEquipment = class()
 
 function HUDPlayerEquipment:init(panel)
+	self._weapon_index = 1
+
 	self._panel = panel:panel({
 		w = 600
 	})
@@ -151,7 +153,13 @@ function HUDPlayerEquipment:set_bag(bag_text)
 	end
 end
 
-function HUDPlayerEquipment:set_ammo(wbase)
+function HUDPlayerEquipment:set_ammo()
+	local unit = managers.player:local_player():inventory():unit_by_selection(self._weapon_index)
+	local wbase = unit and unit:base()
+	if not wbase then
+		return
+	end
+
 	local mag_max, mag, total = wbase:ammo_info()
 	if mag_max <= 1 then
 		self._ammo_text:set_text(tostring(total))
@@ -166,7 +174,13 @@ function HUDPlayerEquipment:set_ammo(wbase)
 	self:_align_ammo_text()
 end
 
-function HUDPlayerEquipment:set_fire_mode(wbase)
+function HUDPlayerEquipment:set_fire_mode()
+	local unit = managers.player:local_player():inventory():unit_by_selection(self._weapon_index)
+	local wbase = unit and unit:base()
+	if not wbase then
+		return
+	end
+
 	local gadget_base = wbase:gadget_overrides_weapon_functions()
 	local fire_mode_text
 	if HopLib:is_object_of_class(gadget_base, WeaponUnderbarrel) then
@@ -178,13 +192,14 @@ function HUDPlayerEquipment:set_fire_mode(wbase)
 	self:_align_weapon_text()
 end
 
-function HUDPlayerEquipment:set_weapon(wbase)
-	local tweak = tweak_data.weapon[wbase._name_id]
+function HUDPlayerEquipment:set_weapon(index)
+	local data = index == 1 and managers.blackmarket:equipped_secondary() or managers.blackmarket:equipped_primary()
+	self._weapon_name:set_text(data.custom_name or managers.localization:to_upper_text(tweak_data.weapon[data.weapon_id].name_id))
 
-	self._weapon_name:set_text(managers.localization:to_upper_text(tweak.name_id))
+	self._weapon_index = index
 
-	self:set_fire_mode(wbase)
-	self:set_ammo(wbase)
+	self:set_fire_mode()
+	self:set_ammo()
 end
 
 function HUDPlayerEquipment:set_stamina(current, total, instant)
