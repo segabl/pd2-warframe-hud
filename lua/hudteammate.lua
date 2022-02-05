@@ -210,3 +210,17 @@ Hooks:PostHook(HUDTeammate, "set_cable_ties_amount", "set_cable_ties_amount_wfhu
 	WFHud._equipment_panel._equipment_list:set_icon_enabled("cable_ties", amount > 0)
 	WFHud._equipment_panel:_align_equipment()
 end)
+
+
+Hooks:PreHook(HUDTeammate, "set_delayed_damage", "set_delayed_damage_wfhud", function (self, damage)
+	if not self._main_player then
+		return
+	end
+
+	if damage > 0 then
+		local duration = (not self._delayed_damage or damage > self._delayed_damage) and tweak_data.upgrades.values.player.damage_control_auto_shrug[1]
+		WFHud:add_buff("player", "stoic_dot", math.ceil(damage * 10), duration)
+	else
+		WFHud:remove_buff("player", "stoic_dot")
+	end
+end)
