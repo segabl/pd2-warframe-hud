@@ -14,6 +14,18 @@ Hooks:PostHook(HUDManager, "set_disabled", "set_disabled_wfhud", function (self)
 	WFHud:panel():hide()
 end)
 
+Hooks:PostHook(HUDManager, "show", "show_wfhud", function (self, name)
+	if name == PlayerBase.PLAYER_INFO_HUD_FULLSCREEN then
+		WFHud:panel():show()
+	end
+end)
+
+Hooks:PostHook(HUDManager, "hide", "hide_wfhud", function (self, name)
+	if name == PlayerBase.PLAYER_INFO_HUD_FULLSCREEN then
+		WFHud:panel():hide()
+	end
+end)
+
 
 -- add custom name labels
 local _add_name_label_original = HUDManager._add_name_label

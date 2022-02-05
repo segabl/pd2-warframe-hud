@@ -104,8 +104,9 @@ if not WFHud then
 
 		self:_check_font_replacements()
 
-		self._ws = self._ws or managers.gui_data:create_fullscreen_workspace()
+		self._ws = managers.gui_data:create_fullscreen_workspace()
 		self._ws:panel():set_layer(-10)
+		self._ws:panel():hide()
 
 		self._t = 0
 
