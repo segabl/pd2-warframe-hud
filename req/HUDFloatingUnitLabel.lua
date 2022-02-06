@@ -137,12 +137,9 @@ end
 
 function HUDFloatingUnitLabel:_create_unit_level(unit_info)
 	local index = tweak_data:difficulty_to_index(Global.game_settings.difficulty)
-	if unit_info:type() == "team_ai" then
-		return index * 10 + 20
-	end
 	local diff_mul = managers.groupai:state()._difficulty_value or 0
-	local base_lvl = 1 + math.round((index - 1) * 10 + math.random() * 5 + diff_mul * 40)
-	unit_info._level = math.ceil(base_lvl * (unit_info:is_civilian() and 0.2 or unit_info:is_special() and 1.5 or unit_info:is_boss() and 2 or 1))
+	local base_lvl = 5 + (index - 2) * 15 + math.random(0, 5) + diff_mul * 30
+	unit_info._level = math.ceil(base_lvl * (unit_info:is_civilian() and 0.1 or unit_info:is_special() and 1.25 or unit_info:is_boss() and 1.5 or 1))
 	return unit_info._level
 end
 
