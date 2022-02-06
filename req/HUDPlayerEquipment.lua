@@ -168,7 +168,7 @@ function HUDPlayerEquipment:set_ammo()
 	else
 		self._ammo_text:set_text(tostring(mag))
 		self._ammo_text:set_alpha(1)
-		self._total_ammo_text:set_text(string.format("/ %u", total - mag))
+		self._total_ammo_text:set_text(string.format("/ %u", getmetatable(wbase) == SawWeaponBase and total or math.max(0, total - mag)))
 	end
 
 	self:_align_ammo_text()
