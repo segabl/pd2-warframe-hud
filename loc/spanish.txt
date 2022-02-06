@@ -1,4 +1,5 @@
 {
+	"debug_mugshot_electrified" : "Electrocutado",
 	"hud_fire_mode_auto" : "Automatico",
 	"hud_fire_mode_single" : "Un disparo",
 	"hud_fire_mode_underbarrel" : "Boquilla Inferior",
@@ -22,6 +23,7 @@
 	"hud_sub_name_dr1" : "Twitch",
 	"hud_sub_name_geo" : "George",
 	"hud_sub_name_hnc" : "Secuaz",
+	"hud_sub_name_jfe" : "Jiu Feng",
 	"hud_sub_name_loc" : "Locke",
 	"hud_sub_name_mrb" : "Mr. Blonde",
 	"hud_sub_name_mrp" : "Mr. Pink",
@@ -31,5 +33,5 @@
 	"hud_sub_name_rb5" : "Hoxton",
 	"hud_sub_name_txm" : "Taxman",
 	"hud_sub_name_vld" : "Vlad",
-	"debug_mugshot_electrified" : "Electrocutado"
+	"hud_sub_name_yuw" : "Yufu Wang"
 }
