@@ -9,8 +9,11 @@ HUDObjectivePanel.ICON_TEXTURE_RECTS = {
 }
 HUDObjectivePanel.CHARACTER_COLORS = {
 	default = WFHud.colors.friendly,
+	bos = WFHud.colors.enemy,
 	bul = WFHud.colors.enemy,
 	com = WFHud.colors.enemy,
+	hnc = WFHud.colors.muted,
+	txm = WFHud.colors.muted,
 	mrb = Color("ffff99"),
 	mrp = Color("ff66aa")
 }
