@@ -23,8 +23,7 @@ function HUDObjectivePanel:init(panel, x, y)
 
 	self._panel = panel:panel({
 		x = x,
-		y = y,
-		w = 500
+		y = y
 	})
 
 	self._objective_icon = self._panel:bitmap({
