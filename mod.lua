@@ -463,10 +463,10 @@ if not WFHud then
 			return
 		end
 
-		self.fonts.default = "fonts/font_medium_shadow_mf"
-		self.fonts.bold = "fonts/font_medium_shadow_mf"
-		self.fonts.default_no_shadow = "fonts/font_medium_mf"
-		self.fonts.bold_no_shadow = "fonts/font_medium_mf"
+		self.fonts.default = tweak_data.menu.pd2_medium_font
+		self.fonts.bold = tweak_data.menu.pd2_medium_font
+		self.fonts.default_no_shadow = tweak_data.menu.pd2_medium_font
+		self.fonts.bold_no_shadow = tweak_data.menu.pd2_medium_font
 
 		self.font_ids = table.remap(self.fonts, function (k, v) return k, Idstring(v) end)
 	end
