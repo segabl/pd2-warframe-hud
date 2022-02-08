@@ -94,6 +94,7 @@ if not WFHud then
 	dofile(ModPath .. "req/HUDDamagePop.lua")
 	dofile(ModPath .. "req/HUDInteractDisplay.lua")
 	dofile(ModPath .. "req/HUDObjectivePanel.lua")
+	dofile(ModPath .. "req/HUDPickupList.lua")
 
 	function WFHud:setup()
 		self:_create_skill_icon_map()
@@ -122,6 +123,7 @@ if not WFHud then
 		self._equipment_panel = HUDPlayerEquipment:new(self:panel())
 		self._interact_display = HUDInteractDisplay:new(self:panel())
 		self._objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.MARGIN_H, 192)
+		self._pickup_list = HUDPickupList:new(self:panel())
 	end
 
 	function WFHud:update(t, dt)
@@ -130,6 +132,7 @@ if not WFHud then
 		self._unit_aim_label:update(t, dt)
 		self._buff_list:update(t, dt)
 		self._interact_display:update(t, dt)
+		self._pickup_list:update(t, dt)
 
 		self._t = t
 	end
@@ -180,6 +183,13 @@ if not WFHud then
 			if upgrade_data then
 				self._buff_list:remove_buff(upgrade_data)
 			end
+		end
+	end
+
+	function WFHud:add_pickup(id, amount, text)
+		if self._pickup_list then
+			local string_id = "hud_pickup_" .. id
+			self._pickup_list:add(id, nil, nil, amount, text or managers.localization:exists(string_id) and managers.localization:text(string_id) or id:pretty(true))
 		end
 	end
 

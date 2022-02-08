@@ -187,3 +187,38 @@ Hooks:PostHook(PlayerManager, "end_tag_team", "end_tag_team_wfhud", function (se
 		WFHud:remove_buff("player", "tag_team_base")
 	end
 end)
+
+
+Hooks:PreHook(PlayerManager, "add_cable_ties", "add_cable_ties_wfhuf", function (self, amount)
+	local equipment = tweak_data.equipments.specials.cable_tie
+	local special_equipment = self._equipment.specials.cable_tie
+	if not special_equipment then
+		return
+	end
+
+	local current_amount = Application:digest_value(special_equipment.amount, false)
+	local added = math.min(current_amount + amount, equipment.max_quantity) - current_amount
+	if added > 0 then
+		WFHud:add_pickup("cable_tie", added)
+	end
+end)
+
+Hooks:PreHook(PlayerManager, "add_grenade_amount", "add_grenade_amount_wfhud", function (self, amount)
+	if amount < 1 then
+		return
+	end
+
+	local peer_id = managers.network:session():local_peer():id()
+	local grenade = self._global.synced_grenades[peer_id].grenade
+	local tweak = tweak_data.blackmarket.projectiles[grenade]
+	if tweak.base_cooldown then
+		return
+	end
+
+	local current_amount = Application:digest_value(self._global.synced_grenades[peer_id].amount, false)
+	local added = math.min(current_amount + amount, self:get_max_grenades_by_peer_id(peer_id)) - current_amount
+
+	if added > 0 then
+		WFHud:add_pickup(grenade, added, managers.localization:text(tweak.name_id))
+	end
+end)
