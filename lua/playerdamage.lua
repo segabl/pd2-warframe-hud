@@ -50,6 +50,9 @@ end)
 -- grinder heal over time
 Hooks:PostHook(PlayerDamage, "add_damage_to_hot", "add_damage_to_hot_wfhud", function (self)
 	local hot = self._damage_to_hot_stack[#self._damage_to_hot_stack]
+	if not hot then
+		return
+	end
 	local duration = hot.next_tick - TimerManager:game():time() + (self._doh_data.tick_time or 1) * (hot.ticks_left - 1)
 	WFHud:add_buff("player", "damage_to_hot", nil, duration)
 end)
