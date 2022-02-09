@@ -16,7 +16,7 @@
 	"hud_pickup_assault_rifle_ammo" : "Munição de Rifle de Assalto",
 	"hud_pickup_bow_ammo" : "Flechas",
 	"hud_pickup_crossbow_ammo" : "Flechas",
-	"hud_pickup_flamethrower_ammo" : "Munição da Minigun",
+	"hud_pickup_flamethrower_ammo" : "Lança-Chamas",
 	"hud_pickup_grenade_launcher_ammo" : "Granadas da Lança-Granadas",
 	"hud_pickup_lmg_ammo" : "Munição da LMG",
 	"hud_pickup_minigun_ammo" : "Munição da Minigun",

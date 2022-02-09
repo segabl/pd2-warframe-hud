@@ -16,7 +16,7 @@
 	"hud_pickup_assault_rifle_ammo" : "Sturmgewehrmunition",
 	"hud_pickup_bow_ammo" : "Bogenmunition",
 	"hud_pickup_crossbow_ammo" : "Armbrustmunition",
-	"hud_pickup_flamethrower_ammo" : "Minigunmunition",
+	"hud_pickup_flamethrower_ammo" : "Flammenwerfermunition",
 	"hud_pickup_grenade_launcher_ammo" : "Granatwerfermunition",
 	"hud_pickup_lmg_ammo" : "Maschinengewehrmunition",
 	"hud_pickup_minigun_ammo" : "Minigunmunition",
