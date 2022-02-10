@@ -95,6 +95,7 @@ if not WFHud then
 	dofile(ModPath .. "req/HUDInteractDisplay.lua")
 	dofile(ModPath .. "req/HUDObjectivePanel.lua")
 	dofile(ModPath .. "req/HUDPickupList.lua")
+	dofile(ModPath .. "req/HUDSpecialPickup.lua")
 
 	function WFHud:setup()
 		self:_create_skill_icon_map()
@@ -124,6 +125,7 @@ if not WFHud then
 		self._interact_display = HUDInteractDisplay:new(self:panel())
 		self._objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.MARGIN_H, 192)
 		self._pickup_list = HUDPickupList:new(self:panel())
+		self._special_pickup = HUDSpecialPickup:new(self:panel(), self:panel():h() * 0.6)
 	end
 
 	function WFHud:update(t, dt)
@@ -191,6 +193,24 @@ if not WFHud then
 			local string_id = "hud_pickup_" .. id
 			self._pickup_list:add(id, nil, nil, amount, text or managers.localization:exists(string_id) and managers.localization:text(string_id) or id:pretty(true))
 		end
+	end
+
+	function WFHud:add_special_pickup(icon, icon_rect, text)
+		if self._special_pickup then
+			self._special_pickup:add(icon, icon_rect, text)
+		end
+	end
+
+	local redirects = {
+		equipment_vial = "equipment_bloodvial",
+		equipment_vialOK = "equipment_bloodvialok"
+	}
+	function WFHud:get_icon_data(icon_id)
+		local custom_texture = "guis/textures/wfhud/hud_icons/" .. (redirects[icon_id] or icon_id)
+		if DB:has(ext_mapping.dds, Idstring(custom_texture)) then
+			return custom_texture
+		end
+		return tweak_data.hud_icons:get_icon_data(icon_id)
 	end
 
 	local categories = { "speed", "stamina", "critical_hit", "damage_dampener", "health", "armor" }

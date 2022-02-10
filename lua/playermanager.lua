@@ -222,3 +222,38 @@ Hooks:PreHook(PlayerManager, "add_grenade_amount", "add_grenade_amount_wfhud", f
 		WFHud:add_pickup(grenade, added, managers.localization:text(tweak.name_id))
 	end
 end)
+
+
+Hooks:PreHook(PlayerManager, "add_special", "add_special_wfhud", function (self, params)
+	local silent = params.silent
+	params.silent = true
+
+	if silent then
+		return
+	end
+
+	local name = params.equipment or params.name
+	local equipment = tweak_data.equipments.specials[name]
+	local owned_equipment = self._equipment.specials[name]
+	if not equipment then
+		return
+	end
+
+	local amount = params.amount or equipment.quantity or 1
+	local current_amount = owned_equipment and owned_equipment.amount and Application:digest_value(owned_equipment.amount, false) or 0
+	local max_amount = params.transfer and equipment.transfer_quantity or equipment.max_quantity or equipment.quantity or math.huge
+	local added_amount = math.min(current_amount + amount, max_amount) - current_amount
+	local amount_text = added_amount > 1 and " x " .. tostring(added_amount) or ""
+	local texture, texture_rect = WFHud:get_icon_data(equipment.icon)
+	WFHud:add_special_pickup(texture, texture_rect, managers.localization:text(equipment.text_id):pretty(true) .. amount_text)
+
+	if owned_equipment then
+		return
+	end
+
+	local action_message = equipment.action_message
+	local unit = self:player_unit()
+	if action_message and alive(unit) then
+		managers.network:session():send_to_peers_synched("sync_show_action_message", unit, action_message)
+	end
+end)
