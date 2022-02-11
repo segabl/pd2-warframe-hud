@@ -51,5 +51,6 @@
 	"hud_sub_name_txm" : "税务官",
 	"hud_sub_name_vld" : "弗拉德",
 	"hud_sub_name_yuw" : "渔夫王",
-	"hud_sub_name_xuk" : "Xun Kang"
+	"hud_sub_name_yuw" : "渔夫王",
+	"hud_sub_name_xuk" : "迅康"
 }
