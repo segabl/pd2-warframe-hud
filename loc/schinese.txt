@@ -33,6 +33,7 @@
 	"hud_sub_name_btc" : "屠夫",
 	"hud_sub_name_bul" : "布鲁克",
 	"hud_sub_name_cha" : "卡戎",
+	"hud_sub_name_chca" : "传输",
 	"hud_sub_name_com" : "政委",
 	"hud_sub_name_crn" : "艾力克斯",
 	"hud_sub_name_dr1" : "图维奇",
@@ -49,5 +50,6 @@
 	"hud_sub_name_rb5" : "霍斯顿",
 	"hud_sub_name_txm" : "税务官",
 	"hud_sub_name_vld" : "弗拉德",
-	"hud_sub_name_yuw" : "渔夫王"
+	"hud_sub_name_yuw" : "渔夫王",
+	"hud_sub_name_xuk" : "Xun Kang"
 }

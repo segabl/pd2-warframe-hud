@@ -33,6 +33,7 @@
 	"hud_sub_name_btc" : "The Butcher",
 	"hud_sub_name_bul" : "Buluc",
 	"hud_sub_name_cha" : "Charon",
+	"hud_sub_name_chca" : "Transmission",
 	"hud_sub_name_com" : "The Commissar",
 	"hud_sub_name_crn" : "Alex",
 	"hud_sub_name_dr1" : "Twitch",
@@ -49,5 +50,6 @@
 	"hud_sub_name_rb5" : "Hoxton",
 	"hud_sub_name_txm" : "Taxman",
 	"hud_sub_name_vld" : "Vlad",
-	"hud_sub_name_yuw" : "Yufu Wang"
+	"hud_sub_name_yuw" : "Yufu Wang",
+	"hud_sub_name_xuk" : "Xun Kang"
 }
