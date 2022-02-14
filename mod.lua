@@ -203,7 +203,8 @@ if not WFHud then
 
 	local redirects = {
 		equipment_vial = "equipment_bloodvial",
-		equipment_vialOK = "equipment_bloodvialok"
+		equipment_vialOK = "equipment_bloodvialok",
+		pd2_c4 = "equipment_c4"
 	}
 	function WFHud:get_icon_data(icon_id)
 		local custom_texture = "guis/textures/wfhud/hud_icons/" .. (redirects[icon_id] or icon_id)
