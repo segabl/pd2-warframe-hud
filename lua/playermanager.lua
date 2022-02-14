@@ -240,9 +240,13 @@ Hooks:PreHook(PlayerManager, "add_special", "add_special_wfhud", function (self,
 	end
 
 	local amount = params.amount or equipment.quantity or 1
-	local current_amount = owned_equipment and owned_equipment.amount and Application:digest_value(owned_equipment.amount, false) or 0
-	local max_amount = params.transfer and equipment.transfer_quantity or equipment.max_quantity or equipment.quantity or math.huge
+	local current_amount = owned_equipment and (owned_equipment.amount and Application:digest_value(owned_equipment.amount, false) or 1) or 0
+	local max_amount = params.transfer and equipment.transfer_quantity or equipment.max_quantity or equipment.quantity or 1
 	local added_amount = math.min(current_amount + amount, max_amount) - current_amount
+	if added_amount <= 0 then
+		return
+	end
+
 	local texture, texture_rect = WFHud:get_icon_data(equipment.icon)
 	local text = managers.localization:text(equipment.text_id):pretty(true):gsub("%s+", " ") .. (added_amount > 1 and " x " .. tostring(added_amount) or "")
 	WFHud:add_special_pickup(texture, texture_rect, text)
