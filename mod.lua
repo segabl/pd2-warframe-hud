@@ -30,7 +30,8 @@ if not WFHud then
 		return tbl
 	end
 
-	HopLib:load_assets(collect_files(ModPath .. "assets/"))
+	HopLib:load_assets(collect_files(ModPath .. "assets/", "fonts/wfhud/"))
+	HopLib:load_assets(collect_files(ModPath .. "assets/", "guis/textures/wfhud/"))
 
 	WFHud = {}
 	WFHud.mod_path = ModPath
