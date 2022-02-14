@@ -193,6 +193,8 @@ function HUDSpecialPickup:_show_pickup(pickup, coroutine_call)
 		self._panel:stop()
 		self._panel:animate(callback(self, self, "_animate_show_panel"))
 	end
+
+	XAudio.Source:new(WFHud.sounds.special_pickup):set_volume(0.5)
 end
 
 function HUDSpecialPickup:add(icon, icon_rect, text)

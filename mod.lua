@@ -1,5 +1,7 @@
 if not WFHud then
 
+	blt.xaudio.setup()
+
 	local mvec_add = mvector3.add
 	local mvec_mul = mvector3.multiply
 	local mvec_set = mvector3.set
@@ -81,6 +83,9 @@ if not WFHud then
 		shield_knock = "impact",
 		expl_hurt = "blast",
 		taser_tased = "electricity"
+	}
+	WFHud.sounds = {
+		special_pickup = XAudio.Buffer:new(ModPath .. "assets/sounds/special_pickup.ogg")
 	}
 	WFHud.MARGIN_H = 48
 	WFHud.MARGIN_V = 32
@@ -202,6 +207,7 @@ if not WFHud then
 	end
 
 	local redirects = {
+		equipment_stash_server = "equipment_harddrive",
 		equipment_vial = "equipment_bloodvial",
 		equipment_vialOK = "equipment_bloodvialok",
 		pd2_c4 = "equipment_c4"
