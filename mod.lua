@@ -2,11 +2,6 @@ if not WFHud then
 
 	blt.xaudio.setup()
 
-	local mvec_add = mvector3.add
-	local mvec_mul = mvector3.multiply
-	local mvec_set = mvector3.set
-	local tmp_vec = Vector3()
-
 	local ext_mapping = {
 		dds = Idstring("texture"),
 		font = Idstring("font")
@@ -202,19 +197,29 @@ if not WFHud then
 	end
 
 	function WFHud:add_special_pickup(icon, icon_rect, text)
-		if self._special_pickup then
+		if self._special_pickup and Utils:IsInHeist() then
 			self._special_pickup:add(icon, icon_rect, text)
 		end
 	end
 
 	local redirects = {
+		equipment_born_tool = "equipment_bfd_tool",
+		equipment_elevator_key = "equipment_generic_key",
+		equipment_bank_manager_key = "equipment_keycard",
+		equipment_rfid_tag_02 = "equipment_rfid_tag_01",
 		equipment_stash_server = "equipment_harddrive",
+		equipment_usb_with_data = "equipment_usb_no_data",
 		equipment_vial = "equipment_bloodvial",
 		equipment_vialOK = "equipment_bloodvialok",
-		pd2_c4 = "equipment_c4"
+		pd2_c4 = "equipment_c4",
+		pd2_generic_saw = "equipment_saw"
 	}
 	function WFHud:get_icon_data(icon_id)
 		local custom_texture = "guis/textures/wfhud/hud_icons/" .. (redirects[icon_id] or icon_id)
+		local custom_level_texture = custom_texture .. "_" .. tostring(Global.game_settings.level_id)
+		if DB:has(ext_mapping.dds, Idstring(custom_level_texture)) then
+			return custom_level_texture
+		end
 		if DB:has(ext_mapping.dds, Idstring(custom_texture)) then
 			return custom_texture
 		end
@@ -316,6 +321,10 @@ if not WFHud then
 		end
 	end
 
+	local mvec_add = mvector3.add
+	local mvec_mul = mvector3.multiply
+	local mvec_set = mvector3.set
+	local to_vec = Vector3()
 	function WFHud:_check_player_forward_ray(t)
 		if self._next_unit_raycast_t > t then
 			return
@@ -331,11 +340,11 @@ if not WFHud then
 
 		local cam = player:camera()
 		local from = cam:position()
-		mvec_set(tmp_vec, cam:forward())
-		mvec_mul(tmp_vec, 10000)
-		mvec_add(tmp_vec, from)
-		local ray1 = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask_no_walls, "sphere_cast_radius", 30)
-		local ray2 = World:raycast("ray", from, tmp_vec, "slot_mask", self._unit_slotmask)
+		mvec_set(to_vec, cam:forward())
+		mvec_mul(to_vec, 10000)
+		mvec_add(to_vec, from)
+		local ray1 = World:raycast("ray", from, to_vec, "slot_mask", self._unit_slotmask_no_walls, "sphere_cast_radius", 30)
+		local ray2 = World:raycast("ray", from, to_vec, "slot_mask", self._unit_slotmask)
 
 		local unit = ray1 and (not ray2 or ray2.unit == ray1.unit or ray2.distance > ray1.distance) and ray1.unit or ray2 and ray2.unit
 		if unit then
