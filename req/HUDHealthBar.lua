@@ -348,7 +348,7 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 			-- animate health loss
 			self._health_loss_indicator:stop()
 			self._health_loss_indicator:animate(function (o)
-				o:set_w(math.round(self._bg_bar:w() * max_health_ratio * (self._health_ratio - health_ratio)))
+				o:set_w(math.max(1, math.round(self._bg_bar:w() * max_health_ratio * (self._health_ratio - health_ratio))))
 				if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
 					o:set_x(self._panel:x() + self._health_bar:x())
 				else
@@ -415,7 +415,7 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 			-- animate armor loss
 			self._armor_loss_indicator:stop()
 			self._armor_loss_indicator:animate(function (o)
-				o:set_w(math.round(self._bg_bar:w() * max_armor_ratio * (self._armor_ratio - armor_ratio)))
+				o:set_w(math.max(1, math.round(self._bg_bar:w() * max_armor_ratio * (self._armor_ratio - armor_ratio))))
 				if self._direction == HUDHealthBar.RIGHT_TO_LEFT then
 					o:set_x(self._panel:x() + self._armor_bar:x())
 				else
