@@ -8,7 +8,6 @@ HUDInteractDisplay = class()
 function HUDInteractDisplay:init(panel)
 	self._panel = panel:panel({
 		layer = -1,
-		h = 16,
 		visible = false
 	})
 
@@ -21,6 +20,7 @@ function HUDInteractDisplay:init(panel)
 	self._interact_text = self._panel:text({
 		visible = false,
 		text = "Press F to pay respects",
+		align = "center",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default
@@ -29,6 +29,7 @@ function HUDInteractDisplay:init(panel)
 	self._interact_text_active = self._panel:text({
 		visible = false,
 		text = "Paying respects",
+		align = "center",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.default
@@ -37,6 +38,7 @@ function HUDInteractDisplay:init(panel)
 	self._interact_text_invalid = self._panel:text({
 		visible = false,
 		text = "Aim at valid surface",
+		align = "center",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default,
 		color = WFHud.colors.debuff
@@ -140,6 +142,7 @@ function HUDInteractDisplay:update(t, dt)
 
 	local active_text = self._interact_text_active:visible() and self._interact_text_active or self._interact_text_invalid:visible() and self._interact_text_invalid or self._interact_text
 	local half_width = active_text:w() * 0.5 + active_text:x()
+	local half_height = self._interact_text:font_size() * 0.5
 
 	local unit = managers.interaction:active_unit()
 	local pos = unit and unit:interaction():interact_position()
@@ -149,10 +152,10 @@ function HUDInteractDisplay:update(t, dt)
 			mvec_set(tmp_vec, pos)
 			mvec_add(tmp_vec, label_offset)
 			local screen_pos = WFHud._ws:world_to_screen(cam, tmp_vec)
-			self._panel:set_position(screen_pos.x - half_width, screen_pos.y - self._panel:h() * 0.5)
+			self._panel:set_position(screen_pos.x - half_width, screen_pos.y - half_height)
 		end
 	else
-		self._panel:set_position(self._panel:parent():w() * 0.5 - half_width, self._panel:parent():h() * 0.5 - self._panel:h() * 0.5)
+		self._panel:set_position(self._panel:parent():w() * 0.5 - half_width, self._panel:parent():h() * 0.5 - half_height)
 	end
 
 	self._panel:set_visible(true)
