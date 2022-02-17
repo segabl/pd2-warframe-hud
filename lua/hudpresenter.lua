@@ -35,13 +35,17 @@ Hooks:PostHook(HUDPresenter, "init", "init_wfhud", function (self)
 end)
 
 Hooks:OverrideFunction(HUDPresenter, "present", function (self, params)
-	self._present_queue = self._present_queue or {}
-
 	-- Don't present objectives, we have an objective panel for that
-	if params.event == managers.objectives:get_stinger_id() then
-		managers.hud._sound_source:post_event(params.event)
+	-- Not the best way to do this but saves us from overriding a lot of functions in objectivesmanager
+	local callinfo = debug.getinfo(4, "S")
+	if callinfo and callinfo.source == "lib/managers/objectivesmanager.lua" then
+		if params.event then
+			managers.hud._sound_source:post_event(params.event)
+		end
 		return
 	end
+
+	self._present_queue = self._present_queue or {}
 
 	if self._presenting and not self._presenting.is_hint and params.is_hint then
 		table.insert(self._present_queue, params)
