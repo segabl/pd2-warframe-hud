@@ -181,7 +181,7 @@ function HUDFloatingUnitLabel:set_unit(unit, instant, compact_override)
 			self._compact = compact_override
 		end
 
-		self._unit_text:set_text(self._compact and unit_info:nickname() or unit_info:nickname():upper())
+		self._unit_text:set_text(unit_info:nickname())
 		self._level_text:set_text(tostring(unit_info:level() or self:_create_unit_level(unit_info)))
 
 		self._panel_faded_out = false
