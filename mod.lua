@@ -111,8 +111,6 @@ if not WFHud then
 		self._ws:panel():set_layer(-10)
 		self._ws:panel():hide()
 
-		self._t = 0
-
 		self._damage_pops = {}
 		self._damage_pop_key = 1
 
@@ -136,8 +134,6 @@ if not WFHud then
 		self._buff_list:update(t, dt)
 		self._interact_display:update(t, dt)
 		self._pickup_list:update(t, dt)
-
-		self._t = t
 	end
 
 	function WFHud:panel()

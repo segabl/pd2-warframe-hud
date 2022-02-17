@@ -62,7 +62,7 @@ function HUDPickup:_animate_panel_display(panel)
 	panel:set_alpha(1)
 
 	while self._display_duration > 0 do
-		self._display_duration = self._display_duration - coroutine.yield()
+		self._display_duration = -coroutine.yield() + self._display_duration
 	end
 
 	self._fading_out = true
@@ -78,7 +78,7 @@ function HUDPickup:add_amount(amount)
 	self._amount_text:set_text(tostring(self._amount))
 	self:_layout()
 
-	self._display_duration = HUDPickup.DISPLAY_DURATION
+	self._display_duration = math.max(HUDPickup.DISPLAY_DURATION * 0.5, self._display_duration)
 end
 
 
