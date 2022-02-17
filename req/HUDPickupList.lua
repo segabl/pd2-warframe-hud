@@ -78,7 +78,7 @@ function HUDPickup:add_amount(amount)
 	self._amount_text:set_text(tostring(self._amount))
 	self:_layout()
 
-	self._display_duration = math.max(HUDPickup.DISPLAY_DURATION * 0.5, self._display_duration)
+	self._display_duration = HUDPickup.DISPLAY_DURATION
 end
 
 
