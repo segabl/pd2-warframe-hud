@@ -108,7 +108,6 @@ if not WFHud then
 		self:_check_font_replacements()
 
 		self._ws = managers.gui_data:create_fullscreen_workspace()
-		self._ws:panel():set_layer(-10)
 		self._ws:panel():hide()
 
 		self._damage_pops = {}

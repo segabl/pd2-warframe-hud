@@ -4,6 +4,7 @@ function HUDSpecialPickup:init(panel, y)
 	self._pickup_queue = {}
 
 	self._panel = panel:panel({
+		layer = 10,
 		visible = false,
 		h = 256,
 		y = y
