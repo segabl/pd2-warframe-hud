@@ -75,6 +75,14 @@ function HUDFloatingUnitLabel:_layout()
 	self._panel:set_h(self._compact and self._health_bar._health_loss_indicator:bottom() or self._pointer:bottom())
 end
 
+function HUDFloatingUnitLabel:_create_unit_level(unit_info)
+	local index = tweak_data:difficulty_to_index(Global.game_settings.difficulty)
+	local diff_mul = managers.groupai:state()._difficulty_value or 0
+	local base_lvl = 5 + (index - 2) * 15 + math.random(0, 5) + diff_mul * 30
+	unit_info._level = math.ceil(base_lvl * (unit_info:is_civilian() and 0.1 or unit_info:is_special() and 1.25 or unit_info:is_boss() and 1.5 or 1))
+	return unit_info._level
+end
+
 function HUDFloatingUnitLabel:update(t, dt)
 	if not alive(self._unit) or not alive(self._panel) then
 		if self._upd_id and managers.hud then
@@ -133,14 +141,6 @@ function HUDFloatingUnitLabel:update(t, dt)
 	local skip_anim = self._panel:alpha() == 0 or self._health_bar._panel:alpha() == 0 or not self._panel:visible()
 	self._health_bar:set_data(hp, max_hp, armor, max_armor, skip_anim)
 	self._health_bar:set_invulnerable(invulnerable)
-end
-
-function HUDFloatingUnitLabel:_create_unit_level(unit_info)
-	local index = tweak_data:difficulty_to_index(Global.game_settings.difficulty)
-	local diff_mul = managers.groupai:state()._difficulty_value or 0
-	local base_lvl = 5 + (index - 2) * 15 + math.random(0, 5) + diff_mul * 30
-	unit_info._level = math.ceil(base_lvl * (unit_info:is_civilian() and 0.1 or unit_info:is_special() and 1.25 or unit_info:is_boss() and 1.5 or 1))
-	return unit_info._level
 end
 
 function HUDFloatingUnitLabel:set_unit(unit, instant, compact_override)
@@ -211,9 +211,6 @@ function HUDFloatingUnitLabel:set_unit(unit, instant, compact_override)
 		end
 
 		self._panel:animate(function (o)
-			local is_deleted = not alive(self._unit) or self._unit:in_slot(0)
-			local is_dead = self._unit_dmg and (self._unit_dmg._dead or self._unit_dmg._health and self._unit_dmg._health <= 0)
-			wait((is_deleted or is_dead) and 0 or 0.5)
 			over(alpha * 0.25, function (t)
 				o:set_alpha(math.lerp(alpha, 0, t))
 			end)
