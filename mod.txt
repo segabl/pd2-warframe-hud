@@ -6,7 +6,7 @@
 	"priority" : -100,
 	"color" : "0.043 0.808 0.6",
 	"image" : "mod.png",
-	"version" : "1.3.5",
+	"version" : "1.3.6",
 	"updates" : [{
 		"identifier" : "pd2-warframe-hud",
 		"host": { "meta": "https://updates.hoppip.at/pd2-warframe-hud" }
@@ -31,6 +31,8 @@
 		{ "hook_id" : "lib/managers/lootmanager", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/playermanager", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/network/base/basenetworksession", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/tweak_data/equipmentstweakdata", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/tweak_data/tweakdatapd2", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/tweak_data/vehicletweakdata", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/units/beings/player/states/playerstandard", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/units/beings/player/playerdamage", "script_path" : "mod.lua" },
