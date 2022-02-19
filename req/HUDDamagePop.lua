@@ -31,7 +31,7 @@ function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 		layer = -99 + self._crit_mod
 	})
 
-	local size = WFHud.font_sizes.default + 8 * self._crit_mod
+	local size = math.ceil(WFHud.font_sizes.default * (1 + 0.45 * self._crit_mod))
 
 	if self.PROC_TYPE_TEXTURE_RECTS[proc_type] then
 		self._proc_bitmap = self._panel:bitmap({
@@ -56,10 +56,10 @@ function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 	self._dir = Vector3(-0.5 + math.random(), -0.5 + math.random(), math.random())
 	self._offset = Vector3()
 
-	self._panel:animate(callback(self, self, "animate"))
+	self._panel:animate(callback(self, self, "_animate"))
 end
 
-function HUDDamagePop:animate()
+function HUDDamagePop:_animate()
 	local cam = managers.viewport:get_current_camera()
 
 	over(1, function (t)
@@ -67,7 +67,7 @@ function HUDDamagePop:animate()
 			return
 		end
 
-		local size = (WFHud.font_sizes.default + 8 * self._crit_mod) * math.bezier(self.SCALE_CURVE, t)
+		local size = math.ceil(WFHud.font_sizes.default * (1 + 0.45 * self._crit_mod) * math.bezier(self.SCALE_CURVE, t))
 
 		self._damage_text:set_font_size(size)
 		local _, _, tw, _ = self._damage_text:text_rect()
