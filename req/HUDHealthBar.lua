@@ -1,3 +1,6 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
 HUDHealthBar = class()
 
 HUDHealthBar.RIGHT_TO_LEFT = 1
@@ -36,7 +39,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		self._health_text = self._panel:text({
 			color = self._health_color,
 			text = "100",
-			font = text_size > WFHud.font_sizes.default and WFHud.fonts.large or WFHud.fonts.default,
+			font = text_size > WFHud.font_sizes.default * font_scale * hud_scale and WFHud.fonts.large or WFHud.fonts.default,
 			font_size = text_size,
 			align = "right"
 		})
@@ -44,7 +47,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 		self._armor_text = self._panel:text({
 			color = WFHud.colors.shield,
 			text = "100",
-			font = text_size > WFHud.font_sizes.default and WFHud.fonts.large or WFHud.fonts.default,
+			font = text_size > WFHud.font_sizes.default * font_scale * hud_scale and WFHud.fonts.large or WFHud.fonts.default,
 			font_size = text_size,
 			align = "right"
 		})

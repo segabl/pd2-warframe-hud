@@ -1,6 +1,9 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
 HUDObjectivePanel = class()
 
-HUDObjectivePanel.ICON_SIZE = 24
+HUDObjectivePanel.ICON_SIZE = 24 * hud_scale
 HUDObjectivePanel.ICON_TEXTURE_RECTS = {
 	default = { 0, 0, 48, 48 },
 	defend = { 0, 48, 48, 48 },
@@ -53,7 +56,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		visible = false,
 		text = "GO DO A CRIME",
 		font = WFHud.fonts.bold,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
@@ -63,7 +66,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		visible = false,
 		text = "CRIMES DONE: 0/99",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
@@ -73,7 +76,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		visible = false,
 		text = "WAVES REMAINING: 3",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
@@ -82,7 +85,7 @@ function HUDObjectivePanel:init(panel, x, y)
 	self._time_text = self._panel:text({
 		text = "13:37",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
@@ -113,7 +116,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		visible = false,
 		text = managers.localization:to_upper_text("hud_objectives_defeat_winters"),
 		font = WFHud.fonts.bold,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
@@ -123,7 +126,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		visible = false,
 		text = "ENEMY DAMAGE RESISTANCE: 69%",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
@@ -137,14 +140,14 @@ function HUDObjectivePanel:init(panel, x, y)
 
 	self._subtitle_name = self._subtitle_panel:text({
 		font = WFHud.fonts.bold,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.friendly,
 		h = HUDObjectivePanel.ICON_SIZE
 	})
 
 	self._subtitle_text = self._subtitle_panel:text({
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		y = self._subtitle_name:bottom(),
 		wrap = true,

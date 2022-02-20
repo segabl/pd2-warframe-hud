@@ -1,3 +1,6 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
 Hooks:PostHook(HUDTeammate, "init", "init_wfhud", function (self, i, teammates_panel, is_player, width)
 	self._wfhud_panel = HUDPlayerPanel:new(WFHud:panel(), self._main_player)
 	self._wfhud_panel._panel:set_visible(false)
@@ -5,9 +8,9 @@ Hooks:PostHook(HUDTeammate, "init", "init_wfhud", function (self, i, teammates_p
 	if self._main_player then
 		self._wfhud_panel._panel:set_righttop(WFHud:panel():w() - WFHud.MARGIN_H, WFHud.MARGIN_V)
 	else
-		self._wfhud_panel._panel:set_righttop(WFHud:panel():w() - WFHud.MARGIN_H, WFHud.MARGIN_V + 88 + (i - 1) * (self._wfhud_panel._panel:h() + 4))
+		self._wfhud_panel._panel:set_righttop(WFHud:panel():w() - WFHud.MARGIN_H, WFHud.MARGIN_V + 88 * hud_scale + (i - 1) * (self._wfhud_panel._panel:h() + 4 * hud_scale))
 
-		self._wfhud_item_list = HUDIconList:new(WFHud:panel(), 0, self._wfhud_panel._panel:y(), WFHud:panel():w() - 200, 24, WFHud.colors.buff)
+		self._wfhud_item_list = HUDIconList:new(WFHud:panel(), 0, self._wfhud_panel._panel:y(), WFHud:panel():w() - 200 * hud_scale, 24 * hud_scale, WFHud.colors.buff)
 		self._wfhud_item_list._panel:set_visible(false)
 	end
 end)

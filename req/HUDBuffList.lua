@@ -1,11 +1,10 @@
-if HUDBuffListItem then
-	return
-end
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
 
 HUDBuffListItem = class()
 
-HUDBuffListItem.ICON_SIZE = 40
-HUDBuffListItem.ICON_SPACING = 4
+HUDBuffListItem.ICON_SIZE = 40 * hud_scale
+HUDBuffListItem.ICON_SPACING = 4 * hud_scale
 HUDBuffListItem.NAME_DISPLAY_TIME = 3
 HUDBuffListItem.PANEL_SHIFT_TIME = 0.05
 HUDBuffListItem.CATEGORY_TEXTURE_RECTS = {
@@ -24,7 +23,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 
 	self._panel = parent_panel:panel({
 		w = 320,
-		h = self.ICON_SIZE + WFHud.font_sizes.small * 5
+		h = self.ICON_SIZE + WFHud.font_sizes.small * font_scale * hud_scale * 5
 	})
 
 	self._icon = self._panel:bitmap({
@@ -34,14 +33,14 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		w = self.ICON_SIZE,
 		h = self.ICON_SIZE
 	})
-	self._icon:set_center(self._panel:w() * 0.5, self._panel:h() * 0.5 - WFHud.font_sizes.small * 0.5)
+	self._icon:set_center(self._panel:w() * 0.5, self._panel:h() * 0.5 - WFHud.font_sizes.small * font_scale * hud_scale * 0.5)
 
 	-- Icon text
 	self._icon_text = self._panel:text({
 		text = " ",
 		align = "center",
 		color = WFHud.colors.default,
-		font_size = WFHud.font_sizes.small,
+		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		font = WFHud.fonts.bold,
 	})
 	local _, _, _, h = self._icon_text:text_rect()
@@ -67,7 +66,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		align = "center",
 		vertical = "center",
 		color = WFHud.colors.default,
-		font_size = WFHud.font_sizes.tiny,
+		font_size = WFHud.font_sizes.tiny * font_scale * hud_scale,
 		font = WFHud.fonts.default_no_shadow
 	})
 
@@ -91,15 +90,15 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		texture = "guis/textures/pd2/scrollbar_arrows",
 		color = upgrade_data.is_debuff and WFHud.colors.debuff or WFHud.colors.buff,
 		alpha = 0,
-		w = WFHud.font_sizes.small * 0.5,
-		h = WFHud.font_sizes.small * 0.5,
+		w = WFHud.font_sizes.small * font_scale * hud_scale * 0.5,
+		h = WFHud.font_sizes.small * font_scale * hud_scale * 0.5,
 		rotation = self._flipped and 180 or 0
 	})
 	self._name_arrow:set_center_x(self._icon:center_x() + 1)
 	if self._flipped then
-		self._name_arrow:set_bottom(self._icon:top() - WFHud.font_sizes.small * 0.25)
+		self._name_arrow:set_bottom(self._icon:top() - WFHud.font_sizes.small * font_scale * hud_scale * 0.25)
 	else
-		self._name_arrow:set_top(self._icon_text:bottom() + WFHud.font_sizes.small * 0.25)
+		self._name_arrow:set_top(self._icon_text:bottom() + WFHud.font_sizes.small * font_scale * hud_scale * 0.25)
 	end
 
 	self._name = self._panel:text({
@@ -108,7 +107,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		align = "center",
 		color = upgrade_data.is_debuff and WFHud.colors.debuff or WFHud.colors.buff,
 		alpha = 0,
-		font_size = WFHud.font_sizes.small,
+		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		font = WFHud.fonts.bold
 	})
 	local _, _, w, h = self._name:text_rect()

@@ -31,6 +31,22 @@ if not WFHud then
 	WFHud = {}
 	WFHud.mod_path = ModPath
 	WFHud.skill_map = {}
+	WFHud.settings = {
+		hud_scale = 1,
+		font_scale = 1,
+		vanilla_ammo = false
+	}
+	WFHud.params = {
+		hud_scale = {
+			min = 0.5,
+			max = 2
+		},
+		font_scale = {
+			min = 0.5,
+			max = 2
+		}
+	}
+	WFHud.menu_builder = MenuBuilder:new("wfhud", WFHud.settings, WFHud.params)
 	WFHud.colors = {
 		default = Color("ffffff"),
 		muted = Color("808080"),
@@ -117,13 +133,17 @@ if not WFHud then
 		self._unit_slotmask_no_walls = self._unit_slotmask - managers.slot:get_mask("bullet_blank_impact_targets")
 		self._next_unit_raycast_t = 0
 
+		self:create_hud_elements()
+	end
+
+	function WFHud:create_hud_elements()
 		self._unit_aim_label = HUDFloatingUnitLabel:new(self:panel(), true)
-		self._buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - 240, 256)
+		self._buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - 240 * self.settings.hud_scale, 256 * self.settings.hud_scale)
 		self._equipment_panel = HUDPlayerEquipment:new(self:panel())
 		self._interact_display = HUDInteractDisplay:new(self:panel())
 		self._objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.MARGIN_H, 192)
 		self._pickup_list = HUDPickupList:new(self:panel())
-		self._special_pickup = HUDSpecialPickup:new(self:panel(), self:panel():h() * 0.6)
+		self._special_pickup = HUDSpecialPickup:new(self:panel(), self:panel():h() * 0.95 - 256 * self.settings.hud_scale)
 	end
 
 	function WFHud:update(t, dt)
@@ -515,6 +535,10 @@ if not WFHud then
 
 	Hooks:Add("LocalizationManagerPostInit", "LocalizationManagerPostInitWFHud", function(loc)
 		HopLib:load_localization(WFHud.mod_path .. "loc/", loc)
+	end)
+
+	Hooks:Add("MenuManagerBuildCustomMenus", "MenuManagerBuildCustomMenusWFHud", function(menu_manager, nodes)
+		WFHud.menu_builder:create_menu(nodes)
 	end)
 
 end

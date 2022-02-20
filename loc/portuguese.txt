@@ -1,5 +1,13 @@
 {
 	"debug_mugshot_electrified" : "Eletrocutado",
+	"menu_wfhud" : "Warframe HUD",
+	"menu_wfhud_desc" : "Mude as configurações do Warframe HUD",
+	"menu_wfhud_hud_scale" : "Tamanho da HUD",
+	"menu_wfhud_hud_scale_desc" : "Muda o tamanho de todos os elementos da HUD\nPrecisa reiniciar o mapa para ter efeito",
+	"menu_wfhud_font_scale" : "Tamanho da Letra",
+	"menu_wfhud_font_scale_desc" : "Muda o tamanho do texto, aplica sob o Tamanho da HUD\nPrecisa reiniciar o mapa para ter efeito",
+	"menu_wfhud_vanilla_ammo" : "Estilo de munição Padrão",
+	"menu_wfhud_vanilla_ammo_desc" : "Munição total incluirá no carregador",
 	"hud_fire_mode_auto" : "Automático",
 	"hud_fire_mode_single" : "Unitário",
 	"hud_fire_mode_underbarrel" : "Cano Inferior",

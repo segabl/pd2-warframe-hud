@@ -1,3 +1,7 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
+
 Hooks:PreHook(HUDManager, "init", "init_wfhud", function (self)
 	WFHud:setup()
 end)
@@ -17,6 +21,11 @@ end)
 Hooks:PostHook(HUDManager, "show", "show_wfhud", function (self, name)
 	if name == PlayerBase.PLAYER_INFO_HUD_FULLSCREEN then
 		WFHud:panel():show()
+	elseif name == Idstring("guis/mask_off_hud") and self:alive("guis/mask_off_hud") then
+		local mask_on_text = self:script("guis/mask_off_hud").mask_on_text
+		mask_on_text:set_top(56)
+		mask_on_text:set_font(WFHud.font_ids.default)
+		mask_on_text:set_font_size(WFHud.font_sizes.default * font_scale * hud_scale)
 	end
 end)
 
@@ -150,7 +159,7 @@ end)
 
 
 -- waypoint stuff
-local wp_size = 32
+local wp_size = 32 * hud_scale
 local icon_size = wp_size * 0.5
 
 local add_waypoint_original = HUDManager.add_waypoint
@@ -183,16 +192,16 @@ function HUDManager:add_waypoint(id, data, ...)
 	wp_data.arrow:set_color((data.color or WFHud.colors.default):with_alpha(1))
 
 	wp_data.text:set_font(WFHud.font_ids.default)
-	wp_data.text:set_font_size(WFHud.font_sizes.small)
+	wp_data.text:set_font_size(WFHud.font_sizes.small * font_scale * hud_scale)
 	local _, _, w, _ = wp_data.text:text_rect()
 	wp_data.text:set_w(w)
 	if wp_data.distance then
 		wp_data.distance:set_font(WFHud.font_ids.default)
-		wp_data.distance:set_font_size(WFHud.font_sizes.small)
+		wp_data.distance:set_font_size(WFHud.font_sizes.small * font_scale * hud_scale)
 	end
 	if wp_data.timer_gui then
 		wp_data.timer_gui:set_font(WFHud.font_ids.default)
-		wp_data.timer_gui:set_font_size(WFHud.font_sizes.small)
+		wp_data.timer_gui:set_font_size(WFHud.font_sizes.small * font_scale * hud_scale)
 	end
 
 	wp_data.bg = hud.panel:bitmap({
@@ -435,7 +444,7 @@ Hooks:PostHook(HUDManager, "show", "show_wfhud", function (self, name)
 	if name == mask_off_hud and self:alive("guis/mask_off_hud") then
 		local mask_on_text = self:script("guis/mask_off_hud").mask_on_text
 		mask_on_text:set_font(WFHud.font_ids.default)
-		mask_on_text:set_font_size(WFHud.font_sizes.default)
+		mask_on_text:set_font_size(WFHud.font_sizes.default * font_scale * hud_scale)
 		mask_on_text:parent():set_y(mask_on_text:parent():parent():h() * 0.75)
 	end
 end)

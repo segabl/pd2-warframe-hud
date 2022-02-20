@@ -1,27 +1,28 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
 HUDPlayerEquipment = class()
 
 function HUDPlayerEquipment:init(panel)
 	self._weapon_index = 1
 
-	self._panel = panel:panel({
-		w = 600
-	})
+	self._panel = panel:panel()
 
 	self._bag_icon = self._panel:bitmap({
 		visible = false,
 		texture = "guis/textures/pd2/hud_tabs",
 		texture_rect = { 2, 34, 20, 17 },
 		color = WFHud.colors.default,
-		x = self._panel:w() - 20,
-		w = 20,
-		h = 17
+		w = 20 * hud_scale,
+		h = 17 * hud_scale
 	})
+	self._bag_icon:set_right(self._panel:w())
 
 	self._bag_text = self._panel:text({
 		visible = false,
 		text = "THERMAL DRILL",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default,
 	})
 
@@ -31,7 +32,7 @@ function HUDPlayerEquipment:init(panel)
 		color = WFHud.colors.default,
 		text = "30",
 		font = WFHud.fonts.large,
-		font_size = WFHud.font_sizes.huge,
+		font_size = WFHud.font_sizes.huge * font_scale * hud_scale,
 		y = self._bag_icon:bottom() + 32
 	})
 
@@ -39,7 +40,7 @@ function HUDPlayerEquipment:init(panel)
 		color = WFHud.colors.default,
 		text = "/ 120",
 		font = WFHud.fonts.bold,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		y = self._ammo_text:y()
 	})
 
@@ -49,7 +50,7 @@ function HUDPlayerEquipment:init(panel)
 		color = WFHud.colors.default,
 		text = "AMCAR RIFLE",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.small,
+		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		y = self._total_ammo_text:bottom()
 	})
 
@@ -57,23 +58,23 @@ function HUDPlayerEquipment:init(panel)
 		color = WFHud.colors.muted,
 		text = "AUTO",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.small,
+		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		y = self._total_ammo_text:bottom()
 	})
 
 	self:_align_weapon_text()
 
-	self._equipment_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), 24, 24, WFHud.colors.default)
-	self._item_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), self._panel:w(), 24, WFHud.colors.default)
+	self._equipment_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), 24 * hud_scale, 24 * hud_scale, WFHud.colors.default)
+	self._item_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), self._panel:w(), 24 * hud_scale, WFHud.colors.default)
 
 	self:_align_equipment()
 
 	self._stamina_panel = self._panel:panel({
-		x = self._panel:w() - 128,
 		y = self._item_list._panel:bottom() + 4,
-		w = 128,
-		h = 5
+		w = 128 * hud_scale,
+		h = 5 * hud_scale
 	})
+	self._stamina_panel:set_right(self._panel:w())
 
 	self._stamina_bar_bg = self._stamina_panel:bitmap({
 		texture = "guis/textures/wfhud/bar",
@@ -94,7 +95,7 @@ function HUDPlayerEquipment:init(panel)
 		color = WFHud.colors.default,
 		text = "50",
 		font = WFHud.fonts.bold,
-		font_size = WFHud.font_sizes.small,
+		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		align = "right",
 		y = self._stamina_panel:bottom()
 	})
@@ -168,7 +169,8 @@ function HUDPlayerEquipment:set_ammo()
 	else
 		self._ammo_text:set_text(tostring(mag))
 		self._ammo_text:set_alpha(1)
-		self._total_ammo_text:set_text(string.format("/ %u", getmetatable(wbase) == SawWeaponBase and total or math.max(0, total - mag)))
+		local ammo = (WFHud.settings.vanilla_ammo or getmetatable(wbase) == SawWeaponBase) and total or math.max(0, total - mag)
+		self._total_ammo_text:set_text(string.format("/ %u", ammo))
 	end
 
 	self:_align_ammo_text()

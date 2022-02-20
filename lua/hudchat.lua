@@ -1,4 +1,7 @@
-HUDChat.line_height = WFHud.font_sizes.small
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
+HUDChat.line_height = WFHud.font_sizes.small * font_scale * hud_scale
 
 Hooks:PostHook(HUDChat, "init", "init_wfhud", function (self)
 	self._panel:set_h(self._panel:parent():h())

@@ -1,3 +1,6 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
 Hooks:PostHook(HUDPresenter, "init", "init_wfhud", function (self)
 	if self._hud_panel:child("present_panel") then
 		self._hud_panel:child("present_panel"):hide()
@@ -8,29 +11,29 @@ Hooks:PostHook(HUDPresenter, "init", "init_wfhud", function (self)
 		visible = false,
 		y = WFHud:panel():h() * 0.2,
 		w = 0,
-		h = 2 * WFHud.font_sizes.default
+		h = 2 * WFHud.font_sizes.default * font_scale * hud_scale
 	})
 
 	self._present_title = self._present_panel:text({
 		font = WFHud.fonts.bold,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		align = "center",
 		vertical = "center",
 		halign = "grow",
-		h = WFHud.font_sizes.default,
+		h = WFHud.font_sizes.default * font_scale * hud_scale,
 		y = 0
 	})
 
 	self._present_text = self._present_panel:text({
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		align = "center",
 		vertical = "center",
 		halign = "grow",
-		h = WFHud.font_sizes.default,
-		y = WFHud.font_sizes.default
+		h = WFHud.font_sizes.default * font_scale * hud_scale,
+		y = WFHud.font_sizes.default * font_scale * hud_scale
 	})
 end)
 

@@ -1,6 +1,9 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
 HUDPickup = class()
 
-HUDPickup.ICON_SIZE = 24
+HUDPickup.ICON_SIZE = 24 * hud_scale
 HUDPickup.DISPLAY_DURATION = 3
 
 function HUDPickup:init(panel, id, icon, icon_rect, amount, item)
@@ -26,14 +29,14 @@ function HUDPickup:init(panel, id, icon, icon_rect, amount, item)
 	self._amount_text = self._panel:text({
 		text = tostring(amount),
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		vertical = "center"
 	})
 
 	self._item_text = self._panel:text({
 		text = " " .. item:upper(),
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		vertical = "center"
 	})
 

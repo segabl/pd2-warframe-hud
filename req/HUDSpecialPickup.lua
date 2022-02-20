@@ -1,3 +1,6 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
 HUDSpecialPickup = class()
 
 function HUDSpecialPickup:init(panel, y)
@@ -6,7 +9,7 @@ function HUDSpecialPickup:init(panel, y)
 	self._panel = panel:panel({
 		layer = 10,
 		visible = false,
-		h = 256,
+		h = 256 * hud_scale,
 		y = y
 	})
 
@@ -14,12 +17,13 @@ function HUDSpecialPickup:init(panel, y)
 		layer = -2,
 		texture = "guis/textures/wfhud/pickup_bg"
 	})
+	self._bg:set_size(self._bg:texture_width() * hud_scale, self._bg:texture_height() * hud_scale)
 
 	self._bg_effect_panel = self._panel:panel({
 		layer = -3,
 		alpha = 0,
-		w = 256,
-		h = 256
+		w = 256 * hud_scale,
+		h = 256 * hud_scale
 	})
 
 	self._bg_dots = self._bg_effect_panel:bitmap({
@@ -52,8 +56,8 @@ function HUDSpecialPickup:init(panel, y)
 		layer = -1,
 		alpha = 0,
 		texture = "guis/textures/wfhud/pickup_bg_flare",
-		w = 512,
-		h = 54,
+		w = 512 * hud_scale,
+		h = 54 * hud_scale,
 		blend_mode = "add",
 		color = Color("ddc16f"):with_alpha(0.5)
 	})
@@ -63,24 +67,24 @@ function HUDSpecialPickup:init(panel, y)
 		layer = 1,
 		alpha = 0,
 		texture = "guis/textures/wfhud/pickup_bg_flare",
-		w = 1024,
-		h = 64,
+		w = 1024 * hud_scale,
+		h = 64 * hud_scale,
 		blend_mode = "add"
 	})
 
 	self._icon = self._panel:bitmap({
 		texture = "sweden",
-		w = 64,
-		h = 64
+		w = 64 * hud_scale,
+		h = 64 * hud_scale
 	})
 
 	self._text = self._panel:text({
 		text = "Sweden",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		align = "center",
 		w = self._bg:w(),
-		h = WFHud.font_sizes.default
+		h = WFHud.font_sizes.default * font_scale * hud_scale
 	})
 
 	self:_layout()

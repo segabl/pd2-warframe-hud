@@ -1,3 +1,6 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
 local mvec_add = mvector3.add
 local mvec_dir = mvector3.direction
 local mvec_dot = mvector3.dot
@@ -15,26 +18,26 @@ function HUDFloatingUnitLabel:init(panel, health_visible)
 
 	self._panel = panel:panel({
 		alpha = 0,
-		w = 240,
+		w = 240 * hud_scale,
 		layer = -100
 	})
 
 	self._unit_text = self._panel:text({
 		text = "ENEMY",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.small,
+		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		align = "center"
 	})
 
-	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, 112, 8, nil, true)
+	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, 112 * hud_scale, 8 * hud_scale, nil, true)
 	self._health_bar:set_direction(HUDHealthBar.LEFT_TO_RIGHT)
 
 	self._level_text = self._panel:text({
 		visible = not compact,
 		text = "100",
 		font = WFHud.fonts.bold,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		align = "center"
 	})
@@ -44,10 +47,8 @@ function HUDFloatingUnitLabel:init(panel, health_visible)
 		texture = "guis/textures/wfhud/bar_caps",
 		texture_rect = { 32, 0, 32, 32 },
 		color = WFHud.colors.default:with_alpha(0.25),
-		x = self._panel:w() * 0.5 - 16,
-		y = self._health_bar._panel:bottom() - 6,
-		w = 32,
-		h = 32,
+		w = 32 * hud_scale,
+		h = 32 * hud_scale,
 		layer = -1
 	})
 

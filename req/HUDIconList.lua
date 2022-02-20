@@ -1,3 +1,6 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
 HUDIconList = class()
 
 function HUDIconList:init(panel, x, y, width, height, icon_color)
@@ -51,8 +54,8 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 	local panel = icon_panel:panel({
 		layer = 1,
 		name = "value_panel",
-		w = WFHud.font_sizes.tiny * 1.25,
-		h = WFHud.font_sizes.tiny,
+		w = WFHud.font_sizes.tiny * font_scale * hud_scale * 1.25,
+		h = WFHud.font_sizes.tiny * font_scale * hud_scale,
 		visible = false
 	})
 	panel:set_center_x(icon_panel:w() * 0.5)
@@ -74,7 +77,7 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 		text = "",
 		color = WFHud.colors.default,
 		font = WFHud.fonts.default_no_shadow,
-		font_size = WFHud.font_sizes.tiny
+		font_size = WFHud.font_sizes.tiny * font_scale * hud_scale
 	})
 
 	self:_layout_panel()

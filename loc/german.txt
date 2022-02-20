@@ -1,5 +1,13 @@
 {
 	"debug_mugshot_electrified" : "Geschockt",
+	"menu_wfhud" : "Warframe HUD",
+	"menu_wfhud_desc" : "Bearbeite die Warframe HUD Einstellungen",
+	"menu_wfhud_hud_scale" : "HUD Skalierung",
+	"menu_wfhud_hud_scale_desc" : "Skalierungsfaktor für alle HUD Elemente\nErfordert einen Neustart des Raubzugs",
+	"menu_wfhud_font_scale" : "Textskalierung",
+	"menu_wfhud_font_scale_desc" : "Skalierungsfaktor für Text, wird mit HUD Skalierung multipliziert\nErfordert einen Neustart des Raubzugs",
+	"menu_wfhud_vanilla_ammo" : "Vanilla Munitionsstil",
+	"menu_wfhud_vanilla_ammo_desc" : "Gesamtmunition beinhaltet munition im Magazin",
 	"hud_fire_mode_auto" : "Auto",
 	"hud_fire_mode_single" : "Einzel",
 	"hud_fire_mode_underbarrel" : "Unterlauf",

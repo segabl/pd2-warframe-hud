@@ -1,3 +1,6 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
 local mvec_add = mvector3.add
 local mvec_set = mvector3.set
 local tmp_vec = Vector3()
@@ -12,7 +15,7 @@ function HUDInteractDisplay:init(panel)
 	})
 
 	self._interact_circle = CircleBitmapGuiObject:new(self._panel, {
-		radius = 8,
+		radius = 8 * font_scale * hud_scale,
 		image = "guis/textures/pd2/hud_progress_32px",
 		color = Color.white
 	})
@@ -22,7 +25,7 @@ function HUDInteractDisplay:init(panel)
 		text = "Press F to pay respects",
 		align = "center",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default
 	})
 
@@ -31,7 +34,7 @@ function HUDInteractDisplay:init(panel)
 		text = "Paying respects",
 		align = "center",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.default
 	})
 
@@ -40,7 +43,7 @@ function HUDInteractDisplay:init(panel)
 		text = "Aim at valid surface",
 		align = "center",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.default,
+		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
 		color = WFHud.colors.debuff
 	})
 

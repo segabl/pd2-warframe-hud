@@ -1,17 +1,18 @@
+local hud_scale = WFHud.settings.hud_scale
+local font_scale = WFHud.settings.font_scale
+
 HUDPlayerPanel = class()
 
 function HUDPlayerPanel:init(panel, main_player)
 	self._is_main_player = main_player
 
-	self._panel = panel:panel({
-		w = 400
-	})
+	self._panel = panel:panel()
 
 	-- peer data (avatar + infamy)
 	self._peer_info_panel = self._panel:panel({
 		visible = not main_player,
-		w = 32,
-		h = 32
+		w = 32 * hud_scale,
+		h = 32 * hud_scale
 	})
 
 	self._peer_avatar = self._peer_info_panel:bitmap({
@@ -27,7 +28,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		text = "0",
 		color = WFHud.colors.default,
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.small,
+		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		layer = 1,
 		w = self._peer_info_panel:w() - 4,
 		h = self._peer_info_panel:h()
@@ -37,8 +38,10 @@ function HUDPlayerPanel:init(panel, main_player)
 
 
 	-- healthbar
-	local health_bar_w = main_player and 160 or 96
-	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, health_bar_w, main_player and 8 or 5, main_player and WFHud.font_sizes.huge or WFHud.font_sizes.small)
+	local health_bar_w = (main_player and 160 or 96) * hud_scale
+	local health_bar_h = (main_player and 8 or 5) * hud_scale
+	local health_bar_font_size = (main_player and WFHud.font_sizes.huge or WFHud.font_sizes.small) * font_scale * hud_scale
+	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, health_bar_w, health_bar_h, health_bar_font_size)
 	self._health_bar._panel:set_right(main_player and self._panel:w() or self._peer_info_panel:x() - 4)
 
 
@@ -48,7 +51,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		x = self._health_bar._panel:x(),
 		y = self._health_bar._panel:bottom() + 1,
 		w = health_bar_w,
-		h = 2,
+		h = 2 * hud_scale,
 		layer = -1
 	})
 
@@ -70,12 +73,12 @@ function HUDPlayerPanel:init(panel, main_player)
 
 	-- peer id
 	self._peer_id_panel = self._panel:panel({
-		x = self._level_panel:right() - 16,
 		y = main_player and self._health_bar._panel:bottom() or self._level_panel:bottom(),
-		w = 16,
-		h = 16,
+		w = 16 * font_scale * hud_scale,
+		h = 16 * font_scale * hud_scale,
 		layer = -1
 	})
+	self._peer_id_panel:set_right(self._level_panel:right())
 
 	self._peer_id_bg = self._peer_id_panel:bitmap({
 		texture = "guis/textures/wfhud/peer_bg",
@@ -86,7 +89,7 @@ function HUDPlayerPanel:init(panel, main_player)
 	self._peer_id_text = self._peer_id_panel:text({
 		text = "0",
 		font = WFHud.fonts.bold_no_shadow,
-		font_size = WFHud.font_sizes.tiny,
+		font_size = WFHud.font_sizes.tiny * font_scale * hud_scale,
 		color = Color.black:with_alpha(0.75),
 		align = "center",
 		vertical = "center",
@@ -99,22 +102,22 @@ function HUDPlayerPanel:init(panel, main_player)
 		visible = false,
 		text = "[100]",
 		font = WFHud.fonts.bold,
-		font_size = WFHud.font_sizes.small,
+		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		align = "right",
 		y = main_player and self._health_bar._panel:bottom() or self._level_panel:bottom(),
-		w = self._level_panel:right() - (main_player and 24 or 20),
+		w = self._level_panel:right() - self._peer_id_panel:w() - (main_player and 8 or 4) * font_scale,
 		layer = -1
 	})
 
 	self._name_text = self._panel:text({
 		text = "Player",
 		font = WFHud.fonts.default,
-		font_size = WFHud.font_sizes.small,
+		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		align = "right",
 		y = main_player and self._health_bar._panel:bottom() or self._level_panel:bottom(),
-		w = self._level_panel:right() - (main_player and 24 or 20),
+		w = self._level_panel:right() - self._peer_id_panel:w() - (main_player and 8 or 4) * font_scale,
 		layer = -1
 	})
 
@@ -163,7 +166,7 @@ function HUDPlayerPanel:set_name(name)
 
 		self._level_text:set_text(string.format(" [%u]", managers.experience:current_level()))
 		local _, _, tw = self._level_text:text_rect()
-		self._name_text:set_w(self._level_panel:right() - 24 - tw)
+		self._name_text:set_w(self._level_panel:right() -  self._peer_id_panel:w() - 8 * font_scale - tw)
 		name = managers.localization:to_upper_text(tweak_data.skilltree.specializations[spec].name_id)
 	end
 

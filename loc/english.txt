@@ -1,5 +1,13 @@
 {
 	"debug_mugshot_electrified" : "Shocked",
+	"menu_wfhud" : "Warframe HUD",
+	"menu_wfhud_desc" : "Tweak Warframe HUD settings",
+	"menu_wfhud_hud_scale" : "HUD scale",
+	"menu_wfhud_hud_scale_desc" : "Scale multiplier for all HUD elements\nRequires a heist restart to take effect",
+	"menu_wfhud_font_scale" : "Font scale",
+	"menu_wfhud_font_scale_desc" : "Scale multiplier for text, applies on top of HUD scale\nRequires a heist restart to take effect",
+	"menu_wfhud_vanilla_ammo" : "Vanilla ammo style",
+	"menu_wfhud_vanilla_ammo_desc" : "Total ammo includes ammo in magazine",
 	"hud_fire_mode_auto" : "Auto",
 	"hud_fire_mode_single" : "Single",
 	"hud_fire_mode_underbarrel" : "Underbarrel",
