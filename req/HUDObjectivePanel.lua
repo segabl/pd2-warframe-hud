@@ -170,7 +170,7 @@ function HUDObjectivePanel:_layout()
 	self._vip_text:set_position(text_x, self._vip_icon:y())
 	self._vip_detail:set_position(text_x, self._vip_text:bottom())
 
-	self._subtitle_panel:set_position(text_x, self._vip_detail:bottom())
+	self._subtitle_panel:set_position(0, self._vip_detail:bottom())
 end
 
 function HUDObjectivePanel:_animate_show_icon(overlay_icon, icon)
