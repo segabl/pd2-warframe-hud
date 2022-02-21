@@ -191,15 +191,12 @@ end)
 
 Hooks:PreHook(PlayerManager, "add_cable_ties", "add_cable_ties_wfhuf", function (self, amount)
 	local equipment = tweak_data.equipments.specials.cable_tie
-	local special_equipment = self._equipment.specials.cable_tie
-	if not special_equipment then
-		return
-	end
-
-	local current_amount = Application:digest_value(special_equipment.amount, false)
+	local owned_equipment = self._equipment.specials.cable_tie
+	local current_amount = owned_equipment and owned_equipment.amount and Application:digest_value(owned_equipment.amount, false) or 0
 	local added = math.min(current_amount + amount, equipment.max_quantity) - current_amount
 	if added > 0 then
-		WFHud:add_pickup("cable_tie", added)
+		local texture, texture_rect = WFHud:get_icon_data(equipment.icon)
+		WFHud:add_pickup("cable_tie", added, nil, texture, texture_rect)
 	end
 end)
 
@@ -219,7 +216,8 @@ Hooks:PreHook(PlayerManager, "add_grenade_amount", "add_grenade_amount_wfhud", f
 	local added = math.min(current_amount + amount, self:get_max_grenades_by_peer_id(peer_id)) - current_amount
 
 	if added > 0 then
-		WFHud:add_pickup(grenade, added, managers.localization:text(tweak.name_id))
+		local texture, texture_rect = WFHud:get_icon_data(tweak.icon)
+		WFHud:add_pickup(grenade, added, managers.localization:text(tweak.name_id), texture, texture_rect)
 	end
 end)
 

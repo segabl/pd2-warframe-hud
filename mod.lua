@@ -204,10 +204,10 @@ if not WFHud then
 		end
 	end
 
-	function WFHud:add_pickup(id, amount, text)
-		if self._pickup_list then
+	function WFHud:add_pickup(id, amount, text, texture, texture_rect)
+		if self._pickup_list and Utils:IsInHeist() then
 			local string_id = "hud_pickup_" .. id
-			self._pickup_list:add(id, nil, nil, amount, text or managers.localization:exists(string_id) and managers.localization:text(string_id) or id:pretty(true))
+			self._pickup_list:add(id, texture, texture_rect, amount, text or managers.localization:exists(string_id) and managers.localization:text(string_id) or id:pretty(true))
 		end
 	end
 
@@ -230,7 +230,7 @@ if not WFHud then
 		pd2_generic_saw = "equipment_saw"
 	}
 	function WFHud:get_icon_data(icon_id)
-		local custom_texture = "guis/textures/wfhud/hud_icons/" .. (redirects[icon_id] or icon_id)
+		local custom_texture = "guis/textures/wfhud/hud_icons/" .. tostring(redirects[icon_id] or icon_id)
 		local custom_level_texture = custom_texture .. "_" .. tostring(Global.game_settings.level_id)
 		if DB:has(ext_mapping.dds, Idstring(custom_level_texture)) then
 			return custom_level_texture
