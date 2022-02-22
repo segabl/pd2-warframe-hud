@@ -1,6 +1,5 @@
 local ids_texture = Idstring("texture")
 local ammo_icon_redirects = {
-	revolver = "pistol",
 	smg = "pistol",
 }
 
