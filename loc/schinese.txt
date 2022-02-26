@@ -45,6 +45,7 @@
 	"hud_action_untying" : "Untying",
 	"hud_fire_mode_auto" : "全自动",
 	"hud_fire_mode_single" : "半自动",
+	"hud_fire_mode_burst" : "连发",
 	"hud_fire_mode_underbarrel" : "下挂配件",
 	"hud_fire_mode_underbarrel_raycast" : "下挂配件",
 	"hud_fire_mode_underbarrel_launcher" : "发射器",
@@ -93,7 +94,6 @@
 	"hud_sub_name_rb5" : "霍斯顿",
 	"hud_sub_name_txm" : "税务官",
 	"hud_sub_name_vld" : "弗拉德",
-	"hud_sub_name_yuw" : "渔夫王",
 	"hud_sub_name_yuw" : "渔夫王",
 	"hud_sub_name_xuk" : "迅康"
 }

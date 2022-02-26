@@ -188,7 +188,7 @@ function HUDPlayerEquipment:set_fire_mode()
 	if HopLib:is_object_of_class(gadget_base, WeaponUnderbarrel) then
 		fire_mode_text = managers.localization:to_upper_text("hud_fire_mode_" .. gadget_base.GADGET_TYPE)
 	elseif wbase:can_toggle_firemode() then
-		fire_mode_text = managers.localization:to_upper_text("hud_fire_mode_" .. wbase:fire_mode())
+		fire_mode_text = managers.localization:to_upper_text("hud_fire_mode_" .. (wbase.in_burst_mode and wbase:in_burst_mode() and "burst" or wbase:fire_mode()))
 	end
 	self._fire_mode_text:set_text(fire_mode_text or "")
 	self:_align_weapon_text()

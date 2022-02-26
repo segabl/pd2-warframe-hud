@@ -45,6 +45,7 @@
 	"hud_action_untying" : "Desamarrando",
 	"hud_fire_mode_auto" : "Automático",
 	"hud_fire_mode_single" : "Unitário",
+	"hud_fire_mode_burst" : "Rajada",
 	"hud_fire_mode_underbarrel" : "Cano Inferior",
 	"hud_fire_mode_underbarrel_raycast" : "Cano Inferior",
 	"hud_fire_mode_underbarrel_launcher" : "Lança-Granadas",

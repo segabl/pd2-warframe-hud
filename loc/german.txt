@@ -45,6 +45,7 @@
 	"hud_action_untying" : "Losbinden",
 	"hud_fire_mode_auto" : "Auto",
 	"hud_fire_mode_single" : "Einzel",
+	"hud_fire_mode_burst" : "Stoß",
 	"hud_fire_mode_underbarrel" : "Unterlauf",
 	"hud_fire_mode_underbarrel_raycast" : "Unterlauf",
 	"hud_fire_mode_underbarrel_launcher" : "Granatwerfer",

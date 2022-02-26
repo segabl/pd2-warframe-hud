@@ -45,6 +45,7 @@
 	"hud_action_untying" : "Untying",
 	"hud_fire_mode_auto" : "Automatico",
 	"hud_fire_mode_single" : "Un disparo",
+	"hud_fire_mode_burst" : "Ráfaga",
 	"hud_fire_mode_underbarrel" : "Boquilla Inferior",
 	"hud_fire_mode_underbarrel_raycast" : "Boquilla Inferior",
 	"hud_fire_mode_underbarrel_launcher" : "Lanzador",
