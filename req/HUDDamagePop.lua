@@ -90,9 +90,7 @@ function HUDDamagePop:_animate()
 		self._panel:set_size(tw + (self._proc_bitmap and size or 0), size)
 		self._panel:set_center(screen_pos.x, screen_pos.y)
 		self._panel:set_alpha(math.bezier(self.ALPHA_CURVE, t))
-
-		mvec_dir(tmp_vec, cam:position(), self._pos)
-		self._panel:set_visible(mvec_dot(cam:rotation():y(), tmp_vec) >= 0)
+		self._panel:set_visible(screen_pos.z > 0)
 	end)
 
 	self._panel:parent():remove(self._panel)

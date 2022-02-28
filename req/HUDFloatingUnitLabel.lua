@@ -107,8 +107,6 @@ function HUDFloatingUnitLabel:update(t, dt)
 		end
 
 		local dis = mvec_dir(tmp_vec1, cam:position(), pos)
-		self._panel:set_visible(mvec_dot(cam:rotation():y(), tmp_vec1) >= 0)
-
 		mvec_set(tmp_vec1, math.UP)
 		mvec_mul(tmp_vec1, 15 + 1000 / dis)
 		mvec_add(tmp_vec1, pos)
@@ -116,6 +114,7 @@ function HUDFloatingUnitLabel:update(t, dt)
 		local screen_pos = ws:world_to_screen(cam, tmp_vec1)
 		self._panel:set_center_x(screen_pos.x)
 		self._panel:set_bottom(screen_pos.y)
+		self._panel:set_visible(screen_pos.z > 0)
 	end
 
 	local hp, max_hp, armor, max_armor, invulnerable
