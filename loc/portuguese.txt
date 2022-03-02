@@ -8,6 +8,8 @@
 	"menu_wfhud_font_scale_desc" : "Muda o tamanho do texto, aplica sob o Tamanho da HUD\nPrecisa reiniciar o mapa para ter efeito",
 	"menu_wfhud_vanilla_ammo" : "Estilo de munição Padrão",
 	"menu_wfhud_vanilla_ammo_desc" : "Munição total incluirá no carregador",
+	"menu_wfhud_rare_mission_equipment" : "Equipamento de Missão Raro",
+	"menu_wfhud_rare_mission_equipment_desc" : "Se obter um equipamento da missão exibirá como se fosse um recurso raro",
 	"hud_action_adding_saw_blade" : "Adicionando a serra",
 	"hud_action_applying_tape" : "Aplicando a fita",
 	"hud_action_attaching_magnet" : "Conectando o imã",

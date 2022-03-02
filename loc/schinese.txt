@@ -8,6 +8,8 @@
 	"menu_wfhud_font_scale_desc" : "调整游戏中显示字体的缩放倍数，此缩放倍数会与HUD缩放比例倍数相乘\n重启劫案以应用更改",
 	"menu_wfhud_vanilla_ammo" : "原版弹药显示",
 	"menu_wfhud_vanilla_ammo_desc" : "按照原版弹药显示风格，在总弹量中计算已经被装填在弹匣中的弹药",
+	"menu_wfhud_rare_mission_equipment" : "Rare mission equipment",
+	"menu_wfhud_rare_mission_equipment_desc" : "Obtaining mission equipment is displayed as rare resource drop",
 	"hud_action_adding_saw_blade" : "Adding saw blade",
 	"hud_action_applying_tape" : "Applying tape",
 	"hud_action_attaching_magnet" : "Attaching magnet",

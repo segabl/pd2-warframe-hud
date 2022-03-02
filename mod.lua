@@ -34,14 +34,17 @@ if not WFHud then
 	WFHud.settings = {
 		hud_scale = 1,
 		font_scale = 1,
-		vanilla_ammo = false
+		vanilla_ammo = false,
+		rare_mission_equipment = true
 	}
 	WFHud.params = {
 		hud_scale = {
+			priority = 2,
 			min = 0.5,
 			max = 2
 		},
 		font_scale = {
+			priority = 1,
 			min = 0.5,
 			max = 2
 		}

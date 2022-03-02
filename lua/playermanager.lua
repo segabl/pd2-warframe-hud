@@ -245,9 +245,15 @@ Hooks:PreHook(PlayerManager, "add_special", "add_special_wfhud", function (self,
 		return
 	end
 
-	local texture, texture_rect = WFHud:get_icon_data(equipment.icon)
-	local text = managers.localization:text(equipment.text_id):pretty(true):gsub("%s+", " ") .. (added_amount > 1 and " x " .. tostring(added_amount) or "")
-	WFHud:add_special_pickup(texture, texture_rect, text)
+	if WFHud.settings.rare_mission_equipment then
+		local texture, texture_rect = WFHud:get_icon_data(equipment.icon)
+		local text = managers.localization:text(equipment.text_id):pretty(true):gsub("%s+", " ") .. (added_amount > 1 and " x " .. tostring(added_amount) or "")
+		WFHud:add_special_pickup(texture, texture_rect, text)
+	else
+		local texture, texture_rect = tweak_data.hud_icons:get_icon_data(equipment.icon)
+		local text = managers.localization:text(equipment.text_id):pretty(true):gsub("%s+", " ")
+		WFHud:add_pickup(name, added_amount, text, texture, texture_rect)
+	end
 
 	if owned_equipment then
 		return

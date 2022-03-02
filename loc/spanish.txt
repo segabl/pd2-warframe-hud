@@ -8,6 +8,8 @@
 	"menu_wfhud_font_scale_desc" : "Scale multiplier for text, applies on top of HUD scale\nRequires a heist restart to take effect",
 	"menu_wfhud_vanilla_ammo" : "Vanilla ammo style",
 	"menu_wfhud_vanilla_ammo_desc" : "Total ammo includes ammo in magazine",
+	"menu_wfhud_rare_mission_equipment" : "Rare mission equipment",
+	"menu_wfhud_rare_mission_equipment_desc" : "Obtaining mission equipment is displayed as rare resource drop",
 	"hud_action_adding_saw_blade" : "Adding saw blade",
 	"hud_action_applying_tape" : "Applying tape",
 	"hud_action_attaching_magnet" : "Attaching magnet",
