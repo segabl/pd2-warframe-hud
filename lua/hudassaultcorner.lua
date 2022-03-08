@@ -8,7 +8,7 @@ Hooks:PostHook(HUDAssaultCorner, "init", "init_wfhud", function (self)
 
 	local assault_panel = self._hud_panel:child("assault_panel")
 	if assault_panel then
-		assault_panel:set_position(WFHud.MARGIN_H - h_offset, WFHud.MARGIN_V - v_offset)
+		assault_panel:set_position(WFHud.settings.margin_h - h_offset, WFHud.settings.margin_v - v_offset)
 		assault_panel:child("icon_assaultbox"):set_left(self._bg_box_size + 3)
 		self._bg_box:set_position(0, 0)
 	end

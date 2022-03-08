@@ -6,9 +6,9 @@ Hooks:PostHook(HUDTeammate, "init", "init_wfhud", function (self, i, teammates_p
 	self._wfhud_panel._panel:set_visible(false)
 
 	if self._main_player then
-		self._wfhud_panel._panel:set_righttop(WFHud:panel():w() - WFHud.MARGIN_H, WFHud.MARGIN_V)
+		self._wfhud_panel._panel:set_righttop(WFHud:panel():w() - WFHud.settings.margin_h, WFHud.settings.margin_v)
 	else
-		self._wfhud_panel._panel:set_righttop(WFHud:panel():w() - WFHud.MARGIN_H, WFHud.MARGIN_V + 88 * hud_scale + (i - 1) * (self._wfhud_panel._panel:h() + 4 * hud_scale))
+		self._wfhud_panel._panel:set_righttop(WFHud:panel():w() - WFHud.settings.margin_h, WFHud.settings.margin_v + 88 * hud_scale + (i - 1) * (self._wfhud_panel._panel:h() + 4 * hud_scale))
 
 		self._wfhud_item_list = HUDIconList:new(WFHud:panel(), 0, self._wfhud_panel._panel:y(), WFHud:panel():w() - 200 * hud_scale, 24 * hud_scale, WFHud.colors.buff)
 		self._wfhud_item_list._panel:set_visible(false)

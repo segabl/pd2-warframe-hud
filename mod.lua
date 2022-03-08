@@ -30,26 +30,16 @@ if not WFHud then
 
 	WFHud = {}
 	WFHud.mod_path = ModPath
+	WFHud.save_path = SavePath .. "wfhud.json"
 	WFHud.skill_map = {}
 	WFHud.settings = {
 		hud_scale = 1,
 		font_scale = 1,
+		margin_h = 48,
+		margin_v = 32,
 		vanilla_ammo = false,
 		rare_mission_equipment = true
 	}
-	WFHud.params = {
-		hud_scale = {
-			priority = 2,
-			min = 0.5,
-			max = 2
-		},
-		font_scale = {
-			priority = 1,
-			min = 0.5,
-			max = 2
-		}
-	}
-	WFHud.menu_builder = MenuBuilder:new("wfhud", WFHud.settings, WFHud.params)
 	WFHud.colors = {
 		default = Color("ffffff"),
 		muted = Color("808080"),
@@ -102,8 +92,13 @@ if not WFHud then
 	WFHud.sounds = {
 		special_pickup = XAudio.Buffer:new(ModPath .. "assets/sounds/special_pickup.ogg")
 	}
-	WFHud.MARGIN_H = 48
-	WFHud.MARGIN_V = 32
+
+	if io.file_is_readable(WFHud.save_path) then
+		local data = io.load_as_json(WFHud.save_path)
+		if data then
+			table.replace(WFHud.settings, data, true)
+		end
+	end
 
 	dofile(ModPath .. "req/HUDHealthBar.lua")
 	dofile(ModPath .. "req/HUDIconList.lua")
@@ -144,7 +139,7 @@ if not WFHud then
 		self._buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - 240 * self.settings.hud_scale, 256 * self.settings.hud_scale)
 		self._equipment_panel = HUDPlayerEquipment:new(self:panel())
 		self._interact_display = HUDInteractDisplay:new(self:panel())
-		self._objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.MARGIN_H, 192)
+		self._objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.settings.margin_h, 192)
 		self._pickup_list = HUDPickupList:new(self:panel())
 		self._special_pickup = HUDSpecialPickup:new(self:panel(), self:panel():h() * 0.95 - 256 * self.settings.hud_scale)
 	end
@@ -541,7 +536,118 @@ if not WFHud then
 	end)
 
 	Hooks:Add("MenuManagerBuildCustomMenus", "MenuManagerBuildCustomMenusWFHud", function(menu_manager, nodes)
-		WFHud.menu_builder:create_menu(nodes)
+
+		function MenuCallbackHandler:WFHud_number_value(item)
+			item:set_value(math.round_with_precision(item:value(), 2))
+			WFHud.settings[item:name()] = item:value()
+		end
+
+		function MenuCallbackHandler:WFHud_integer_value(item)
+			item:set_value(math.round(item:value()))
+			WFHud.settings[item:name()] = item:value()
+		end
+
+		function MenuCallbackHandler:WFHud_boolean_value(item)
+			WFHud.settings[item:name()] = item:value() == "on"
+		end
+
+		function MenuCallbackHandler:WFHud_save()
+			io.save_as_json(WFHud.settings, WFHud.save_path)
+		end
+
+		local menu_id = "wfhud_menu"
+		MenuHelper:NewMenu(menu_id)
+
+		MenuHelper:AddSlider({
+			id = "hud_scale",
+			title = "menu_wfhud_hud_scale",
+			desc = "menu_wfhud_hud_scale_desc",
+			callback = "WFHud_number_value",
+			value = WFHud.settings.hud_scale,
+			min = 0.5,
+			max = 2,
+			step = 0.05,
+			show_value = true,
+			menu_id = menu_id,
+			priority = 99
+		})
+
+		MenuHelper:AddSlider({
+			id = "font_scale",
+			title = "menu_wfhud_font_scale",
+			desc = "menu_wfhud_font_scale_desc",
+			callback = "WFHud_number_value",
+			value = WFHud.settings.font_scale,
+			min = 0.5,
+			max = 2,
+			step = 0.05,
+			show_value = true,
+			menu_id = menu_id,
+			priority = 98
+		})
+
+		MenuHelper:AddDivider({
+			size = 16,
+			menu_id = menu_id,
+			priority = 89
+		})
+
+		MenuHelper:AddSlider({
+			id = "margin_h",
+			title = "menu_wfhud_margin_h",
+			desc = "menu_wfhud_margin_h_desc",
+			callback = "WFHud_integer_value",
+			value = WFHud.settings.margin_h,
+			min = 0,
+			max = 128,
+			step = 8,
+			show_value = true,
+			menu_id = menu_id,
+			priority = 88
+		})
+
+		MenuHelper:AddSlider({
+			id = "margin_v",
+			title = "menu_wfhud_margin_v",
+			desc = "menu_wfhud_margin_v_desc",
+			callback = "WFHud_integer_value",
+			value = WFHud.settings.margin_v,
+			min = 0,
+			max = 128,
+			step = 8,
+			show_value = true,
+			menu_id = menu_id,
+			priority = 87
+		})
+
+		MenuHelper:AddDivider({
+			size = 16,
+			menu_id = menu_id,
+			priority = 79
+		})
+
+		MenuHelper:AddToggle({
+			id = "vanilla_ammo",
+			title = "menu_wfhud_vanilla_ammo",
+			desc = "menu_wfhud_vanilla_ammo_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.vanilla_ammo,
+			menu_id = menu_id,
+			priority = 78
+		})
+
+		MenuHelper:AddToggle({
+			id = "rare_mission_equipment",
+			title = "menu_wfhud_rare_mission_equipment",
+			desc = "menu_wfhud_rare_mission_equipment_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.rare_mission_equipment,
+			menu_id = menu_id,
+			priority = 77
+		})
+
+		nodes[menu_id] = MenuHelper:BuildMenu(menu_id, { back_callback = "WFHud_save" })
+		MenuHelper:AddMenuItem(nodes["blt_options"], menu_id, "menu_wfhud", "menu_wfhud_desc")
 	end)
 
 end

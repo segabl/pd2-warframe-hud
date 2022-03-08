@@ -91,7 +91,7 @@ function HUDPickupList:init(panel)
 	self._pickups = {}
 
 	self._panel = panel:panel({
-		h = panel:h() - WFHud.MARGIN_V
+		h = panel:h() - WFHud.settings.margin_v
 	})
 end
 
