@@ -1,7 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
-HUDHealthBar = class()
+HUDHealthBar = WFHud:panel_class()
 
 HUDHealthBar.RIGHT_TO_LEFT = 1
 HUDHealthBar.LEFT_TO_RIGHT = 2

@@ -1,7 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
-HUDPlayerEquipment = class()
+HUDPlayerEquipment = WFHud:panel_class()
 
 function HUDPlayerEquipment:init(panel)
 	self._weapon_index = 1
@@ -70,7 +70,7 @@ function HUDPlayerEquipment:init(panel)
 	self:_align_equipment()
 
 	self._stamina_panel = self._panel:panel({
-		y = self._item_list._panel:bottom() + 4,
+		y = self._item_list:bottom() + 4,
 		w = 128 * hud_scale,
 		h = 5 * hud_scale
 	})
@@ -136,10 +136,10 @@ function HUDPlayerEquipment:_align_weapon_text()
 end
 
 function HUDPlayerEquipment:_align_equipment()
-	self._equipment_list._panel:set_w((self._equipment_list._size + self._equipment_list._spacing) * #self._equipment_list._panel:children())
+	self._equipment_list:set_w((self._equipment_list._size + self._equipment_list._spacing) * #self._equipment_list:children())
 	self._equipment_list:_layout_panel()
-	self._equipment_list._panel:set_right(self._panel:w())
-	self._item_list._panel:set_right(self._equipment_list._panel:x())
+	self._equipment_list:set_right(self._panel:w())
+	self._item_list:set_right(self._equipment_list:x())
 end
 
 function HUDPlayerEquipment:set_bag(bag_text)

@@ -6,7 +6,7 @@ local mvec_lerp = mvector3.lerp
 local mvec_set = mvector3.set
 local tmp_vec = Vector3()
 
-HUDDamagePop = class()
+HUDDamagePop = WFHud:panel_class()
 
 HUDDamagePop.ALPHA_CURVE = { 1, 1, 0.5, 0 }
 HUDDamagePop.SCALE_CURVE = { 1, 0.5, 1.5, 1.5 }

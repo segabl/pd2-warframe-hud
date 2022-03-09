@@ -8,7 +8,7 @@ local mvec_set = mvector3.set
 local tmp_vec1 = Vector3()
 local tmp_vec2 = Vector3()
 
-HUDFloatingUnitLabel = class()
+HUDFloatingUnitLabel = WFHud:panel_class()
 
 function HUDFloatingUnitLabel:init(panel, health_visible)
 	self._health_faded_out = true
@@ -61,16 +61,16 @@ function HUDFloatingUnitLabel:_layout()
 
 	self._health_bar:_layout()
 
-	self._health_bar._panel:set_alpha((self._health_visible or not self._compact) and 1 or 0)
-	self._health_bar._panel:set_center_x(w * 0.5)
-	self._health_bar._panel:set_y(self._unit_text:font_size())
+	self._health_bar:set_alpha((self._health_visible or not self._compact) and 1 or 0)
+	self._health_bar:set_center_x(w * 0.5)
+	self._health_bar:set_y(self._unit_text:font_size())
 
 	self._level_text:set_visible(not self._compact)
-	self._level_text:set_position(0, self._health_bar._panel:bottom() - 2)
+	self._level_text:set_position(0, self._health_bar:bottom() - 2)
 
 	self._pointer:set_visible(not self._compact)
 	self._pointer:set_center_x(w * 0.5)
-	self._pointer:set_y(self._health_bar._panel:bottom() - 6)
+	self._pointer:set_y(self._health_bar:bottom() - 6)
 
 	self._panel:set_h(self._compact and self._health_bar._health_loss_indicator:bottom() or self._pointer:bottom())
 end
@@ -137,7 +137,7 @@ function HUDFloatingUnitLabel:update(t, dt)
 		invulnerable = true
 	end
 
-	local skip_anim = self._panel:alpha() == 0 or self._health_bar._panel:alpha() == 0 or not self._panel:visible()
+	local skip_anim = self._panel:alpha() == 0 or self._health_bar:alpha() == 0 or not self._panel:visible()
 	self._health_bar:set_data(hp, max_hp, armor, max_armor, skip_anim)
 	self._health_bar:set_invulnerable(invulnerable)
 end
@@ -226,15 +226,15 @@ function HUDFloatingUnitLabel:set_health_visible(state)
 		return
 	end
 
-	local alpha = self._health_bar._panel:alpha()
+	local alpha = self._health_bar:alpha()
 	if state then
 		self._health_faded_out = false
 
-		self._health_bar._panel:stop()
+		self._health_bar:stop()
 
 		self:_layout()
 
-		self._health_bar._panel:animate(function (o)
+		self._health_bar:animate(function (o)
 			over((1 - alpha) * 0.25, function (t)
 				o:set_alpha(math.lerp(alpha, 1, t))
 			end)
@@ -242,8 +242,8 @@ function HUDFloatingUnitLabel:set_health_visible(state)
 	else
 		self._health_faded_out = true
 
-		self._health_bar._panel:stop()
-		self._health_bar._panel:animate(function (o)
+		self._health_bar:stop()
+		self._health_bar:animate(function (o)
 			over(alpha * 0.25, function (t)
 				o:set_alpha(math.lerp(alpha, 0, t))
 			end)

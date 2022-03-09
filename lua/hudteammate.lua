@@ -3,22 +3,22 @@ local font_scale = WFHud.settings.font_scale
 
 Hooks:PostHook(HUDTeammate, "init", "init_wfhud", function (self, i, teammates_panel, is_player, width)
 	self._wfhud_panel = HUDPlayerPanel:new(WFHud:panel(), self._main_player)
-	self._wfhud_panel._panel:set_visible(false)
+	self._wfhud_panel:set_visible(false)
 
 	if self._main_player then
-		self._wfhud_panel._panel:set_righttop(WFHud:panel():w() - WFHud.settings.margin_h, WFHud.settings.margin_v)
+		self._wfhud_panel:set_righttop(WFHud:panel():w() - WFHud.settings.margin_h, WFHud.settings.margin_v)
 	else
-		self._wfhud_panel._panel:set_righttop(WFHud:panel():w() - WFHud.settings.margin_h, WFHud.settings.margin_v + 88 * hud_scale + (i - 1) * (self._wfhud_panel._panel:h() + 4 * hud_scale))
+		self._wfhud_panel:set_righttop(WFHud:panel():w() - WFHud.settings.margin_h, WFHud.settings.margin_v + 88 * hud_scale + (i - 1) * (self._wfhud_panel:h() + 4 * hud_scale))
 
-		self._wfhud_item_list = HUDIconList:new(WFHud:panel(), 0, self._wfhud_panel._panel:y(), WFHud:panel():w() - 200 * hud_scale, 24 * hud_scale, WFHud.colors.buff)
-		self._wfhud_item_list._panel:set_visible(false)
+		self._wfhud_item_list = HUDIconList:new(WFHud:panel(), 0, self._wfhud_panel:y(), WFHud:panel():w() - 200 * hud_scale, 24 * hud_scale, WFHud.colors.buff)
+		self._wfhud_item_list:set_visible(false)
 	end
 end)
 
 Hooks:PostHook(HUDTeammate, "add_panel", "add_panel_wfhud", function (self)
 	self._panel:set_visible(false)
 
-	self._wfhud_panel._panel:set_visible(true)
+	self._wfhud_panel:set_visible(true)
 
 	if self._main_player then
 		if managers.player:local_player() then
@@ -27,7 +27,7 @@ Hooks:PostHook(HUDTeammate, "add_panel", "add_panel_wfhud", function (self)
 	end
 
 	if self._wfhud_item_list then
-		self._wfhud_item_list._panel:set_visible(true)
+		self._wfhud_item_list:set_visible(true)
 	end
 end)
 
@@ -35,14 +35,14 @@ Hooks:PostHook(HUDTeammate, "remove_panel", "remove_panel_wfhud", function (self
 	self._health_set = nil
 	self._armor_set = nil
 
-	self._wfhud_panel._panel:set_visible(false)
+	self._wfhud_panel:set_visible(false)
 	self._wfhud_panel:health_bar()._set_data_instant = true
 
 	if self._main_player then
-		WFHud._equipment_panel._item_list._panel:clear()
+		WFHud._equipment_panel._item_list:clear()
 	else
-		self._wfhud_item_list._panel:set_visible(false)
-		self._wfhud_item_list._panel:clear()
+		self._wfhud_item_list:set_visible(false)
+		self._wfhud_item_list:clear()
 	end
 end)
 

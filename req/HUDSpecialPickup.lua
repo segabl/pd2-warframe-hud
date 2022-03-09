@@ -1,7 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
-HUDSpecialPickup = class()
+HUDSpecialPickup = WFHud:panel_class()
 
 function HUDSpecialPickup:init(panel, y)
 	self._pickup_queue = {}

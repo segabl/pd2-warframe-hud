@@ -1,7 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
-HUDPickup = class()
+HUDPickup = WFHud:panel_class()
 
 HUDPickup.ICON_SIZE = WFHud.font_sizes.default * font_scale * hud_scale
 HUDPickup.DISPLAY_DURATION = 3
@@ -94,8 +94,7 @@ function HUDPickup:destroy()
 end
 
 
-
-HUDPickupList = class()
+HUDPickupList = WFHud:panel_class()
 
 function HUDPickupList:init(panel)
 	self._pickups = {}
@@ -123,14 +122,14 @@ function HUDPickupList:update(t, dt)
 		if pickup._dead then
 			table.remove(self._pickups, i)
 		else
-			local target_bottom = self._panel:h() - (#self._pickups - i) * pickup._panel:h()
-			local y_diff = target_bottom - pickup._panel:bottom()
+			local target_bottom = self._panel:h() - (#self._pickups - i) * pickup:h()
+			local y_diff = target_bottom - pickup:bottom()
 			if y_diff ~= 0 then
 				if math.abs(y_diff) > 1 then
-					local y_off = math.sign(y_diff) * dt * pickup._panel:h() * 4
-					pickup._panel:set_bottom(pickup._panel:bottom() + y_off)
+					local y_off = math.sign(y_diff) * dt * pickup:h() * 4
+					pickup:set_bottom(pickup:bottom() + y_off)
 				else
-					pickup._panel:set_bottom(target_bottom)
+					pickup:set_bottom(target_bottom)
 				end
 			end
 			i = i + 1

@@ -100,17 +100,17 @@ if not WFHud then
 		end
 	end
 
-	dofile(ModPath .. "req/HUDHealthBar.lua")
-	dofile(ModPath .. "req/HUDIconList.lua")
-	dofile(ModPath .. "req/HUDPlayerPanel.lua")
-	dofile(ModPath .. "req/HUDPlayerEquipment.lua")
-	dofile(ModPath .. "req/HUDFloatingUnitLabel.lua")
-	dofile(ModPath .. "req/HUDBuffList.lua")
-	dofile(ModPath .. "req/HUDDamagePop.lua")
-	dofile(ModPath .. "req/HUDInteractDisplay.lua")
-	dofile(ModPath .. "req/HUDObjectivePanel.lua")
-	dofile(ModPath .. "req/HUDPickupList.lua")
-	dofile(ModPath .. "req/HUDSpecialPickup.lua")
+	function WFHud:panel_class(...)
+		local c = class(...)
+		for k, v in pairs(Panel or {}) do
+			if type(v) == "function" and not c[k] then
+				c[k] = function (s, ...)
+					return s._panel[k](s._panel, ...)
+				end
+			end
+		end
+		return c
+	end
 
 	function WFHud:setup()
 		self:_create_skill_icon_map()
@@ -649,6 +649,19 @@ if not WFHud then
 		nodes[menu_id] = MenuHelper:BuildMenu(menu_id, { back_callback = "WFHud_save" })
 		MenuHelper:AddMenuItem(nodes["blt_options"], menu_id, "menu_wfhud", "menu_wfhud_desc")
 	end)
+
+
+	dofile(ModPath .. "req/HUDHealthBar.lua")
+	dofile(ModPath .. "req/HUDIconList.lua")
+	dofile(ModPath .. "req/HUDPlayerPanel.lua")
+	dofile(ModPath .. "req/HUDPlayerEquipment.lua")
+	dofile(ModPath .. "req/HUDFloatingUnitLabel.lua")
+	dofile(ModPath .. "req/HUDBuffList.lua")
+	dofile(ModPath .. "req/HUDDamagePop.lua")
+	dofile(ModPath .. "req/HUDInteractDisplay.lua")
+	dofile(ModPath .. "req/HUDObjectivePanel.lua")
+	dofile(ModPath .. "req/HUDPickupList.lua")
+	dofile(ModPath .. "req/HUDSpecialPickup.lua")
 
 end
 

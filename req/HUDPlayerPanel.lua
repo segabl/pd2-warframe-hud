@@ -1,7 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
-HUDPlayerPanel = class()
+HUDPlayerPanel = WFHud:panel_class()
 
 function HUDPlayerPanel:init(panel, main_player)
 	self._is_main_player = main_player
@@ -42,14 +42,14 @@ function HUDPlayerPanel:init(panel, main_player)
 	local health_bar_h = (main_player and 8 or 5) * hud_scale
 	local health_bar_font_size = (main_player and WFHud.font_sizes.huge or WFHud.font_sizes.small) * font_scale * hud_scale
 	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, health_bar_w, health_bar_h, health_bar_font_size)
-	self._health_bar._panel:set_right(main_player and self._panel:w() or self._peer_info_panel:x() - 4)
+	self._health_bar:set_right(main_player and self._panel:w() or self._peer_info_panel:x() - 4)
 
 
 	-- level bar
 	self._level_panel = self._panel:panel({
 		visible = not main_player,
-		x = self._health_bar._panel:x(),
-		y = self._health_bar._panel:bottom() + 1,
+		x = self._health_bar:x(),
+		y = self._health_bar:bottom() + 1,
 		w = health_bar_w,
 		h = 2 * hud_scale,
 		layer = -1
@@ -73,7 +73,7 @@ function HUDPlayerPanel:init(panel, main_player)
 
 	-- peer id
 	self._peer_id_panel = self._panel:panel({
-		y = main_player and self._health_bar._panel:bottom() or self._level_panel:bottom(),
+		y = main_player and self._health_bar:bottom() or self._level_panel:bottom(),
 		w = 16 * font_scale * hud_scale,
 		h = 16 * font_scale * hud_scale,
 		layer = -1
@@ -105,7 +105,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		align = "right",
-		y = main_player and self._health_bar._panel:bottom() or self._level_panel:bottom(),
+		y = main_player and self._health_bar:bottom() or self._level_panel:bottom(),
 		w = self._level_panel:right() - self._peer_id_panel:w() - (main_player and 8 or 4) * font_scale,
 		layer = -1
 	})
@@ -116,7 +116,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		color = WFHud.colors.default,
 		align = "right",
-		y = main_player and self._health_bar._panel:bottom() or self._level_panel:bottom(),
+		y = main_player and self._health_bar:bottom() or self._level_panel:bottom(),
 		w = self._level_panel:right() - self._peer_id_panel:w() - (main_player and 8 or 4) * font_scale,
 		layer = -1
 	})
