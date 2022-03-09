@@ -324,3 +324,28 @@ function HUDObjectivePanel:set_subtitle(speaker, text, duration)
 	self._subtitle_panel:stop()
 	self._subtitle_panel:animate(callback(self, self, "_animate_show_subtitle", duration or 3))
 end
+
+function HUDObjectivePanel:destroy()
+	if not alive(self._panel) then
+		return
+	end
+
+	self._objective_icon:stop()
+	self._objective_text:stop()
+	self._objective_detail:stop()
+	self._objective_icon_overlay:stop()
+	self._objective_icon_overlay:parent():remove(self._objective_icon_overlay)
+
+	self._vip_icon:stop()
+	self._vip_text:stop()
+	self._vip_detail:stop()
+	self._vip_icon_overlay:stop()
+	self._vip_icon_overlay:parent():remove(self._vip_icon_overlay)
+
+	self._waves_text:stop()
+
+	self._subtitle_panel:stop()
+
+	self._panel:stop()
+	self._panel:parent():remove(self._panel)
+end

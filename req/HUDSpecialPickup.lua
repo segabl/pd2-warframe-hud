@@ -215,3 +215,15 @@ function HUDSpecialPickup:add(icon, icon_rect, text)
 		self:_show_pickup(data)
 	end
 end
+
+function HUDSpecialPickup:destroy()
+	if not alive(self._panel) then
+		return
+	end
+
+	self._bg_effect_panel:stop()
+	self._flare:stop()
+
+	self._panel:stop()
+	self._panel:parent():remove(self._panel)
+end

@@ -483,3 +483,24 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 	self._health_ratio = health_ratio
 	self._armor_ratio = armor_ratio
 end
+
+function HUDHealthBar:destroy()
+	if not alive(self._panel) then
+		return
+	end
+
+	self:_stop_shield_animation()
+
+	self._health_text:stop()
+	self._armor_text:stop()
+	self._health_bar:stop()
+	self._armor_bar:stop()
+	self._health_loss_indicator:stop()
+	self._armor_loss_indicator:stop()
+
+	self._health_loss_indicator:parent():remove(self._health_loss_indicator)
+	self._armor_loss_indicator:parent():remove(self._armor_loss_indicator)
+
+	self._panel:stop()
+	self._panel:parent():remove(self._panel)
+end

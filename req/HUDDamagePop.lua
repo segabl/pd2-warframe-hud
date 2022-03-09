@@ -2,8 +2,6 @@ local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
 local mvec_add = mvector3.add
-local mvec_dir = mvector3.direction
-local mvec_dot = mvector3.dot
 local mvec_lerp = mvector3.lerp
 local mvec_set = mvector3.set
 local tmp_vec = Vector3()

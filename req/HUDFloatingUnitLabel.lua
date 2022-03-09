@@ -3,7 +3,6 @@ local font_scale = WFHud.settings.font_scale
 
 local mvec_add = mvector3.add
 local mvec_dir = mvector3.direction
-local mvec_dot = mvector3.dot
 local mvec_mul = mvector3.multiply
 local mvec_set = mvector3.set
 local tmp_vec1 = Vector3()
@@ -253,8 +252,10 @@ function HUDFloatingUnitLabel:set_health_visible(state)
 end
 
 function HUDFloatingUnitLabel:destroy()
-	if alive(self._panel) then
-		self._panel:stop()
-		self._panel:parent():remove(self._panel)
+	if not alive(self._panel) then
+		return
 	end
+
+	self._panel:stop()
+	self._panel:parent():remove(self._panel)
 end

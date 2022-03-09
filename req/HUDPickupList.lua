@@ -84,6 +84,16 @@ function HUDPickup:add_amount(amount)
 	self._display_duration = math.max(HUDPickup.DISPLAY_DURATION * 0.5, self._display_duration)
 end
 
+function HUDPickup:destroy()
+	if not alive(self._panel) then
+		return
+	end
+
+	self._panel:stop()
+	self._panel:parent():remove(self._panel)
+end
+
+
 
 HUDPickupList = class()
 
@@ -126,4 +136,17 @@ function HUDPickupList:update(t, dt)
 			i = i + 1
 		end
 	end
+end
+
+function HUDPickupList:destroy()
+	if not alive(self._panel) then
+		return
+	end
+
+	for _, pickup in pairs(self._pickups) do
+		pickup:destroy()
+	end
+
+	self._panel:stop()
+	self._panel:parent():remove(self._panel)
 end

@@ -225,3 +225,17 @@ function HUDPlayerEquipment:set_stamina(current, total, instant)
 		end)
 	end
 end
+
+function HUDPlayerEquipment:destroy()
+	if not alive(self._panel) then
+		return
+	end
+
+	self._equipment_list:destroy()
+	self._item_list:destroy()
+
+	self._stamina_bar:stop()
+
+	self._panel:stop()
+	self._panel:parent():remove(self._panel)
+end

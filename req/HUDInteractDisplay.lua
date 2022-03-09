@@ -163,3 +163,14 @@ function HUDInteractDisplay:update(t, dt)
 
 	self._panel:set_visible(true)
 end
+
+function HUDInteractDisplay:destroy()
+	if not alive(self._panel) then
+		return
+	end
+
+	self._interact_circle._circle:stop()
+
+	self._panel:stop()
+	self._panel:parent():remove(self._panel)
+end

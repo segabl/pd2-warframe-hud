@@ -202,16 +202,19 @@ function HUDBuffListItem:set_index(i)
 end
 
 function HUDBuffListItem:destroy()
+	if not alive(self._panel) then
+		return
+	end
+
 	if HUDBuffListItem._last_activated_buff and HUDBuffListItem._last_activated_buff._upgrade_data.name_id == self._upgrade_data.name_id then
 		HUDBuffListItem._last_activated_buff = nil
 		self._flipped = nil
 	end
-	if alive(self._panel) then
-		self._panel:stop()
-		self._name_arrow:stop()
-		self._icon_text:stop()
-		self._panel:parent():remove(self._panel)
-	end
+
+	self._panel:stop()
+	self._name_arrow:stop()
+	self._icon_text:stop()
+	self._panel:parent():remove(self._panel)
 end
 
 
@@ -281,4 +284,16 @@ function HUDBuffList:update(t, dt)
 	for _, i in pairs(remove) do
 		table.remove(self._buff_list, i)
 	end
+end
+
+function HUDBuffList:destroy()
+	if not alive(self._panel) then
+		return
+	end
+
+	for _, buff in pairs(self._buff_list) do
+		buff:destroy()
+	end
+	self._panel:stop()
+	self._panel:parent():remove(self._panel)
 end

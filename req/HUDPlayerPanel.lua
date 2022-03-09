@@ -176,3 +176,14 @@ end
 function HUDPlayerPanel:health_bar()
 	return self._health_bar
 end
+
+function HUDPlayerPanel:destroy()
+	if not alive(self._panel) then
+		return
+	end
+
+	self._health_bar:destroy()
+
+	self._panel:stop()
+	self._panel:parent():remove(self._panel)
+end

@@ -110,3 +110,12 @@ function HUDIconList:set_icon_enabled(name, state)
 		icon_panel:child("bitmap"):set_alpha(state and 0.75 or 0.15)
 	end
 end
+
+function HUDIconList:destroy()
+	if not alive(self._panel) then
+		return
+	end
+
+	self._panel:stop()
+	self._panel:parent():remove(self._panel)
+end
