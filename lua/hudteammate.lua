@@ -133,27 +133,35 @@ end)
 
 -- equipment
 Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount", "set_deployable_equipment_amount_wfhud", function (self, index, data)
-	if not self._main_player then
+	local item_list = self._main_player and WFHud._equipment_panel._equipment_list or self._wfhud_item_list
+	if not item_list then
 		return
 	end
 
-	WFHud._equipment_panel._equipment_list:add_icon("equipment" .. index, tweak_data.hud_icons:get_icon_data(data.icon))
-	WFHud._equipment_panel._equipment_list:set_icon_value("equipment" .. index, data.amount > 1 and data.amount)
-	WFHud._equipment_panel._equipment_list:set_icon_enabled("equipment" .. index, data.amount > 0)
-	WFHud._equipment_panel:_align_equipment()
+	item_list:add_icon("equipment" .. index, tweak_data.hud_icons:get_icon_data(data.icon))
+	item_list:set_icon_value("equipment" .. index, data.amount > 1 and data.amount)
+	item_list:set_icon_enabled("equipment" .. index, data.amount > 0)
+
+	if self._main_player then
+		WFHud._equipment_panel:_align_equipment()
+	end
 end)
 
 Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount_from_string", "set_deployable_equipment_amount_from_string_wfhud", function (self, index, data)
-	if not self._main_player then
+	local item_list = self._main_player and WFHud._equipment_panel._equipment_list or self._wfhud_item_list
+	if not item_list then
 		return
 	end
 
 	for i, v in ipairs(data.amount) do
-		WFHud._equipment_panel._equipment_list:add_icon("equipment" .. i, tweak_data.hud_icons:get_icon_data(data.icon))
-		WFHud._equipment_panel._equipment_list:set_icon_value("equipment" .. i, v > 1 and v)
-		WFHud._equipment_panel._equipment_list:set_icon_enabled("equipment" .. i, v > 0)
+		item_list:add_icon("equipment" .. i, tweak_data.hud_icons:get_icon_data(data.icon))
+		item_list:set_icon_value("equipment" .. i, v > 1 and v)
+		item_list:set_icon_enabled("equipment" .. i, v > 0)
 	end
-	WFHud._equipment_panel:_align_equipment()
+
+	if self._main_player then
+		WFHud._equipment_panel:_align_equipment()
+	end
 end)
 
 Hooks:PostHook(HUDTeammate, "set_grenade_cooldown", "set_grenade_cooldown_wfhud", function (self, data)
