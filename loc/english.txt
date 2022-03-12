@@ -14,6 +14,8 @@
 	"menu_wfhud_vanilla_ammo_desc" : "Total ammo includes ammo in magazine",
 	"menu_wfhud_rare_mission_equipment" : "Rare mission equipment",
 	"menu_wfhud_rare_mission_equipment_desc" : "Obtaining mission equipment is displayed as rare resource drop",
+	"menu_wfhud_health_labels" : "Health labels",
+	"menu_wfhud_health_labels_desc" : "Displays floating healthbars when aiming at characters",
 	"hud_action_adding_saw_blade" : "Adding saw blade",
 	"hud_action_applying_tape" : "Applying tape",
 	"hud_action_attaching_magnet" : "Attaching magnet",

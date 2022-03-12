@@ -38,7 +38,8 @@ if not WFHud then
 		margin_h = 48,
 		margin_v = 32,
 		vanilla_ammo = false,
-		rare_mission_equipment = true
+		rare_mission_equipment = true,
+		health_labels = true
 	}
 	WFHud.colors = {
 		default = Color("ffffff"),
@@ -377,7 +378,7 @@ if not WFHud then
 					self._unit_aim_custom_label = unit_data._wfhud_label
 					self._unit_aim_custom_label:set_health_visible(true)
 					self._unit_aim_label:set_unit(nil)
-				else
+				elseif self.settings.health_labels then
 					self._unit_aim_label:set_unit(unit)
 				end
 
@@ -644,6 +645,16 @@ if not WFHud then
 			value = WFHud.settings.rare_mission_equipment,
 			menu_id = menu_id,
 			priority = 77
+		})
+
+		MenuHelper:AddToggle({
+			id = "health_labels",
+			title = "menu_wfhud_health_labels",
+			desc = "menu_wfhud_health_labels_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.health_labels,
+			menu_id = menu_id,
+			priority = 76
 		})
 
 		nodes[menu_id] = MenuHelper:BuildMenu(menu_id, { back_callback = "WFHud_save" })

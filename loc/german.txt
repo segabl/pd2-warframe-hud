@@ -14,6 +14,8 @@
 	"menu_wfhud_vanilla_ammo_desc" : "Gesamtmunition beinhaltet Munition im Magazin",
 	"menu_wfhud_rare_mission_equipment" : "Seltene Missionsausrüstung",
 	"menu_wfhud_rare_mission_equipment_desc" : "Erhaltene Missionsausrüstung wird als seltener Ressourcen-Drop angezeigt",
+	"menu_wfhud_health_labels" : "Gesundheitsleisten",
+	"menu_wfhud_health_labels_desc" : "Zeigt schwebende Gesundheitsleisten an wenn auf Gegner gezielt wird",
 	"hud_action_adding_saw_blade" : "Füge Sägeblatt hinzu",
 	"hud_action_applying_tape" : "Wende Klebeband an",
 	"hud_action_attaching_magnet" : "Befestige Magnet",
