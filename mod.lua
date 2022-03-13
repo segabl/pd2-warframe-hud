@@ -56,6 +56,7 @@ if not WFHud then
 		extract = Color("43b306"),
 		friendly = Color("0795d5"),
 		enemy = Color("c80406"),
+		boss = Color("ead79f"),
 		damage = Color("ffffff"),
 		yellow_crit = Color("ffff00"),
 		orange_crit = Color("fe6c09"),
@@ -67,7 +68,8 @@ if not WFHud then
 		large = "fonts/wfhud/large",
 		default_no_shadow = "fonts/wfhud/default_no_shadow",
 		bold_no_shadow = "fonts/wfhud/bold_no_shadow",
-		large_no_shadow = "fonts/wfhud/large_no_shadow"
+		large_no_shadow = "fonts/wfhud/large_no_shadow",
+		boss = "fonts/wfhud/boss"
 	}
 	WFHud.font_ids = table.remap(WFHud.fonts, function (k, v) return k, Idstring(v) end)
 	WFHud.font_sizes = {
@@ -143,6 +145,7 @@ if not WFHud then
 		self._objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.settings.margin_h, 192)
 		self._pickup_list = HUDPickupList:new(self:panel())
 		self._special_pickup = HUDSpecialPickup:new(self:panel(), self:panel():h() * 0.95 - 256 * self.settings.hud_scale)
+		self._boss_bar = HUDBossBar:new(self:panel(), math.round(self._buff_list:h() * 0.35))
 	end
 
 	function WFHud:update(t, dt)
@@ -361,7 +364,7 @@ if not WFHud then
 		local ray2 = World:raycast("ray", from, to_vec, "slot_mask", self._unit_slotmask)
 
 		local unit = ray1 and (not ray2 or ray2.unit == ray1.unit or ray2.distance > ray1.distance) and ray1.unit or ray2 and ray2.unit
-		if unit then
+		if unit and unit ~= self._boss_bar._unit then
 			if unit:in_slot(8) and alive(unit:parent()) then
 				unit = unit:parent()
 			end
@@ -528,6 +531,9 @@ if not WFHud then
 		self.fonts.bold = tweak_data.menu.pd2_medium_font
 		self.fonts.default_no_shadow = tweak_data.menu.pd2_medium_font
 		self.fonts.bold_no_shadow = tweak_data.menu.pd2_medium_font
+		self.fonts.large = tweak_data.menu.pd2_large_font
+		self.fonts.large_no_shadow = tweak_data.menu.pd2_large_font
+		self.fonts.boss = tweak_data.menu.pd2_large_font
 
 		self.font_ids = table.remap(self.fonts, function (k, v) return k, Idstring(v) end)
 	end
@@ -673,6 +679,7 @@ if not WFHud then
 	dofile(ModPath .. "req/HUDObjectivePanel.lua")
 	dofile(ModPath .. "req/HUDPickupList.lua")
 	dofile(ModPath .. "req/HUDSpecialPickup.lua")
+	dofile(ModPath .. "req/HUDBossBar.lua")
 
 end
 

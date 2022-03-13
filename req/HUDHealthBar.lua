@@ -9,7 +9,7 @@ HUDHealthBar.LEFT_TO_RIGHT = 2
 HUDHealthBar.ANIM_TIME_GAIN = 0.5
 HUDHealthBar.ANIM_TIME_LOSS = 0.2
 
-function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
+function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, bar_texture)
 	self._direction = HUDHealthBar.RIGHT_TO_LEFT
 
 	self._max_health_ratio = 0
@@ -54,7 +54,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 	end
 
 	self._health_bar = self._panel:bitmap({
-		texture = "guis/textures/wfhud/bar",
+		texture = bar_texture or "guis/textures/wfhud/bar",
 		color = self._health_color,
 		w = 0,
 		h = height
@@ -89,7 +89,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 	})
 
 	self._armor_bar = self._panel:bitmap({
-		texture = "guis/textures/wfhud/bar",
+		texture = bar_texture or "guis/textures/wfhud/bar",
 		color = WFHud.colors.shield,
 		w = 0,
 		h = height
@@ -126,7 +126,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps)
 	})
 
 	self._bg_bar = self._panel:bitmap({
-		texture = "guis/textures/wfhud/bar",
+		texture = bar_texture or "guis/textures/wfhud/bar",
 		color = WFHud.colors.bg:with_alpha(0.5),
 		w = has_caps and width - height * 0.5 or width,
 		h = height * 0.85,
