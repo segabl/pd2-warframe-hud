@@ -6,7 +6,9 @@ HUDPlayerEquipment = WFHud:panel_class()
 function HUDPlayerEquipment:init(panel)
 	self._weapon_index = 1
 
-	self._panel = panel:panel()
+	self._panel = panel:panel({
+		visible = false
+	})
 
 	self._bag_icon = self._panel:bitmap({
 		visible = false,
@@ -224,6 +226,11 @@ function HUDPlayerEquipment:set_stamina(current, total, instant)
 			end)
 		end)
 	end
+end
+
+function HUDPlayerEquipment:clear()
+	self._item_list:clear()
+	self._equipment_list:clear()
 end
 
 function HUDPlayerEquipment:destroy()
