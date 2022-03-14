@@ -140,9 +140,13 @@ Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount", "set_deployable_e
 		return
 	end
 
-	item_list:add_icon("equipment" .. index, tweak_data.hud_icons:get_icon_data(data.icon))
-	item_list:set_icon_value("equipment" .. index, data.amount > 1 and data.amount)
-	item_list:set_icon_enabled("equipment" .. index, data.amount > 0)
+	if self._main_player or data.amount > 0 then
+		item_list:add_icon("equipment" .. index, tweak_data.hud_icons:get_icon_data(data.icon))
+		item_list:set_icon_value("equipment" .. index, data.amount > 1 and data.amount)
+		item_list:set_icon_enabled("equipment" .. index, data.amount > 0)
+	else
+		item_list:remove_icon("equipment" .. index)
+	end
 
 	if self._main_player then
 		WFHud._equipment_panel:_align_equipment()
@@ -156,9 +160,13 @@ Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount_from_string", "set_
 	end
 
 	for i, v in ipairs(data.amount) do
-		item_list:add_icon("equipment" .. i, tweak_data.hud_icons:get_icon_data(data.icon))
-		item_list:set_icon_value("equipment" .. i, v > 1 and v)
-		item_list:set_icon_enabled("equipment" .. i, v > 0)
+		if self._main_player or v > 0 then
+			item_list:add_icon("equipment" .. i, tweak_data.hud_icons:get_icon_data(data.icon))
+			item_list:set_icon_value("equipment" .. i, v > 1 and v)
+			item_list:set_icon_enabled("equipment" .. i, v > 0)
+		else
+			item_list:remove_icon("equipment" .. i)
+		end
 	end
 
 	if self._main_player then
