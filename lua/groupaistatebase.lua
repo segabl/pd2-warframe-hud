@@ -8,7 +8,7 @@ end)
 
 
 Hooks:PostHook(GroupAIStateBase, "on_enemy_registered", "on_enemy_registered_wfhud", function (self, unit)
-	if unit:base()._tweak_table:find("boss") then
+	if self:enemy_weapons_hot() and unit:base()._tweak_table:find("boss") then
 		WFHud._boss_bar:set_unit(unit)
 	end
 end)
