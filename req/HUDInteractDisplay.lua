@@ -6,7 +6,7 @@ local mvec_set = mvector3.set
 local tmp_vec = Vector3()
 local label_offset = Vector3(0, 0, 20)
 
-HUDInteractDisplay = WFHud:panel_class()
+HUDInteractDisplay = HUDInteractDisplay or WFHud:panel_class()
 
 function HUDInteractDisplay:init(panel)
 	self._panel = panel:panel({

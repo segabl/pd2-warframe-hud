@@ -1,7 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
-HUDPlayerEquipment = WFHud:panel_class()
+HUDPlayerEquipment = HUDPlayerEquipment or WFHud:panel_class()
 
 function HUDPlayerEquipment:init(panel)
 	self._weapon_index = 1

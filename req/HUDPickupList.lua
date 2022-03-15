@@ -1,7 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
-HUDPickup = WFHud:panel_class()
+HUDPickup = HUDPickup or WFHud:panel_class()
 
 HUDPickup.ICON_SIZE = WFHud.font_sizes.default * font_scale * hud_scale
 HUDPickup.DISPLAY_DURATION = 3
@@ -94,7 +94,7 @@ function HUDPickup:destroy()
 end
 
 
-HUDPickupList = WFHud:panel_class()
+HUDPickupList = HUDPickupList or WFHud:panel_class()
 
 function HUDPickupList:init(panel)
 	self._pickups = {}

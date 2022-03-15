@@ -1,7 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
-HUDBuffListItem = WFHud:panel_class()
+HUDBuffListItem = HUDBuffListItem or WFHud:panel_class()
 
 HUDBuffListItem.ICON_SIZE = 40 * hud_scale
 HUDBuffListItem.ICON_SPACING = 4 * hud_scale
@@ -218,7 +218,7 @@ function HUDBuffListItem:destroy()
 end
 
 
-HUDBuffList = WFHud:panel_class()
+HUDBuffList = HUDBuffList or WFHud:panel_class()
 
 function HUDBuffList:init(parent_panel, x, y, width, height)
 	self._buff_list = {}
