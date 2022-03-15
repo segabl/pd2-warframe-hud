@@ -8,7 +8,7 @@ function HUDBossBar:init(panel, y)
 		layer = 100,
 		visible = false,
 		alpha = 0,
-		w = panel:w() * 0.5,
+		w = panel:w() * 0.4 * math.min(hud_scale, 1),
 		y = y
 	})
 	self._panel:set_center_x(panel:w() * 0.5)
