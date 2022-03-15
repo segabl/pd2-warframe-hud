@@ -1,7 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
-HUDBossBar = WFHud:panel_class()
+HUDBossBar = HUDBossBar or WFHud:panel_class()
 
 function HUDBossBar:init(panel, y)
 	self._panel = panel:panel({
@@ -18,8 +18,7 @@ function HUDBossBar:init(panel, y)
 		font = WFHud.fonts.boss,
 		font_size = WFHud.font_sizes.huge * font_scale * hud_scale * 0.75,
 		kern = -12,
-		color = WFHud.colors.boss,
-		align = "center"
+		color = WFHud.colors.boss
 	})
 	self._name_text:set_h(self._name_text:font_size())
 
@@ -159,6 +158,11 @@ function HUDBossBar:set_unit(unit)
 	end
 
 	self._name_text:set_text(unit_info:nickname():upper())
+	local _, _, w = self._name_text:text_rect()
+	log(self._name_text:font_size())
+	self._name_text:set_w(w - self._name_text:kern() * hud_scale * font_scale * 0.5)
+	self._name_text:set_center_x(self._panel:w() * 0.5)
+
 	self._level_text:set_text(tostring(unit_info:level() or HUDFloatingUnitLabel._create_unit_level(self, unit_info)))
 
 	self._health_bar:set_data(1, 1, 0, 0, true)
