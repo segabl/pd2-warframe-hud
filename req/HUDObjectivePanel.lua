@@ -135,7 +135,7 @@ function HUDObjectivePanel:init(panel, x, y)
 
 	self._subtitle_panel = self._panel:panel({
 		alpha = 0,
-		w = 300
+		w = 300 * font_scale * hud_scale
 	})
 
 	self._subtitle_name = self._subtitle_panel:text({
