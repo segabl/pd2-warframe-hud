@@ -38,7 +38,7 @@ function HUDPlayerPanel:init(panel, main_player)
 
 
 	-- healthbar
-	local health_bar_w = (main_player and 160 or 96) * hud_scale
+	local health_bar_w = (main_player and 160 or 96) * font_scale * hud_scale
 	local health_bar_h = (main_player and 8 or 5) * hud_scale
 	local health_bar_font_size = (main_player and WFHud.font_sizes.huge or WFHud.font_sizes.small) * font_scale * hud_scale
 	self._health_bar = HUDHealthBar:new(self._panel, 0, 0, health_bar_w, health_bar_h, health_bar_font_size)
