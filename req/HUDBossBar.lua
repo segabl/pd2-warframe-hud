@@ -159,7 +159,6 @@ function HUDBossBar:set_unit(unit)
 
 	self._name_text:set_text(unit_info:nickname():upper())
 	local _, _, w = self._name_text:text_rect()
-	log(self._name_text:font_size())
 	self._name_text:set_w(w - self._name_text:kern() * hud_scale * font_scale * 0.5)
 	self._name_text:set_center_x(self._panel:w() * 0.5)
 
