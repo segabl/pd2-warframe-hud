@@ -158,7 +158,7 @@ function HUDInteractDisplay:update(t, dt)
 			self._panel:set_position(screen_pos.x - half_width, screen_pos.y - half_height)
 		end
 	else
-		self._panel:set_position(self._panel:parent():w() * 0.5 - half_width, self._panel:parent():h() * 0.5 - half_height)
+		self._panel:set_position(self._panel:parent():w() * 0.5 - half_width, self._panel:parent():h() * 0.5 + half_height)
 	end
 
 	self._panel:set_visible(true)

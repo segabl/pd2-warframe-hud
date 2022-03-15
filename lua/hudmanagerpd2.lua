@@ -22,10 +22,7 @@ Hooks:PostHook(HUDManager, "show", "show_wfhud", function (self, name)
 	if name == PlayerBase.PLAYER_INFO_HUD_FULLSCREEN then
 		WFHud:panel():show()
 	elseif name == Idstring("guis/mask_off_hud") and self:alive("guis/mask_off_hud") then
-		local mask_on_text = self:script("guis/mask_off_hud").mask_on_text
-		mask_on_text:set_top(56)
-		mask_on_text:set_font(WFHud.font_ids.default)
-		mask_on_text:set_font_size(WFHud.font_sizes.default * font_scale * hud_scale)
+		self:hide(name)
 	end
 end)
 
