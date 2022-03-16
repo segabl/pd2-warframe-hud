@@ -16,6 +16,8 @@
 	"menu_wfhud_rare_mission_equipment_desc" : "Erhaltene Missionsausrüstung wird als seltener Ressourcen-Drop angezeigt",
 	"menu_wfhud_health_labels" : "Gesundheitsleisten",
 	"menu_wfhud_health_labels_desc" : "Zeigt schwebende Gesundheitsleisten an wenn auf Gegner gezielt wird",
+	"menu_wfhud_show_downs" : "Zeige Downs",
+	"menu_wfhud_show_downs_desc" : "Zeight Anzahl der verbleibenden Downs in der Buff-Liste und in der Mitspieler Ausrüstung an",
 	"hud_action_adding_saw_blade" : "Füge Sägeblatt hinzu",
 	"hud_action_applying_tape" : "Wende Klebeband an",
 	"hud_action_attaching_magnet" : "Befestige Magnet",

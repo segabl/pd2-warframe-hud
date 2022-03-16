@@ -16,6 +16,8 @@
 	"menu_wfhud_rare_mission_equipment_desc" : "Se obter um equipamento da missão exibirá como se fosse um recurso raro",
 	"menu_wfhud_health_labels" : "Barras de Vida",
 	"menu_wfhud_health_labels_desc" : "Exibe barras de vida flutuando enquanto mira nos personagens",
+	"menu_wfhud_show_downs" : "Mostrar Downs",
+	"menu_wfhud_show_downs_desc" : "Mostra a contagem de downs na lista de buff e nos equipamentos dos aliados",
 	"hud_action_adding_saw_blade" : "Adicionando a serra",
 	"hud_action_applying_tape" : "Aplicando a fita",
 	"hud_action_attaching_magnet" : "Conectando o imã",

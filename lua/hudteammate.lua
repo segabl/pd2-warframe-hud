@@ -245,3 +245,22 @@ Hooks:PreHook(HUDTeammate, "set_delayed_damage", "set_delayed_damage_wfhud", fun
 		WFHud:remove_buff("player", "stoic_dot")
 	end
 end)
+
+
+Hooks:PostHook(HUDTeammate, "set_revives_amount", "set_revives_amount_wfhud", function (self, revives)
+	revives = WFHud.settings.show_downs and revives
+	if self._main_player then
+		if revives and revives > 0 then
+			WFHud:add_buff("game", "downs", revives - 1)
+		else
+			WFHud:remove_buff("game", "downs")
+		end
+	elseif self._wfhud_item_list then
+		if revives and revives > 0 then
+			item_list:add_icon("downs", WFHud.skill_map.game.downs.texture, WFHud.skill_map.game.downs.texture_rect)
+			item_list:set_icon_value("downs" .. i, revives - 1)
+		else
+			item_list:remove_icon("downs")
+		end
+	end
+end)

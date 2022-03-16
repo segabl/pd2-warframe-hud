@@ -39,7 +39,8 @@ if not WFHud then
 		margin_v = 32,
 		vanilla_ammo = false,
 		rare_mission_equipment = true,
-		health_labels = true
+		health_labels = true,
+		show_downs = false
 	}
 	WFHud.colors = {
 		default = Color("ffffff"),
@@ -497,7 +498,7 @@ if not WFHud then
 		-- Create custom mappings
 		self.skill_map.player.stoic_dot = {
 			key = "player.stoic_dot",
-			name_id = "wfhud_dot",
+			name_id = "hud_dot",
 			texture_rect = { 96, 0, 48, 48 },
 			texture = "guis/textures/wfhud/damage_types",
 			value_format = WFHud.value_format.default,
@@ -513,6 +514,14 @@ if not WFHud then
 				texture_rect = { 4 * 80, 7 * 80, 80, 80 },
 				texture = "guis/textures/wfhud/skill_icons_clean",
 				value_format = WFHud.value_format.default,
+			},
+			downs = {
+				key = "game.downs",
+				name_id = "hud_downs",
+				texture_rect = tweak_data.hud_icons.wp_revive.texture_rect,
+				texture = tweak_data.hud_icons.wp_revive.texture,
+				value_format = WFHud.value_format.default,
+				hide_name = true
 			}
 		}
 	end
@@ -661,6 +670,16 @@ if not WFHud then
 			value = WFHud.settings.health_labels,
 			menu_id = menu_id,
 			priority = 76
+		})
+
+		MenuHelper:AddToggle({
+			id = "show_downs",
+			title = "menu_wfhud_show_downs",
+			desc = "menu_wfhud_show_downs_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.show_downs,
+			menu_id = menu_id,
+			priority = 75
 		})
 
 		nodes[menu_id] = MenuHelper:BuildMenu(menu_id, { back_callback = "WFHud_save" })
