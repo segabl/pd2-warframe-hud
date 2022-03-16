@@ -257,10 +257,10 @@ Hooks:PostHook(HUDTeammate, "set_revives_amount", "set_revives_amount_wfhud", fu
 		end
 	elseif self._wfhud_item_list then
 		if revives and revives > 0 then
-			item_list:add_icon("downs", WFHud.skill_map.game.downs.texture, WFHud.skill_map.game.downs.texture_rect)
-			item_list:set_icon_value("downs" .. i, revives - 1)
+			self._wfhud_item_list:add_icon("downs", WFHud.skill_map.game.downs.texture, WFHud.skill_map.game.downs.texture_rect)
+			self._wfhud_item_list:set_icon_value("downs", revives - 1)
 		else
-			item_list:remove_icon("downs")
+			self._wfhud_item_list:remove_icon("downs")
 		end
 	end
 end)
