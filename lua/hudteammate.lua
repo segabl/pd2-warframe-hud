@@ -141,11 +141,11 @@ Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount", "set_deployable_e
 	end
 
 	if self._main_player or data.amount > 0 then
-		item_list:add_icon("equipment" .. index, tweak_data.hud_icons:get_icon_data(data.icon))
-		item_list:set_icon_value("equipment" .. index, data.amount > 1 and data.amount)
-		item_list:set_icon_enabled("equipment" .. index, data.amount > 0)
+		item_list:add_icon("equipment1", tweak_data.hud_icons:get_icon_data(data.icon))
+		item_list:set_icon_value("equipment1", data.amount > 1 and data.amount)
+		item_list:set_icon_enabled("equipment1", data.amount > 0)
 	else
-		item_list:remove_icon("equipment" .. index)
+		item_list:remove_icon("equipment1")
 	end
 
 	if self._main_player then
