@@ -1,22 +1,28 @@
-Hooks:PostHook(HUDAssaultCorner, "init", "init_wfhud", function (self)
+local init_original = HUDAssaultCorner.init
+function HUDAssaultCorner:init(hud, full_hud, ...)
+	local hud_replace = { panel = WFHud:panel() }
+	init_original(self, hud_replace, hud_replace, ...)
+
 	if not self._hud_panel then
 		return
 	end
 
-	local h_offset = (WFHud:panel():w() - self._hud_panel:w()) * 0.5
-	local v_offset = (WFHud:panel():h() - self._hud_panel:h()) * 0.5
-
 	local assault_panel = self._hud_panel:child("assault_panel")
 	if assault_panel then
-		assault_panel:set_position(WFHud.settings.margin_h - h_offset, WFHud.settings.margin_v - v_offset)
+		assault_panel:set_position(WFHud.settings.margin_h, WFHud.settings.margin_v)
 		assault_panel:child("icon_assaultbox"):set_left(self._bg_box_size + 3)
 		self._bg_box:set_position(0, 0)
 	end
 
+	local casing_panel = self._hud_panel:child("casing_panel")
+	if casing_panel then
+		casing_panel:set_position(WFHud.settings.margin_h, WFHud.settings.margin_v)
+		casing_panel:child("icon_casingbox"):set_left(self._bg_box_size + 3)
+		self._casing_bg_box:set_position(0, 0)
+	end
+
 	self._hud_panel:child("hostages_panel"):set_alpha(0)
 	self._hud_panel:child("hostages_panel"):hide()
-	self._hud_panel:child("casing_panel"):set_alpha(0)
-	self._hud_panel:child("casing_panel"):hide()
 	self._hud_panel:child("point_of_no_return_panel"):set_alpha(0)
 	self._hud_panel:child("point_of_no_return_panel"):hide()
 	self._hud_panel:child("buffs_panel"):set_alpha(0)
@@ -25,7 +31,7 @@ Hooks:PostHook(HUDAssaultCorner, "init", "init_wfhud", function (self)
 		self._hud_panel:child("wave_panel"):set_alpha(0)
 		self._hud_panel:child("wave_panel"):hide()
 	end
-end)
+end
 
 local sync_set_assault_mode_original = HUDAssaultCorner.sync_set_assault_mode
 function HUDAssaultCorner:sync_set_assault_mode(mode, ...)
