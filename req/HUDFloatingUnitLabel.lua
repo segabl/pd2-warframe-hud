@@ -8,6 +8,7 @@ local mvec_set = mvector3.set
 local tmp_vec1 = Vector3()
 local tmp_vec2 = Vector3()
 
+---@class HUDFloatingUnitLabel
 HUDFloatingUnitLabel = HUDFloatingUnitLabel or WFHud:panel_class()
 
 function HUDFloatingUnitLabel:init(panel, health_visible)

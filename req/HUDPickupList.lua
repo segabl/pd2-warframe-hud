@@ -1,6 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
+---@class HUDPickup
 HUDPickup = HUDPickup or WFHud:panel_class()
 
 HUDPickup.ICON_SIZE = WFHud.font_sizes.default * font_scale * hud_scale
@@ -94,6 +95,7 @@ function HUDPickup:destroy()
 end
 
 
+---@class HUDPickupList
 HUDPickupList = HUDPickupList or WFHud:panel_class()
 
 function HUDPickupList:init(panel)

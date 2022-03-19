@@ -46,8 +46,8 @@ function HUDManager:_add_name_label(data)
 		wflabel:set_unit(data.unit, true, true)
 		wflabel._upd_id = "wfhud_name_label" .. id
 
-		if WFHud._unit_aim_label and WFHud._unit_aim_label._unit == data.unit then
-			WFHud._unit_aim_label:set_unit(nil, true)
+		if WFHud.unit_aim_label and WFHud.unit_aim_label._unit == data.unit then
+			WFHud.unit_aim_label:set_unit(nil, true)
 		end
 
 		self:add_updator(wflabel._upd_id, callback(wflabel, wflabel, "update"))
@@ -69,8 +69,8 @@ function HUDManager:add_vehicle_name_label(data)
 		wflabel:set_unit(data.unit, true, true)
 		wflabel._upd_id = "wfhud_vehicle_label" .. id
 
-		if WFHud._unit_aim_label and WFHud._unit_aim_label._unit == data.unit then
-			WFHud._unit_aim_label:set_unit(nil, true)
+		if WFHud.unit_aim_label and WFHud.unit_aim_label._unit == data.unit then
+			WFHud.unit_aim_label:set_unit(nil, true)
 		end
 
 		self:add_updator(wflabel._upd_id, callback(wflabel, wflabel, "update"))
@@ -139,7 +139,7 @@ Hooks:OverrideFunction(HUDManager, "pd_start_progress", function (self, current,
 		return
 	end
 
-	WFHud._interact_display:show_interaction_circle(utf8.to_upper(managers.localization:text(msg)), total)
+	WFHud.interact_display:show_interaction_circle(utf8.to_upper(managers.localization:text(msg)), total)
 
 	self._hud_player_downed:hide_timer()
 end)
@@ -149,7 +149,7 @@ Hooks:OverrideFunction(HUDManager, "pd_stop_progress", function (self)
 		return
 	end
 
-	WFHud._interact_display:hide_interaction_circle()
+	WFHud.interact_display:hide_interaction_circle()
 
 	self._hud_player_downed:show_timer()
 end)

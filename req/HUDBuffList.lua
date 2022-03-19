@@ -1,6 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
+---@class HUDBuffListItem
 HUDBuffListItem = HUDBuffListItem or WFHud:panel_class()
 
 HUDBuffListItem.ICON_SIZE = 40 * hud_scale
@@ -218,10 +219,11 @@ function HUDBuffListItem:destroy()
 end
 
 
+---@class HUDBuffList
 HUDBuffList = HUDBuffList or WFHud:panel_class()
 
 function HUDBuffList:init(parent_panel, x, y, width, height)
-	self._buff_list = {}
+	self.buff_list = {}
 	self._buff_map = {}
 
 	self._panel = parent_panel:panel({
@@ -254,8 +256,8 @@ function HUDBuffList:add_buff(upgrade_data, value, duration)
 		return
 	end
 	buff = HUDBuffListItem:new(self._panel, upgrade_data, value, duration)
-	table.insert(self._buff_list, buff)
-	buff:set_index(#self._buff_list)
+	table.insert(self.buff_list, buff)
+	buff:set_index(#self.buff_list)
 	self:_set_buff(upgrade_data, buff)
 	if table.size(self._buff_map[upgrade_data.name_id]) > 1 then
 		for _, b in pairs(self._buff_map[upgrade_data.name_id]) do
@@ -273,7 +275,7 @@ end
 
 function HUDBuffList:update(t, dt)
 	local remove = {}
-	for i, buff in ipairs(self._buff_list) do
+	for i, buff in ipairs(self.buff_list) do
 		if buff._expired then
 			table.insert(remove, i - #remove)
 			self:_set_buff(buff._upgrade_data, nil)
@@ -282,7 +284,7 @@ function HUDBuffList:update(t, dt)
 		end
 	end
 	for _, i in pairs(remove) do
-		table.remove(self._buff_list, i)
+		table.remove(self.buff_list, i)
 	end
 end
 
@@ -291,7 +293,7 @@ function HUDBuffList:destroy()
 		return
 	end
 
-	for _, buff in pairs(self._buff_list) do
+	for _, buff in pairs(self.buff_list) do
 		buff:destroy()
 	end
 	self._panel:stop()

@@ -9,21 +9,21 @@ end)
 
 Hooks:OverrideFunction(HUDTemp, "show_carry_bag", function (self, carry_id, value)
 	local carry_data = tweak_data.carry[carry_id]
-	WFHud._equipment_panel:set_bag(managers.localization:to_upper_text(carry_data and carry_data.name_id))
+	WFHud.equipment_panel:set_bag(managers.localization:to_upper_text(carry_data and carry_data.name_id))
 end)
 
 Hooks:OverrideFunction(HUDTemp, "hide_carry_bag", function (self)
-	WFHud._equipment_panel:set_bag(nil)
+	WFHud.equipment_panel:set_bag(nil)
 end)
 
 Hooks:OverrideFunction(HUDTemp, "set_throw_bag_text", function (self) end)
 
 Hooks:OverrideFunction(HUDTemp, "set_stamina_value", function (self, value)
 	self._curr_stamina = value
-	WFHud._equipment_panel:set_stamina(self._curr_stamina, self._max_stamina)
+	WFHud.equipment_panel:set_stamina(self._curr_stamina, self._max_stamina)
 end)
 
 Hooks:OverrideFunction(HUDTemp, "set_max_stamina", function (self, value)
 	self._max_stamina = value
-	WFHud._equipment_panel:set_stamina(self._curr_stamina, self._max_stamina)
+	WFHud.equipment_panel:set_stamina(self._curr_stamina, self._max_stamina)
 end)

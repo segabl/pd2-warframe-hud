@@ -139,23 +139,35 @@ if not WFHud then
 	end
 
 	function WFHud:create_hud_elements()
-		self._unit_aim_label = HUDFloatingUnitLabel:new(self:panel(), true)
-		self._buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - 240 * self.settings.hud_scale, 256 * self.settings.hud_scale)
-		self._equipment_panel = HUDPlayerEquipment:new(self:panel())
-		self._interact_display = HUDInteractDisplay:new(self:panel())
-		self._objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.settings.margin_h, 192)
-		self._pickup_list = HUDPickupList:new(self:panel())
-		self._special_pickup = HUDSpecialPickup:new(self:panel(), self:panel():h() * 0.95 - 256 * self.settings.hud_scale)
-		self._boss_bar = HUDBossBar:new(self:panel(), math.round(self._buff_list:h() * 0.35))
+		---@type HUDFloatingUnitLabel
+		self.unit_aim_label = HUDFloatingUnitLabel:new(self:panel(), true)
+		---@type HUDBuffList
+		self.buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - 240 * self.settings.hud_scale, 256 * self.settings.hud_scale)
+		---@type HUDPlayerEquipment
+		self.equipment_panel = HUDPlayerEquipment:new(self:panel())
+		---@type HUDInteractDisplay
+		self.interact_display = HUDInteractDisplay:new(self:panel())
+		---@type HUDObjectivePanel
+		self.objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.settings.margin_h, 192)
+		---@type HUDPickupList
+		self.pickup_list = HUDPickupList:new(self:panel())
+		---@type HUDSpecialPickup
+		self.special_pickup = HUDSpecialPickup:new(self:panel(), self:panel():h() * 0.95 - 256 * self.settings.hud_scale)
+		---@type HUDBossBar
+		self.boss_bar = HUDBossBar:new(self:panel(), math.round(self.buff_list:h() * 0.35))
 	end
 
 	function WFHud:update(t, dt)
 		self:_check_player_forward_ray(t)
 
-		self._unit_aim_label:update(t, dt)
-		self._buff_list:update(t, dt)
-		self._interact_display:update(t, dt)
-		self._pickup_list:update(t, dt)
+		self.unit_aim_label:update(t, dt)
+		self.buff_list:update(t, dt)
+		self.interact_display:update(t, dt)
+		self.pickup_list:update(t, dt)
+	end
+
+	function WFHud:ws()
+		return self._ws
 	end
 
 	function WFHud:panel()
@@ -188,35 +200,35 @@ if not WFHud then
 	end
 
 	function WFHud:add_buff(category, upgrade, value, duration)
-		if self._buff_list and Utils:IsInHeist() then
+		if self.buff_list and Utils:IsInHeist() then
 			local upgrade_data = self.skill_map[category] and self.skill_map[category][upgrade]
 			if not upgrade_data then
 				log("[WFHud] No upgrade definition for " .. tostring(category) .. "." .. tostring(upgrade))
 				return
 			end
-			self._buff_list:add_buff(upgrade_data, value, duration)
+			self.buff_list:add_buff(upgrade_data, value, duration)
 		end
 	end
 
 	function WFHud:remove_buff(category, upgrade)
-		if self._buff_list then
+		if self.buff_list then
 			local upgrade_data = self.skill_map[category] and self.skill_map[category][upgrade]
 			if upgrade_data then
-				self._buff_list:remove_buff(upgrade_data)
+				self.buff_list:remove_buff(upgrade_data)
 			end
 		end
 	end
 
 	function WFHud:add_pickup(id, amount, text, texture, texture_rect)
-		if self._pickup_list and Utils:IsInHeist() then
+		if self.pickup_list and Utils:IsInHeist() then
 			local string_id = "hud_pickup_" .. id
-			self._pickup_list:add(id, texture, texture_rect, amount, text or managers.localization:exists(string_id) and managers.localization:text(string_id) or id:pretty(true))
+			self.pickup_list:add(id, texture, texture_rect, amount, text or managers.localization:exists(string_id) and managers.localization:text(string_id) or id:pretty(true))
 		end
 	end
 
 	function WFHud:add_special_pickup(icon, icon_rect, text)
-		if self._special_pickup and Utils:IsInHeist() then
-			self._special_pickup:add(icon, icon_rect, text)
+		if self.special_pickup and Utils:IsInHeist() then
+			self.special_pickup:add(icon, icon_rect, text)
 		end
 	end
 
@@ -352,7 +364,7 @@ if not WFHud then
 
 		local player = managers.player:local_player()
 		if not alive(player) then
-			self._unit_aim_label:set_unit(nil)
+			self.unit_aim_label:set_unit(nil)
 			return
 		end
 
@@ -365,7 +377,7 @@ if not WFHud then
 		local ray2 = World:raycast("ray", from, to_vec, "slot_mask", self._unit_slotmask)
 
 		local unit = ray1 and (not ray2 or ray2.unit == ray1.unit or ray2.distance > ray1.distance) and ray1.unit or ray2 and ray2.unit
-		if unit and unit ~= self._boss_bar._unit then
+		if unit and unit ~= self.boss_bar._unit then
 			if unit:in_slot(8) and alive(unit:parent()) then
 				unit = unit:parent()
 			end
@@ -381,9 +393,9 @@ if not WFHud then
 				if unit_data._wfhud_label then
 					self._unit_aim_custom_label = unit_data._wfhud_label
 					self._unit_aim_custom_label:set_health_visible(true)
-					self._unit_aim_label:set_unit(nil)
+					self.unit_aim_label:set_unit(nil)
 				elseif self.settings.health_labels then
-					self._unit_aim_label:set_unit(unit)
+					self.unit_aim_label:set_unit(unit)
 				end
 
 				return
@@ -394,7 +406,7 @@ if not WFHud then
 			self._unit_aim_custom_label:set_health_visible(false)
 			self._unit_aim_custom_label = nil
 		end
-		self._unit_aim_label:set_unit(nil)
+		self.unit_aim_label:set_unit(nil)
 	end
 
 	function WFHud:_create_skill_icon_map()

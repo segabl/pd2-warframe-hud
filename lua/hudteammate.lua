@@ -21,7 +21,7 @@ Hooks:PostHook(HUDTeammate, "add_panel", "add_panel_wfhud", function (self)
 	self._wfhud_panel:show()
 
 	if self._main_player then
-		WFHud._equipment_panel:show()
+		WFHud.equipment_panel:show()
 		if managers.player:local_player() then
 			managers.player:local_player():movement():_change_stamina(0) -- ugh
 		end
@@ -40,8 +40,8 @@ Hooks:PostHook(HUDTeammate, "remove_panel", "remove_panel_wfhud", function (self
 	self._wfhud_panel:health_bar()._set_data_instant = true
 
 	if self._main_player then
-		WFHud._equipment_panel:hide()
-		WFHud._equipment_panel:clear()
+		WFHud.equipment_panel:hide()
+		WFHud.equipment_panel:clear()
 	else
 		self._wfhud_item_list:hide()
 		self._wfhud_item_list:clear()
@@ -90,26 +90,26 @@ end)
 
 Hooks:PostHook(HUDTeammate, "set_weapon_selected", "set_weapon_selected_wfhud", function (self, index)
 	if self._main_player and managers.player:local_player() then
-		WFHud._equipment_panel:set_weapon(index)
+		WFHud.equipment_panel:set_weapon(index)
 	end
 end)
 
 Hooks:PostHook(HUDTeammate, "set_weapon_firemode", "set_weapon_firemode_wfhud", function (self)
 	if self._main_player and managers.player:local_player() then
-		WFHud._equipment_panel:set_fire_mode()
+		WFHud.equipment_panel:set_fire_mode()
 	end
 end)
 
 Hooks:PostHook(HUDTeammate, "set_ammo_amount_by_type", "set_ammo_amount_by_type_wfhud", function (self)
 	if self._main_player and managers.player:local_player() then
-		WFHud._equipment_panel:set_ammo()
+		WFHud.equipment_panel:set_ammo()
 	end
 end)
 
 
 -- pickup items
 Hooks:PostHook(HUDTeammate, "add_special_equipment", "add_special_equipment_wfhud", function (self, data)
-	local item_list = self._main_player and WFHud._equipment_panel._item_list or self._wfhud_item_list
+	local item_list = self._main_player and WFHud.equipment_panel._item_list or self._wfhud_item_list
 	if item_list then
 		item_list:add_icon(data.id, tweak_data.hud_icons:get_icon_data(data.icon))
 		if data.amount then
@@ -119,14 +119,14 @@ Hooks:PostHook(HUDTeammate, "add_special_equipment", "add_special_equipment_wfhu
 end)
 
 Hooks:PostHook(HUDTeammate, "remove_special_equipment", "remove_special_equipment_wfhud", function (self, equipment)
-	local item_list = self._main_player and WFHud._equipment_panel._item_list or self._wfhud_item_list
+	local item_list = self._main_player and WFHud.equipment_panel._item_list or self._wfhud_item_list
 	if item_list then
 		item_list:remove_icon(equipment)
 	end
 end)
 
 Hooks:PostHook(HUDTeammate, "set_special_equipment_amount", "set_special_equipment_amount_wfhud", function (self, equipment_id, amount)
-	local item_list = self._main_player and WFHud._equipment_panel._item_list or self._wfhud_item_list
+	local item_list = self._main_player and WFHud.equipment_panel._item_list or self._wfhud_item_list
 	if item_list then
 		item_list:set_icon_value(equipment_id, amount > 1 and amount)
 	end
@@ -135,7 +135,7 @@ end)
 
 -- equipment
 Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount", "set_deployable_equipment_amount_wfhud", function (self, index, data)
-	local item_list = self._main_player and WFHud._equipment_panel._equipment_list or self._wfhud_item_list
+	local item_list = self._main_player and WFHud.equipment_panel._equipment_list or self._wfhud_item_list
 	if not item_list then
 		return
 	end
@@ -149,12 +149,12 @@ Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount", "set_deployable_e
 	end
 
 	if self._main_player then
-		WFHud._equipment_panel:_align_equipment()
+		WFHud.equipment_panel:_align_equipment()
 	end
 end)
 
 Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount_from_string", "set_deployable_equipment_amount_from_string_wfhud", function (self, index, data)
-	local item_list = self._main_player and WFHud._equipment_panel._equipment_list or self._wfhud_item_list
+	local item_list = self._main_player and WFHud.equipment_panel._equipment_list or self._wfhud_item_list
 	if not item_list then
 		return
 	end
@@ -170,7 +170,7 @@ Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount_from_string", "set_
 	end
 
 	if self._main_player then
-		WFHud._equipment_panel:_align_equipment()
+		WFHud.equipment_panel:_align_equipment()
 	end
 end)
 
@@ -184,20 +184,20 @@ Hooks:PostHook(HUDTeammate, "set_grenade_cooldown", "set_grenade_cooldown_wfhud"
 
 	local end_time = data and data.end_time
 	if not end_time then
-		WFHud._equipment_panel._equipment_list:set_icon_value("grenade", "")
-		WFHud._equipment_panel._equipment_list:set_icon_enabled("grenade", true)
+		WFHud.equipment_panel._equipment_list:set_icon_value("grenade", "")
+		WFHud.equipment_panel._equipment_list:set_icon_enabled("grenade", true)
 		return
 	end
 
-	WFHud._equipment_panel._equipment_list:set_icon_enabled("grenade", false)
+	WFHud.equipment_panel._equipment_list:set_icon_enabled("grenade", false)
 	grenades_panel:animate(function ()
 		local duration = end_time - managers.game_play_central:get_heist_timer()
 		over(duration, function (t)
-			WFHud._equipment_panel._equipment_list:set_icon_value("grenade", math.ceil(duration * (1 - t)))
+			WFHud.equipment_panel._equipment_list:set_icon_value("grenade", math.ceil(duration * (1 - t)))
 		end)
 	end)
 
-	WFHud._equipment_panel:_align_equipment()
+	WFHud.equipment_panel:_align_equipment()
 end)
 
 Hooks:PostHook(HUDTeammate, "set_grenades_amount", "set_grenades_amount_wfhud", function (self, data)
@@ -205,10 +205,10 @@ Hooks:PostHook(HUDTeammate, "set_grenades_amount", "set_grenades_amount_wfhud", 
 		return
 	end
 
-	WFHud._equipment_panel._equipment_list:add_icon("grenade", tweak_data.hud_icons:get_icon_data(data.icon))
-	WFHud._equipment_panel._equipment_list:set_icon_value("grenade", data.amount > 1 and data.amount)
-	WFHud._equipment_panel._equipment_list:set_icon_enabled("grenade", data.amount > 0)
-	WFHud._equipment_panel:_align_equipment()
+	WFHud.equipment_panel._equipment_list:add_icon("grenade", tweak_data.hud_icons:get_icon_data(data.icon))
+	WFHud.equipment_panel._equipment_list:set_icon_value("grenade", data.amount > 1 and data.amount)
+	WFHud.equipment_panel._equipment_list:set_icon_enabled("grenade", data.amount > 0)
+	WFHud.equipment_panel:_align_equipment()
 end)
 
 Hooks:PostHook(HUDTeammate, "set_cable_tie", "set_cable_tie_wfhud", function (self, data)
@@ -216,10 +216,10 @@ Hooks:PostHook(HUDTeammate, "set_cable_tie", "set_cable_tie_wfhud", function (se
 		return
 	end
 
-	WFHud._equipment_panel._equipment_list:add_icon("cable_ties", tweak_data.hud_icons:get_icon_data(data.icon))
-	WFHud._equipment_panel._equipment_list:set_icon_value("cable_ties", data.amount > 1 and data.amount)
-	WFHud._equipment_panel._equipment_list:set_icon_enabled("cable_ties", data.amount > 0)
-	WFHud._equipment_panel:_align_equipment()
+	WFHud.equipment_panel._equipment_list:add_icon("cable_ties", tweak_data.hud_icons:get_icon_data(data.icon))
+	WFHud.equipment_panel._equipment_list:set_icon_value("cable_ties", data.amount > 1 and data.amount)
+	WFHud.equipment_panel._equipment_list:set_icon_enabled("cable_ties", data.amount > 0)
+	WFHud.equipment_panel:_align_equipment()
 end)
 
 Hooks:PostHook(HUDTeammate, "set_cable_ties_amount", "set_cable_ties_amount_wfhud", function (self, amount)
@@ -227,9 +227,9 @@ Hooks:PostHook(HUDTeammate, "set_cable_ties_amount", "set_cable_ties_amount_wfhu
 		return
 	end
 
-	WFHud._equipment_panel._equipment_list:set_icon_value("cable_ties", amount > 1 and amount)
-	WFHud._equipment_panel._equipment_list:set_icon_enabled("cable_ties", amount > 0)
-	WFHud._equipment_panel:_align_equipment()
+	WFHud.equipment_panel._equipment_list:set_icon_value("cable_ties", amount > 1 and amount)
+	WFHud.equipment_panel._equipment_list:set_icon_enabled("cable_ties", amount > 0)
+	WFHud.equipment_panel:_align_equipment()
 end)
 
 

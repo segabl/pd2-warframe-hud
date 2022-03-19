@@ -6,6 +6,7 @@ local mvec_lerp = mvector3.lerp
 local mvec_set = mvector3.set
 local tmp_vec = Vector3()
 
+---@class HUDDamagePop
 HUDDamagePop = HUDDamagePop or WFHud:panel_class()
 
 HUDDamagePop.ALPHA_CURVE = { 1, 1, 0.5, 0 }
@@ -64,7 +65,7 @@ function HUDDamagePop:_animate()
 	local cam = managers.viewport:get_current_camera()
 
 	over(1, function (t)
-		if not alive(cam) or not alive(WFHud._ws) then
+		if not alive(cam) or not alive(WFHud:ws()) then
 			return
 		end
 
@@ -84,7 +85,7 @@ function HUDDamagePop:_animate()
 		mvec_set(tmp_vec, self._offset)
 		mvec_add(tmp_vec, self._pos)
 
-		local screen_pos = WFHud._ws:world_to_screen(cam, tmp_vec)
+		local screen_pos = WFHud:ws():world_to_screen(cam, tmp_vec)
 		self._panel:set_size(tw + (self._proc_bitmap and size or 0), size)
 		self._panel:set_center(screen_pos.x, screen_pos.y)
 		self._panel:set_alpha(math.bezier(self.ALPHA_CURVE, t))

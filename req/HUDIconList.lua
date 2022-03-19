@@ -1,6 +1,7 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
+---@class HUDIconList
 HUDIconList = HUDIconList or WFHud:panel_class()
 
 function HUDIconList:init(panel, x, y, width, height, icon_color)

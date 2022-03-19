@@ -6,6 +6,7 @@ local mvec_set = mvector3.set
 local tmp_vec = Vector3()
 local label_offset = Vector3(0, 0, 20)
 
+---@class HUDInteractDisplay
 HUDInteractDisplay = HUDInteractDisplay or WFHud:panel_class()
 
 function HUDInteractDisplay:init(panel)
@@ -138,7 +139,7 @@ function HUDInteractDisplay:set_interaction_progress(t)
 end
 
 function HUDInteractDisplay:update(t, dt)
-	if not self._interact_visible and not self._interact_active or not alive(WFHud._ws) then
+	if not self._interact_visible and not self._interact_active or not alive(WFHud:ws()) then
 		self._panel:set_visible(false)
 		return
 	end
@@ -154,7 +155,7 @@ function HUDInteractDisplay:update(t, dt)
 		if cam then
 			mvec_set(tmp_vec, pos)
 			mvec_add(tmp_vec, label_offset)
-			local screen_pos = WFHud._ws:world_to_screen(cam, tmp_vec)
+			local screen_pos = WFHud:ws():world_to_screen(cam, tmp_vec)
 			self._panel:set_position(screen_pos.x - half_width, screen_pos.y - half_height)
 		end
 	else
