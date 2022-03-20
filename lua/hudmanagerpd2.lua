@@ -19,7 +19,7 @@ Hooks:PostHook(HUDManager, "set_disabled", "set_disabled_wfhud", function (self)
 end)
 
 Hooks:PostHook(HUDManager, "show", "show_wfhud", function (self, name)
-	if name == PlayerBase.PLAYER_INFO_HUD_FULLSCREEN then
+	if name == PlayerBase.PLAYER_INFO_HUD_FULLSCREEN or name == PlayerBase.PLAYER_INFO_HUD then
 		WFHud:panel():show()
 	elseif name == Idstring("guis/mask_off_hud") and self:alive("guis/mask_off_hud") then
 		self:hide(name)
@@ -27,7 +27,7 @@ Hooks:PostHook(HUDManager, "show", "show_wfhud", function (self, name)
 end)
 
 Hooks:PostHook(HUDManager, "hide", "hide_wfhud", function (self, name)
-	if name == PlayerBase.PLAYER_INFO_HUD_FULLSCREEN then
+	if name == PlayerBase.PLAYER_INFO_HUD_FULLSCREEN or name == PlayerBase.PLAYER_INFO_HUD then
 		WFHud:panel():hide()
 	end
 end)
@@ -433,15 +433,3 @@ function HUDManager:show_hint(params)
 	params.is_hint = true
 	self:present_mid_text(params)
 end
-
-
--- move mask on text
-Hooks:PostHook(HUDManager, "show", "show_wfhud", function (self, name)
-	local mask_off_hud = Idstring("guis/mask_off_hud")
-	if name == mask_off_hud and self:alive("guis/mask_off_hud") then
-		local mask_on_text = self:script("guis/mask_off_hud").mask_on_text
-		mask_on_text:set_font(WFHud.font_ids.default)
-		mask_on_text:set_font_size(WFHud.font_sizes.default * font_scale * hud_scale)
-		mask_on_text:parent():set_y(mask_on_text:parent():parent():h() * 0.75)
-	end
-end)

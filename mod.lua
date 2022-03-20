@@ -128,9 +128,6 @@ if not WFHud then
 		self._ws = managers.gui_data:create_fullscreen_workspace()
 		self._ws:panel():hide()
 
-		self._damage_pops = {}
-		self._damage_pop_key = 1
-
 		self._unit_slotmask = managers.slot:get_mask("persons") + managers.slot:get_mask("bullet_impact_targets")
 		self._unit_slotmask_no_walls = self._unit_slotmask - managers.slot:get_mask("bullet_blank_impact_targets")
 		self._next_unit_raycast_t = 0
@@ -182,10 +179,6 @@ if not WFHud then
 		else
 			local result = attack_data.result and attack_data.result.type
 			proc = WFHud.proc_type[result] or result
-		end
-
-		if self._damage_pops[self._damage_pop_key] then
-			self._damage_pops[self._damage_pop_key]:destroy()
 		end
 
 		return HUDDamagePop:new(self:panel(), pos, attack_data.raw_damage or attack_data.damage, proc, attack_data.critical_hit, attack_data.headshot)

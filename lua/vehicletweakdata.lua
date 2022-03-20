@@ -5,5 +5,4 @@ Hooks:PostHook(VehicleTweakData, "init", "init_wfhud", function (self)
 	self.blackhawk_1.hud_label_offset = 300
 	self.boat_rib_1.hud_label_offset = 80
 	self.muscle.hud_label_offset = 140
-	self.muscle.hud_label_offset = 140
 end)
