@@ -3,17 +3,14 @@ local font_scale = WFHud.settings.font_scale
 
 HUDChat.line_height = WFHud.font_sizes.small * font_scale * hud_scale
 
-local init_original = HUDChat.init
-function HUDChat:init(ws, hud, ...)
-	init_original(self, WFHud:ws(), { panel = WFHud:panel() }, ...)
-
+Hooks:PostHook(HUDChat, "init", "init_wfhud", function (self)
 	self._panel:set_h(self._panel:parent():h())
-	self._panel:set_leftbottom(WFHud.settings.margin_h, self._panel:parent():h() - WFHud.settings.margin_v)
+	self._panel:set_leftbottom(0, self._panel:parent():h())
 
 	self._output_width = self._panel_width
 	self:_layout_input_panel()
 	self:_layout_output_panel()
-end
+end)
 
 Hooks:PostHook(HUDChat, "_create_input_panel", "_create_input_panel_wfhud", function (self)
 	self._input_panel:set_h(HUDChat.line_height)
