@@ -122,6 +122,10 @@ function HUDBossBar:_clbk_unit_damaged(unit)
 	end
 end
 
+function HUDBossBar:_clbk_unit_destroyed()
+	self:set_unit(nil)
+end
+
 function HUDBossBar:_animate_show(panel)
 	panel:show()
 	over(1.5, function (t)
@@ -141,7 +145,8 @@ end
 function HUDBossBar:set_unit(unit)
 	if not alive(unit) and not self._fading_out then
 		if alive(self._unit) then
-			self._unit:character_damage():remove_listener("wfhud_boss_bar_dmg")
+			self._unit:character_damage():remove_listener("wfhud_boss_bar")
+			self._unit:base():remove_destroy_listener("wfhud_boss_bar")
 		end
 		self._unit = nil
 
@@ -169,7 +174,8 @@ function HUDBossBar:set_unit(unit)
 	self._health_bar:set_data(1, 1, 0, 0, true)
 	self._health_bar:set_invulnerable(false)
 
-	unit:character_damage():add_listener("wfhud_boss_bar_dmg", nil, callback(self, self, "_clbk_unit_damaged"))
+	unit:character_damage():add_listener("wfhud_boss_bar", nil, callback(self, self, "_clbk_unit_damaged"))
+	unit:base():add_destroy_listener("wfhud_boss_bar", callback(self, self, "_clbk_unit_destroyed"))
 
 	self:_clbk_unit_damaged(unit)
 
