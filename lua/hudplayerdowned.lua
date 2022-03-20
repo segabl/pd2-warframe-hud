@@ -4,6 +4,9 @@ local font_scale = WFHud.settings.font_scale
 Hooks:PostHook(HUDPlayerDowned, "init", "init_wfhud", function (self)
 	local downed_panel = self._hud_panel:child("downed_panel")
 	local timer_msg = downed_panel:child("timer_msg")
+	if not timer_msg then
+		return
+	end
 
 	timer_msg:set_font(WFHud.font_ids.default)
 	timer_msg:set_font_size(WFHud.font_sizes.default * font_scale * hud_scale)
