@@ -2,6 +2,7 @@ local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
 ---@class HUDBossBar
+---@field new fun():HUDBossBar
 HUDBossBar = HUDBossBar or WFHud:panel_class()
 
 function HUDBossBar:init(panel, y)

@@ -7,6 +7,7 @@ local tmp_vec = Vector3()
 local label_offset = Vector3(0, 0, 20)
 
 ---@class HUDInteractDisplay
+---@field new fun():HUDInteractDisplay
 HUDInteractDisplay = HUDInteractDisplay or WFHud:panel_class()
 
 function HUDInteractDisplay:init(panel)

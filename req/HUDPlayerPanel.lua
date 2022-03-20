@@ -2,6 +2,7 @@ local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
 ---@class HUDPlayerPanel
+---@field new fun():HUDPlayerPanel
 HUDPlayerPanel = HUDPlayerPanel or WFHud:panel_class()
 
 function HUDPlayerPanel:init(panel, main_player)

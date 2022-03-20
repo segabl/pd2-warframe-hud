@@ -139,21 +139,13 @@ if not WFHud then
 	end
 
 	function WFHud:create_hud_elements()
-		---@type HUDFloatingUnitLabel
 		self.unit_aim_label = HUDFloatingUnitLabel:new(self:panel(), true)
-		---@type HUDBuffList
 		self.buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - 240 * self.settings.hud_scale, 256 * self.settings.hud_scale)
-		---@type HUDPlayerEquipment
 		self.equipment_panel = HUDPlayerEquipment:new(self:panel())
-		---@type HUDInteractDisplay
 		self.interact_display = HUDInteractDisplay:new(self:panel())
-		---@type HUDObjectivePanel
 		self.objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.settings.margin_h, 192)
-		---@type HUDPickupList
 		self.pickup_list = HUDPickupList:new(self:panel())
-		---@type HUDSpecialPickup
 		self.special_pickup = HUDSpecialPickup:new(self:panel(), self:panel():h() * 0.95 - 256 * self.settings.hud_scale)
-		---@type HUDBossBar
 		self.boss_bar = HUDBossBar:new(self:panel(), math.round(self.buff_list:h() * 0.35))
 	end
 

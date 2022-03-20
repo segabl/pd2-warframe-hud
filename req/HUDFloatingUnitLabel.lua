@@ -9,6 +9,7 @@ local tmp_vec1 = Vector3()
 local tmp_vec2 = Vector3()
 
 ---@class HUDFloatingUnitLabel
+---@field new fun():HUDFloatingUnitLabel
 HUDFloatingUnitLabel = HUDFloatingUnitLabel or WFHud:panel_class()
 
 function HUDFloatingUnitLabel:init(panel, health_visible)
