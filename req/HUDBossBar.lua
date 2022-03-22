@@ -60,52 +60,33 @@ function HUDBossBar:init(panel, y)
 end
 
 function HUDBossBar:_create_health_bar()
-	self._health_bar = HUDHealthBar:new(self._panel, 1, self._bg1:bottom() + 4 * hud_scale, self._panel:w() - 2, 8 * hud_scale, nil, nil, "units/white_df")
+	self._health_bar = HUDHealthBar:new(self._panel, 1, self._bg1:bottom() + 4 * hud_scale, self._panel:w() - 2, 8 * hud_scale, nil, nil, true)
 	self._health_bar:set_direction(HUDHealthBar.LEFT_TO_RIGHT)
 	self._health_bar._bg_bar:set_h(self._health_bar._health_bar:h())
 	self._health_bar:_layout()
 
-	self._health_bar_borders = self._panel:panel({
-		w = self._health_bar:w() + 2,
-		h = self._health_bar:h() + 2,
-		x = self._health_bar:x() - 1,
-		y = self._health_bar:y() - 1
+	self._health_bar_border = self._panel:polyline({
+		color = Color.black,
+		line_width = 1,
+		closed = true,
+		points = {
+			Vector3(self._health_bar:x() - 0.5, self._health_bar:y() - 0.5, 0),
+			Vector3(self._health_bar:right() + 0.5, self._health_bar:y() - 0.5, 0),
+			Vector3(self._health_bar:right() + 0.5, self._health_bar:bottom() + 0.5, 0),
+			Vector3(self._health_bar:x() - 0.5, self._health_bar:bottom() + 0.5, 0),
+		}
 	})
 
-	self._health_bar_borders:rect({
-		color = Color.black,
-		halign = "grow",
-		h = 1,
-		y = 0
-	})
-	self._health_bar_borders:rect({
-		color = Color.black,
-		halign = "grow",
-		h = 1,
-		y = self._health_bar_borders:h() - 1
-	})
-	self._health_bar_borders:rect({
-		color = Color.black,
-		valign = "grow",
-		w = 1,
-		x = 0
-	})
-	self._health_bar_borders:rect({
-		color = Color.black,
-		valign = "grow",
-		w = 1,
-		x = self._health_bar_borders:w() - 1
-	})
-
-	self._health_bar_shadow = self._panel:bitmap({
-		color = Color.black,
-		alpha = 0.3,
+	self._health_bar_shadow = self._panel:gradient({
 		layer = -1,
-		texture = "guis/textures/wfhud/bar",
-		texture_rect = { 0, 24, 16, 8 },
-		w = self._health_bar_borders:w(),
+		orientation = "vertical",
+		w = self._health_bar:w() + 2,
 		h = 8 * hud_scale,
-		y = self._health_bar_borders:bottom()
+		y = self._health_bar:bottom(),
+		gradient_points = {
+			0, Color.black:with_alpha(0.5),
+			1, Color.transparent
+		}
 	})
 end
 

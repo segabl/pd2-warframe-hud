@@ -11,7 +11,7 @@ HUDHealthBar.LEFT_TO_RIGHT = 2
 HUDHealthBar.ANIM_TIME_GAIN = 0.5
 HUDHealthBar.ANIM_TIME_LOSS = 0.2
 
-function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, bar_texture)
+function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simple)
 	self._direction = HUDHealthBar.RIGHT_TO_LEFT
 
 	self._max_health_ratio = 0
@@ -55,12 +55,20 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, bar_
 		})
 	end
 
-	self._health_bar = self._panel:bitmap({
-		texture = bar_texture or "guis/textures/wfhud/bar",
-		color = self._health_color,
-		w = 0,
-		h = height
-	})
+	if simple then
+		self._health_bar = self._panel:rect({
+			color = self._health_color,
+			w = 0,
+			h = height
+		})
+	else
+		self._health_bar = self._panel:bitmap({
+			texture = "guis/textures/wfhud/bar",
+			color = self._health_color,
+			w = 0,
+			h = height
+		})
+	end
 
 	if has_caps then
 		self._health_bar_cap_l = self._panel:bitmap({
@@ -86,22 +94,30 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, bar_
 		alpha = 0,
 		texture = "guis/textures/wfhud/bar",
 		color = self._health_color,
-		h = height * 4,
+		h = height * 6,
 		layer = 2
 	})
 
-	self._armor_bar = self._panel:bitmap({
-		texture = bar_texture or "guis/textures/wfhud/bar",
-		color = WFHud.colors.shield,
-		w = 0,
-		h = height
-	})
+	if simple then
+		self._armor_bar = self._panel:rect({
+			color = WFHud.colors.shield,
+			w = 0,
+			h = height
+		})
+	else
+		self._armor_bar = self._panel:bitmap({
+			texture = "guis/textures/wfhud/bar",
+			color = WFHud.colors.shield,
+			w = 0,
+			h = height
+		})
+	end
 
 	self._armor_loss_indicator = panel:bitmap({
 		alpha = 0,
 		texture = "guis/textures/wfhud/bar",
 		color = WFHud.colors.shield,
-		h = height * 4,
+		h = height * 6,
 		layer = 2
 	})
 
@@ -127,13 +143,22 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, bar_
 		layer = 1
 	})
 
-	self._bg_bar = self._panel:bitmap({
-		texture = bar_texture or "guis/textures/wfhud/bar",
-		color = WFHud.colors.bg:with_alpha(0.5),
-		w = has_caps and width - height * 0.5 or width,
-		h = height * 0.85,
-		layer = -1
-	})
+	if simple then
+		self._bg_bar = self._panel:rect({
+			color = WFHud.colors.bg:with_alpha(0.5),
+			w = has_caps and width - height * 0.5 or width,
+			h = height * 0.85,
+			layer = -1
+		})
+	else
+		self._bg_bar = self._panel:bitmap({
+			texture = "guis/textures/wfhud/bar",
+			color = WFHud.colors.bg:with_alpha(0.5),
+			w = has_caps and width - height * 0.5 or width,
+			h = height * 0.85,
+			layer = -1
+		})
+	end
 
 	self._invulnerability_overlay = self._panel:bitmap({
 		visible = false,
