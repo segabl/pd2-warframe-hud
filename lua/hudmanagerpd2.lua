@@ -20,7 +20,9 @@ end)
 
 Hooks:PostHook(HUDManager, "show", "show_wfhud", function (self, name)
 	if name == PlayerBase.PLAYER_INFO_HUD_FULLSCREEN or name == PlayerBase.PLAYER_INFO_HUD then
-		WFHud:panel():show()
+		if not self._disabled then
+			WFHud:panel():show()
+		end
 	elseif name == Idstring("guis/mask_off_hud") and self:alive("guis/mask_off_hud") then
 		self:hide(name)
 	end
