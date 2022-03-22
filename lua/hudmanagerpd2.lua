@@ -35,6 +35,29 @@ Hooks:PostHook(HUDManager, "hide", "hide_wfhud", function (self, name)
 end)
 
 
+-- handle custom chat
+if WFHud.settings.custom_chat then
+	Hooks:OverrideFunction(HUDManager, "set_chat_focus", function (self, focus)
+		if not self:alive(PlayerBase.PLAYER_INFO_HUD_FULLSCREEN_PD2) then
+			return
+		end
+
+		if self._chat_focus == focus then
+			return
+		end
+
+		setup:add_end_frame_callback(function () self._chat_focus = focus end)
+		self._chatinput_changed_callback_handler:dispatch(focus)
+
+		if focus then
+			WFHud.chat:show()
+		else
+			WFHud.chat:hide()
+		end
+	end)
+end
+
+
 -- add custom name labels
 local _add_name_label_original = HUDManager._add_name_label
 function HUDManager:_add_name_label(data)

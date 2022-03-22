@@ -40,7 +40,12 @@ if not WFHud then
 		vanilla_ammo = false,
 		rare_mission_equipment = true,
 		health_labels = true,
-		show_downs = false
+		show_downs = false,
+		custom_chat = true,
+		chat_x = -1,
+		chat_y = -1,
+		chat_w = 400,
+		chat_h = 200
 	}
 	WFHud.colors = {
 		default = Color("ffffff"),
@@ -144,6 +149,7 @@ if not WFHud then
 		self.pickup_list = HUDPickupList:new(self:panel())
 		self.special_pickup = HUDSpecialPickup:new(self:panel(), self:panel():h() * 0.95 - 256 * self.settings.hud_scale)
 		self.boss_bar = HUDBossBar:new(self:panel(), math.round(self.buff_list:h() * 0.35))
+		self.chat = HUDCustomChat:new(self:ws(), self:panel())
 	end
 
 	function WFHud:update(t, dt)
@@ -153,6 +159,7 @@ if not WFHud then
 		self.buff_list:update(t, dt)
 		self.interact_display:update(t, dt)
 		self.pickup_list:update(t, dt)
+		self.chat:update(t, dt)
 	end
 
 	function WFHud:ws()
@@ -181,7 +188,8 @@ if not WFHud then
 			proc = WFHud.proc_type[result] or result
 		end
 
-		return HUDDamagePop:new(self:panel(), pos, attack_data.raw_damage or attack_data.damage, proc, attack_data.critical_hit, attack_data.headshot)
+		local damage = attack_data.damage > 0 and attack_data.raw_damage or attack_data.damage
+		return HUDDamagePop:new(self:panel(), pos, damage, proc, attack_data.critical_hit, attack_data.headshot)
 	end
 
 	function WFHud:add_buff(category, upgrade, value, duration)
@@ -640,23 +648,13 @@ if not WFHud then
 		})
 
 		MenuHelper:AddToggle({
-			id = "vanilla_ammo",
-			title = "menu_wfhud_vanilla_ammo",
-			desc = "menu_wfhud_vanilla_ammo_desc",
-			callback = "WFHud_boolean_value",
-			value = WFHud.settings.vanilla_ammo,
-			menu_id = menu_id,
-			priority = 78
-		})
-
-		MenuHelper:AddToggle({
 			id = "rare_mission_equipment",
 			title = "menu_wfhud_rare_mission_equipment",
 			desc = "menu_wfhud_rare_mission_equipment_desc",
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.rare_mission_equipment,
 			menu_id = menu_id,
-			priority = 77
+			priority = 78
 		})
 
 		MenuHelper:AddToggle({
@@ -666,7 +664,27 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.health_labels,
 			menu_id = menu_id,
+			priority = 77
+		})
+
+		MenuHelper:AddToggle({
+			id = "custom_chat",
+			title = "menu_wfhud_custom_chat",
+			desc = "menu_wfhud_custom_chat_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.custom_chat,
+			menu_id = menu_id,
 			priority = 76
+		})
+
+		MenuHelper:AddToggle({
+			id = "vanilla_ammo",
+			title = "menu_wfhud_vanilla_ammo",
+			desc = "menu_wfhud_vanilla_ammo_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.vanilla_ammo,
+			menu_id = menu_id,
+			priority = 75
 		})
 
 		MenuHelper:AddToggle({
@@ -676,7 +694,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.show_downs,
 			menu_id = menu_id,
-			priority = 75
+			priority = 74
 		})
 
 		nodes[menu_id] = MenuHelper:BuildMenu(menu_id, { back_callback = "WFHud_save" })
@@ -696,6 +714,7 @@ if not WFHud then
 	dofile(ModPath .. "req/HUDPickupList.lua")
 	dofile(ModPath .. "req/HUDSpecialPickup.lua")
 	dofile(ModPath .. "req/HUDBossBar.lua")
+	dofile(ModPath .. "req/HUDCustomChat.lua")
 
 end
 
