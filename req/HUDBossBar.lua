@@ -25,7 +25,7 @@ function HUDBossBar:init(panel, y)
 	self._name_text:set_h(self._name_text:font_size())
 
 	self._bg1 = self._panel:bitmap({
-		layer = -1,
+		layer = -2,
 		texture = "guis/textures/wfhud/boss_hud",
 		texture_rect = { 0, 0, 640, 16 },
 		w = 640 * hud_scale * 0.75,
@@ -37,7 +37,7 @@ function HUDBossBar:init(panel, y)
 	self:_create_health_bar()
 
 	self._bg2 = self._panel:bitmap({
-		layer = -1,
+		layer = -2,
 		texture = "guis/textures/wfhud/boss_hud",
 		texture_rect = { 0, 16, 640, 48 },
 		w = 640 * hud_scale * 0.75,
@@ -47,6 +47,7 @@ function HUDBossBar:init(panel, y)
 	self._bg2:set_center_x(self._panel:w() * 0.5)
 
 	self._level_text = self._panel:text({
+		layer = -1,
 		text = "99",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
@@ -78,7 +79,6 @@ function HUDBossBar:_create_health_bar()
 	})
 
 	self._health_bar_shadow = self._panel:gradient({
-		layer = -1,
 		orientation = "vertical",
 		w = self._health_bar:w() + 2,
 		h = 8 * hud_scale,
