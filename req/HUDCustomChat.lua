@@ -423,7 +423,7 @@ function HUDCustomChat:hide()
 
 	self._caret:stop()
 
-	managers.mouse_pointer:_deactivate("wfhud_chat")
+	managers.mouse_pointer:remove_mouse("wfhud_chat")
 
 	self._ws:disconnect_keyboard()
 	self._input_panel:key_press(nil)

@@ -42,6 +42,10 @@ if WFHud.settings.custom_chat then
 			return
 		end
 
+		if game_state_machine:current_state_name() == "editor" then
+			return
+		end
+
 		if self._chat_focus == focus then
 			return
 		end
