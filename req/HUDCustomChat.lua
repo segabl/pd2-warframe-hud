@@ -329,7 +329,7 @@ function HUDCustomChat:_check_key(k)
 		if e < n then
 			text:set_selection(e + 1, e + 1)
 		end
-	elseif k == Idstring("enter") then
+	elseif k == Idstring("enter") or k == Idstring("num enter") then
 		self:send_message()
 	elseif k == Idstring("esc") then
 		self:_close_chat()
@@ -558,7 +558,7 @@ function HUDCustomChat:mouse_press(o, button, x, y)
 			self._panel_resize = "bottom"
 			self._panel_resize_offset_x = self._panel:right() - x
 			self._panel_resize_offset_y = self._panel:bottom() - y
-		elseif x > self._panel:x() + 12 * chat_scale and x < self._minimize_button:x() and y > self._panel:y() and y < self._panel:y() + 32 * chat_scale then
+		elseif x > self._panel:world_x() + 12 * chat_scale and x < self._minimize_button:world_x() and y > self._panel:world_y() and y < self._panel:world_y() + 32 * chat_scale then
 			self._panel_move = true
 			self._panel_move_offset_x = self._panel:x() - x
 			self._panel_move_offset_y = self._panel:y() - y
