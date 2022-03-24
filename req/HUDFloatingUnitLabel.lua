@@ -35,7 +35,6 @@ function HUDFloatingUnitLabel:init(panel, health_visible)
 	self._health_bar:set_direction(HUDHealthBar.LEFT_TO_RIGHT)
 
 	self._level_text = self._panel:text({
-		visible = not compact,
 		text = "100",
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
@@ -44,7 +43,6 @@ function HUDFloatingUnitLabel:init(panel, health_visible)
 	})
 
 	self._pointer = self._panel:bitmap({
-		visible = not compact,
 		texture = "guis/textures/wfhud/bar_caps",
 		texture_rect = { 32, 0, 32, 32 },
 		color = WFHud.colors.default:with_alpha(0.25),
