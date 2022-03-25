@@ -130,6 +130,7 @@ end
 
 function HUDPlayerPanel:set_peer_id(id)
 	self._peer_id_text:set_text(tostring(id))
+	self._peer_id_bg:set_color(WFHud.settings.player_panels.use_peer_colors and tweak_data.chat_colors[id] or WFHud.colors.default)
 
 	if self._is_main_player then
 		return

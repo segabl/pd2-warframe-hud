@@ -40,12 +40,23 @@ if not WFHud then
 		vanilla_ammo = false,
 		rare_mission_equipment = true,
 		health_labels = true,
-		show_downs = false,
-		custom_chat = true,
-		chat_x = -1,
-		chat_y = -1,
-		chat_w = 400,
-		chat_h = 200
+		damage_popups = true,
+		player_panels = {
+			show_deployables = true,
+			show_downs = false,
+			use_peer_colors = false
+		},
+		chat = {
+			enabled = true,
+			timestamps = 1,
+			keep_open = true,
+			inline = true,
+			use_peer_colors = false,
+			x = -1,
+			y = -1,
+			w = 400,
+			h = 200
+		}
 	}
 	WFHud.colors = {
 		default = Color("ffffff"),
@@ -66,7 +77,9 @@ if not WFHud then
 		damage = Color("ffffff"),
 		yellow_crit = Color("ffff00"),
 		orange_crit = Color("fe6c09"),
-		red_crit = Color("fe0000")
+		red_crit = Color("fe0000"),
+		squad_chat = Color("569cfe"),
+		private_chat = Color("ee8bf0")
 	}
 	WFHud.fonts = {
 		default = "fonts/wfhud/default",
@@ -171,7 +184,7 @@ if not WFHud then
 	end
 
 	function WFHud:add_damage_pop(unit, attack_data)
-		if attack_data.is_fire_dot_damage then
+		if not self.settings.damage_popups or attack_data.is_fire_dot_damage then
 			return
 		end
 
@@ -220,7 +233,7 @@ if not WFHud then
 	end
 
 	function WFHud:add_special_pickup(icon, icon_rect, text)
-		if self.special_pickup and Utils:IsInHeist() then
+		if self.special_pickup and Utils:IsInHeist() and self.settings.rare_mission_equipment then
 			self.special_pickup:add(icon, icon_rect, text)
 		end
 	end
@@ -370,7 +383,7 @@ if not WFHud then
 		local ray2 = World:raycast("ray", from, to_vec, "slot_mask", self._unit_slotmask)
 
 		local unit = ray1 and (not ray2 or ray2.unit == ray1.unit or ray2.distance > ray1.distance) and ray1.unit or ray2 and ray2.unit
-		if unit and unit ~= self.boss_bar._unit then
+		if unit and unit ~= self.boss_bar._unit and self.settings.health_labels then
 			if unit:in_slot(8) and alive(unit:parent()) then
 				unit = unit:parent()
 			end
@@ -387,7 +400,7 @@ if not WFHud then
 					self._unit_aim_custom_label = unit_data._wfhud_label
 					self._unit_aim_custom_label:set_health_visible(true)
 					self.unit_aim_label:set_unit(nil)
-				elseif self.settings.health_labels then
+				else
 					self.unit_aim_label:set_unit(unit)
 				end
 
@@ -558,26 +571,45 @@ if not WFHud then
 
 	Hooks:Add("MenuManagerBuildCustomMenus", "MenuManagerBuildCustomMenusWFHud", function(menu_manager, nodes)
 
+		local function set_settings_value(name, value)
+			local settings_table = WFHud.settings
+			local path = name:split("%.")
+			for i = 1, #path - 1 do
+				settings_table = settings_table[path[i]]
+				if not settings_table then
+					log("[WFHud] Could not save setting " .. name .. "!")
+					return
+				end
+			end
+			settings_table[path[#path]] = value
+		end
+
 		function MenuCallbackHandler:WFHud_number_value(item)
 			item:set_value(math.round_with_precision(item:value(), 2))
-			WFHud.settings[item:name()] = item:value()
+			set_settings_value(item:name(), item:value())
 		end
 
 		function MenuCallbackHandler:WFHud_integer_value(item)
 			item:set_value(math.round(item:value()))
-			WFHud.settings[item:name()] = item:value()
+			set_settings_value(item:name(), item:value())
 		end
 
 		function MenuCallbackHandler:WFHud_boolean_value(item)
-			WFHud.settings[item:name()] = item:value() == "on"
+			set_settings_value(item:name(), item:value() == "on")
 		end
 
 		function MenuCallbackHandler:WFHud_save()
 			io.save_as_json(WFHud.settings, WFHud.save_path)
 		end
 
-		local menu_id = "wfhud_menu"
-		MenuHelper:NewMenu(menu_id)
+		local menu_ids = {
+			main =  "wfhud_menu_main",
+			player_panels = "wfhud_menu_player_panels",
+			chat = "wfhud_menu_chat"
+		}
+		for _, v in pairs(menu_ids) do
+			MenuHelper:NewMenu(v)
+		end
 
 		MenuHelper:AddSlider({
 			id = "hud_scale",
@@ -589,7 +621,7 @@ if not WFHud then
 			max = 2,
 			step = 0.05,
 			show_value = true,
-			menu_id = menu_id,
+			menu_id = menu_ids.main,
 			priority = 99
 		})
 
@@ -603,13 +635,13 @@ if not WFHud then
 			max = 2,
 			step = 0.05,
 			show_value = true,
-			menu_id = menu_id,
+			menu_id = menu_ids.main,
 			priority = 98
 		})
 
 		MenuHelper:AddDivider({
 			size = 16,
-			menu_id = menu_id,
+			menu_id = menu_ids.main,
 			priority = 89
 		})
 
@@ -623,7 +655,7 @@ if not WFHud then
 			max = 128,
 			step = 8,
 			show_value = true,
-			menu_id = menu_id,
+			menu_id = menu_ids.main,
 			priority = 88
 		})
 
@@ -637,13 +669,13 @@ if not WFHud then
 			max = 128,
 			step = 8,
 			show_value = true,
-			menu_id = menu_id,
+			menu_id = menu_ids.main,
 			priority = 87
 		})
 
 		MenuHelper:AddDivider({
 			size = 16,
-			menu_id = menu_id,
+			menu_id = menu_ids.main,
 			priority = 79
 		})
 
@@ -653,7 +685,7 @@ if not WFHud then
 			desc = "menu_wfhud_rare_mission_equipment_desc",
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.rare_mission_equipment,
-			menu_id = menu_id,
+			menu_id = menu_ids.main,
 			priority = 78
 		})
 
@@ -663,18 +695,24 @@ if not WFHud then
 			desc = "menu_wfhud_health_labels_desc",
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.health_labels,
-			menu_id = menu_id,
+			menu_id = menu_ids.main,
 			priority = 77
 		})
 
 		MenuHelper:AddToggle({
-			id = "custom_chat",
-			title = "menu_wfhud_custom_chat",
-			desc = "menu_wfhud_custom_chat_desc",
+			id = "damage_popups",
+			title = "menu_wfhud_damage_popups",
+			desc = "menu_wfhud_damage_popups_desc",
 			callback = "WFHud_boolean_value",
-			value = WFHud.settings.custom_chat,
-			menu_id = menu_id,
+			value = WFHud.settings.damage_popups,
+			menu_id = menu_ids.main,
 			priority = 76
+		})
+
+		MenuHelper:AddDivider({
+			size = 16,
+			menu_id = menu_ids.main,
+			priority = 69
 		})
 
 		MenuHelper:AddToggle({
@@ -683,22 +721,137 @@ if not WFHud then
 			desc = "menu_wfhud_vanilla_ammo_desc",
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.vanilla_ammo,
-			menu_id = menu_id,
-			priority = 75
+			menu_id = menu_ids.main,
+			priority = 68
+		})
+
+		MenuHelper:AddDivider({
+			size = 16,
+			menu_id = menu_ids.main,
+			priority = 59
+		})
+
+		MenuHelper:AddButton({
+			id = "chat",
+			title = "menu_wfhud_chat",
+			next_node = menu_ids.chat,
+			menu_id = menu_ids.main,
+			priority = 58
+		})
+
+		MenuHelper:AddButton({
+			id = "player_panels",
+			title = "menu_wfhud_player_panels",
+			next_node = menu_ids.player_panels,
+			menu_id = menu_ids.main,
+			priority = 57
+		})
+
+		-- Chat
+		MenuHelper:AddToggle({
+			id = "chat.enabled",
+			title = "menu_wfhud_chat_enabled",
+			desc = "menu_wfhud_chat_enabled_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.chat.enabled,
+			menu_id = menu_ids.chat,
+			priority = 99
+		})
+
+		MenuHelper:AddDivider({
+			size = 16,
+			menu_id = menu_ids.chat,
+			priority = 89
+		})
+
+		MenuHelper:AddMultipleChoice({
+			id = "chat.timestamps",
+			title = "menu_wfhud_chat_timestamps",
+			desc = "menu_wfhud_chat_timestamps_desc",
+			callback = "WFHud_integer_value",
+			value = WFHud.settings.chat.timestamps,
+			items = {
+				"menu_wfhud_chat_timestamps_real_time",
+				"menu_wfhud_chat_timestamps_real_time_am_pm",
+				"menu_wfhud_chat_timestamps_heist_time",
+				"menu_off"
+			},
+			menu_id = menu_ids.chat,
+			priority = 88
+		})
+
+		MenuHelper:AddDivider({
+			size = 16,
+			menu_id = menu_ids.chat,
+			priority = 79
 		})
 
 		MenuHelper:AddToggle({
-			id = "show_downs",
-			title = "menu_wfhud_show_downs",
-			desc = "menu_wfhud_show_downs_desc",
+			id = "chat.keep_open",
+			title = "menu_wfhud_chat_keep_open",
+			desc = "menu_wfhud_chat_keep_open_desc",
 			callback = "WFHud_boolean_value",
-			value = WFHud.settings.show_downs,
-			menu_id = menu_id,
-			priority = 74
+			value = WFHud.settings.chat.keep_open,
+			menu_id = menu_ids.chat,
+			priority = 78
+		})
+		--[[
+		MenuHelper:AddToggle({
+			id = "chat.inline",
+			title = "menu_wfhud_chat_inline",
+			desc = "menu_wfhud_chat_inline_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.chat.inline,
+			menu_id = menu_ids.chat,
+			priority = 77
+		})
+		]]
+		MenuHelper:AddToggle({
+			id = "chat.use_peer_colors",
+			title = "menu_wfhud_use_peer_colors",
+			desc = "menu_wfhud_chat_use_peer_colors_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.chat.use_peer_colors,
+			menu_id = menu_ids.chat,
+			priority = 76
 		})
 
-		nodes[menu_id] = MenuHelper:BuildMenu(menu_id, { back_callback = "WFHud_save" })
-		MenuHelper:AddMenuItem(nodes["blt_options"], menu_id, "menu_wfhud", "menu_wfhud_desc")
+		-- Player panels
+		MenuHelper:AddToggle({
+			id = "player_panels.show_deployables",
+			title = "menu_wfhud_player_panels_show_deployables",
+			desc = "menu_wfhud_player_panels_show_deployables_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.player_panels.show_deployables,
+			menu_id = menu_ids.player_panels,
+			priority = 99
+		})
+
+		MenuHelper:AddToggle({
+			id = "player_panels.show_downs",
+			title = "menu_wfhud_player_panels_show_downs",
+			desc = "menu_wfhud_player_panels_show_downs_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.player_panels.show_downs,
+			menu_id = menu_ids.player_panels,
+			priority = 98
+		})
+
+		MenuHelper:AddToggle({
+			id = "player_panels.use_peer_colors",
+			title = "menu_wfhud_use_peer_colors",
+			desc = "menu_wfhud_player_panels_use_peer_colors_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.player_panels.use_peer_colors,
+			menu_id = menu_ids.player_panels,
+			priority = 97
+		})
+
+		for _, v in pairs(menu_ids) do
+			nodes[v] = MenuHelper:BuildMenu(v, { back_callback = "WFHud_save" })
+		end
+
+		MenuHelper:AddMenuItem(nodes["blt_options"], menu_ids.main, "menu_wfhud")
 	end)
 
 

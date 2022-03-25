@@ -135,7 +135,7 @@ end)
 
 -- equipment
 Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount", "set_deployable_equipment_amount_wfhud", function (self, index, data)
-	local item_list = self._main_player and WFHud.equipment_panel._equipment_list or self._wfhud_item_list
+	local item_list = self._main_player and WFHud.equipment_panel._equipment_list or WFHud.settings.player_panels.show_deployables and self._wfhud_item_list
 	if not item_list then
 		return
 	end
@@ -154,7 +154,7 @@ Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount", "set_deployable_e
 end)
 
 Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount_from_string", "set_deployable_equipment_amount_from_string_wfhud", function (self, index, data)
-	local item_list = self._main_player and WFHud.equipment_panel._equipment_list or self._wfhud_item_list
+	local item_list = self._main_player and WFHud.equipment_panel._equipment_list or WFHud.settings.player_panels.show_deployables and self._wfhud_item_list
 	if not item_list then
 		return
 	end
@@ -248,7 +248,7 @@ end)
 
 
 Hooks:PostHook(HUDTeammate, "set_revives_amount", "set_revives_amount_wfhud", function (self, revives)
-	revives = WFHud.settings.show_downs and revives
+	revives = WFHud.settings.player_panels.show_downs and revives
 	if self._main_player then
 		if revives and revives > 0 then
 			WFHud:add_buff("game", "downs", revives - 1)

@@ -26,6 +26,7 @@
 		{ "hook_id" : "lib/managers/hud/hudteammate", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/hud/hudtemp", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/mission/elementareatrigger", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/managers/chatmanager", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/hudmanagerpd2", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/lootmanager", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/managers/playermanager", "script_path" : "mod.lua" },

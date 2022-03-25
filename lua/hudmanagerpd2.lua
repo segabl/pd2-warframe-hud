@@ -36,7 +36,7 @@ end)
 
 
 -- handle custom chat
-if WFHud.settings.custom_chat then
+if WFHud.settings.chat.enabled then
 	Hooks:OverrideFunction(HUDManager, "set_chat_focus", function (self, focus)
 		if not self:alive(PlayerBase.PLAYER_INFO_HUD_FULLSCREEN_PD2) then
 			return

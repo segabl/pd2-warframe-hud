@@ -15,12 +15,12 @@ function HUDCustomChat:init(ws, panel)
 
 	self._ws = ws
 	self._panel = panel:panel({
-		visible = WFHud.settings.custom_chat,
+		visible = WFHud.settings.chat.enabled,
 		layer = 0,
-		w = WFHud.settings.chat_w,
-		h = WFHud.settings.chat_h,
-		x = WFHud.settings.chat_x,
-		y = WFHud.settings.chat_y
+		w = WFHud.settings.chat.w,
+		h = WFHud.settings.chat.h,
+		x = WFHud.settings.chat.x,
+		y = WFHud.settings.chat.y
 	})
 
 	self._component_panel = self._panel:panel({
@@ -35,7 +35,7 @@ function HUDCustomChat:init(ws, panel)
 
 	self:_layout()
 
-	if WFHud.settings.custom_chat then
+	if WFHud.settings.chat.enabled then
 		managers.chat:register_receiver(ChatManager.GAME, self)
 	end
 end
@@ -490,26 +490,36 @@ function HUDCustomChat:send_message()
 	text:set_selection(0, 0)
 
 	self._key_pressed = nil
+
+	if not WFHud.settings.chat.keep_open then
+		managers.hud:set_chat_focus(false)
+	end
 end
 
-function HUDCustomChat:receive_message(name, message, color)
-	if self._lines_panel:num_children() >= HUDCustomChat.MAX_MESSAGE_HISTORY then
-		self._lines_panel:remove(self._lines_panel:child(0))
+function HUDCustomChat:_add_message(lines_panel, line_text, color_ranges)
+	if lines_panel:num_children() >= HUDCustomChat.MAX_MESSAGE_HISTORY then
+		lines_panel:remove(lines_panel:child(0))
 	end
 
-	local time_name = string.format("[%s]\r%s", os.date("%H:%M"), name)
-	local len = utf8.len(time_name)
-	local text = self._lines_panel:text({
+	local text = lines_panel:text({
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.small * hud_scale * font_scale,
-		text = string.format("%s:\r%s", time_name, message),
+		text = line_text,
 		color = WFHud.colors.default,
 		word_wrap = true,
 		wrap = true
 	})
 	local _, _, _, th = text:text_rect()
 	text:set_h(th)
-	text:set_range_color(0, len, color)
+	if color_ranges then
+		for i = 1, #color_ranges, 3 do
+			text:set_range_color(color_ranges[i], color_ranges[i + 1], color_ranges[i + 2])
+		end
+	end
+
+	if lines_panel ~= self._lines_panel then
+		return
+	end
 
 	self._scroll_offset = 0
 	self:_layout_output()
@@ -522,6 +532,39 @@ function HUDCustomChat:receive_message(name, message, color)
 	self._output_panel:animate(callback(self, self, "_animate_fade_out"), HUDCustomChat.MESSAGE_DISPLAY_TIME)
 	self._status_panel:stop()
 	self._status_panel:animate(callback(self, self, "_animate_fade_out"), HUDCustomChat.MESSAGE_DISPLAY_TIME)
+end
+
+local time_functions = {
+	[1] = function () return os.date("[%H:%M]\r") end,
+	[2] = function () return os.date("[%I:%M %p]\r") end,
+	[3] = function ()
+		local time = math.floor(managers.game_play_central:get_heist_timer())
+		local hours = math.floor(time / 3600)
+		time = time - hours * 3600
+		local minutes = math.floor(time / 60)
+		time = time - minutes * 60
+		local seconds = math.round(time)
+		return hours > 0 and string.format("[%02u:%02u:%02u]\r", hours, minutes, seconds) or string.format("[%02u:%02u]\r", minutes, seconds)
+	end
+}
+function HUDCustomChat:receive_message(name, message, color)
+	local peer = managers.chat._last_message_peer
+	local private, line_text, color_ranges
+	if not peer and (not name or name == managers.localization:to_upper_text("menu_system_message")) then
+		line_text = message
+	else
+		local msg, subs = message:gsub("^%[PRIVATE%](.+)", "%1")
+		private = subs > 0 and peer
+
+		local timestamp = WFHud.settings.chat.timestamps
+		local time_name = (time_functions[timestamp] and time_functions[timestamp]() or "") .. name
+		line_text = string.format("%s:\r%s", time_name, msg)
+		color_ranges = {
+			0, utf8.len(time_name), WFHud.settings.chat.use_peer_colors and color or private and WFHud.colors.private_chat or WFHud.colors.squad_chat
+		}
+	end
+
+	self:_add_message(self._lines_panel, line_text, color_ranges)
 end
 
 function HUDCustomChat:mouse_move(o, x, y)
@@ -548,7 +591,7 @@ end
 function HUDCustomChat:mouse_press(o, button, x, y)
 	if button == Idstring("0") then
 		if self._minimize_button:inside(x, y) then
-			self:_close_chat()
+			self._button_pressed = self._minimize_button
 		elseif self._resize_top_button:inside(x, y) then
 			self._panel_resize = "top"
 			self._panel_resize_offset_x = self._panel:right() - x
@@ -579,14 +622,17 @@ function HUDCustomChat:mouse_release(o, button, x, y)
 		return
 	end
 
-	if self._panel_resize or self._panel_move then
-		WFHud.settings.chat_x = self._panel:x()
-		WFHud.settings.chat_y = self._panel:y()
-		WFHud.settings.chat_w = self._panel:w()
-		WFHud.settings.chat_h = self._panel:h()
+	if self._button_pressed == self._minimize_button then
+		self:_close_chat()
+	elseif self._panel_resize or self._panel_move then
+		WFHud.settings.chat.x = self._panel:x()
+		WFHud.settings.chat.y = self._panel:y()
+		WFHud.settings.chat.w = self._panel:w()
+		WFHud.settings.chat.h = self._panel:h()
 		MenuCallbackHandler:WFHud_save()
 	end
 
+	self._button_pressed = nil
 	self._panel_resize = nil
 	self._panel_move = nil
 end

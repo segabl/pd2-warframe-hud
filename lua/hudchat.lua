@@ -1,4 +1,4 @@
-if not WFHud.settings.custom_chat then
+if not WFHud.settings.chat.enabled then
 	return
 end
 
