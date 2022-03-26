@@ -369,7 +369,11 @@ if not WFHud then
 		self._next_unit_raycast_t = t + 0.05
 
 		local player = managers.player:local_player()
-		if not alive(player) then
+		if not alive(player) or not self.settings.health_labels then
+			if self._unit_aim_custom_label then
+				self._unit_aim_custom_label:set_health_visible(false)
+				self._unit_aim_custom_label = nil
+			end
 			self.unit_aim_label:set_unit(nil)
 			return
 		end
@@ -383,7 +387,7 @@ if not WFHud then
 		local ray2 = World:raycast("ray", from, to_vec, "slot_mask", self._unit_slotmask)
 
 		local unit = ray1 and (not ray2 or ray2.unit == ray1.unit or ray2.distance > ray1.distance) and ray1.unit or ray2 and ray2.unit
-		if unit and unit ~= self.boss_bar._unit and self.settings.health_labels then
+		if unit and unit ~= self.boss_bar._unit then
 			if unit:in_slot(8) and alive(unit:parent()) then
 				unit = unit:parent()
 			end
