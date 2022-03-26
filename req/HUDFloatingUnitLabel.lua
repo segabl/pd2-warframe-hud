@@ -2,7 +2,7 @@ local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
 local mvec_add = mvector3.add
-local mvec_dir = mvector3.direction
+local mvec_dis = mvector3.distance
 local mvec_mul = mvector3.multiply
 local mvec_set = mvector3.set
 local tmp_vec1 = Vector3()
@@ -72,7 +72,9 @@ function HUDFloatingUnitLabel:_layout()
 	self._pointer:set_center_x(w * 0.5)
 	self._pointer:set_y(self._health_bar:bottom() - 6)
 
-	self._panel:set_h(self._compact and self._health_bar._health_loss_indicator:bottom() or self._pointer:bottom())
+	self._panel:set_h(self._pointer:bottom())
+
+	self._label_offset = self._compact and self._panel:h() - self._health_bar:bottom() or 0
 end
 
 function HUDFloatingUnitLabel:_create_unit_level(unit_info)
@@ -101,18 +103,17 @@ function HUDFloatingUnitLabel:update(t, dt)
 		if not pos then
 			pos = tmp_vec2
 			mvec_set(pos, math.UP)
-			mvec_mul(pos, self._health_bar_offset or 100)
+			mvec_mul(pos, self._health_bar_offset)
 			mvec_add(pos, self._unit:position())
 		end
 
-		local dis = mvec_dir(tmp_vec1, cam:position(), pos)
 		mvec_set(tmp_vec1, math.UP)
-		mvec_mul(tmp_vec1, 15 + 1000 / dis)
+		mvec_mul(tmp_vec1, 30 - mvec_dis(cam:position(), pos) / 1000)
 		mvec_add(tmp_vec1, pos)
 
 		local screen_pos = ws:world_to_screen(cam, tmp_vec1)
 		self._panel:set_center_x(screen_pos.x)
-		self._panel:set_bottom(screen_pos.y)
+		self._panel:set_bottom(screen_pos.y + self._label_offset)
 		self._panel:set_visible(screen_pos.z > 0)
 	end
 
@@ -164,7 +165,7 @@ function HUDFloatingUnitLabel:set_unit(unit, instant, compact_override)
 
 		if unit:vehicle_driving() then
 			self._health_bar:set_health_color(WFHud.colors.object)
-			self._health_bar_offset = unit:vehicle_driving().hud_label_offset
+			self._health_bar_offset = unit:vehicle_driving().hud_label_offset or 100
 			self._compact = true
 		else
 			if unit:base() and unit:base().has_tag and unit:base():has_tag("tank") then
