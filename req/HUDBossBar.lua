@@ -20,7 +20,7 @@ function HUDBossBar:init(panel, y)
 		font = WFHud.fonts.boss,
 		font_size = WFHud.font_sizes.huge * font_scale * hud_scale * 0.75,
 		kern = -12,
-		color = WFHud.colors.boss
+		color = WFHud.settings.colors.boss
 	})
 	self._name_text:set_h(self._name_text:font_size())
 
@@ -51,7 +51,7 @@ function HUDBossBar:init(panel, y)
 		text = "99",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.boss,
+		color = WFHud.settings.colors.boss,
 		align = "center"
 	})
 	self._level_text:set_h(self._level_text:font_size())

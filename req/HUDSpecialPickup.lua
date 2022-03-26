@@ -84,6 +84,7 @@ function HUDSpecialPickup:init(panel, y)
 		text = "Sweden",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
+		color = WFHud.settings.colors.default,
 		align = "center",
 		w = self._bg:w(),
 		h = WFHud.font_sizes.default * font_scale * hud_scale

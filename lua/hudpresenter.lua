@@ -17,7 +17,7 @@ Hooks:PostHook(HUDPresenter, "init", "init_wfhud", function (self)
 	self._present_title = self._present_panel:text({
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		align = "center",
 		vertical = "center",
 		halign = "grow",
@@ -28,7 +28,7 @@ Hooks:PostHook(HUDPresenter, "init", "init_wfhud", function (self)
 	self._present_text = self._present_panel:text({
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		align = "center",
 		vertical = "center",
 		halign = "grow",

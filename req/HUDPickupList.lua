@@ -32,6 +32,7 @@ function HUDPickup:init(panel, id, icon, icon_rect, amount, item)
 		text = tostring(amount),
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
+		color = WFHud.settings.colors.default,
 		vertical = "center"
 	})
 
@@ -39,6 +40,7 @@ function HUDPickup:init(panel, id, icon, icon_rect, amount, item)
 		text = " " .. item:upper(),
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
+		color = WFHud.settings.colors.default,
 		vertical = "center"
 	})
 

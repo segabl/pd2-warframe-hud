@@ -27,7 +27,7 @@ function HUDFloatingUnitLabel:init(panel, health_visible)
 		text = "ENEMY",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		align = "center"
 	})
 
@@ -38,14 +38,14 @@ function HUDFloatingUnitLabel:init(panel, health_visible)
 		text = "100",
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		align = "center"
 	})
 
 	self._pointer = self._panel:bitmap({
 		texture = "guis/textures/wfhud/bar_caps",
 		texture_rect = { 32, 0, 32, 32 },
-		color = WFHud.colors.default:with_alpha(0.25),
+		color = WFHud.settings.colors.default:with_alpha(0.25),
 		w = 32 * hud_scale,
 		h = 32 * hud_scale,
 		layer = -1
@@ -164,14 +164,14 @@ function HUDFloatingUnitLabel:set_unit(unit, instant, compact_override)
 		self._character_data = managers.criminals:character_data_by_unit(unit)
 
 		if unit:vehicle_driving() then
-			self._health_bar:set_health_color(WFHud.colors.object)
+			self._health_bar:set_health_color(WFHud.settings.colors.object)
 			self._health_bar_offset = unit:vehicle_driving().hud_label_offset or 100
 			self._compact = true
 		else
 			if unit:base() and unit:base().has_tag and unit:base():has_tag("tank") then
-				self._health_bar:set_health_color(WFHud.colors.armor)
+				self._health_bar:set_health_color(WFHud.settings.colors.armor)
 			else
-				self._health_bar:set_health_color(WFHud.colors.health)
+				self._health_bar:set_health_color(WFHud.settings.colors.health)
 			end
 			self._health_bar_offset = 100
 			self._compact = false

@@ -13,15 +13,15 @@ HUDObjectivePanel.ICON_TEXTURE_RECTS = {
 	extract = { 48, 48, 48, 48 }
 }
 HUDObjectivePanel.CHARACTER_COLORS = {
-	default = WFHud.colors.friendly,
-	bos = WFHud.colors.enemy,
-	bul = WFHud.colors.enemy,
-	chca = WFHud.colors.enemy,
-	com = WFHud.colors.enemy,
-	yuw = WFHud.colors.enemy,
-	xuk = WFHud.colors.enemy,
-	hnc = WFHud.colors.muted,
-	txm = WFHud.colors.muted,
+	default = WFHud.settings.colors.friendly,
+	bos = WFHud.settings.colors.enemy,
+	bul = WFHud.settings.colors.enemy,
+	chca = WFHud.settings.colors.enemy,
+	com = WFHud.settings.colors.enemy,
+	yuw = WFHud.settings.colors.enemy,
+	xuk = WFHud.settings.colors.enemy,
+	hnc = WFHud.settings.colors.muted,
+	txm = WFHud.settings.colors.muted,
 	mrb = Color("ffff99"),
 	mrp = Color("ff66aa")
 }
@@ -38,7 +38,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		visible = false,
 		texture = "guis/textures/wfhud/icons",
 		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.default,
-		color = WFHud.colors.objective,
+		color = WFHud.settings.colors.objective,
 		w = HUDObjectivePanel.ICON_SIZE,
 		h = HUDObjectivePanel.ICON_SIZE
 	})
@@ -48,7 +48,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		visible = false,
 		texture = "guis/textures/wfhud/icons",
 		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.default,
-		color = WFHud.colors.objective,
+		color = WFHud.settings.colors.objective,
 		w = HUDObjectivePanel.ICON_SIZE,
 		h = HUDObjectivePanel.ICON_SIZE,
 		blend_mode = "add"
@@ -59,7 +59,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		text = "GO DO A CRIME",
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
@@ -69,7 +69,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		text = "CRIMES DONE: 0/99",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
@@ -79,7 +79,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		text = "WAVES REMAINING: 3",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
@@ -88,7 +88,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		text = "13:37",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
@@ -98,7 +98,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		visible = false,
 		texture = "guis/textures/wfhud/icons",
 		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.attack,
-		color = WFHud.colors.attack,
+		color = WFHud.settings.colors.attack,
 		w = HUDObjectivePanel.ICON_SIZE,
 		h = HUDObjectivePanel.ICON_SIZE
 	})
@@ -108,7 +108,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		visible = false,
 		texture = "guis/textures/wfhud/icons",
 		texture_rect = HUDObjectivePanel.ICON_TEXTURE_RECTS.attack,
-		color = WFHud.colors.attack,
+		color = WFHud.settings.colors.attack,
 		w = HUDObjectivePanel.ICON_SIZE,
 		h = HUDObjectivePanel.ICON_SIZE,
 		blend_mode = "add"
@@ -119,7 +119,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		text = managers.localization:to_upper_text("hud_objectives_defeat_winters"),
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
@@ -129,7 +129,7 @@ function HUDObjectivePanel:init(panel, x, y)
 		text = "ENEMY DAMAGE RESISTANCE: 69%",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		h = HUDObjectivePanel.ICON_SIZE,
 		vertical = "center"
 	})
@@ -143,14 +143,14 @@ function HUDObjectivePanel:init(panel, x, y)
 	self._subtitle_name = self._subtitle_panel:text({
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.friendly,
+		color = WFHud.settings.colors.friendly,
 		h = HUDObjectivePanel.ICON_SIZE
 	})
 
 	self._subtitle_text = self._subtitle_panel:text({
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		y = self._subtitle_name:bottom(),
 		wrap = true,
 		word_wrap = true
@@ -211,7 +211,7 @@ end
 
 function HUDObjectivePanel:set_icon(icon)
 	local x, y, w, h = unpack(HUDObjectivePanel.ICON_TEXTURE_RECTS[icon] or HUDObjectivePanel.ICON_TEXTURE_RECTS.default)
-	local color = WFHud.colors[icon] or WFHud.colors.objective
+	local color = WFHud.settings.colors[icon] or WFHud.settings.colors.objective
 
 	self._objective_icon:set_texture_rect(x, y, w, h)
 	self._objective_icon:set_color(color)
@@ -280,9 +280,9 @@ function HUDObjectivePanel:set_time(time, is_point_of_no_return)
 
 	if self._point_of_no_return then
 		text = self._point_of_no_return .. ": " .. text
-		self._time_text:set_color(WFHud.colors.debuff)
+		self._time_text:set_color(WFHud.settings.colors.debuff)
 	else
-		self._time_text:set_color(WFHud.colors.default)
+		self._time_text:set_color(WFHud.settings.colors.default)
 	end
 
 	self._time_text:set_text(text)

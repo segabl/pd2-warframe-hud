@@ -66,7 +66,7 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 	panel:rect({
 		halign = "grow",
 		valign = "grow",
-		color = WFHud.colors.bg:with_alpha(0.75)
+		color = WFHud.settings.colors.bg:with_alpha(0.75)
 	})
 
 	panel:text({
@@ -77,7 +77,7 @@ function HUDIconList:add_icon(name, texture, texture_rect)
 		align = "center",
 		vertical = "center",
 		text = "",
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		font = WFHud.fonts.default_no_shadow,
 		font_size = WFHud.font_sizes.tiny * font_scale * hud_scale
 	})

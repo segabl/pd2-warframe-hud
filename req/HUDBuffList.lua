@@ -31,7 +31,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 	self._icon = self._panel:bitmap({
 		texture = upgrade_data.texture,
 		texture_rect = upgrade_data.texture_rect,
-		color = upgrade_data.is_debuff and WFHud.colors.debuff or WFHud.colors.buff,
+		color = upgrade_data.is_debuff and WFHud.settings.colors.debuff or WFHud.settings.colors.buff,
 		w = self.ICON_SIZE,
 		h = self.ICON_SIZE
 	})
@@ -41,7 +41,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 	self._icon_text = self._panel:text({
 		text = " ",
 		align = "center",
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		font = WFHud.fonts.bold,
 	})
@@ -58,7 +58,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		layer = 1,
 		halign = "grow",
 		valign = "grow",
-		color = WFHud.colors.bg:with_alpha(0.75)
+		color = WFHud.settings.colors.bg:with_alpha(0.75)
 	})
 	self._overlay_text = self._overlay_text_panel:text({
 		layer = 2,
@@ -67,7 +67,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		text = " ",
 		align = "center",
 		vertical = "center",
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		font_size = WFHud.font_sizes.tiny * font_scale * hud_scale,
 		font = WFHud.fonts.default_no_shadow
 	})
@@ -78,7 +78,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		texture_rect = HUDBuffListItem.CATEGORY_TEXTURE_RECTS[self._upgrade_data.icon_category],
 		visible = false,
 		layer = 2,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		w = HUDBuffListItem.ICON_SIZE * 0.5,
 		h = HUDBuffListItem.ICON_SIZE * 0.5
 	})
@@ -90,7 +90,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 	self._name_arrow = self._panel:bitmap({
 		visible = not upgrade_data.hide_name,
 		texture = "guis/textures/pd2/scrollbar_arrows",
-		color = upgrade_data.is_debuff and WFHud.colors.debuff or WFHud.colors.buff,
+		color = upgrade_data.is_debuff and WFHud.settings.colors.debuff or WFHud.settings.colors.buff,
 		alpha = 0,
 		w = WFHud.font_sizes.small * font_scale * hud_scale * 0.5,
 		h = WFHud.font_sizes.small * font_scale * hud_scale * 0.5,
@@ -107,7 +107,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 		visible = not upgrade_data.hide_name,
 		text = managers.localization:text(upgrade_data.name_id):pretty(true),
 		align = "center",
-		color = upgrade_data.is_debuff and WFHud.colors.debuff or WFHud.colors.buff,
+		color = upgrade_data.is_debuff and WFHud.settings.colors.debuff or WFHud.settings.colors.buff,
 		alpha = 0,
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		font = WFHud.fonts.bold

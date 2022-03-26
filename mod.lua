@@ -56,31 +56,32 @@ if not WFHud then
 			y = -1,
 			w = 400,
 			h = 200
+		},
+		colors = {
+			default = Color("ffffff"),
+			muted = Color("808080"),
+			bg = Color("404040"),
+			buff = Color("01d8ff"),
+			debuff = Color("cc2a28"),
+			health = Color("cc2a28"),
+			shield = Color("01d8ff"),
+			armor = Color("e0a635"),
+			object = Color("6dada7"),
+			objective = Color("e9ba08"),
+			attack = Color("c80406"),
+			extract = Color("43b306"),
+			friendly = Color("0795d5"),
+			enemy = Color("c80406"),
+			boss = Color("ead79f"),
+			damage = Color("ffffff"),
+			yellow_crit = Color("ffff00"),
+			orange_crit = Color("fe6c09"),
+			red_crit = Color("fe0000"),
+			squad_chat = Color("569cfe"),
+			private_chat = Color("ee8bf0")
 		}
 	}
-	WFHud.colors = {
-		default = Color("ffffff"),
-		muted = Color("808080"),
-		bg = Color("404040"),
-		buff = Color("01d8ff"),
-		debuff = Color("cc2a28"),
-		shield = Color("01d8ff"),
-		health = Color("cc2a28"),
-		armor = Color("e0a635"),
-		object = Color("6dada7"),
-		objective = Color("e9ba08"),
-		attack = Color("c80406"),
-		extract = Color("43b306"),
-		friendly = Color("0795d5"),
-		enemy = Color("c80406"),
-		boss = Color("ead79f"),
-		damage = Color("ffffff"),
-		yellow_crit = Color("ffff00"),
-		orange_crit = Color("fe6c09"),
-		red_crit = Color("fe0000"),
-		squad_chat = Color("569cfe"),
-		private_chat = Color("ee8bf0")
-	}
+	WFHud.default_colors = clone(WFHud.settings.colors)
 	WFHud.fonts = {
 		default = "fonts/wfhud/default",
 		bold = "fonts/wfhud/bold",
@@ -117,9 +118,14 @@ if not WFHud then
 
 	if io.file_is_readable(WFHud.save_path) then
 		local data = io.load_as_json(WFHud.save_path)
-		if data then
-			table.replace(WFHud.settings, data, true)
+		if not data then
+			return
 		end
+
+		for k, v in pairs(data.colors or {}) do
+			data.colors[k] = Color(v)
+		end
+		table.replace(WFHud.settings, data, true)
 	end
 
 	function WFHud:panel_class(...)
@@ -239,9 +245,11 @@ if not WFHud then
 	end
 
 	local redirects = {
+		equipment_bank_manager_key = "equipment_keycard",
 		equipment_born_tool = "equipment_bfd_tool",
 		equipment_elevator_key = "equipment_generic_key",
-		equipment_bank_manager_key = "equipment_keycard",
+		equipment_gasoline_pent = "equipment_diesel",
+		equipment_key_chain_pent = "equipment_key_chain_pex",
 		equipment_rfid_tag_02 = "equipment_rfid_tag_01",
 		equipment_stash_server = "equipment_harddrive",
 		equipment_usb_with_data = "equipment_usb_no_data",
@@ -251,8 +259,12 @@ if not WFHud then
 		pd2_generic_saw = "equipment_saw"
 	}
 	function WFHud:get_icon_data(icon_id)
-		local custom_texture = "guis/textures/wfhud/hud_icons/" .. tostring(redirects[icon_id] or icon_id)
-		local custom_level_texture = custom_texture .. "_" .. tostring(Global.game_settings.level_id)
+		if not icon_id then
+			return
+		end
+		local icon_id_level = icon_id .. "_" .. tostring(Global.game_settings.level_id)
+		local custom_texture = "guis/textures/wfhud/hud_icons/" .. (redirects[icon_id] or icon_id)
+		local custom_level_texture = "guis/textures/wfhud/hud_icons/" .. (redirects[icon_id_level] or icon_id_level)
 		if DB:has(ext_mapping.dds, Idstring(custom_level_texture)) then
 			return custom_level_texture
 		end
@@ -602,14 +614,30 @@ if not WFHud then
 			set_settings_value(item:name(), item:value() == "on")
 		end
 
+		function MenuCallbackHandler:WFHud_color_value(item)
+			set_settings_value(item:name(), item:value())
+		end
+
+		function MenuCallbackHandler:WFHud_reset_colors()
+			WFHud.settings.colors = clone(WFHud.default_colors)
+			for k, item in pairs(WFHud._color_menu_items or {}) do
+				item:set_value(WFHud.default_colors[k])
+			end
+		end
+
 		function MenuCallbackHandler:WFHud_save()
-			io.save_as_json(WFHud.settings, WFHud.save_path)
+			local data = deep_clone(WFHud.settings)
+			for k, v in pairs(data.colors) do
+				data.colors[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
+			end
+			io.save_as_json(data, WFHud.save_path)
 		end
 
 		local menu_ids = {
 			main =  "wfhud_menu_main",
 			player_panels = "wfhud_menu_player_panels",
-			chat = "wfhud_menu_chat"
+			chat = "wfhud_menu_chat",
+			colors = "wfhud_menu_colors"
 		}
 		for _, v in pairs(menu_ids) do
 			MenuHelper:NewMenu(v)
@@ -751,6 +779,20 @@ if not WFHud then
 			priority = 57
 		})
 
+		MenuHelper:AddDivider({
+			size = 16,
+			menu_id = menu_ids.main,
+			priority = 56
+		})
+
+		MenuHelper:AddButton({
+			id = "colors",
+			title = "menu_wfhud_colors",
+			next_node = menu_ids.colors,
+			menu_id = menu_ids.main,
+			priority = 55
+		})
+
 		-- Chat
 		MenuHelper:AddToggle({
 			id = "chat.enabled",
@@ -851,8 +893,69 @@ if not WFHud then
 			priority = 97
 		})
 
+		-- Colors
+		MenuHelper:AddButton({
+			id = "colors.reset",
+			title = "menu_wfhud_colors_reset",
+			callback = "WFHud_reset_colors",
+			menu_id = menu_ids.colors,
+			priority = 99
+		})
+
+		MenuHelper:AddDivider({
+			size = 16,
+			menu_id = menu_ids.colors,
+			priority = 89
+		})
+
+		if not MenuHelperPlus then
+			MenuHelper:AddButton({
+				id = "colors.beardlib_required",
+				title = "menu_wfhud_colors_beardlib_required",
+				menu_id = menu_ids.colors,
+				priority = 88
+			})
+		end
+
 		for _, v in pairs(menu_ids) do
 			nodes[v] = MenuHelper:BuildMenu(v, { back_callback = "WFHud_save" })
+		end
+
+		if MenuHelperPlus then
+			local sorted_colors = {
+				"default",
+				"muted",
+				"bg",
+				"buff" ,
+				"debuff",
+				"health",
+				"shield",
+				"armor",
+				"object",
+				"objective",
+				"attack",
+				"extract",
+				"friendly",
+				"enemy",
+				"boss",
+				"damage",
+				"yellow_crit",
+				"orange_crit",
+				"red_crit",
+				"squad_chat",
+				"private_chat"
+			}
+			WFHud._color_menu_items = {}
+			for i, v in pairs(sorted_colors) do
+				WFHud._color_menu_items[v] = MenuHelperPlus:AddColorButton({
+					id = "colors." .. v,
+					title = "menu_wfhud_colors_" .. v,
+					callback = "WFHud_color_value",
+					value = WFHud.settings.colors[v],
+					node_name = menu_ids.colors,
+					priority = 90 - i
+				})
+			end
 		end
 
 		MenuHelper:AddMenuItem(nodes["blt_options"], menu_ids.main, "menu_wfhud")

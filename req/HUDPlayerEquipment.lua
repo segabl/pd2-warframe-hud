@@ -16,7 +16,7 @@ function HUDPlayerEquipment:init(panel)
 		visible = false,
 		texture = "guis/textures/pd2/hud_tabs",
 		texture_rect = { 2, 34, 20, 17 },
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		w = 20 * hud_scale,
 		h = 17 * hud_scale
 	})
@@ -27,13 +27,13 @@ function HUDPlayerEquipment:init(panel)
 		text = "THERMAL DRILL",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 	})
 
 	self:_align_bag_text()
 
 	self._ammo_text = self._panel:text({
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		text = "30",
 		font = WFHud.fonts.large,
 		font_size = WFHud.font_sizes.huge * font_scale * hud_scale,
@@ -41,7 +41,7 @@ function HUDPlayerEquipment:init(panel)
 	})
 
 	self._total_ammo_text = self._panel:text({
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		text = "/ 120",
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
@@ -51,7 +51,7 @@ function HUDPlayerEquipment:init(panel)
 	self:_align_ammo_text()
 
 	self._weapon_name = self._panel:text({
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		text = "AMCAR RIFLE",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
@@ -59,7 +59,7 @@ function HUDPlayerEquipment:init(panel)
 	})
 
 	self._fire_mode_text = self._panel:text({
-		color = WFHud.colors.muted,
+		color = WFHud.settings.colors.muted,
 		text = "AUTO",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
@@ -68,8 +68,8 @@ function HUDPlayerEquipment:init(panel)
 
 	self:_align_weapon_text()
 
-	self._equipment_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), 24 * hud_scale, 24 * hud_scale, WFHud.colors.default)
-	self._item_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), self._panel:w(), 24 * hud_scale, WFHud.colors.default)
+	self._equipment_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), 24 * hud_scale, 24 * hud_scale, WFHud.settings.colors.default)
+	self._item_list = HUDIconList:new(self._panel, 0, self._fire_mode_text:bottom(), self._panel:w(), 24 * hud_scale, WFHud.settings.colors.default)
 
 	self:_align_equipment()
 
@@ -82,7 +82,7 @@ function HUDPlayerEquipment:init(panel)
 
 	self._stamina_bar_bg = self._stamina_panel:bitmap({
 		texture = "guis/textures/wfhud/bar",
-		color = WFHud.colors.bg:with_alpha(0.5),
+		color = WFHud.settings.colors.bg:with_alpha(0.5),
 		w = self._stamina_panel:w(),
 		h = self._stamina_panel:h(),
 		layer = -1
@@ -90,13 +90,13 @@ function HUDPlayerEquipment:init(panel)
 
 	self._stamina_bar = self._stamina_panel:bitmap({
 		texture = "guis/textures/wfhud/bar",
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		w = self._stamina_panel:w(),
 		h = self._stamina_panel:h()
 	})
 
 	self._stamina_text = self._panel:text({
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		text = "50",
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,

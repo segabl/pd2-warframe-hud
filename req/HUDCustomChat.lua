@@ -82,7 +82,7 @@ function HUDCustomChat:_create_input_panel()
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.small * hud_scale * font_scale,
 		text = managers.localization:to_upper_text("hud_chat_send_message"),
-		color = WFHud.colors.default:with_alpha(0.5),
+		color = WFHud.settings.colors.default:with_alpha(0.5),
 		vertical = "center"
 	})
 
@@ -91,12 +91,12 @@ function HUDCustomChat:_create_input_panel()
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.small * hud_scale * font_scale,
 		text = "",
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		vertical = "center"
 	})
 
 	self._caret = self._input_panel:rect({
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		w = 2,
 		h = self._input_panel:h() - 6,
 		y = 3
@@ -112,13 +112,13 @@ function HUDCustomChat:_create_output_panel()
 
 	self._scrollbar_bg = self._component_panel:rect({
 		layer = -1,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		alpha = 0.1,
 		w = 12 * chat_scale
 	})
 
 	self._scrollbar = self._component_panel:rect({
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		alpha = 0.8,
 		w = self._scrollbar_bg:w()
 	})
@@ -137,7 +137,7 @@ function HUDCustomChat:_create_status_panel()
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.small * hud_scale * font_scale,
 		text = Input:keyboard():button_name_str(Idstring(chat_key)):upper(),
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		vertical = "center"
 	})
 	local _, _, w, h = text:text_rect()
@@ -505,7 +505,7 @@ function HUDCustomChat:_add_message(lines_panel, line_text, color_ranges)
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.small * hud_scale * font_scale,
 		text = line_text,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		word_wrap = true,
 		wrap = true
 	})
@@ -560,7 +560,7 @@ function HUDCustomChat:receive_message(name, message, color)
 		local time_name = (time_functions[timestamp] and time_functions[timestamp]() or "") .. name
 		line_text = string.format("%s:\r%s", time_name, msg)
 		color_ranges = {
-			0, utf8.len(time_name), WFHud.settings.chat.use_peer_colors and color or private and WFHud.colors.private_chat or WFHud.colors.squad_chat
+			0, utf8.len(time_name), WFHud.settings.chat.use_peer_colors and color or private and WFHud.settings.colors.private_chat or WFHud.settings.colors.squad_chat
 		}
 	end
 

@@ -24,8 +24,8 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simp
 
 	self._set_data_instant = true
 
-	self._health_color = WFHud.colors.health
-	self._shield_color = WFHud.colors.shield
+	self._health_color = WFHud.settings.colors.health
+	self._shield_color = WFHud.settings.colors.shield
 
 	self._panel = panel:panel({
 		x = x,
@@ -47,7 +47,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simp
 		})
 
 		self._armor_text = self._panel:text({
-			color = WFHud.colors.shield,
+			color = WFHud.settings.colors.shield,
 			text = "100",
 			font = text_size > WFHud.font_sizes.default * font_scale * hud_scale and WFHud.fonts.large or WFHud.fonts.default,
 			font_size = text_size,
@@ -74,7 +74,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simp
 		self._health_bar_cap_l = self._panel:bitmap({
 			texture = "guis/textures/wfhud/bar_caps",
 			texture_rect = { 0, 0, 32, 32 },
-			color = WFHud.colors.default,
+			color = WFHud.settings.colors.default,
 			w = height,
 			h = height,
 			layer = 2
@@ -83,7 +83,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simp
 		self._health_bar_cap_r = self._panel:bitmap({
 			texture = "guis/textures/wfhud/bar_caps",
 			texture_rect = { 32, 0, -32, 32 },
-			color = WFHud.colors.default,
+			color = WFHud.settings.colors.default,
 			w = height,
 			h = height,
 			layer = 2
@@ -100,14 +100,14 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simp
 
 	if simple then
 		self._armor_bar = self._panel:rect({
-			color = WFHud.colors.shield,
+			color = WFHud.settings.colors.shield,
 			w = 0,
 			h = height
 		})
 	else
 		self._armor_bar = self._panel:bitmap({
 			texture = "guis/textures/wfhud/bar",
-			color = WFHud.colors.shield,
+			color = WFHud.settings.colors.shield,
 			w = 0,
 			h = height
 		})
@@ -116,7 +116,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simp
 	self._armor_loss_indicator = panel:bitmap({
 		alpha = 0,
 		texture = "guis/textures/wfhud/bar",
-		color = WFHud.colors.shield,
+		color = WFHud.settings.colors.shield,
 		h = height * 6,
 		layer = 2
 	})
@@ -125,7 +125,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simp
 		visible = false,
 		texture = "guis/textures/wfhud/shield_overlay",
 		blend_mode = "add",
-		color = WFHud.colors.shield,
+		color = WFHud.settings.colors.shield,
 		alpha = 0.5,
 		w = 0,
 		h = height,
@@ -136,7 +136,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simp
 		visible = false,
 		texture = "guis/textures/wfhud/shield_overlay",
 		blend_mode = "add",
-		color = WFHud.colors.shield,
+		color = WFHud.settings.colors.shield,
 		alpha = 0.5,
 		w = 0,
 		h = height,
@@ -145,7 +145,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simp
 
 	if simple then
 		self._bg_bar = self._panel:rect({
-			color = WFHud.colors.bg:with_alpha(0.5),
+			color = WFHud.settings.colors.bg:with_alpha(0.5),
 			w = has_caps and width - height * 0.5 or width,
 			h = height * 0.85,
 			layer = -1
@@ -153,7 +153,7 @@ function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simp
 	else
 		self._bg_bar = self._panel:bitmap({
 			texture = "guis/textures/wfhud/bar",
-			color = WFHud.colors.bg:with_alpha(0.5),
+			color = WFHud.settings.colors.bg:with_alpha(0.5),
 			w = has_caps and width - height * 0.5 or width,
 			h = height * 0.85,
 			layer = -1
@@ -258,7 +258,7 @@ function HUDHealthBar:set_invulnerable(state)
 end
 
 function HUDHealthBar:set_health_color(color)
-	self._health_color = color or WFHud.colors.health
+	self._health_color = color or WFHud.settings.colors.health
 
 	local avg = (self._health_color.r + self._health_color.g + self._health_color.b) / 3
 	self._health_color_invul = Color(avg, avg, avg)
@@ -272,7 +272,7 @@ function HUDHealthBar:set_health_color(color)
 end
 
 function HUDHealthBar:set_shield_color(color)
-	self._shield_color = color or WFHud.colors.shield
+	self._shield_color = color or WFHud.settings.colors.shield
 
 	local avg = (self._shield_color.r + self._shield_color.g + self._shield_color.b) / 3
 	self._shield_color_invul = Color(avg, avg, avg)

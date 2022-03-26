@@ -209,13 +209,13 @@ function HUDManager:add_waypoint(id, data, ...)
 	ratio = wp_data.bitmap:h() / wp_data.bitmap:w()
 	if bg_visible then
 		wp_data.bitmap:set_size(ratio < 1 and icon_size or icon_size / ratio, ratio < 1 and icon_size * ratio or icon_size)
-		wp_data.bitmap:set_color((data.color or WFHud.colors.default):with_alpha(1))
+		wp_data.bitmap:set_color((data.color or WFHud.settings.colors.default):with_alpha(1))
 		wp_data.size = Vector3(wp_size, wp_size)
 	end
 
 	ratio = wp_data.arrow:h() / wp_data.arrow:w()
 	wp_data.arrow:set_size(ratio < 1 and icon_size or icon_size / ratio, ratio < 1 and icon_size * ratio or icon_size)
-	wp_data.arrow:set_color((data.color or WFHud.colors.default):with_alpha(1))
+	wp_data.arrow:set_color((data.color or WFHud.settings.colors.default):with_alpha(1))
 
 	wp_data.text:set_font(WFHud.font_ids.default)
 	wp_data.text:set_font_size(WFHud.font_sizes.small * font_scale * hud_scale)
@@ -238,7 +238,7 @@ function HUDManager:add_waypoint(id, data, ...)
 		texture_rect = { 96, 0, 48, 48 },
 		w = wp_size,
 		h = wp_size,
-		color = data.color or WFHud.colors.default
+		color = data.color or WFHud.settings.colors.default
 	})
 end
 

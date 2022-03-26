@@ -28,7 +28,7 @@ function HUDInteractDisplay:init(panel)
 		align = "center",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default
+		color = WFHud.settings.colors.default
 	})
 
 	self._interact_text_active = self._panel:text({
@@ -37,7 +37,7 @@ function HUDInteractDisplay:init(panel)
 		align = "center",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.default
+		color = WFHud.settings.colors.default
 	})
 
 	self._interact_text_invalid = self._panel:text({
@@ -46,7 +46,7 @@ function HUDInteractDisplay:init(panel)
 		align = "center",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.default * font_scale * hud_scale,
-		color = WFHud.colors.debuff
+		color = WFHud.settings.colors.debuff
 	})
 
 	self:_layout()

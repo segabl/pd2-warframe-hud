@@ -28,7 +28,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		align = "right",
 		vertical = "bottom",
 		text = "0",
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		layer = 1,
@@ -59,7 +59,7 @@ function HUDPlayerPanel:init(panel, main_player)
 
 	self._level_bar_bg = self._level_panel:bitmap({
 		texture = "guis/textures/wfhud/bar",
-		color = WFHud.colors.bg:with_alpha(0.5),
+		color = WFHud.settings.colors.bg:with_alpha(0.5),
 		w = self._level_panel:w(),
 		h = self._level_panel:h(),
 		layer = -1
@@ -67,7 +67,7 @@ function HUDPlayerPanel:init(panel, main_player)
 
 	self._level_bar = self._level_panel:bitmap({
 		texture = "guis/textures/wfhud/bar",
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		w = self._level_panel:w(),
 		h = self._level_panel:h()
 	})
@@ -105,7 +105,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		text = "[100]",
 		font = WFHud.fonts.bold,
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		align = "right",
 		y = main_player and self._health_bar:bottom() or self._level_panel:bottom(),
 		w = self._level_panel:right() - self._peer_id_panel:w() - (main_player and 8 or 4) * font_scale,
@@ -116,7 +116,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		text = "Player",
 		font = WFHud.fonts.default,
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
-		color = WFHud.colors.default,
+		color = WFHud.settings.colors.default,
 		align = "right",
 		y = main_player and self._health_bar:bottom() or self._level_panel:bottom(),
 		w = self._level_panel:right() - self._peer_id_panel:w() - (main_player and 8 or 4) * font_scale,
@@ -130,7 +130,7 @@ end
 
 function HUDPlayerPanel:set_peer_id(id)
 	self._peer_id_text:set_text(tostring(id))
-	self._peer_id_bg:set_color(WFHud.settings.player_panels.use_peer_colors and tweak_data.chat_colors[id] or WFHud.colors.default)
+	self._peer_id_bg:set_color(WFHud.settings.player_panels.use_peer_colors and tweak_data.chat_colors[id] or WFHud.settings.colors.default)
 
 	if self._is_main_player then
 		return
