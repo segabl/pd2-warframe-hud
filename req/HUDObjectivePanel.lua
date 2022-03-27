@@ -197,12 +197,15 @@ function HUDObjectivePanel:_animate_show_text(text)
 	text:set_w(w)
 end
 
-function HUDObjectivePanel:_animate_show_subtitle(duration, panel)
+function HUDObjectivePanel:_animate_show_subtitle(panel, lines)
 	panel:set_alpha(0)
 	over(0.1, function (t)
 		panel:set_alpha(t)
 	end)
-	wait(duration)
+	for _, line in pairs(lines) do
+		self._subtitle_text:set_text(line[1])
+		wait(line[2])
+	end
 	over(0.1, function (t)
 		panel:set_alpha(1 - t)
 	end)
@@ -317,14 +320,24 @@ function HUDObjectivePanel:set_vip(buff)
 end
 
 function HUDObjectivePanel:set_subtitle(speaker, text, duration)
-	local loc_id = speaker and "hud_sub_name_" .. speaker
-	local name = loc_id and managers.localization:exists(loc_id) and managers.localization:to_upper_text(loc_id) or speaker and speaker:upper() or ""
-
-	self._subtitle_name:set_text(name)
-	self._subtitle_name:set_color(HUDObjectivePanel.CHARACTER_COLORS[speaker] or HUDObjectivePanel.CHARACTER_COLORS.default)
-	self._subtitle_text:set_text(text or "")
 	self._subtitle_panel:stop()
-	self._subtitle_panel:animate(callback(self, self, "_animate_show_subtitle", duration or 3))
+
+	if not speaker or not text then
+		self._subtitle_panel:set_alpha(0)
+		return
+	end
+
+	local split_text = text:split("%s*%c+%s*")
+	local lines = {}
+	for _, line in pairs(split_text) do
+		table.insert(lines, { line, #split_text + duration * (line:len() / text:len()) })
+	end
+	self._subtitle_text:set_text(lines[1][1])
+
+	local loc_id = "hud_sub_name_" .. speaker
+	self._subtitle_name:set_text(managers.localization:exists(loc_id) and managers.localization:to_upper_text(loc_id) or speaker:upper())
+	self._subtitle_name:set_color(HUDObjectivePanel.CHARACTER_COLORS[speaker] or HUDObjectivePanel.CHARACTER_COLORS.default)
+	self._subtitle_panel:animate(callback(self, self, "_animate_show_subtitle"), lines)
 end
 
 function HUDObjectivePanel:destroy()

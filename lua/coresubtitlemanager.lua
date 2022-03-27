@@ -7,7 +7,7 @@ end)
 
 Hooks:PostHook(SubtitleManager, "show_subtitle", "show_subtitle_wfhud", function (self, string_id, duration, macros, ...)
 	if self._show_subtitles and not Utils:IsInLoadingState() and _G.WFHud.objective_panel then
-		_G.WFHud.objective_panel:set_subtitle(string_id:match("^(.-)_"), managers.localization:text(string_id, macros), duration)
+		_G.WFHud.objective_panel:set_subtitle(string_id:match("^(.-)_"), managers.localization:text(string_id, macros), duration or 3)
 	end
 end)
 
