@@ -535,8 +535,8 @@ function HUDCustomChat:_add_message(lines_panel, line_text, color_ranges)
 end
 
 local time_functions = {
-	[1] = function () return os.date("[%H:%M]\r") end,
-	[2] = function () return os.date("[%I:%M %p]\r") end,
+	[1] = function () return os.date("[%H:%M] ") end,
+	[2] = function () return os.date("[%I:%M %p] ") end,
 	[3] = function ()
 		local time = math.floor(managers.game_play_central:get_heist_timer())
 		local hours = math.floor(time / 3600)
@@ -544,7 +544,7 @@ local time_functions = {
 		local minutes = math.floor(time / 60)
 		time = time - minutes * 60
 		local seconds = math.round(time)
-		return hours > 0 and string.format("[%02u:%02u:%02u]\r", hours, minutes, seconds) or string.format("[%02u:%02u]\r", minutes, seconds)
+		return hours > 0 and string.format("[%02u:%02u:%02u] ", hours, minutes, seconds) or string.format("[%02u:%02u] ", minutes, seconds)
 	end
 }
 function HUDCustomChat:receive_message(name, message, color)
@@ -558,7 +558,7 @@ function HUDCustomChat:receive_message(name, message, color)
 
 		local timestamp = WFHud.settings.chat.timestamps
 		local time_name = (time_functions[timestamp] and time_functions[timestamp]() or "") .. name
-		line_text = string.format("%s:\r%s", time_name, msg)
+		line_text = string.format("%s: %s", time_name, msg)
 		color_ranges = {
 			0, utf8.len(time_name), WFHud.settings.chat.use_peer_colors and color or private and WFHud.settings.colors.private_chat or WFHud.settings.colors.squad_chat
 		}

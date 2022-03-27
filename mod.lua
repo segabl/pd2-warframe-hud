@@ -579,6 +579,8 @@ if not WFHud then
 		self.fonts.boss = tweak_data.menu.pd2_large_font
 
 		self.font_ids = table.remap(self.fonts, function (k, v) return k, Idstring(v) end)
+
+		self.use_default_fonts = true
 	end
 
 	Hooks:Add("LocalizationManagerPostInit", "LocalizationManagerPostInitWFHud", function(loc)

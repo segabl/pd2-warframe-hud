@@ -19,7 +19,7 @@ function HUDBossBar:init(panel, y)
 		text = "THE BOSS",
 		font = WFHud.fonts.boss,
 		font_size = WFHud.font_sizes.huge * font_scale * hud_scale * 0.75,
-		kern = -12,
+		kern = not WFHud.use_default_fonts and -12,
 		color = WFHud.settings.colors.boss
 	})
 	self._name_text:set_h(self._name_text:font_size())
