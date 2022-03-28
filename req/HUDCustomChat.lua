@@ -114,7 +114,7 @@ function HUDCustomChat:_create_output_panel()
 		layer = -1,
 		color = WFHud.settings.colors.default,
 		alpha = 0.1,
-		w = 12 * chat_scale
+		w = 10 * chat_scale
 	})
 
 	self._scrollbar = self._component_panel:rect({
@@ -582,6 +582,9 @@ function HUDCustomChat:mouse_move(o, x, y)
 		end
 
 		self:_layout()
+	elseif self._panel_scroll then
+		self._scroll_offset = 1 - math.clamp((y - self._scrollbar_bg:world_y() - self._panel_scroll_offset) / (self._scrollbar_bg:h() - self._scrollbar:h()), 0, 1)
+		self:_layout_output()
 	elseif self._panel_move then
 		self._panel:set_x(math.clamp(x + self._panel_move_offset_x, 0, self._panel:parent():w() - self._panel:w()))
 		self._panel:set_y(math.clamp(y + self._panel_move_offset_y, 0, self._panel:parent():h() - self._panel:h()))
@@ -594,17 +597,20 @@ function HUDCustomChat:mouse_press(o, button, x, y)
 			self._button_pressed = self._minimize_button
 		elseif self._resize_top_button:inside(x, y) then
 			self._panel_resize = "top"
-			self._panel_resize_offset_x = self._panel:right() - x
-			self._panel_resize_offset_y = y - self._panel:y()
-			self._panel_resize_pos = self._panel:bottom()
+			self._panel_resize_offset_x = self._panel:world_right() - x
+			self._panel_resize_offset_y = y - self._panel:world_y()
+			self._panel_resize_pos = self._panel:world_bottom()
 		elseif self._resize_bottom_button:inside(x, y) then
 			self._panel_resize = "bottom"
-			self._panel_resize_offset_x = self._panel:right() - x
-			self._panel_resize_offset_y = self._panel:bottom() - y
+			self._panel_resize_offset_x = self._panel:world_right() - x
+			self._panel_resize_offset_y = self._panel:world_bottom() - y
+		elseif self._scrollbar:inside(x, y) then
+			self._panel_scroll = true
+			self._panel_scroll_offset = y - self._scrollbar:world_y()
 		elseif x > self._panel:world_x() + 12 * chat_scale and x < self._minimize_button:world_x() and y > self._panel:world_y() and y < self._panel:world_y() + 32 * chat_scale then
 			self._panel_move = true
-			self._panel_move_offset_x = self._panel:x() - x
-			self._panel_move_offset_y = self._panel:y() - y
+			self._panel_move_offset_x = self._panel:world_x() - x
+			self._panel_move_offset_y = self._panel:world_y() - y
 		end
 	elseif button == Idstring("mouse wheel up") then
 		local amount = self._lines_panel:num_children() > 0 and self._lines_panel:child(0):line_height() / (self._lines_panel:h() - self._output_panel:h()) or 0
@@ -635,6 +641,7 @@ function HUDCustomChat:mouse_release(o, button, x, y)
 	self._button_pressed = nil
 	self._panel_resize = nil
 	self._panel_move = nil
+	self._panel_scroll = nil
 end
 
 function HUDCustomChat:update(t, dt)
