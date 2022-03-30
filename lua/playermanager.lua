@@ -61,7 +61,7 @@ end)
 
 
 Hooks:PostHook(PlayerManager, "set_damage_absorption", "set_damage_absorption_wfhud", function (self, key, value)
-	if value > 0 then
+	if type(value) == "number" and value > 0 then
 		WFHud:add_buff("damage", key, WFHud.value_format.damage(value))
 	else
 		WFHud:remove_buff("damage", key)
