@@ -200,7 +200,7 @@ if not WFHud then
 		local proc
 		if attack_data.variant == "fire" and managers.fire:is_set_on_fire(unit) then
 			proc = "heat"
-		elseif unit:character_damage()._has_plate and col_ray.body and col_ray.body:name() == unit:character_damage()._ids_plate_name then
+		elseif col_ray.body and col_ray.body:name() == unit:character_damage()._ids_plate_name then
 			proc = "puncture"
 		else
 			local result = attack_data.result and attack_data.result.type
