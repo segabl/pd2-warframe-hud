@@ -166,5 +166,3 @@ function HUDBossBar:set_unit(unit)
 
 	self._panel:animate(callback(self, self, "_animate_show"))
 end
-
-dofile(WFHud.mod_path .. "assets/boss/boss.lua")
