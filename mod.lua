@@ -263,12 +263,13 @@ if not WFHud then
 		if not icon_id then
 			return
 		end
+		icon_id = redirects[icon_id] or icon_id
 		local icon_id_level = icon_id .. "_" .. tostring(Global.game_settings.level_id)
-		local custom_texture = "guis/textures/wfhud/hud_icons/" .. (redirects[icon_id] or icon_id)
 		local custom_level_texture = "guis/textures/wfhud/hud_icons/" .. (redirects[icon_id_level] or icon_id_level)
 		if DB:has(ext_mapping.dds, Idstring(custom_level_texture)) then
 			return custom_level_texture
 		end
+		local custom_texture = "guis/textures/wfhud/hud_icons/" .. (redirects[icon_id] or icon_id)
 		if DB:has(ext_mapping.dds, Idstring(custom_texture)) then
 			return custom_texture
 		end
