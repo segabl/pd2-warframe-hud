@@ -185,15 +185,13 @@ end)
 
 
 -- waypoint stuff
-local wp_size = 32 * hud_scale
-local icon_size = wp_size * 0.5
-
 local add_waypoint_original = HUDManager.add_waypoint
 function HUDManager:add_waypoint(id, data, ...)
 	local string_id = tostring(id)
-	local bg_visible = not string_id:find("^susp") and (not CustomWaypoints or not string_id:find(CustomWaypoints.prefix))
+	local is_custom = CustomWaypoints and string_id:find(CustomWaypoints.prefix)
+	local bg_visible = not string_id:find("^susp") and not is_custom
 
-	data.blend_mode = bg_visible and "normal" or data.blend_mode
+	data.blend_mode = (bg_visible or is_custom) and "normal" or data.blend_mode
 	data.radius = data.radius or 200
 
 	add_waypoint_original(self, id, data, ...)
@@ -204,13 +202,19 @@ function HUDManager:add_waypoint(id, data, ...)
 	end
 
 	local ratio
+	local wp_size = 32 * hud_scale
+	local icon_size = wp_size * 0.5
 	local wp_data = self._hud.waypoints[id]
+
+	wp_data.current_position = Vector3()
 
 	ratio = wp_data.bitmap:h() / wp_data.bitmap:w()
 	if bg_visible then
-		wp_data.bitmap:set_size(ratio < 1 and icon_size or icon_size / ratio, ratio < 1 and icon_size * ratio or icon_size)
 		wp_data.bitmap:set_color((data.color or WFHud.settings.colors.default):with_alpha(1))
+		wp_data.bitmap:set_size(ratio < 1 and icon_size or icon_size / ratio, ratio < 1 and icon_size * ratio or icon_size)
 		wp_data.size = Vector3(wp_size, wp_size)
+	elseif is_custom then
+		wp_data.bitmap:set_color((data.color or WFHud.settings.colors.default):with_alpha(1))
 	end
 
 	ratio = wp_data.arrow:h() / wp_data.arrow:w()
@@ -278,34 +282,57 @@ Hooks:PreHook(HUDManager, "remove_waypoint", "remove_waypoint_wfhud", function (
 	waypoint_panel:remove(wp_data.bg)
 end)
 
+local mvec_dot = mvector3.dot
 local mvec_norm = mvector3.normalize
 local mvec_set = mvector3.set
+local mvec_set_static = mvector3.set_static
 local mvec_sub = mvector3.subtract
-local wp_pos = Vector3()
 local wp_dir = Vector3()
 local wp_dir_normalized = Vector3()
-local wp_cam_forward = Vector3()
 local wp_onscreen_direction = Vector3()
 local wp_onscreen_target_pos = Vector3()
+local wp_pos = Vector3()
 
 -- all this just to disable scale change :(
 Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 	local cam = managers.viewport:get_current_camera()
-
 	if not cam then
 		return
 	end
 
 	local cam_pos = managers.viewport:get_current_camera_position()
-	local cam_rot = managers.viewport:get_current_camera_rotation()
-
-	mrotation.y(cam_rot, wp_cam_forward)
+	local cam_forward = managers.viewport:get_current_camera_rotation():y()
+	local player = managers.player:local_player()
+	local in_steelsight = player and player:movement():current_state():in_steelsight() and true or false
 
 	for _, data in pairs(self._hud.waypoints) do
 		local panel = data.bitmap:parent()
 
+		if data.steelsight ~= in_steelsight then
+			data.steelsight = in_steelsight
+			data.bitmap:stop()
+			data.bitmap:animate(function ()
+				local start_alpha = data.bitmap:alpha()
+				local target_alpha = in_steelsight and 0 or 1
+				wait(in_steelsight and 0.5 or 0)
+				over(math.abs(target_alpha - start_alpha) * 0.5, function (t)
+					local a = math.lerp(start_alpha, target_alpha, t)
+					data.bitmap:set_alpha(a)
+					data.bg:set_alpha(a)
+					data.text:set_alpha(a)
+					data.arrow:set_alpha(a)
+					if data.distance then
+						data.distance:set_alpha(a)
+					end
+					if data.timer_gui then
+						data.timer_gui:set_alpha(a)
+					end
+				end)
+			end)
+		end
+
 		if data.state == "sneak_present" then
-			data.current_position = Vector3(panel:center_x(), panel:center_y())
+			mvec_set_static(data.current_position, panel:center_x(), panel:center_y())
 
 			data.bitmap:set_center(data.current_position.x, data.current_position.y)
 			data.bg:set_center(data.current_position.x, data.current_position.y)
@@ -318,7 +345,7 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 				data.distance:set_visible(true)
 			end
 		elseif data.state == "present" then
-			data.current_position = Vector3(panel:center_x() + data.slot_x, panel:center_y() + panel:center_y() / 2)
+			mvec_set_static(data.current_position, panel:center_x() + data.slot_x, panel:center_y() + panel:center_y() / 2, 0)
 
 			data.bitmap:set_center(data.current_position.x, data.current_position.y)
 			data.bg:set_center(data.current_position.x, data.current_position.y)
@@ -345,9 +372,7 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 			mvec_set(wp_dir_normalized, wp_dir)
 			mvec_norm(wp_dir_normalized)
 
-			local dot = mvector3.dot(wp_cam_forward, wp_dir_normalized)
-
-			if dot < 0 or panel:outside(mvector3.x(wp_pos), mvector3.y(wp_pos)) then
+			if mvec_dot(cam_forward, wp_dir_normalized) < 0 or panel:outside(mvector3.x(wp_pos), mvector3.y(wp_pos)) then
 				if data.state ~= "offscreen" then
 					data.state = "offscreen"
 
@@ -367,13 +392,13 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 				local direction = wp_onscreen_direction
 				local panel_center_x, panel_center_y = panel:center()
 
-				mvector3.set_static(direction, wp_pos.x - panel_center_x, wp_pos.y - panel_center_y, 0)
+				mvec_set_static(direction, wp_pos.x - panel_center_x, wp_pos.y - panel_center_y, 0)
 				mvec_norm(direction)
 
 				local distance = data.radius * tweak_data.scale.hud_crosshair_offset_multiplier
 				local target_pos = wp_onscreen_target_pos
 
-				mvector3.set_static(target_pos, panel_center_x + mvector3.x(direction) * distance, panel_center_y + mvector3.y(direction) * distance, 0)
+				mvec_set_static(target_pos, panel_center_x + mvector3.x(direction) * distance, panel_center_y + mvector3.y(direction) * distance, 0)
 
 				data.off_timer = math.clamp(data.off_timer + dt / data.move_speed, 0, 1)
 
