@@ -131,7 +131,7 @@ function HUDFloatingUnitLabel:update(t, dt)
 	elseif self._unit_dmg then
 		hp, max_hp = (self._unit_dmg._health or 10) * 10, (self._unit_dmg._HEALTH_INIT or self._unit_dmg._current_max_health or 10) * 10
 		armor, max_armor = 0, 0
-		invulnerable = self._unit_dmg._immortal or self._unit_dmg._invulnerable
+		invulnerable = self._unit_dmg._invulnerable
 	else
 		hp, max_hp = 1, 1
 		armor, max_armor = 0, 0

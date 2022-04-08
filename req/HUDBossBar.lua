@@ -96,7 +96,7 @@ function HUDBossBar:_clbk_unit_damaged(unit)
 	local max_hp = (char_dmg._HEALTH_INIT or char_dmg._current_max_health or 10) * 10
 
 	self._health_bar:set_data(hp, max_hp, 0, 0)
-	self._health_bar:set_invulnerable(char_dmg._immortal or char_dmg._invulnerable)
+	self._health_bar:set_invulnerable(char_dmg._invulnerable)
 
 	if hp <= 0 or char_dmg._dead then
 		self:set_unit(nil)
