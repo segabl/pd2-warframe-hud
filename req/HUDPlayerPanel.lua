@@ -92,7 +92,7 @@ function HUDPlayerPanel:init(panel, main_player)
 		text = "0",
 		font = WFHud.fonts.bold_no_shadow,
 		font_size = WFHud.font_sizes.tiny * font_scale * hud_scale,
-		color = Color.black:with_alpha(0.75),
+		color = WFHud.settings.colors.default:invert():with_alpha(0.75),
 		align = "center",
 		vertical = "center",
 		layer = 1

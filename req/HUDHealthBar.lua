@@ -259,9 +259,7 @@ end
 
 function HUDHealthBar:set_health_color(color)
 	self._health_color = color or WFHud.settings.colors.health
-
-	local avg = (self._health_color.r + self._health_color.g + self._health_color.b) / 3
-	self._health_color_invul = Color(avg, avg, avg)
+	self._health_color_invul = self._health_color:grayscale()
 
 	local use_color = self._invulnerable and self._health_color_invul or self._health_color
 	self._health_bar:set_color(use_color)
@@ -273,9 +271,7 @@ end
 
 function HUDHealthBar:set_shield_color(color)
 	self._shield_color = color or WFHud.settings.colors.shield
-
-	local avg = (self._shield_color.r + self._shield_color.g + self._shield_color.b) / 3
-	self._shield_color_invul = Color(avg, avg, avg)
+	self._shield_color_invul = self._shield_color:grayscale()
 
 	local use_color = self._invulnerable and self._shield_color_invul or self._shield_color
 	self._armor_bar:set_color(use_color)
