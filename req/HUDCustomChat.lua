@@ -134,7 +134,7 @@ function HUDCustomChat:_create_status_panel()
 	local chat_binding = connection_map.toggle_chat:get_input_name_list()
 	local chat_key = chat_binding and chat_binding[1] or "t"
 	local text = self._status_panel:text({
-		font = WFHud.fonts.default,
+		font = WFHud.fonts.default_no_shadow,
 		font_size = WFHud.font_sizes.small * hud_scale * font_scale,
 		text = Input:keyboard():button_name_str(Idstring(chat_key)):upper(),
 		color = WFHud.settings.colors.default,
@@ -550,7 +550,7 @@ local time_functions = {
 function HUDCustomChat:receive_message(name, message, color)
 	local peer = managers.chat._last_message_peer
 	local private, line_text, color_ranges
-	if not peer and (not name or name == managers.localization:to_upper_text("menu_system_message")) then
+	if not peer and (not name or name == "" or name == managers.localization:to_upper_text("menu_system_message")) then
 		line_text = message
 	else
 		local msg, subs = message:gsub("^%[PRIVATE%](.+)", "%1")
