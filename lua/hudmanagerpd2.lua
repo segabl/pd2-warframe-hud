@@ -184,14 +184,29 @@ Hooks:OverrideFunction(HUDManager, "pd_stop_progress", function (self)
 end)
 
 
+-- present hints as mid text
+function HUDManager:show_hint(params)
+	params.time = params.time or 2
+	params.is_hint = true
+	self:present_mid_text(params)
+end
+
+
 -- waypoint stuff
+if not WFHud.settings.waypoints then
+	return
+end
+
+local wp_size = 32 * hud_scale
+local icon_size = wp_size * 0.5
+
 local add_waypoint_original = HUDManager.add_waypoint
 function HUDManager:add_waypoint(id, data, ...)
 	local string_id = tostring(id)
 	local is_custom = CustomWaypoints and string_id:find(CustomWaypoints.prefix)
-	local bg_visible = not string_id:find("^susp") and not is_custom
+	local bg_visible = not string_id:find("^susp")
 
-	data.blend_mode = (bg_visible or is_custom) and "normal" or data.blend_mode
+	data.blend_mode = bg_visible and "normal" or data.blend_mode
 	data.radius = data.radius or 200
 
 	add_waypoint_original(self, id, data, ...)
@@ -202,8 +217,6 @@ function HUDManager:add_waypoint(id, data, ...)
 	end
 
 	local ratio
-	local wp_size = 32 * hud_scale
-	local icon_size = wp_size * 0.5
 	local wp_data = self._hud.waypoints[id]
 
 	wp_data.current_position = Vector3()
@@ -213,8 +226,6 @@ function HUDManager:add_waypoint(id, data, ...)
 		wp_data.bitmap:set_color((data.color or WFHud.settings.colors.default):with_alpha(1))
 		wp_data.bitmap:set_size(ratio < 1 and icon_size or icon_size / ratio, ratio < 1 and icon_size * ratio or icon_size)
 		wp_data.size = Vector3(wp_size, wp_size)
-	elseif is_custom then
-		wp_data.bitmap:set_color((data.color or WFHud.settings.colors.default):with_alpha(1))
 	end
 
 	ratio = wp_data.arrow:h() / wp_data.arrow:w()
@@ -234,21 +245,22 @@ function HUDManager:add_waypoint(id, data, ...)
 		wp_data.timer_gui:set_font_size(WFHud.font_sizes.small * font_scale * hud_scale)
 	end
 
-	wp_data.bg = hud.panel:bitmap({
-		visible = bg_visible,
-		layer = wp_data.bitmap:layer() - 1,
-		name = "bg" .. id,
-		texture = "guis/textures/wfhud/icons",
-		texture_rect = { 96, 0, 48, 48 },
-		w = wp_size,
-		h = wp_size,
-		color = data.color or WFHud.settings.colors.default
-	})
+	if bg_visible then
+		wp_data.bg = hud.panel:bitmap({
+			layer = wp_data.bitmap:layer() - 1,
+			name = "bg" .. id,
+			texture = "guis/textures/wfhud/icons",
+			texture_rect = { 96, 0, 48, 48 },
+			w = wp_size,
+			h = wp_size,
+			color = data.color or WFHud.settings.colors.default
+		})
+	end
 end
 
 Hooks:PostHook(HUDManager, "change_waypoint_icon", "change_waypoint_icon_wfhud", function (self, id)
 	local wp_data = self._hud.waypoints[id]
-	if not wp_data or not wp_data.bg:visible() then
+	if not wp_data or not wp_data.bg then
 		return
 	end
 
@@ -259,7 +271,7 @@ end)
 
 Hooks:PostHook(HUDManager, "change_waypoint_arrow_color", "change_waypoint_arrow_color_wfhud", function (self, id, color)
 	local wp_data = self._hud.waypoints[id]
-	if not wp_data or not wp_data.bg:visible() then
+	if not wp_data or not wp_data.bg then
 		return
 	end
 
@@ -269,7 +281,7 @@ end)
 
 Hooks:PreHook(HUDManager, "remove_waypoint", "remove_waypoint_wfhud", function (self, id)
 	local wp_data = self._hud.waypoints[id]
-	if not wp_data then
+	if not wp_data or not wp_data.bg then
 		return
 	end
 
@@ -311,22 +323,13 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 		if data.steelsight ~= in_steelsight then
 			data.steelsight = in_steelsight
 			data.bitmap:stop()
-			data.bitmap:animate(function ()
-				local start_alpha = data.bitmap:alpha()
+			data.bitmap:animate(function (o)
+				local start_alpha = o:alpha()
 				local target_alpha = in_steelsight and 0 or 1
 				wait(in_steelsight and 0.5 or 0)
 				over(math.abs(target_alpha - start_alpha) * 0.5, function (t)
 					local a = math.lerp(start_alpha, target_alpha, t)
-					data.bitmap:set_alpha(a)
-					data.bg:set_alpha(a)
-					data.text:set_alpha(a)
-					data.arrow:set_alpha(a)
-					if data.distance then
-						data.distance:set_alpha(a)
-					end
-					if data.timer_gui then
-						data.timer_gui:set_alpha(a)
-					end
+					o:set_alpha(a)
 				end)
 			end)
 		end
@@ -335,7 +338,6 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 			mvec_set_static(data.current_position, panel:center_x(), panel:center_y())
 
 			data.bitmap:set_center(data.current_position.x, data.current_position.y)
-			data.bg:set_center(data.current_position.x, data.current_position.y)
 
 			data.slot = nil
 			data.state = "present_ended"
@@ -348,7 +350,6 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 			mvec_set_static(data.current_position, panel:center_x() + data.slot_x, panel:center_y() + panel:center_y() / 2, 0)
 
 			data.bitmap:set_center(data.current_position.x, data.current_position.y)
-			data.bg:set_center(data.current_position.x, data.current_position.y)
 			data.text:set_center_x(data.bitmap:center_x())
 			data.text:set_top(data.bitmap:bottom())
 
@@ -414,7 +415,6 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 				end
 
 				data.bitmap:set_center(mvector3.x(data.current_position), mvector3.y(data.current_position))
-				data.bg:set_center(mvector3.x(data.current_position), mvector3.y(data.current_position))
 				data.arrow:set_center(mvector3.x(data.current_position) + direction.x * 24, mvector3.y(data.current_position) + direction.y * 24)
 
 				local angle = math.X:angle(direction) * math.sign(direction.y)
@@ -453,7 +453,6 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 				end
 
 				data.bitmap:set_center(mvector3.x(data.current_position), mvector3.y(data.current_position))
-				data.bg:set_center(mvector3.x(data.current_position), mvector3.y(data.current_position))
 
 				data.text:set_center_x(data.bitmap:center_x())
 				data.text:set_top(data.bitmap:bottom())
@@ -467,9 +466,24 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 			end
 		end
 
+		local alpha = data.bitmap:alpha()
+		data.text:set_alpha(alpha)
+		data.arrow:set_alpha(alpha)
+
+		if data.bg then
+			data.bg:set_center(data.bitmap:center())
+			data.bg:set_visible(data.bitmap:visible())
+			data.bg:set_alpha(alpha)
+		end
+
+		if data.distance then
+			data.distance:set_alpha(alpha)
+		end
+
 		if data.timer_gui then
 			data.timer_gui:set_center_x(data.bitmap:center_x())
 			data.timer_gui:set_bottom(data.bitmap:top())
+			data.timer_gui:set_alpha(alpha)
 
 			if data.pause_timer == 0 then
 				data.timer = data.timer - dt
@@ -479,11 +493,3 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 		end
 	end
 end)
-
-
--- present hints as mid text
-function HUDManager:show_hint(params)
-	params.time = params.time or 2
-	params.is_hint = true
-	self:present_mid_text(params)
-end

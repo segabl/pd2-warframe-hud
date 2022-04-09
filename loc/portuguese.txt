@@ -17,6 +17,8 @@
 	"menu_wfhud_health_labels_desc" : "Exibe barras de vida flutuando enquanto mira nos personagens",
 	"menu_wfhud_damage_popups" : "Pop up de Dano",
 	"menu_wfhud_damage_popups_desc" : "Exibe indicadores de dano flutuantes",
+	"menu_wfhud_waypoints" : "Waypoints",
+	"menu_wfhud_waypoints_desc" : "Enables the mod's custom waypoint icons",
 	"menu_wfhud_use_peer_colors" : "Usar cores dos jogadores",
 	"menu_wfhud_chat" : "Configurações do Chat",
 	"menu_wfhud_chat_enabled" : "Ativado",

@@ -17,6 +17,8 @@
 	"menu_wfhud_health_labels_desc" : "Zeigt schwebende Gesundheitsleisten an wenn auf Gegner gezielt wird",
 	"menu_wfhud_damage_popups" : "Schadnes-Popups",
 	"menu_wfhud_damage_popups_desc" : "Zeight schwebende Schadensanzeige an",
+	"menu_wfhud_waypoints" : "Wegpunkte",
+	"menu_wfhud_waypoints_desc" : "Aktiviert die modifizierten Wegpunkte",
 	"menu_wfhud_use_peer_colors" : "Benutze Peer-Farben",
 	"menu_wfhud_chat" : "Chateinstellungen",
 	"menu_wfhud_chat_enabled" : "Aktiviert",

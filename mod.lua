@@ -41,6 +41,7 @@ if not WFHud then
 		rare_mission_equipment = true,
 		health_labels = true,
 		damage_popups = true,
+		waypoints = true,
 		player_panels = {
 			show_deployables = true,
 			show_downs = false,
@@ -743,6 +744,16 @@ if not WFHud then
 			value = WFHud.settings.damage_popups,
 			menu_id = menu_ids.main,
 			priority = 76
+		})
+
+		MenuHelper:AddToggle({
+			id = "waypoints",
+			title = "menu_wfhud_waypoints",
+			desc = "menu_wfhud_waypoints_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.waypoints,
+			menu_id = menu_ids.main,
+			priority = 75
 		})
 
 		MenuHelper:AddDivider({

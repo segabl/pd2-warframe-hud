@@ -17,6 +17,8 @@
 	"menu_wfhud_health_labels_desc" : "캐릭터를 조준하고있을때 그 캐릭터의 체력을 표시해줍니다",
 	"menu_wfhud_damage_popups" : "데미지 팝업",
 	"menu_wfhud_damage_popups_desc" : "데미지나 피해량을 허드에 표시해줍니다. ",
+	"menu_wfhud_waypoints" : "Waypoints",
+	"menu_wfhud_waypoints_desc" : "Enables the mod's custom waypoint icons",
 	"menu_wfhud_use_peer_colors" : "피어 컬러 사용하기",
 	"menu_wfhud_chat" : "채팅 설정",
 	"menu_wfhud_chat_enabled" : "활성화",
