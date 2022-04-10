@@ -307,7 +307,7 @@ function HUDObjectivePanel:set_vip(buff)
 		end
 
 		self._vip_detail:set_text(managers.localization:to_upper_text("hud_objectives_damage_resistance", { NUM = buff }))
-		if not self._vip_detail:visible() then
+		if buff > 0 and not self._vip_detail:visible() then
 			self._vip_detail:animate(callback(self, self, "_animate_show_text"))
 		end
 	else
