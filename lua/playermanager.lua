@@ -127,6 +127,10 @@ local property_mapping = {
 		upgrade = "revive_damage_reduction",
 		value_function = WFHud.value_format.percentage_mul,
 		time_key = 2
+	},
+	bullet_storm = {
+		category = "player",
+		upgrade = "no_ammo_cost"
 	}
 }
 local function check_property(pm, name)
@@ -134,11 +138,18 @@ local function check_property(pm, name)
 	if not mapping then
 		return
 	end
-	local val = pm:get_property(name) or pm:get_temporary_property(name)
+	local time
+	local val = pm:get_property(name)
 	if val then
 		local data = pm:upgrade_value(mapping.category, mapping.upgrade)
-		local value_function = mapping.value_function or WFHud.value_format.default
-		WFHud:add_buff(mapping.category, mapping.upgrade, value_function(val), type(data) =="table" and data[mapping.time_key])
+		time = type(data) =="table" and data[mapping.time_key]
+	else
+		val = pm:get_temporary_property(name)
+		time = val and pm._temporary_properties._properties[name][2] - Application:time()
+	end
+	if val then
+		local value = mapping.value_function and mapping.value_function(val)
+		WFHud:add_buff(mapping.category, mapping.upgrade, value, time)
 	else
 		WFHud:remove_buff(mapping.category, mapping.upgrade)
 	end
