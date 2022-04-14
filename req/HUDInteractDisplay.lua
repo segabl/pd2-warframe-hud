@@ -149,7 +149,7 @@ function HUDInteractDisplay:update(t, dt)
 	local half_width = active_text:w() * 0.5 + active_text:x()
 	local half_height = self._interact_text:font_size() * 0.5
 
-	local unit = managers.interaction:active_unit()
+	local unit = WFHud.settings.world_interactions and managers.interaction:active_unit()
 	local pos = unit and unit:interaction():interact_position()
 	if pos then
 		local cam = managers.viewport:get_current_camera()

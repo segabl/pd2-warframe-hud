@@ -19,6 +19,8 @@
 	"menu_wfhud_damage_popups_desc" : "敌人被击中时显示伤害数值并弹出",
 	"menu_wfhud_waypoints" : "Waypoints",
 	"menu_wfhud_waypoints_desc" : "Enables the mod's custom waypoint icons",
+	"menu_wfhud_world_interactions" : "World-space interactions",
+	"menu_wfhud_world_interactions_desc" : "Shows interaction text at the location of the active interaction",
 	"menu_wfhud_use_peer_colors" : "使用该玩家颜色",
 	"menu_wfhud_chat" : "聊天设置",
 	"menu_wfhud_chat_enabled" : "启用",

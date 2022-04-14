@@ -19,6 +19,8 @@
 	"menu_wfhud_damage_popups_desc" : "데미지나 피해량을 허드에 표시해줍니다. ",
 	"menu_wfhud_waypoints" : "웨이포인트",
 	"menu_wfhud_waypoints_desc" : "모드사용자의 커스텀 웨이포인트 아이콘을 활성화합니다.",
+	"menu_wfhud_world_interactions" : "World-space interactions",
+	"menu_wfhud_world_interactions_desc" : "Shows interaction text at the location of the active interaction",
 	"menu_wfhud_use_peer_colors" : "피어 컬러 사용하기",
 	"menu_wfhud_chat" : "채팅 설정",
 	"menu_wfhud_chat_enabled" : "활성화",

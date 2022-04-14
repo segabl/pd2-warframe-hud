@@ -19,6 +19,8 @@
 	"menu_wfhud_damage_popups_desc" : "Zeight schwebende Schadensanzeige an",
 	"menu_wfhud_waypoints" : "Wegpunkte",
 	"menu_wfhud_waypoints_desc" : "Aktiviert die modifizierten Wegpunkte",
+	"menu_wfhud_world_interactions" : "World-Space Interaktionen",
+	"menu_wfhud_world_interactions_desc" : "Zeigt Interaktionstext am Ort der aktiven Interaction an",
 	"menu_wfhud_use_peer_colors" : "Benutze Peer-Farben",
 	"menu_wfhud_chat" : "Chateinstellungen",
 	"menu_wfhud_chat_enabled" : "Aktiviert",

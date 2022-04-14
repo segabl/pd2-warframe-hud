@@ -42,6 +42,7 @@ if not WFHud then
 		health_labels = true,
 		damage_popups = true,
 		waypoints = true,
+		world_interactions = true,
 		player_panels = {
 			show_deployables = true,
 			show_downs = false,
@@ -659,6 +660,16 @@ if not WFHud then
 			value = WFHud.settings.waypoints,
 			menu_id = menu_ids.main,
 			priority = 75
+		})
+
+		MenuHelper:AddToggle({
+			id = "world_interactions",
+			title = "menu_wfhud_world_interactions",
+			desc = "menu_wfhud_world_interactions_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.world_interactions,
+			menu_id = menu_ids.main,
+			priority = 74
 		})
 
 		MenuHelper:AddDivider({
