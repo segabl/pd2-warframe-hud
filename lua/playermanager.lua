@@ -162,9 +162,102 @@ Hooks:PostHook(PlayerManager, "activate_temporary_property", "activate_temporary
 Hooks:PostHook(PlayerManager, "add_to_temporary_property", "add_to_temporary_property_wfhud", check_property)
 
 
-local check_hostage_buffs = function ()	WFHud:check_hostage_buffs() end
-Hooks:PostHook(PlayerManager, "count_up_player_minions", "count_up_player_minions_wfhud", check_hostage_buffs)
-Hooks:PostHook(PlayerManager, "count_down_player_minions", "count_down_player_minions_wfhud", check_hostage_buffs)
+local categories = { "speed", "stamina", "critical_hit", "damage_dampener", "health", "armor" }
+function PlayerManager:check_hostage_buffs()
+	local mul
+	local minions = self:num_local_minions() or 0
+	local hostages =  managers.groupai:state()._hostage_headcount
+	local hostages_total = hostages + minions
+	local hostage_max_num
+
+	if hostages > 0 then
+		WFHud:add_buff("game", "hostages", hostages)
+	else
+		WFHud:remove_buff("game", "hostages")
+	end
+
+	for _, v in pairs(categories) do
+		hostage_max_num = math.min(hostages_total, tweak_data:get_raw_value("upgrades", "hostage_max_num", v) or hostages_total)
+
+		-- Multiplier bonuses
+		mul = 1 + (self:team_upgrade_value(v, "hostage_multiplier", 1) - 1) * hostage_max_num
+		if mul ~= 1 then
+			WFHud:add_buff(v, "hostage_multiplier", WFHud.value_format.percentage_mul(mul))
+		else
+			WFHud:remove_buff(v, "hostage_multiplier")
+		end
+
+		mul = 1 + (self:team_upgrade_value(v, "passive_hostage_multiplier", 1) - 1) * hostage_max_num
+		if mul ~= 1 then
+			WFHud:add_buff(v, "passive_hostage_multiplier", WFHud.value_format.percentage_mul(mul))
+		else
+			WFHud:remove_buff(v, "passive_hostage_multiplier")
+		end
+
+		mul = 1 + (self:upgrade_value("player", "hostage_" .. v .. "_multiplier", 1) - 1) * hostage_max_num
+		if mul ~= 1 then
+			WFHud:add_buff("player", "hostage_" .. v .. "_multiplier", WFHud.value_format.percentage_mul(mul))
+		else
+			WFHud:remove_buff("player", "hostage_" .. v .. "_multiplier")
+		end
+
+		mul = 1 + (self:upgrade_value("player", "passive_hostage_" .. v .. "_multiplier", 1) - 1) * hostage_max_num
+		if mul ~= 1 then
+			WFHud:add_buff("player", "passive_hostage_" .. v .. "_multiplier", WFHud.value_format.percentage_mul(mul))
+		else
+			WFHud:remove_buff("player", "passive_hostage_" .. v .. "_multiplier")
+		end
+
+		-- Additive bonuses
+		mul = self:team_upgrade_value(v, "hostage_addend", 0) * hostage_max_num
+		if mul ~= 0 then
+			WFHud:add_buff(v, "hostage_addend", mul)
+		else
+			WFHud:remove_buff(v, "hostage_addend")
+		end
+
+		mul = self:team_upgrade_value(v, "passive_hostage_addend", 0) * hostage_max_num
+		if mul ~= 0 then
+			WFHud:add_buff(v, "passive_hostage_addend", mul)
+		else
+			WFHud:remove_buff(v, "passive_hostage_addend")
+		end
+
+		mul = self:upgrade_value("player", "hostage_" .. v .. "_addend", 0) * hostage_max_num
+		if mul ~= 0 then
+			WFHud:add_buff("player", "hostage_" .. v .. "_addend", mul)
+		else
+			WFHud:remove_buff("player", "hostage_" .. v .. "_addend")
+		end
+
+		mul = self:upgrade_value("player", "passive_hostage_" .. v .. "_addend", 0) * hostage_max_num
+		if mul ~= 0 then
+			WFHud:add_buff("player", "passive_hostage_" .. v .. "_addend", mul)
+		else
+			WFHud:remove_buff("player", "passive_hostage_" .. v .. "_addend")
+		end
+	end
+
+	if minions > 0 then
+		WFHud:add_buff("player", "convert_enemies", minions)
+
+		mul = self:upgrade_value("player", "minion_master_speed_multiplier", 1)
+		if mul > 1 then
+			WFHud:add_buff("player", "minion_master_speed_multiplier", WFHud.value_format.percentage_mul(mul))
+		end
+		mul = self:upgrade_value("player", "minion_master_health_multiplier", 1)
+		if mul > 1 then
+			WFHud:add_buff("player", "minion_master_health_multiplier", WFHud.value_format.percentage_mul(mul))
+		end
+	else
+		WFHud:remove_buff("player", "convert_enemies")
+		WFHud:remove_buff("player", "minion_master_speed_multiplier")
+		WFHud:remove_buff("player", "minion_master_health_multiplier")
+	end
+end
+
+Hooks:PostHook(PlayerManager, "count_up_player_minions", "count_up_player_minions_wfhud", PlayerManager.check_hostage_buffs)
+Hooks:PostHook(PlayerManager, "count_down_player_minions", "count_down_player_minions_wfhud", PlayerManager.check_hostage_buffs)
 
 
 Hooks:PostHook(PlayerManager, "on_damage_dealt", "on_damage_dealt_wfhud", function (self, unit, attack_data)
