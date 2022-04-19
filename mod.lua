@@ -727,7 +727,7 @@ if not WFHud then
 		-- Chat
 		MenuHelper:AddToggle({
 			id = "chat.enabled",
-			title = "menu_wfhud_chat_enabled",
+			title = "menu_wfhud_enabled",
 			desc = "menu_wfhud_chat_enabled_desc",
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.chat.enabled,
