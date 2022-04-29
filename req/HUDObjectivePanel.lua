@@ -2,7 +2,7 @@ local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
 ---@class HUDObjectivePanel
----@field new fun():HUDObjectivePanel
+---@field new fun(self, panel, x, y):HUDObjectivePanel
 HUDObjectivePanel = HUDObjectivePanel or WFHud:panel_class()
 
 HUDObjectivePanel.ICON_SIZE = 24 * hud_scale

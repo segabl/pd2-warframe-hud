@@ -2,7 +2,7 @@ local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
 ---@class HUDHealthBar
----@field new fun():HUDHealthBar
+---@field new fun(self, panel, x, y, width, height, text_size, has_caps, simple):HUDHealthBar
 HUDHealthBar = HUDHealthBar or WFHud:panel_class()
 
 HUDHealthBar.RIGHT_TO_LEFT = 1

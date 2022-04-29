@@ -3,7 +3,7 @@ local font_scale = WFHud.settings.font_scale
 local chat_scale = hud_scale * font_scale * 0.75
 
 ---@class HUDCustomChat
----@field new fun():HUDCustomChat
+---@field new fun(self, ws, panel):HUDCustomChat
 HUDCustomChat = HUDCustomChat or WFHud:panel_class()
 
 HUDCustomChat.MESSAGE_DISPLAY_TIME = 10

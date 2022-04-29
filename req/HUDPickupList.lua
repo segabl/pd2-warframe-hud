@@ -2,7 +2,7 @@ local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
 ---@class HUDPickup
----@field new fun():HUDPickup
+---@field new fun(self, panel, id, icon, icon_rect, amount, item):HUDPickup
 HUDPickup = HUDPickup or WFHud:panel_class()
 
 HUDPickup.ICON_SIZE = WFHud.font_sizes.default * font_scale * hud_scale
@@ -99,7 +99,7 @@ end
 
 
 ---@class HUDPickupList
----@field new fun():HUDPickupList
+---@field new fun(self, panel):HUDPickupList
 HUDPickupList = HUDPickupList or WFHud:panel_class()
 
 function HUDPickupList:init(panel)

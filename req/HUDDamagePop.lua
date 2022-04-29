@@ -7,7 +7,7 @@ local mvec_set = mvector3.set
 local tmp_vec = Vector3()
 
 ---@class HUDDamagePop
----@field new fun():HUDDamagePop
+---@field new fun(self, panel, pos, damage, proc_type, is_crit, is_headshot):HUDDamagePop
 HUDDamagePop = HUDDamagePop or WFHud:panel_class()
 
 HUDDamagePop.ALPHA_CURVE = { 1, 1, 0.5, 0 }
