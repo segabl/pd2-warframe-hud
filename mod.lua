@@ -200,8 +200,10 @@ if not WFHud then
 		local pos = not attack_data.fire_dot_data and (col_ray.position or col_ray.hit_position or attack_data.pos) or mvector3.copy(unit:movement():m_stand_pos())
 
 		local proc
-		if attack_data.variant == "fire" and managers.fire:is_set_on_fire(unit) then
+		if attack_data.variant == "fire" then
 			proc = "heat"
+		elseif attack_data.variant == "poison" then
+			proc = "toxin"
 		elseif col_ray.body and col_ray.body:name() == unit:character_damage()._ids_plate_name then
 			proc = "puncture"
 		else
