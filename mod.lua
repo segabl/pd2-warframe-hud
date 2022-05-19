@@ -441,6 +441,7 @@ if not WFHud then
 		end
 
 		-- Create custom mappings
+		self.skill_map.player = self.skill_map.player or {}
 		self.skill_map.player.stoic_dot = {
 			key = "player.stoic_dot",
 			name_id = "hud_dot",
