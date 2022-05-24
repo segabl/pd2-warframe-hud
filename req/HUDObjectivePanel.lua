@@ -328,6 +328,10 @@ function HUDObjectivePanel:set_subtitle(speaker, text, duration)
 	end
 
 	local split_text = text:split("%s*%c+%s*")
+	if #split_text == 0 then
+		return
+	end
+
 	local lines = {}
 	for _, line in pairs(split_text) do
 		table.insert(lines, { line, #split_text + duration * (line:len() / text:len()) })
