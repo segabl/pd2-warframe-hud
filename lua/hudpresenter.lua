@@ -9,7 +9,7 @@ Hooks:PostHook(HUDPresenter, "init", "init_wfhud", function (self)
 
 	self._present_panel = WFHud:panel():panel({
 		visible = false,
-		y = WFHud:panel():h() * 0.2,
+		y = WFHud:panel():h() * 0.25,
 		w = 0,
 		h = 2 * WFHud.font_sizes.default * font_scale * hud_scale
 	})
