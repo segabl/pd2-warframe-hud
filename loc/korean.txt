@@ -114,6 +114,8 @@
 	"hud_waves_remaining" : "남은 웨이브 수: $NUM",
 	"hud_bags_remaining" : "남은 가방 수: $NUM",
 	"hud_hostages" : "인질",
+	"hud_ecm_jammer" : "ECM Jammer",
+	"hud_ecm_feedback" : "ECM Feedback",
 	"hud_pickup_cable_tie" : "케이블 타이",
 	"hud_pickup_money" : "$",
 	"hud_pickup_assault_rifle_ammo" : "라이플 탄 습득",

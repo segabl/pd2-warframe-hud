@@ -267,18 +267,6 @@ Hooks:PostHook(PlayerManager, "on_damage_dealt", "on_damage_dealt_wfhud", functi
 end)
 
 
-local _attempt_pocket_ecm_jammer_original = PlayerManager._attempt_pocket_ecm_jammer
-function PlayerManager:_attempt_pocket_ecm_jammer(...)
-	local result = _attempt_pocket_ecm_jammer_original(self, ...)
-
-	if result then
-		WFHud:add_buff("player", "pocket_ecm_jammer_base", nil, self:player_unit():inventory():get_jammer_time())
-	end
-
-	return result
-end
-
-
 -- tag team duration is basically impossible to figure out thanks to lots of local functions
 Hooks:PostHook(PlayerManager, "sync_tag_team", "sync_tag_team_wfhud", function (self, tagged)
 	if tagged == self:local_player() then

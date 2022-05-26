@@ -381,8 +381,9 @@ if not WFHud then
 			reload_speed = WFHud.value_format.percentage_mul
 		}
 		local up_format = {
+			chico_injector = WFHud.value_format.percentage,
 			melee_life_leech = WFHud.value_format.percentage,
-			chico_injector = WFHud.value_format.percentage
+			pocket_ecm_kill_dodge = WFHud.value_format.percentage
 		}
 		local function get_value_format(icon_cat, up)
 			if up_format[up] then
@@ -449,7 +450,8 @@ if not WFHud then
 			texture = "guis/textures/wfhud/damage_types",
 			value_format = WFHud.value_format.default,
 			is_debuff = true,
-			hide_name = true
+			hide_name = true,
+			custom = true
 		}
 
 		-- non player specific mappings
@@ -460,6 +462,7 @@ if not WFHud then
 				texture_rect = { 4 * 80, 7 * 80, 80, 80 },
 				texture = "guis/textures/wfhud/skill_icons_clean",
 				value_format = WFHud.value_format.default,
+				custom = true
 			},
 			downs = {
 				key = "game.downs",
@@ -467,7 +470,24 @@ if not WFHud then
 				texture_rect = tweak_data.hud_icons.wp_revive.texture_rect,
 				texture = tweak_data.hud_icons.wp_revive.texture,
 				value_format = WFHud.value_format.default,
-				hide_name = true
+				hide_name = true,
+				custom = true
+			},
+			ecm_jammer = {
+				key = "game.ecm_jammer",
+				name_id = "hud_ecm_jammer",
+				texture_rect = { 6 * 80, 2 * 80, 80, 80 },
+				texture = "guis/textures/wfhud/skill_icons_clean",
+				value_format = WFHud.value_format.default,
+				custom = true
+			},
+			ecm_feedback = {
+				key = "game.ecm_feedback",
+				name_id = "hud_ecm_feedback",
+				texture_rect = { 6 * 80, 3 * 80, 80, 80 },
+				texture = "guis/textures/wfhud/skill_icons_clean",
+				value_format = WFHud.value_format.default,
+				custom = true
 			}
 		}
 	end

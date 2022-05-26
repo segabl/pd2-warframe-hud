@@ -105,7 +105,7 @@ function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 
 	self._name = self._panel:text({
 		visible = not upgrade_data.hide_name,
-		text = managers.localization:text(upgrade_data.name_id):pretty(true),
+		text = upgrade_data.custom and managers.localization:text(upgrade_data.name_id) or managers.localization:text(upgrade_data.name_id):pretty(true),
 		align = "center",
 		color = upgrade_data.is_debuff and WFHud.settings.colors.debuff or WFHud.settings.colors.buff,
 		alpha = 0,

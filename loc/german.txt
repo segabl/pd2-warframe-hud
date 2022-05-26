@@ -114,6 +114,8 @@
 	"hud_waves_remaining" : "Ausstehende Wellen: $NUM",
 	"hud_bags_remaining" : "Übrige Taschen: $NUM",
 	"hud_hostages" : "Geiseln",
+	"hud_ecm_jammer" : "ECM Jammer",
+	"hud_ecm_feedback" : "ECM Feedback",
 	"hud_pickup_cable_tie" : "Kabelbinder",
 	"hud_pickup_money" : "Dollar",
 	"hud_pickup_assault_rifle_ammo" : "Sturmgewehrmunition",

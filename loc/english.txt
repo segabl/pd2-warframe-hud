@@ -114,6 +114,8 @@
 	"hud_waves_remaining" : "Waves remaining: $NUM",
 	"hud_bags_remaining" : "Bags remaining: $NUM",
 	"hud_hostages" : "Hostages",
+	"hud_ecm_jammer" : "ECM Jammer",
+	"hud_ecm_feedback" : "ECM Feedback",
 	"hud_pickup_cable_tie" : "Cable Tie",
 	"hud_pickup_money" : "Dollars",
 	"hud_pickup_assault_rifle_ammo" : "Rifle Ammo",

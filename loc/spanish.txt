@@ -114,6 +114,8 @@
 	"hud_waves_remaining" : "Hordas restantes: $NUM",
 	"hud_bags_remaining" : "Bolsas restantes: $NUM",
 	"hud_hostages" : "Rehenes",
+	"hud_ecm_jammer" : "ECM Jammer",
+	"hud_ecm_feedback" : "ECM Feedback",
 	"hud_pickup_cable_tie" : "Cable Tie",
 	"hud_pickup_money" : "Dolares",
 	"hud_pickup_assault_rifle_ammo" : "Rifle Ammo",
