@@ -1,3 +1,5 @@
+ECMJammerBase.ACTIVE_FEEDBACK = 0
+
 Hooks:PreHook(ECMJammerBase, "set_active", "set_active_wfhud", function (self, active)
 	if self._jammer_active == active then
 		return
@@ -21,11 +23,12 @@ function ECMJammerBase:_set_feedback_active(state, ...)
 	end
 
 	if state then
+		ECMJammerBase.ACTIVE_FEEDBACK = ECMJammerBase.ACTIVE_FEEDBACK + 1
 		WFHud:add_buff("game", "ecm_feedback", nil, self._feedback_duration)
-		self._num_feedback_active = (self._num_feedback_active or 0) + 1
-	elseif not self._num_feedback_active or self._num_feedback_active <= 1 then
-		WFHud:remove_buff("game", "ecm_feedback")
 	else
-		self._num_feedback_active = self._num_feedback_active - 1
+		ECMJammerBase.ACTIVE_FEEDBACK = math.max(ECMJammerBase.ACTIVE_FEEDBACK - 1, 0)
+		if ECMJammerBase.ACTIVE_FEEDBACK <= 0 then
+			WFHud:remove_buff("game", "ecm_feedback")
+		end
 	end
 end
