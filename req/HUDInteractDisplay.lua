@@ -83,8 +83,9 @@ function HUDInteractDisplay:hide_interact()
 	self._panel:set_visible(false)
 end
 
-function HUDInteractDisplay:show_interaction_circle(text, duration)
+function HUDInteractDisplay:show_interaction_circle(text, duration, active_interaction)
 	self._interact_active = true
+	self._active_interaction_unit = active_interaction
 
 	self._interact_circle._circle:stop()
 	if duration then
@@ -149,8 +150,8 @@ function HUDInteractDisplay:update(t, dt)
 	local half_width = active_text:w() * 0.5 + active_text:x()
 	local half_height = self._interact_text:font_size() * 0.5
 
-	local unit = WFHud.settings.world_interactions and managers.interaction:active_unit()
-	local pos = unit and unit:interaction():interact_position()
+	local unit = WFHud.settings.world_interactions and (self._interact_active and self._active_interaction_unit or managers.interaction:active_unit())
+	local pos = alive(unit) and unit:interaction():interact_position()
 	if pos then
 		local cam = managers.viewport:get_current_camera()
 		if cam then

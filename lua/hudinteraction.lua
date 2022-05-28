@@ -7,7 +7,10 @@ Hooks:OverrideFunction(HUDInteraction, "remove_interact", function (self)
 end)
 
 Hooks:OverrideFunction(HUDInteraction, "show_interaction_bar", function (self)
-	WFHud.interact_display:show_interaction_circle(managers.interaction:active_unit() and managers.localization:to_upper_text(managers.interaction:active_unit():interaction()._tweak_data.action_text_id or "hud_action_generic"))
+	local player_state = alive(managers.player:local_player()) and managers.player:local_player():movement():current_state()
+	local active_interaction = player_state and player_state._interact_params and player_state._interact_params.object
+	local interaction_text = active_interaction and managers.localization:to_upper_text(active_interaction:interaction()._tweak_data.action_text_id or "hud_action_generic")
+	WFHud.interact_display:show_interaction_circle(interaction_text, nil, active_interaction)
 end)
 
 Hooks:OverrideFunction(HUDInteraction, "hide_interaction_bar", function (self, complete)
