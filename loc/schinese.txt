@@ -11,6 +11,8 @@
 	"menu_wfhud_margin_v_desc" : "调整HUD中所有组件元素与屏幕上下的垂直距离\n重启劫案以应用更改",
 	"menu_wfhud_vanilla_ammo" : "原版弹药显示",
 	"menu_wfhud_vanilla_ammo_desc" : "按照原版弹药显示风格，在总弹量中计算已经被装填在弹匣中的弹药",
+	"menu_wfhud_vanilla_fonts" : "Vanilla fonts",
+	"menu_wfhud_vanilla_fonts_desc" : "Uses the game's original fonts instead of the custom Warframe fonts",
 	"menu_wfhud_rare_mission_equipment" : "稀有任务装备",
 	"menu_wfhud_rare_mission_equipment_desc" : "获得任务装备时显示稀有资源掉落提示",
 	"menu_wfhud_health_labels" : "浮动血条",

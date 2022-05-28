@@ -38,6 +38,7 @@ if not WFHud then
 		margin_h = 48,
 		margin_v = 32,
 		vanilla_ammo = false,
+		vanilla_fonts = false,
 		rare_mission_equipment = true,
 		health_labels = true,
 		damage_popups = true,
@@ -145,11 +146,13 @@ if not WFHud then
 	function WFHud:setup()
 		self:_create_skill_icon_map()
 
-		for _, v in pairs(self.font_ids) do
-			managers.dyn_resource:load(ext_mapping.font, v, managers.dyn_resource.DYN_RESOURCES_PACKAGE)
-		end
-
 		self:_check_font_replacements()
+
+		if not self.use_default_fonts then
+			for _, v in pairs(self.font_ids) do
+				managers.dyn_resource:load(ext_mapping.font, v, managers.dyn_resource.DYN_RESOURCES_PACKAGE)
+			end
+		end
 
 		self._ws = managers.gui_data:create_fullscreen_workspace()
 		self._ws:panel():hide()
@@ -498,7 +501,7 @@ if not WFHud then
 			japanese = true,
 			korean = true
 		}
-		if not replace_languages[HopLib:get_game_language()] then
+		if not replace_languages[HopLib:get_game_language()] and not self.settings.vanilla_fonts then
 			return
 		end
 
@@ -711,6 +714,16 @@ if not WFHud then
 			priority = 68
 		})
 
+		MenuHelper:AddToggle({
+			id = "vanilla_fonts",
+			title = "menu_wfhud_vanilla_fonts",
+			desc = "menu_wfhud_vanilla_fonts_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.vanilla_fonts,
+			menu_id = menu_ids.main,
+			priority = 68
+		})
+
 		MenuHelper:AddDivider({
 			size = 16,
 			menu_id = menu_ids.main,
@@ -896,8 +909,7 @@ if not WFHud then
 				"yellow_crit",
 				"orange_crit",
 				"red_crit",
-				"squad_chat",
-				"private_chat"
+				"squad_chat"
 			}
 			WFHud._color_menu_items = {}
 			for i, v in pairs(sorted_colors) do

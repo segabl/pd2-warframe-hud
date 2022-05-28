@@ -11,6 +11,8 @@
 	"menu_wfhud_margin_v_desc" : "HUD와 화면의 위와 아래 가장자리 사이의 수직 거리조절.\n적용하려면 습격을 다시 시작해야 합니다",
 	"menu_wfhud_vanilla_ammo" : "바닐라 탄약 스타일",
 	"menu_wfhud_vanilla_ammo_desc" : "총 탄약은 장전되있는 탄약을 포함합니다",
+	"menu_wfhud_vanilla_fonts" : "Vanilla fonts",
+	"menu_wfhud_vanilla_fonts_desc" : "Uses the game's original fonts instead of the custom Warframe fonts",
 	"menu_wfhud_rare_mission_equipment" : "패키지 자원 표시",
 	"menu_wfhud_rare_mission_equipment_desc" : "미션중에 얻은 희귀자원들이 표시됩니다.",
 	"menu_wfhud_health_labels" : "체력 표시 라벨",

@@ -11,6 +11,8 @@
 	"menu_wfhud_margin_v_desc" : "Vertical distance between HUD elements and top and bottom screen borders\nRequires a heist restart to take effect",
 	"menu_wfhud_vanilla_ammo" : "Vanilla ammo style",
 	"menu_wfhud_vanilla_ammo_desc" : "Total ammo includes ammo in magazine",
+	"menu_wfhud_vanilla_fonts" : "Vanilla fonts",
+	"menu_wfhud_vanilla_fonts_desc" : "Uses the game's original fonts instead of the custom Warframe fonts",
 	"menu_wfhud_rare_mission_equipment" : "Rare mission equipment",
 	"menu_wfhud_rare_mission_equipment_desc" : "Displays picking up items and mission equipment as rare resource drop",
 	"menu_wfhud_health_labels" : "Health labels",
