@@ -154,6 +154,8 @@
 	"hud_sub_name_pln" : "Bain",
 	"hud_sub_name_plt" : "Pilot",
 	"hud_sub_name_pt1" : "Pilot",
+	"hud_sub_name_pt2" : "Pilot",
+	"hud_sub_name_pyr" : "Gegensprechanlage",
 	"hud_sub_name_rb5" : "Hoxton",
 	"hud_sub_name_sla" : "Komplize",
 	"hud_sub_name_txm" : "Finanzbeamter",

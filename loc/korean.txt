@@ -154,6 +154,8 @@
 	"hud_sub_name_pln" : "베인",
 	"hud_sub_name_plt" : "비행사",
 	"hud_sub_name_pt1" : "비행사",
+	"hud_sub_name_pt2" : "비행사",
+	"hud_sub_name_pyr" : "선내 통화 장치",
 	"hud_sub_name_rb5" : "혹스턴",
 	"hud_sub_name_sla" : "공범",
 	"hud_sub_name_txm" : "텍스맨",

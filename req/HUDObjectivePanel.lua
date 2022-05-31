@@ -21,6 +21,7 @@ HUDObjectivePanel.CHARACTER_COLORS = {
 	yuw = WFHud.settings.colors.enemy,
 	xuk = WFHud.settings.colors.enemy,
 	hnc = WFHud.settings.colors.muted,
+	pyr = WFHud.settings.colors.muted,
 	txm = WFHud.settings.colors.muted,
 	mrb = Color("ffff99"),
 	mrp = Color("ff66aa")

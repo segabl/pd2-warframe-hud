@@ -154,6 +154,8 @@
 	"hud_sub_name_pln" : "贝恩",
 	"hud_sub_name_plt" : "飞行员",
 	"hud_sub_name_pt1" : "飞行员",
+	"hud_sub_name_pt2" : "飞行员",
+	"hud_sub_name_pyr" : "对讲系统",
 	"hud_sub_name_rb5" : "霍斯顿",
 	"hud_sub_name_sla" : "同谋",
 	"hud_sub_name_txm" : "税务官",

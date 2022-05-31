@@ -154,6 +154,8 @@
 	"hud_sub_name_pln" : "Bain",
 	"hud_sub_name_plt" : "Piloto",
 	"hud_sub_name_pt1" : "Piloto",
+	"hud_sub_name_pt2" : "Piloto",
+	"hud_sub_name_pyr" : "Interfone",
 	"hud_sub_name_rb5" : "Hoxton",
 	"hud_sub_name_sla" : "Cúmplice",
 	"hud_sub_name_txm" : "Contribuidor",
