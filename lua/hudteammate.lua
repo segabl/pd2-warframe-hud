@@ -133,6 +133,19 @@ Hooks:PostHook(HUDTeammate, "set_special_equipment_amount", "set_special_equipme
 end)
 
 
+Hooks:PostHook(HUDTeammate, "set_carry_info", "set_carry_info_wfhud", function (self)
+	if self._wfhud_item_list then
+		self._wfhud_item_list:add_icon("carry_bag", tweak_data.hud_icons:get_icon_data("pd2_loot"))
+	end
+end)
+
+Hooks:PostHook(HUDTeammate, "remove_carry_info", "remove_carry_info_wfhud", function (self)
+	if self._wfhud_item_list then
+		self._wfhud_item_list:remove_icon("carry_bag")
+	end
+end)
+
+
 -- equipment
 Hooks:PostHook(HUDTeammate, "set_deployable_equipment_amount", "set_deployable_equipment_amount_wfhud", function (self, index, data)
 	local item_list = self._main_player and WFHud.equipment_panel._equipment_list or WFHud.settings.player_panels.show_deployables and self._wfhud_item_list
