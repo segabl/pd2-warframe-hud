@@ -129,9 +129,10 @@ function HUDFloatingUnitLabel:update(t, dt)
 		armor, max_armor = self._linked_health_bar._armor_ratio * self._linked_health_bar._max_armor_ratio * 100, self._linked_health_bar._max_armor_ratio * 100
 		invulnerable = self._linked_health_bar._invulnerable
 	elseif self._unit_dmg then
-		hp, max_hp = (self._unit_dmg._health or 10) * 10, (self._unit_dmg._HEALTH_INIT or self._unit_dmg._current_max_health or 10) * 10
-		armor, max_armor = 0, 0
-		invulnerable = self._unit_dmg._invulnerable
+		local dmg = self._unit_dmg
+		hp, max_hp = (dmg._health or 10) * 10, (dmg._HEALTH_INIT or dmg._current_max_health or 10) * 10
+		armor, max_armor = (dmg._shield_health or 0) * 10, (dmg._SHIELD_HEALTH_INIT or 0) * 10
+		invulnerable = dmg._invulnerable or dmg._immortal and dmg._health <= 1 or (dmg._health_ratio or 0) <= (dmg._lower_health_percentage_limit or -1)
 	else
 		hp, max_hp = 1, 1
 		armor, max_armor = 0, 0
