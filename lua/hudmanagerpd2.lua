@@ -67,23 +67,20 @@ local _add_name_label_original = HUDManager._add_name_label
 function HUDManager:_add_name_label(data)
 	local id = _add_name_label_original(self, data)
 
-	local label_data = self._hud.name_labels[#self._hud.name_labels]
+	local label_data = self:_get_name_label(id)
 	if label_data and label_data.id == id then
 		-- Really make sure the old label is hidden
 		label_data.panel:hide()
 		label_data.panel:set_alpha(0)
 		label_data.panel:set_size(0, 0)
 
-		local wflabel = HUDFloatingUnitLabel:new(WFHud:panel())
-		wflabel:set_unit(data.unit, true, true)
-		wflabel._upd_id = "wfhud_name_label" .. id
-
-		if WFHud.unit_aim_label and WFHud.unit_aim_label._unit == data.unit then
-			WFHud.unit_aim_label:set_unit(nil, true)
+		-- Remove existing label if the unit already has one for some reason
+		local unit_data = data.unit:unit_data()
+		if unit_data._wfhud_label then
+			unit_data._wfhud_label:destroy()
 		end
 
-		self:add_updator(wflabel._upd_id, callback(wflabel, wflabel, "update"))
-		data.unit:unit_data()._wfhud_label = wflabel
+		unit_data._wfhud_label = HUDFloatingUnitLabel:new(WFHud:panel(), nil, data.unit)
 	end
 
 	return id
@@ -93,23 +90,20 @@ local add_vehicle_name_label_original = HUDManager.add_vehicle_name_label
 function HUDManager:add_vehicle_name_label(data)
 	local id = add_vehicle_name_label_original(self, data)
 
-	local label_data = self._hud.name_labels[#self._hud.name_labels]
-	if label_data and label_data.id == id then
+	local label_data = self:_get_name_label(id)
+	if label_data then
 		-- Really make sure the old label is hidden
 		label_data.panel:hide()
 		label_data.panel:set_alpha(0)
 		label_data.panel:set_size(0, 0)
 
-		local wflabel = HUDFloatingUnitLabel:new(WFHud:panel())
-		wflabel:set_unit(data.unit, true, true)
-		wflabel._upd_id = "wfhud_vehicle_label" .. id
-
-		if WFHud.unit_aim_label and WFHud.unit_aim_label._unit == data.unit then
-			WFHud.unit_aim_label:set_unit(nil, true)
+		-- Remove existing label if the unit already has one for some reason
+		local unit_data = data.unit:unit_data()
+		if unit_data._wfhud_label then
+			unit_data._wfhud_label:destroy()
 		end
 
-		self:add_updator(wflabel._upd_id, callback(wflabel, wflabel, "update"))
-		data.unit:unit_data()._wfhud_label = wflabel
+		unit_data._wfhud_label = HUDFloatingUnitLabel:new(WFHud:panel(), nil, data.unit)
 	end
 
 	return id
@@ -120,7 +114,6 @@ Hooks:PreHook(HUDManager, "_remove_name_label", "_remove_name_label_wfhud", func
 		if data.id == id then
 			local unit_data = data.movement and data.movement._unit:unit_data() or data.vehicle and data.vehicle:unit_data()
 			if unit_data and unit_data._wfhud_label then
-				self:remove_updator(unit_data._wfhud_label._upd_id)
 				unit_data._wfhud_label:destroy()
 				unit_data._wfhud_label = nil
 			end

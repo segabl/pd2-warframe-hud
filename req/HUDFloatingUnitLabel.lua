@@ -9,10 +9,10 @@ local tmp_vec1 = Vector3()
 local tmp_vec2 = Vector3()
 
 ---@class HUDFloatingUnitLabel
----@field new fun(self, panel, health_visible):HUDFloatingUnitLabel
+---@field new fun(self, panel, health_visible, managed_unit):HUDFloatingUnitLabel
 HUDFloatingUnitLabel = HUDFloatingUnitLabel or WFHud:panel_class()
 
-function HUDFloatingUnitLabel:init(panel, health_visible)
+function HUDFloatingUnitLabel:init(panel, health_visible, managed_unit)
 	self._health_faded_out = true
 	self._panel_faded_out = true
 	self._health_visible = health_visible -- this is to keep the health bar visible on non permanent labels
@@ -52,6 +52,18 @@ function HUDFloatingUnitLabel:init(panel, health_visible)
 	})
 
 	self:_layout()
+
+	-- Is this label used for a single unit only?
+	if managed_unit then
+		if WFHud.unit_aim_label and WFHud.unit_aim_label._unit == managed_unit then
+			WFHud.unit_aim_label:set_unit(nil, true)
+		end
+
+		self:set_unit(managed_unit, true, true)
+
+		self._managed_upd_id = "wfhud_name_label" .. tostring(self)
+		managers.hud:add_updator(self._managed_upd_id, callback(self, self, "update"))
+	end
 end
 
 function HUDFloatingUnitLabel:_layout()
@@ -87,9 +99,7 @@ end
 
 function HUDFloatingUnitLabel:update(t, dt)
 	if not alive(self._unit) or not alive(self._panel) then
-		if self._upd_id and managers.hud then
-			managers.hud:remove_updator(self._upd_id)
-			self._upd_id = nil
+		if self._managed_upd_id then
 			self:destroy()
 		end
 		return
@@ -254,6 +264,13 @@ function HUDFloatingUnitLabel:set_health_visible(state)
 end
 
 function HUDFloatingUnitLabel:destroy()
+	if self._managed_upd_id then
+		if managers.hud then
+			managers.hud:remove_updator(self._managed_upd_id)
+		end
+		self._managed_upd_id = nil
+	end
+
 	if not alive(self._panel) then
 		return
 	end
