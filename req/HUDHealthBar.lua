@@ -358,8 +358,8 @@ function HUDHealthBar:set_data(health, max_health, armor, max_armor, instant)
 	local total_value = max_health + max_armor
 	local max_health_ratio = max_health / total_value
 	local max_armor_ratio = max_armor / total_value
-	local health_ratio = math.min(health / max_health, 1)
-	local armor_ratio = math.min(armor / max_armor, 1)
+	local health_ratio = math.clamp(health / max_health, 0, 1)
+	local armor_ratio = math.clamp(armor / max_armor, 0, 1)
 	local max_ratio_changed = max_health_ratio ~= self._max_health_ratio or max_armor_ratio ~= self._max_armor_ratio
 
 	instant = instant or self._set_data_instant
