@@ -69,7 +69,10 @@ function HUDManager:_add_name_label(data)
 
 	local label_data = self._hud.name_labels[#self._hud.name_labels]
 	if label_data and label_data.id == id then
-		label_data.panel:set_visible(false)
+		-- Really make sure the old label is hidden
+		label_data.panel:hide()
+		label_data.panel:set_alpha(0)
+		label_data.panel:set_size(0, 0)
 
 		local wflabel = HUDFloatingUnitLabel:new(WFHud:panel())
 		wflabel:set_unit(data.unit, true, true)
@@ -92,7 +95,10 @@ function HUDManager:add_vehicle_name_label(data)
 
 	local label_data = self._hud.name_labels[#self._hud.name_labels]
 	if label_data and label_data.id == id then
-		label_data.panel:set_visible(false)
+		-- Really make sure the old label is hidden
+		label_data.panel:hide()
+		label_data.panel:set_alpha(0)
+		label_data.panel:set_size(0, 0)
 
 		local wflabel = HUDFloatingUnitLabel:new(WFHud:panel())
 		wflabel:set_unit(data.unit, true, true)
