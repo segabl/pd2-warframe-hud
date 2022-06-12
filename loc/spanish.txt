@@ -23,6 +23,8 @@
 	"menu_wfhud_waypoints_desc" : "Enables the mod's custom waypoint icons",
 	"menu_wfhud_world_interactions" : "World-space interactions",
 	"menu_wfhud_world_interactions_desc" : "Shows interaction text at the location of the active interaction",
+	"menu_wfhud_boss_bar" : "Boss healthbars",
+	"menu_wfhud_boss_bar_desc" : "Displays healthbars for boss type enemies on the HUD",
 	"menu_wfhud_use_peer_colors" : "Use peer colors",
 	"menu_wfhud_enabled" : "Enabled",
 	"menu_wfhud_chat" : "Chat settings",

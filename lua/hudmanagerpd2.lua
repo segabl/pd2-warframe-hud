@@ -161,26 +161,28 @@ if Keepers then
 end
 
 
--- Why are you using a custom interaction radial for the downed HUD?
-Hooks:OverrideFunction(HUDManager, "pd_start_progress", function (self, current, total, msg)
-	if not self:script(PlayerBase.PLAYER_DOWNED_HUD) then
-		return
-	end
+if WFHud.settings.world_interactions then
+	-- Why are you using a custom interaction radial for the downed HUD?
+	Hooks:OverrideFunction(HUDManager, "pd_start_progress", function (self, current, total, msg)
+		if not self:script(PlayerBase.PLAYER_DOWNED_HUD) then
+			return
+		end
 
-	WFHud.interact_display:show_interaction_circle(utf8.to_upper(managers.localization:text(msg)), total)
+		WFHud.interact_display:show_interaction_circle(utf8.to_upper(managers.localization:text(msg)), total)
 
-	self._hud_player_downed:hide_timer()
-end)
+		self._hud_player_downed:hide_timer()
+	end)
 
-Hooks:OverrideFunction(HUDManager, "pd_stop_progress", function (self)
-	if not self:script(PlayerBase.PLAYER_DOWNED_HUD) then
-		return
-	end
+	Hooks:OverrideFunction(HUDManager, "pd_stop_progress", function (self)
+		if not self:script(PlayerBase.PLAYER_DOWNED_HUD) then
+			return
+		end
 
-	WFHud.interact_display:hide_interaction_circle()
+		WFHud.interact_display:hide_interaction_circle()
 
-	self._hud_player_downed:show_timer()
-end)
+		self._hud_player_downed:show_timer()
+	end)
+end
 
 
 -- present hints as mid text

@@ -44,6 +44,7 @@ if not WFHud then
 		damage_popups = true,
 		waypoints = true,
 		world_interactions = true,
+		boss_bar = true,
 		player_panels = {
 			show_deployables = true,
 			show_downs = false,
@@ -669,13 +670,23 @@ if not WFHud then
 		})
 
 		MenuHelper:AddToggle({
+			id = "boss_bar",
+			title = "menu_wfhud_boss_bar",
+			desc = "menu_wfhud_boss_bar_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.boss_bar,
+			menu_id = menu_ids.main,
+			priority = 76
+		})
+
+		MenuHelper:AddToggle({
 			id = "damage_popups",
 			title = "menu_wfhud_damage_popups",
 			desc = "menu_wfhud_damage_popups_desc",
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.damage_popups,
 			menu_id = menu_ids.main,
-			priority = 76
+			priority = 75
 		})
 
 		MenuHelper:AddToggle({
@@ -685,7 +696,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.waypoints,
 			menu_id = menu_ids.main,
-			priority = 75
+			priority = 74
 		})
 
 		MenuHelper:AddToggle({
@@ -695,7 +706,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.world_interactions,
 			menu_id = menu_ids.main,
-			priority = 74
+			priority = 73
 		})
 
 		MenuHelper:AddDivider({

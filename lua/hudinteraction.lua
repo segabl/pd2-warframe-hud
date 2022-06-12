@@ -1,3 +1,7 @@
+if not WFHud.settings.world_interactions then
+	return
+end
+
 Hooks:OverrideFunction(HUDInteraction, "show_interact", function (self, data)
 	WFHud.interact_display:show_interact(data.text:upper())
 end)

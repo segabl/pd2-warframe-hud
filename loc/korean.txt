@@ -23,6 +23,8 @@
 	"menu_wfhud_waypoints_desc" : "모드사용자의 커스텀 웨이포인트 아이콘을 활성화합니다.",
 	"menu_wfhud_world_interactions" : "상호작용을 개체에 표시시키기",
 	"menu_wfhud_world_interactions_desc" : "활성화시에는 텍스트가 개체에만 있고 비활성화시 화면 중앙에만 표시됩니다.",
+	"menu_wfhud_boss_bar" : "Boss healthbars",
+	"menu_wfhud_boss_bar_desc" : "Displays healthbars for boss type enemies on the HUD",
 	"menu_wfhud_use_peer_colors" : "피어 컬러 사용하기",
 	"menu_wfhud_enabled" : "활성화",
 	"menu_wfhud_chat" : "채팅 설정",

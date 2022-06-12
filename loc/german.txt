@@ -23,6 +23,8 @@
 	"menu_wfhud_waypoints_desc" : "Aktiviert die modifizierten Wegpunkte",
 	"menu_wfhud_world_interactions" : "World-Space Interaktionen",
 	"menu_wfhud_world_interactions_desc" : "Zeigt Interaktionstext am Ort der aktiven Interaction an",
+	"menu_wfhud_boss_bar" : "Boss Gesundheitsleisten",
+	"menu_wfhud_boss_bar_desc" : "Zeigt Gesundheitsleisten für Bossgegner auf dem HUD an",
 	"menu_wfhud_use_peer_colors" : "Benutze Peer-Farben",
 	"menu_wfhud_enabled" : "Aktiviert",
 	"menu_wfhud_chat" : "Chateinstellungen",
