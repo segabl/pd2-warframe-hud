@@ -146,6 +146,7 @@
 	"hud_sub_name_cpt" : "Capitán",
 	"hud_sub_name_crn" : "Alex",
 	"hud_sub_name_dr1" : "Twitch",
+	"hud_sub_name_gem" : "Gemma McShay",
 	"hud_sub_name_geo" : "George",
 	"hud_sub_name_hnc" : "Secuaz",
 	"hud_sub_name_jfe" : "Jiu Feng",

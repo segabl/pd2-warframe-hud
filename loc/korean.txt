@@ -146,6 +146,7 @@
 	"hud_sub_name_cpt" : "캡틴",
 	"hud_sub_name_crn" : "알렉스",
 	"hud_sub_name_dr1" : "트위치",
+	"hud_sub_name_gem" : "Gemma McShay",
 	"hud_sub_name_geo" : "조지",
 	"hud_sub_name_hnc" : "추종자",
 	"hud_sub_name_jfe" : "지우 펑",
