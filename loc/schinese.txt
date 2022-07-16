@@ -13,6 +13,8 @@
 	"menu_wfhud_vanilla_ammo_desc" : "按照原版弹药显示风格，在总弹量中计算已经被装填在弹匣中的弹药",
 	"menu_wfhud_vanilla_fonts" : "原版字体",
 	"menu_wfhud_vanilla_fonts_desc" : "使用游戏默认字体而并非使用HUD的自定义字体",
+	"menu_wfhud_buff_list" : "Buff list",
+	"menu_wfhud_buff_list_desc" : "Displays active effects, skills and perks as icons next to the player panel",
 	"menu_wfhud_rare_mission_equipment" : "稀有任务装备",
 	"menu_wfhud_rare_mission_equipment_desc" : "获得任务装备时显示稀有资源掉落提示",
 	"menu_wfhud_health_labels" : "浮动血条",

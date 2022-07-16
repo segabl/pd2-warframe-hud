@@ -13,6 +13,8 @@
 	"menu_wfhud_vanilla_ammo_desc" : "Total ammo includes ammo in magazine",
 	"menu_wfhud_vanilla_fonts" : "Vanilla fonts",
 	"menu_wfhud_vanilla_fonts_desc" : "Uses the game's original fonts instead of the custom Warframe fonts",
+	"menu_wfhud_buff_list" : "Buff list",
+	"menu_wfhud_buff_list_desc" : "Displays active effects, skills and perks as icons next to the player panel",
 	"menu_wfhud_rare_mission_equipment" : "Rare mission equipment",
 	"menu_wfhud_rare_mission_equipment_desc" : "Obtaining mission equipment is displayed as rare resource drop",
 	"menu_wfhud_health_labels" : "Health labels",

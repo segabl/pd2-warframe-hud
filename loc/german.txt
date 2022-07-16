@@ -13,6 +13,8 @@
 	"menu_wfhud_vanilla_ammo_desc" : "Gesamtmunition beinhaltet Munition im Magazin",
 	"menu_wfhud_vanilla_fonts" : "Vanilla Schriftarten",
 	"menu_wfhud_vanilla_fonts_desc" : "Benutze die normalen Schriftarten des Spiels anstatt den neuen Warframe Schriftarten an",
+	"menu_wfhud_buff_list" : "Buffliste",
+	"menu_wfhud_buff_list_desc" : "Zeigt aktive Effekte, Skills und Perks als Icons neben dem Spielerpanel an",
 	"menu_wfhud_rare_mission_equipment" : "Seltene Missionsausrüstung",
 	"menu_wfhud_rare_mission_equipment_desc" : "Erhaltene Missionsausrüstung wird als seltener Ressourcen-Drop angezeigt",
 	"menu_wfhud_health_labels" : "Gesundheitsleisten",

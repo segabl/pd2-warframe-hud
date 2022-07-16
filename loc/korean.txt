@@ -13,6 +13,8 @@
 	"menu_wfhud_vanilla_ammo_desc" : "총 탄약은 장전되있는 탄약을 포함합니다",
 	"menu_wfhud_vanilla_fonts" : "바닐라 폰트",
 	"menu_wfhud_vanilla_fonts_desc" : "워프레임허드에서 지원하는 폰트대신 기존의 폰트로 사용할수있습니다",
+	"menu_wfhud_buff_list" : "Buff list",
+	"menu_wfhud_buff_list_desc" : "Displays active effects, skills and perks as icons next to the player panel",
 	"menu_wfhud_rare_mission_equipment" : "패키지 자원 표시",
 	"menu_wfhud_rare_mission_equipment_desc" : "미션중에 얻은 희귀자원들이 표시됩니다.",
 	"menu_wfhud_health_labels" : "체력 표시 라벨",

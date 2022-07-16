@@ -39,6 +39,7 @@ if not WFHud then
 		margin_v = 32,
 		vanilla_ammo = false,
 		vanilla_fonts = false,
+		buff_list = true,
 		rare_mission_equipment = true,
 		health_labels = true,
 		damage_popups = true,
@@ -226,6 +227,11 @@ if not WFHud then
 				log("[WFHud] No upgrade definition for " .. tostring(category) .. "." .. tostring(upgrade))
 				return
 			end
+
+			if not self.settings.buff_list and not upgrade_data.ignore_disabled then
+				return
+			end
+
 			self.buff_list:add_buff(upgrade_data, value, duration)
 		end
 	end
@@ -398,6 +404,12 @@ if not WFHud then
 			end
 			return WFHud.value_format.default
 		end
+		local function set_skill_map_data(cat, up, var, val)
+			local data = self.skill_map[cat] and self.skill_map[cat][up]
+			if data then
+				data[var] = val
+			end
+		end
 
 		-- Collect skill mappings
 		for _, skill in pairs(tweak_data.skilltree.skills) do
@@ -445,6 +457,14 @@ if not WFHud then
 			end
 		end
 
+		-- Set allowed buffs for disabled buff list
+		set_skill_map_data("player", "armor_health_store_amount", "ignore_disabled", true)
+		set_skill_map_data("player", "cocaine_stacking", "ignore_disabled", true)
+		set_skill_map_data("player", "tag_team_base", "ignore_disabled", true)
+		set_skill_map_data("player", "pocket_ecm_jammer_base", "ignore_disabled", true)
+		set_skill_map_data("temporary", "chico_injector", "ignore_disabled", true)
+		set_skill_map_data("temporary", "copr_ability", "ignore_disabled", true)
+
 		-- Create custom mappings
 		self.skill_map.player = self.skill_map.player or {}
 		self.skill_map.player.stoic_dot = {
@@ -455,7 +475,8 @@ if not WFHud then
 			value_format = WFHud.value_format.default,
 			is_debuff = true,
 			hide_name = true,
-			custom = true
+			custom = true,
+			ignore_disabled = true
 		}
 
 		-- non player specific mappings
@@ -466,7 +487,8 @@ if not WFHud then
 				texture_rect = { 4 * 80, 7 * 80, 80, 80 },
 				texture = "guis/textures/wfhud/skill_icons_clean",
 				value_format = WFHud.value_format.default,
-				custom = true
+				custom = true,
+				ignore_disabled = true
 			},
 			downs = {
 				key = "game.downs",
@@ -475,7 +497,8 @@ if not WFHud then
 				texture = tweak_data.hud_icons.wp_revive.texture,
 				value_format = WFHud.value_format.default,
 				hide_name = true,
-				custom = true
+				custom = true,
+				ignore_disabled = true
 			},
 			ecm_jammer = {
 				key = "game.ecm_jammer",
@@ -650,13 +673,23 @@ if not WFHud then
 		})
 
 		MenuHelper:AddToggle({
+			id = "buff_list",
+			title = "menu_wfhud_buff_list",
+			desc = "menu_wfhud_buff_list_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.buff_list,
+			menu_id = menu_ids.main,
+			priority = 78
+		})
+
+		MenuHelper:AddToggle({
 			id = "rare_mission_equipment",
 			title = "menu_wfhud_rare_mission_equipment",
 			desc = "menu_wfhud_rare_mission_equipment_desc",
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.rare_mission_equipment,
 			menu_id = menu_ids.main,
-			priority = 78
+			priority = 77
 		})
 
 		MenuHelper:AddToggle({
@@ -666,7 +699,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.health_labels,
 			menu_id = menu_ids.main,
-			priority = 77
+			priority = 76
 		})
 
 		MenuHelper:AddToggle({
@@ -676,7 +709,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.boss_bar,
 			menu_id = menu_ids.main,
-			priority = 76
+			priority = 75
 		})
 
 		MenuHelper:AddToggle({
@@ -686,7 +719,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.damage_popups,
 			menu_id = menu_ids.main,
-			priority = 75
+			priority = 74
 		})
 
 		MenuHelper:AddToggle({
@@ -696,7 +729,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.waypoints,
 			menu_id = menu_ids.main,
-			priority = 74
+			priority = 73
 		})
 
 		MenuHelper:AddToggle({
@@ -706,7 +739,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.world_interactions,
 			menu_id = menu_ids.main,
-			priority = 73
+			priority = 72
 		})
 
 		MenuHelper:AddDivider({

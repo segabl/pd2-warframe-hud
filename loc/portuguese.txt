@@ -13,6 +13,8 @@
 	"menu_wfhud_vanilla_ammo_desc" : "Munição total incluirá no carregador",
 	"menu_wfhud_vanilla_fonts" : "Fonte Padrão",
 	"menu_wfhud_vanilla_fonts_desc" : "Usará a fonte padrão do jogo invés da fonte do Warframe",
+	"menu_wfhud_buff_list" : "Buff list",
+	"menu_wfhud_buff_list_desc" : "Displays active effects, skills and perks as icons next to the player panel",
 	"menu_wfhud_rare_mission_equipment" : "Equipamento de Missão Raro",
 	"menu_wfhud_rare_mission_equipment_desc" : "Se obter um equipamento da missão exibirá como se fosse um recurso raro",
 	"menu_wfhud_health_labels" : "Barras de Vida",
