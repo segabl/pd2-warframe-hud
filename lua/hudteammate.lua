@@ -57,7 +57,7 @@ Hooks:PostHook(HUDTeammate, "set_name", "set_name_wfhud", function (self, name)
 end)
 
 Hooks:PostHook(HUDTeammate, "set_callsign", "set_callsign_wfhud", function (self, id)
-	self._wfhud_panel:set_peer_id(id)
+	self._wfhud_panel:set_peer_id(id, self._ai)
 end)
 
 Hooks:PostHook(HUDTeammate, "set_health", "set_health_wfhud", function (self)

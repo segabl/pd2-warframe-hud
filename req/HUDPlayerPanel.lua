@@ -128,7 +128,7 @@ function HUDPlayerPanel:init(panel, main_player)
 	self._peer_info_panel:set_center_y(self._panel:h() * 0.5)
 end
 
-function HUDPlayerPanel:set_peer_id(id)
+function HUDPlayerPanel:set_peer_id(id, ai)
 	self._peer_id_text:set_text(tostring(id))
 	self._peer_id_bg:set_color(WFHud.settings.player_panels.use_peer_colors and tweak_data.chat_colors[id] or WFHud.settings.colors.default)
 
@@ -136,7 +136,7 @@ function HUDPlayerPanel:set_peer_id(id)
 		return
 	end
 
-	local peer = managers.network:session():peer(id)
+	local peer = not ai and managers.network:session():peer(id)
 	if not peer then
 		self._peer_rank:set_text("0")
 		self._level_bar:set_w(self._level_bar_bg:w())
