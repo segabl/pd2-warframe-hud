@@ -1,17 +1,32 @@
 local hud_scale = WFHud.settings.hud_scale
 local font_scale = WFHud.settings.font_scale
 
+local panels = {}
+local panels_y = WFHud.settings.margin_v + 88 * hud_scale
+local panels_offset = 4 * hud_scale
+local function align_wfhud_panels()
+	local y = panels_y
+	for _, panel in ipairs(panels) do
+		if panel._wfhud_panel and panel._wfhud_panel:visible() then
+			panel._wfhud_panel:set_y(y)
+			panel._wfhud_item_list:set_y(y)
+			y = y + panel._wfhud_panel:h() + panels_offset
+		end
+	end
+end
+
 Hooks:PostHook(HUDTeammate, "init", "init_wfhud", function (self, i, teammates_panel, is_player, width)
 	self._wfhud_panel = HUDPlayerPanel:new(WFHud:panel(), self._main_player)
 	self._wfhud_panel:hide()
+	self._wfhud_panel:set_right(WFHud:panel():w() - WFHud.settings.margin_h)
 
 	if self._main_player then
-		self._wfhud_panel:set_righttop(WFHud:panel():w() - WFHud.settings.margin_h, WFHud.settings.margin_v)
+		self._wfhud_panel:set_y(WFHud.settings.margin_v)
 	else
-		self._wfhud_panel:set_righttop(WFHud:panel():w() - WFHud.settings.margin_h, WFHud.settings.margin_v + 88 * hud_scale + (i - 1) * (self._wfhud_panel:h() + 4 * hud_scale))
-
 		self._wfhud_item_list = HUDIconList:new(WFHud:panel(), 0, self._wfhud_panel:y(), WFHud:panel():w() - 200 * hud_scale, 24 * hud_scale, WFHud.settings.colors.buff)
 		self._wfhud_item_list:hide()
+
+		table.insert(panels, self)
 	end
 end)
 
@@ -30,6 +45,8 @@ Hooks:PostHook(HUDTeammate, "add_panel", "add_panel_wfhud", function (self)
 	if self._wfhud_item_list then
 		self._wfhud_item_list:show()
 	end
+
+	align_wfhud_panels()
 end)
 
 Hooks:PostHook(HUDTeammate, "remove_panel", "remove_panel_wfhud", function (self)
@@ -46,6 +63,8 @@ Hooks:PostHook(HUDTeammate, "remove_panel", "remove_panel_wfhud", function (self
 		self._wfhud_item_list:hide()
 		self._wfhud_item_list:clear()
 	end
+
+	align_wfhud_panels()
 end)
 
 Hooks:PostHook(HUDTeammate, "set_waiting", "set_waiting_wfhud", function (self)
