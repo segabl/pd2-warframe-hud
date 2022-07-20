@@ -31,7 +31,9 @@ if not WFHud then
 	WFHud = {}
 	WFHud.mod_path = ModPath
 	WFHud.save_path = SavePath .. "wfhud.json"
-	WFHud.skill_map = {}
+	WFHud.skill_map = {
+		temporary = {}
+	}
 	WFHud.settings = {
 		hud_scale = 1,
 		font_scale = 1,
@@ -393,7 +395,8 @@ if not WFHud then
 		local up_format = {
 			chico_injector = WFHud.value_format.percentage,
 			melee_life_leech = WFHud.value_format.percentage,
-			pocket_ecm_kill_dodge = WFHud.value_format.percentage
+			pocket_ecm_kill_dodge = WFHud.value_format.percentage,
+			unseen_increased_crit_chance = WFHud.value_format.percentage_mul
 		}
 		local function get_value_format(icon_cat, up)
 			if up_format[up] then
@@ -409,6 +412,10 @@ if not WFHud then
 			if data then
 				data[var] = val
 			end
+		end
+		local function set_skill_map(cat1, up1, cat2, up2)
+			self.skill_map[cat1] = self.skill_map[cat1] or {}
+			self.skill_map[cat1][up1] = self.skill_map[cat2] and self.skill_map[cat2][up2]
 		end
 
 		-- Collect skill mappings
@@ -456,6 +463,11 @@ if not WFHud then
 				end
 			end
 		end
+
+		-- Link team skills
+		set_skill_map("temporary", "team_damage_speed_multiplier_received", "temporary", "damage_speed_multiplier")
+		set_skill_map("temporary", "first_aid_damage_reduction", "first_aid_kit", "damage_reduction_upgrade")
+		set_skill_map("temporary", "unseen_strike", "player", "unseen_increased_crit_chance")
 
 		-- Set allowed buffs for disabled buff list
 		set_skill_map_data("player", "armor_health_store_amount", "ignore_disabled", true)
