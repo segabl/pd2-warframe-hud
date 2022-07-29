@@ -50,7 +50,7 @@ if not WFHud then
 		boss_bar = true,
 		player_panels = {
 			show_deployables = true,
-			show_downs = false,
+			show_downs = true,
 			use_peer_colors = false
 		},
 		chat = {
@@ -496,8 +496,8 @@ if not WFHud then
 			hostages = {
 				key = "game.hostages",
 				name_id = "hud_hostages",
-				texture_rect = { 4 * 80, 7 * 80, 80, 80 },
-				texture = "guis/textures/wfhud/skill_icons_clean",
+				texture_rect = { 0, 0, 80, 80 },
+				texture = "guis/textures/wfhud/info_icons",
 				value_format = WFHud.value_format.default,
 				custom = true,
 				ignore_disabled = true
@@ -505,8 +505,8 @@ if not WFHud then
 			downs = {
 				key = "game.downs",
 				name_id = "hud_downs",
-				texture_rect = tweak_data.hud_icons.wp_revive.texture_rect,
-				texture = tweak_data.hud_icons.wp_revive.texture,
+				texture_rect = { 1 * 80, 0, 80, 80 },
+				texture = "guis/textures/wfhud/info_icons",
 				value_format = WFHud.value_format.default,
 				hide_name = true,
 				custom = true,
