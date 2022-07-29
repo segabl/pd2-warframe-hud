@@ -140,8 +140,9 @@ function HUDFloatingUnitLabel:update(t, dt)
 		invulnerable = self._linked_health_bar._invulnerable
 	elseif self._unit_dmg then
 		local dmg = self._unit_dmg
+		local has_shield = self._unit_base and self._unit_base._is_module
 		hp, max_hp = (dmg._health or 10) * 10, (dmg._HEALTH_INIT or dmg._current_max_health or 10) * 10
-		armor, max_armor = (dmg._shield_health or 0) * 10, (dmg._SHIELD_HEALTH_INIT or 0) * 10
+		armor, max_armor = (has_shield and dmg._shield_health or 0) * 10, (has_shield and dmg._SHIELD_HEALTH_INIT or 0) * 10
 		invulnerable = dmg._invulnerable or dmg._immortal and dmg._health <= 1 or (dmg._health_ratio or 0) <= (dmg._lower_health_percentage_limit or -1)
 	else
 		hp, max_hp = 1, 1
@@ -169,6 +170,7 @@ function HUDFloatingUnitLabel:set_unit(unit, instant, compact_override)
 		self._unit = unit
 		self._unit_dmg = unit:character_damage()
 		self._unit_mvmt = unit:movement()
+		self._unit_base = unit:base()
 
 		self._health_bar._set_data_instant = true
 
@@ -179,7 +181,7 @@ function HUDFloatingUnitLabel:set_unit(unit, instant, compact_override)
 			self._health_bar_offset = unit:vehicle_driving().hud_label_offset or 100
 			self._compact = true
 		else
-			if unit:base() and unit:base().has_tag and unit:base():has_tag("tank") then
+			if self._unit_base and self._unit_base.has_tag and self._unit_base:has_tag("tank") then
 				self._health_bar:set_health_color(WFHud.settings.colors.armor)
 			else
 				self._health_bar:set_health_color(WFHud.settings.colors.health)
