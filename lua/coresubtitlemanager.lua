@@ -1,11 +1,15 @@
 core:module("CoreSubtitleManager")
 
-Hooks:OverrideFunction(SubtitleManager, "_update_presenter_visibility", function (self)
+local _update_presenter_visibility_original = SubtitleManager._update_presenter_visibility
+function SubtitleManager:_update_presenter_visibility(...)
 	self._show_subtitles = (not managers.user or managers.user:get_setting("subtitle"))
+
 	if self._custom_subs_shown then
 		self:presenter():hide()
+	else
+		_update_presenter_visibility_original(self, ...)
 	end
-end)
+end
 
 Hooks:PostHook(SubtitleManager, "show_subtitle", "show_subtitle_wfhud", function (self, string_id, duration, macros, ...)
 	if self._show_subtitles and not Utils:IsInLoadingState() and _G.WFHud.objective_panel then
