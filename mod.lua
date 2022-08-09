@@ -170,7 +170,7 @@ if not WFHud then
 
 	function WFHud:create_hud_elements()
 		self.unit_aim_label = HUDFloatingUnitLabel:new(self:panel(), true)
-		self.buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - 240 * self.settings.hud_scale, 256 * self.settings.hud_scale)
+		self.buff_list = HUDBuffList:new(self:panel(), 0, 0, self:panel():w() - WFHud.settings.margin_h - 192 * self.settings.hud_scale, 256 * self.settings.hud_scale)
 		self.equipment_panel = HUDPlayerEquipment:new(self:panel())
 		self.interact_display = HUDInteractDisplay:new(self:panel())
 		self.objective_panel = HUDObjectivePanel:new(self:panel(), WFHud.settings.margin_h, 192)
@@ -657,7 +657,7 @@ if not WFHud then
 			callback = "WFHud_integer_value",
 			value = WFHud.settings.margin_h,
 			min = 0,
-			max = 128,
+			max = 640,
 			step = 8,
 			show_value = true,
 			menu_id = menu_ids.main,
@@ -671,7 +671,7 @@ if not WFHud then
 			callback = "WFHud_integer_value",
 			value = WFHud.settings.margin_v,
 			min = 0,
-			max = 128,
+			max = 160,
 			step = 8,
 			show_value = true,
 			menu_id = menu_ids.main,
