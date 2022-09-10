@@ -269,6 +269,7 @@ if not WFHud then
 		equipment_rfid_tag_02 = "equipment_rfid_tag_01",
 		equipment_stash_server = "equipment_harddrive",
 		equipment_thermite_red2 = "equipment_gasoline",
+		equipment_thermite_des = "equipment_compoundok",
 		equipment_usb_with_data = "equipment_usb_no_data",
 		equipment_vial = "equipment_bloodvial",
 		equipment_vialOK = "equipment_bloodvialok",
