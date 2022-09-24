@@ -113,7 +113,7 @@
 	"hud_fire_mode_underbarrel" : "총기 액세서리",
 	"hud_fire_mode_underbarrel_raycast" : "총기 악세서리",
 	"hud_fire_mode_underbarrel_launcher" : "런처",
-	"hud_fire_mode_volley" : "충전사격 모드",
+	"hud_fire_mode_volley" : "일제사격 모드",
 	"hud_objectives_completed" : "완료까지: $CURRENT/$TOTAL",
 	"hud_objectives_defeat_winters" : "캡틴 윈터스를 처리하라",
 	"hud_objectives_damage_resistance" : "적들의 피해 감소량: $NUM%",
