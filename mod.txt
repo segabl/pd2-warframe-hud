@@ -45,6 +45,6 @@
 		{ "hook_id" : "lib/units/pickups/gageassignmentbase", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/units/player_team/teamaidamage", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/units/weapons/newraycastweaponbase", "script_path" : "mod.lua" },
-		{ "hook_id" : "lib/units/weapons/raycastweaponbase", "script_path" : "mod.lua" }
+		{ "hook_id" : "lib/units/weapons/weaponammo", "script_path" : "mod.lua" }
 	]
 }
