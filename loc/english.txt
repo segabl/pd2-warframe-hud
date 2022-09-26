@@ -140,6 +140,7 @@
 	"hud_pickup_snp_ammo" : "Sniper Ammo",
 	"hud_sub_name_alm" : "Hajrudin",
 	"hud_sub_name_bos" : "Ernesto Sosa",
+	"hud_sub_name_brs" : "Boris",
 	"hud_sub_name_bru" : "Eddie",
 	"hud_sub_name_btc" : "The Butcher",
 	"hud_sub_name_bul" : "Buluc",

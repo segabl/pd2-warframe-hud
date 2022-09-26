@@ -139,6 +139,7 @@
 	"hud_pickup_smg_ammo" : "冲锋枪弹药",
 	"hud_pickup_snp_ammo" : "狙击枪弹药",
 	"hud_sub_name_alm" : "哈鲁丁",
+	"hud_sub_name_brs" : "Boris",
 	"hud_sub_name_bru" : "埃德",
 	"hud_sub_name_bos" : "埃内斯托·索萨",
 	"hud_sub_name_btc" : "屠夫",

@@ -140,6 +140,7 @@
 	"hud_pickup_snp_ammo" : "Munição do Reifle de Precisão",
 	"hud_sub_name_alm" : "Hajrudin",
 	"hud_sub_name_bos" : "Ernesto Sosa",
+	"hud_sub_name_brs" : "Boris",
 	"hud_sub_name_bru" : "Eddie",
 	"hud_sub_name_btc" : "Butcher",
 	"hud_sub_name_bul" : "Buluc",

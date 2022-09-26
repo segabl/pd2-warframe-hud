@@ -140,6 +140,7 @@
 	"hud_pickup_snp_ammo" : "Патроны для снайперской винтовки",
 	"hud_sub_name_alm" : "Хайрудин",
 	"hud_sub_name_bos" : "Эрнесто Соса",
+	"hud_sub_name_brs" : "Boris",
 	"hud_sub_name_bru" : "Эдди",
 	"hud_sub_name_btc" : "Мясник",
 	"hud_sub_name_bul" : "Булук",

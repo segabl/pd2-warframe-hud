@@ -140,6 +140,7 @@
 	"hud_pickup_snp_ammo" : "스나이퍼 탄 습득",
 	"hud_sub_name_alm" : "하이루딘",
 	"hud_sub_name_bos" : "에르네스토 소사",
+	"hud_sub_name_brs" : "Boris",
 	"hud_sub_name_bru" : "에디",
 	"hud_sub_name_btc" : "도살자",
 	"hud_sub_name_bul" : "불룩",
