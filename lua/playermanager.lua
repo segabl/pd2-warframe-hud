@@ -17,7 +17,7 @@ Hooks:PostHook(PlayerManager, "activate_temporary_upgrade", "activate_temporary_
 		-- not the best way but works
 		if upgrade == "armor_break_invulnerable" then
 			set_invulnerable(true)
-			DelayedCalls:Add("wfhud_player_invul_end", data[1], set_invulnerable)
+			DelayedCalls:Add("wfhud_player_invul_end", data[1], function () set_invulnerable(false) end)
 		end
 	end
 end)
