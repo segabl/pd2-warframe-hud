@@ -204,8 +204,13 @@ local icon_size = wp_size * 0.5
 local add_waypoint_original = HUDManager.add_waypoint
 function HUDManager:add_waypoint(id, data, ...)
 	local string_id = tostring(id)
-	local is_custom = CustomWaypoints and string_id:find(CustomWaypoints.prefix)
 	local bg_visible = not string_id:find("^susp")
+
+	-- Use chat colors instead of the ugly preplanning colors for custom waypoints
+	if CustomWaypoints and string_id:find(CustomWaypoints.prefix) then
+		local peer_id = string_id:gsub(CustomWaypoints.prefix, "")
+		data.color = tweak_data.chat_colors[tonumber(peer_id) or 1] or tweak_data.chat_colors[#tweak_data.chat_colors]
+	end
 
 	data.blend_mode = bg_visible and "normal" or data.blend_mode
 	data.radius = data.radius or 200
