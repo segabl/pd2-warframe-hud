@@ -205,11 +205,16 @@ local add_waypoint_original = HUDManager.add_waypoint
 function HUDManager:add_waypoint(id, data, ...)
 	local string_id = tostring(id)
 	local bg_visible = not string_id:find("^susp")
+	local is_custom = CustomWaypoints and string_id:find(CustomWaypoints.prefix)
+	local hide_offscreen = false
 
 	-- Use chat colors instead of the ugly preplanning colors for custom waypoints
-	if CustomWaypoints and string_id:find(CustomWaypoints.prefix) then
+	if is_custom then
 		local peer_id = string_id:gsub(CustomWaypoints.prefix, "")
-		data.color = tweak_data.chat_colors[tonumber(peer_id) or 1] or tweak_data.chat_colors[#tweak_data.chat_colors]
+		local peer_id_num = tonumber(peer_id) or 1
+		data.color = WFHud.settings.player_panels.use_peer_colors and tweak_data.chat_colors[peer_id_num] or WFHud.settings.colors.default
+		data.text = tostring(peer_id_num)
+		hide_offscreen = not (peer_id_num == 1 and CustomWaypoints.settings.always_show_my_waypoint or peer_id_num ~= 1 and CustomWaypoints.settings.always_show_others_waypoints)
 	end
 
 	data.blend_mode = bg_visible and "normal" or data.blend_mode
@@ -222,30 +227,43 @@ function HUDManager:add_waypoint(id, data, ...)
 		return
 	end
 
-	local ratio
 	local wp_data = self._hud.waypoints[id]
 
 	wp_data.current_position = Vector3()
+	wp_data.hide_offscreen = hide_offscreen
 
-	ratio = wp_data.bitmap:h() / wp_data.bitmap:w()
-	if bg_visible then
+	if is_custom then
+		wp_data.bitmap:set_image("guis/textures/wfhud/peer_bg")
 		wp_data.bitmap:set_color((data.color or WFHud.settings.colors.default):with_alpha(1))
-		wp_data.bitmap:set_size(ratio < 1 and icon_size or icon_size / ratio, ratio < 1 and icon_size * ratio or icon_size)
+		wp_data.bitmap:set_size(icon_size * 0.9, icon_size * 0.9)
 		wp_data.size = Vector3(wp_size, wp_size)
+	else
+		local ratio = wp_data.bitmap:h() / wp_data.bitmap:w()
+		if bg_visible then
+			wp_data.bitmap:set_color((data.color or WFHud.settings.colors.default):with_alpha(1))
+			wp_data.bitmap:set_size(ratio < 1 and icon_size or icon_size / ratio, ratio < 1 and icon_size * ratio or icon_size)
+			wp_data.size = Vector3(wp_size, wp_size)
+		end
 	end
 
-	ratio = wp_data.arrow:h() / wp_data.arrow:w()
-	wp_data.arrow:set_size(ratio < 1 and icon_size or icon_size / ratio, ratio < 1 and icon_size * ratio or icon_size)
+	wp_data.arrow:set_size(icon_size * 0.65, icon_size * 0.65)
 	wp_data.arrow:set_color((data.color or WFHud.settings.colors.default):with_alpha(1))
 
-	wp_data.text:set_font(WFHud.font_ids.default)
-	wp_data.text:set_font_size(WFHud.font_sizes.small * font_scale * hud_scale)
-	local _, _, w, _ = wp_data.text:text_rect()
-	wp_data.text:set_w(w)
+	if is_custom then
+		wp_data.text:set_font(WFHud.font_ids.bold)
+		wp_data.text:set_font_size(WFHud.font_sizes.tiny * font_scale * hud_scale)
+		wp_data.text:set_text(data.text)
+		wp_data.text:set_layer(wp_data.bitmap:layer() + 1)
+		wp_data.text:set_color(WFHud.settings.colors.default:invert():with_alpha(0.75))
+		local _, _, w, h = wp_data.text:text_rect()
+		wp_data.text:set_size(w, h)
+	end
+
 	if wp_data.distance then
 		wp_data.distance:set_font(WFHud.font_ids.default)
 		wp_data.distance:set_font_size(WFHud.font_sizes.small * font_scale * hud_scale)
 	end
+
 	if wp_data.timer_gui then
 		wp_data.timer_gui:set_font(WFHud.font_ids.default)
 		wp_data.timer_gui:set_font_size(WFHud.font_sizes.small * font_scale * hud_scale)
@@ -356,8 +374,6 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 			mvec_set_static(data.current_position, panel:center_x() + data.slot_x, panel:center_y() + panel:center_y() / 2, 0)
 
 			data.bitmap:set_center(data.current_position.x, data.current_position.y)
-			data.text:set_center_x(data.bitmap:center_x())
-			data.text:set_top(data.bitmap:bottom())
 
 			data.present_timer = data.present_timer - dt
 
@@ -383,7 +399,12 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 				if data.state ~= "offscreen" then
 					data.state = "offscreen"
 
-					data.arrow:set_visible(true)
+					if data.hide_offscreen then
+						data.bitmap:set_visible(false)
+						data.text:set_visible(false)
+					else
+						data.arrow:set_visible(true)
+					end
 
 					data.off_timer = 0 - (1 - data.in_timer)
 
@@ -421,13 +442,10 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 				end
 
 				data.bitmap:set_center(mvector3.x(data.current_position), mvector3.y(data.current_position))
-				data.arrow:set_center(mvector3.x(data.current_position) + direction.x * 24, mvector3.y(data.current_position) + direction.y * 24)
+				data.arrow:set_center(mvector3.x(data.current_position) + direction.x * wp_size * 0.7, mvector3.y(data.current_position) + direction.y * wp_size * 0.7)
 
 				local angle = math.X:angle(direction) * math.sign(direction.y)
 				data.arrow:set_rotation(angle)
-
-				data.text:set_center_x(data.bitmap:center_x())
-				data.text:set_top(data.bitmap:bottom())
 			else
 				if data.state == "offscreen" then
 					data.state = "onscreen"
@@ -442,6 +460,11 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 
 					if data.timer_gui then
 						data.timer_gui:set_visible(true)
+					end
+
+					if data.hide_offscreen then
+						data.bitmap:set_visible(true)
+						data.text:set_visible(true)
 					end
 				end
 
@@ -460,9 +483,6 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 
 				data.bitmap:set_center(mvector3.x(data.current_position), mvector3.y(data.current_position))
 
-				data.text:set_center_x(data.bitmap:center_x())
-				data.text:set_top(data.bitmap:bottom())
-
 				if data.distance then
 					local length = wp_dir:length()
 					data.distance:set_text(string.format("%.0f", length / 100) .. "m")
@@ -473,7 +493,10 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 		end
 
 		local alpha = data.bitmap:alpha()
+
 		data.text:set_alpha(alpha)
+		data.text:set_center(data.bitmap:center())
+
 		data.arrow:set_alpha(alpha)
 
 		if data.bg then
