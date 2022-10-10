@@ -35,7 +35,7 @@ function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 	})
 
 	local size = math.ceil(WFHud.font_sizes.default * font_scale * hud_scale * (1 + 0.45 * self._crit_mod))
-	local color = WFHud.settings.colors[HUDDamagePop.COLORS[self._crit_mod + 1]]
+	local color = damage == 0 and WFHud.settings.colors.muted or WFHud.settings.colors[HUDDamagePop.COLORS[self._crit_mod + 1]]
 
 	if self.PROC_TYPE_TEXTURE_RECTS[proc_type] then
 		self._proc_bitmap = self._panel:bitmap({
