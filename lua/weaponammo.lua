@@ -8,7 +8,7 @@ local function set_ammo_total(self, ammo_total)
 		return
 	end
 
-	local current = self._ammo_total and self:digest_value(self._ammo_total, false) or math.huge
+	local current = self.get_ammo_total and self:get_ammo_total() or math.huge
 	if current >= ammo_total then
 		return
 	end
