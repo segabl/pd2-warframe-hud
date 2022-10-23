@@ -217,11 +217,9 @@ Hooks:PostHook(HUDTeammate, "set_grenade_cooldown", "set_grenade_cooldown_wfhud"
 	local end_time = data and data.end_time
 	if not end_time then
 		WFHud.equipment_panel._equipment_list:set_icon_value("grenade", "")
-		WFHud.equipment_panel._equipment_list:set_icon_enabled("grenade", true)
 		return
 	end
 
-	WFHud.equipment_panel._equipment_list:set_icon_enabled("grenade", false)
 	grenades_panel:animate(function ()
 		local duration = end_time - managers.game_play_central:get_heist_timer()
 		over(duration, function (t)
