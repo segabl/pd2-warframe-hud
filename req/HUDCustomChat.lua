@@ -400,6 +400,7 @@ function HUDCustomChat:show()
 		mouse_release = callback(self, self, "mouse_release"),
 		id = "wfhud_chat"
 	})
+	managers.mouse_pointer:set_pointer_image("arrow")
 
 	self._ws:connect_keyboard(Input:keyboard())
 	self._input_panel:key_press(callback(self, self, "key_press"))
