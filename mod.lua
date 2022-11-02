@@ -44,6 +44,7 @@ if not WFHud then
 		buff_list = true,
 		rare_mission_equipment = true,
 		health_labels = true,
+		joker_labels = true,
 		damage_popups = true,
 		waypoints = true,
 		world_interactions = true,
@@ -555,11 +556,28 @@ if not WFHud then
 		self.use_default_fonts = true
 	end
 
-	Hooks:Add("LocalizationManagerPostInit", "LocalizationManagerPostInitWFHud", function(loc)
+	Hooks:Add("HopLibOnMinionAdded", "HopLibOnMinionAddedWFHud", function (unit, player_unit)
+		if Keepers and not Keepers.impostor or not WFHud.settings.joker_labels then
+			return
+		end
+
+		unit:base()._name_label_id = managers.hud:_add_name_label({
+			name = "Joker",
+			unit = unit
+		})
+	end)
+
+	Hooks:Add("HopLibOnMinionRemoved", "HopLibOnMinionRemovedWFHud", function (unit, player_unit)
+		if unit:base()._name_label_id then
+			managers.hud:_remove_name_label(unit:base()._name_label_id)
+		end
+	end)
+
+	Hooks:Add("LocalizationManagerPostInit", "LocalizationManagerPostInitWFHud", function (loc)
 		HopLib:load_localization(WFHud.mod_path .. "loc/", loc)
 	end)
 
-	Hooks:Add("MenuManagerBuildCustomMenus", "MenuManagerBuildCustomMenusWFHud", function(menu_manager, nodes)
+	Hooks:Add("MenuManagerBuildCustomMenus", "MenuManagerBuildCustomMenusWFHud", function (menu_manager, nodes)
 
 		local function set_settings_value(name, value)
 			local settings_table = WFHud.settings
@@ -715,6 +733,18 @@ if not WFHud then
 			priority = 76
 		})
 
+		local keepers = Keepers and not Keepers.impostor
+		MenuHelper:AddToggle({
+			id = "joker_labels",
+			title = "menu_wfhud_joker_labels",
+			desc = keepers and "menu_wfhud_joker_labels_disabled_desc" or "menu_wfhud_joker_labels_desc",
+			callback = "WFHud_boolean_value",
+			value = keepers and Keepers.settings.show_my_joker_name or not keepers and WFHud.settings.joker_labels,
+			disabled = keepers,
+			menu_id = menu_ids.main,
+			priority = 75
+		})
+
 		MenuHelper:AddToggle({
 			id = "boss_bar",
 			title = "menu_wfhud_boss_bar",
@@ -722,7 +752,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.boss_bar,
 			menu_id = menu_ids.main,
-			priority = 75
+			priority = 74
 		})
 
 		MenuHelper:AddToggle({
@@ -732,7 +762,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.damage_popups,
 			menu_id = menu_ids.main,
-			priority = 74
+			priority = 73
 		})
 
 		MenuHelper:AddToggle({
@@ -742,7 +772,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.waypoints,
 			menu_id = menu_ids.main,
-			priority = 73
+			priority = 72
 		})
 
 		MenuHelper:AddToggle({
@@ -752,7 +782,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.world_interactions,
 			menu_id = menu_ids.main,
-			priority = 72
+			priority = 71
 		})
 
 		MenuHelper:AddDivider({
