@@ -31,26 +31,23 @@ function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 	self._crit_mod = (is_crit and 1 or 0) + (is_headshot and 1 or 0)
 
 	self._panel = panel:panel({
+		visible = false,
 		layer = -99 + self._crit_mod
 	})
 
-	local size = math.ceil(WFHud.font_sizes.default * font_scale * hud_scale * (1 + 0.45 * self._crit_mod))
 	local color = damage == 0 and WFHud.settings.colors.muted or WFHud.settings.colors[HUDDamagePop.COLORS[self._crit_mod + 1]]
 
 	if self.PROC_TYPE_TEXTURE_RECTS[proc_type] then
 		self._proc_bitmap = self._panel:bitmap({
 			texture = "guis/textures/wfhud/damage_types",
 			texture_rect = self.PROC_TYPE_TEXTURE_RECTS[proc_type],
-			color = color,
-			w = size,
-			h = size
+			color = color
 		})
 	end
 
 	self._damage_text = self._panel:text({
 		text = string.format("%u", math.abs(math.ceil(damage * 10))),
 		font = WFHud.fonts.default,
-		font_size = size,
 		color = color,
 		x = 0
 	})
@@ -71,7 +68,7 @@ function HUDDamagePop:_animate()
 			return
 		end
 
-		local size = math.ceil(WFHud.font_sizes.default * font_scale * hud_scale * (1 + 0.45 * self._crit_mod) * math.bezier(self.SCALE_CURVE, t))
+		local size = math.ceil(WFHud.font_sizes.default * font_scale * hud_scale * (1 + (self._crit_mod ^ 1.5) * 0.5) * math.bezier(self.SCALE_CURVE, t))
 
 		self._damage_text:set_font_size(size)
 		local _, _, tw, _ = self._damage_text:text_rect()
