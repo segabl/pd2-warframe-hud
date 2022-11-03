@@ -1031,11 +1031,4 @@ if not WFHud then
 
 end
 
-if RequiredScript then
-
-	local fname = WFHud.mod_path .. RequiredScript:gsub(".+/(.+)", "lua/%1.lua")
-	if io.file_is_readable(fname) then
-		dofile(fname)
-	end
-
-end
+HopLib:run_required(WFHud.mod_path .. "lua/")
