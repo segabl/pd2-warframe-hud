@@ -21,7 +21,7 @@
 	"menu_wfhud_health_labels_desc" : "캐릭터를 조준하고있을때 그 캐릭터의 체력을 표시해줍니다",
 	menu_wfhud_joker_labels" : "조커 레이블",
     	"menu_wfhud_joker_labels_desc" : "조커의 이름 레이블을 영구적으로 표시합니다",
-	"menu_wfhud_joker_labels_disabled_desc" : "조커의 이름 레이블을 영구적으로 표시합니다\n 조커이름이 현재 여기서 관리되고있습니다.,\"Keepers\"" 
+	"menu_wfhud_joker_labels_disabled_desc" : "조커의 이름 레이블을 영구적으로 표시합니다\n 조커이름이 현재 여기서 관리되고있습니다.,\"Keepers\"",
 	"menu_wfhud_damage_popups" : "데미지 팝업",
 	"menu_wfhud_damage_popups_desc" : "데미지나 피해량을 허드에 표시해줍니다. ",
 	"menu_wfhud_waypoints" : "웨이포인트",
