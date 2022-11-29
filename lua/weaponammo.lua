@@ -13,8 +13,8 @@ local function set_ammo_total(self, ammo_total)
 		return
 	end
 
-	local categories = self:weapon_tweak_data().categories
-	local category = categories[#categories]
+	local categories = tweak_data.weapon[self._name_id] and tweak_data.weapon[self._name_id].categories
+	local category = categories and categories[#categories] or "pistol"
 	local ammo_icon = "guis/textures/wfhud/hud_icons/pickup_ammo_" .. (ammo_icon_redirects[category] or category)
 	if not DB:has(ids_texture, Idstring(ammo_icon)) then
 		ammo_icon = "guis/textures/wfhud/hud_icons/pickup_ammo"
