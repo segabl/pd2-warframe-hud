@@ -45,6 +45,8 @@
 	"menu_wfhud_chat_inline_desc" : "Exiba mensagens de outras abas no chat principal também",
 	"menu_wfhud_chat_use_peer_colors_desc" : "Cores dos nomes de jogadores vão ser exibidos respectivamente",
 	"menu_wfhud_player_panels" : "Configurações de Painel de Jogador",
+	"menu_wfhud_player_panels_show_avatars" : "Show player avatars",
+	"menu_wfhud_player_panels_show_avatars_desc" : "Shows players Steam avatars in their panels\nShows character portraits if the option is disabled",
 	"menu_wfhud_player_panels_show_deployables" : "Mostrar Equipamentos",
 	"menu_wfhud_player_panels_show_deployables_desc" : "Exibe os equipamentos dos aliados na sua lista de equipamentos",
 	"menu_wfhud_player_panels_show_downs" : "Mostrar Quedas",

@@ -193,6 +193,20 @@ function HUDManager:show_hint(params)
 end
 
 
+-- set character name for disabled steam avatar option
+local add_teammate_panel_original = HUDManager.add_teammate_panel
+function HUDManager:add_teammate_panel(character_name, ...)
+	local i = add_teammate_panel_original(self, character_name, ...)
+
+	local panel = self._teammate_panels[i] and self._teammate_panels[i]._wfhud_panel
+	if panel then
+		panel:set_character(character_name)
+	end
+
+	return i
+end
+
+
 -- waypoint stuff
 if not WFHud.settings.waypoints then
 	return

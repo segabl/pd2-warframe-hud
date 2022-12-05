@@ -50,6 +50,7 @@ if not WFHud then
 		world_interactions = true,
 		boss_bar = true,
 		player_panels = {
+			show_avatars = true,
 			show_deployables = true,
 			show_downs = true,
 			use_peer_colors = false
@@ -918,13 +919,23 @@ if not WFHud then
 
 		-- Player panels
 		MenuHelper:AddToggle({
+			id = "player_panels.show_avatars",
+			title = "menu_wfhud_player_panels_show_avatars",
+			desc = "menu_wfhud_player_panels_show_avatars_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.player_panels.show_avatars,
+			menu_id = menu_ids.player_panels,
+			priority = 99
+		})
+
+		MenuHelper:AddToggle({
 			id = "player_panels.show_deployables",
 			title = "menu_wfhud_player_panels_show_deployables",
 			desc = "menu_wfhud_player_panels_show_deployables_desc",
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.player_panels.show_deployables,
 			menu_id = menu_ids.player_panels,
-			priority = 99
+			priority = 98
 		})
 
 		MenuHelper:AddToggle({
@@ -934,7 +945,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.player_panels.show_downs,
 			menu_id = menu_ids.player_panels,
-			priority = 98
+			priority = 97
 		})
 
 		MenuHelper:AddToggle({
@@ -944,7 +955,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.player_panels.use_peer_colors,
 			menu_id = menu_ids.player_panels,
-			priority = 97
+			priority = 96
 		})
 
 		-- Colors
