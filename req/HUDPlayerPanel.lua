@@ -141,7 +141,9 @@ function HUDPlayerPanel:set_peer_id(id, ai)
 		self._peer_rank:set_text("0")
 		self._level_bar:set_w(self._level_bar_bg:w())
 		self._level_bar:set_right(self._level_bar_bg:right())
-		self._peer_avatar:set_image("guis/textures/wfhud/avatar_placeholder")
+		if WFHud.settings.player_panels.show_avatars then
+			self._peer_avatar:set_image("guis/textures/wfhud/avatar_placeholder")
+		end
 		return
 	end
 
@@ -150,6 +152,10 @@ function HUDPlayerPanel:set_peer_id(id, ai)
 	self._peer_rank:set_text(tostring(peer:rank()))
 	self._level_bar:set_w(self._level_bar_bg:w() * ((peer:level() or 0) / 100))
 	self._level_bar:set_right(self._level_bar_bg:right())
+
+	if not WFHud.settings.player_panels.show_avatars then
+		return
+	end
 
 	Steam:friend_avatar(Steam.MEDIUM_AVATAR, peer:user_id(), function (texture)
 		if peer == self._peer then
@@ -171,6 +177,15 @@ function HUDPlayerPanel:set_name(name)
 	end
 
 	self._name_text:set_text(name)
+end
+
+function HUDPlayerPanel:set_character(character_name)
+	if WFHud.settings.player_panels.show_avatars then
+		return
+	end
+
+	local icon = tweak_data.blackmarket:get_character_icon(character_name)
+	self._peer_avatar:set_image(icon or "guis/textures/wfhud/avatar_placeholder")
 end
 
 function HUDPlayerPanel:health_bar()

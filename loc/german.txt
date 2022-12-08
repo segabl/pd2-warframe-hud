@@ -45,6 +45,8 @@
 	"menu_wfhud_chat_inline_desc" : "Zeigt private Nachrichten inline auch im Hauptchat an",
 	"menu_wfhud_chat_use_peer_colors_desc" : "Färbt Spielernamen gemäß deren Peer-Farbe",
 	"menu_wfhud_player_panels" : "Spielerpanel-Einstellungen",
+	"menu_wfhud_player_panels_show_avatars" : "Zeige Avatare",
+	"menu_wfhud_player_panels_show_avatars_desc" : "Zeigt Steam Avatare der Spieler in deren Panel\nZeight Character Portraits wenn die Option deaktiviert ist",
 	"menu_wfhud_player_panels_show_deployables" : "Zeige Ausrüstung",
 	"menu_wfhud_player_panels_show_deployables_desc" : "Zeigt die Ausrüstung von Mitspielern in deren Itemliste an",
 	"menu_wfhud_player_panels_show_downs" : "Zeige Downs",

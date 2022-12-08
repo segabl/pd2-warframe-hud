@@ -45,6 +45,8 @@
 	"menu_wfhud_chat_inline_desc" : "Показывает личные сообщения вмести со всеми остальными",
 	"menu_wfhud_chat_use_peer_colors_desc" : "Окрашивает имена игроков",
 	"menu_wfhud_player_panels" : "Настройки панели игрока",
+	"menu_wfhud_player_panels_show_avatars" : "Show player avatars",
+	"menu_wfhud_player_panels_show_avatars_desc" : "Shows players Steam avatars in their panels\nShows character portraits if the option is disabled",
 	"menu_wfhud_player_panels_show_deployables" : "Показывать снаряжение",
 	"menu_wfhud_player_panels_show_deployables_desc" : "Показывает снаряжение напарника",
 	"menu_wfhud_player_panels_show_downs" : "Показывать падения",
