@@ -558,19 +558,20 @@ if not WFHud then
 	end
 
 	Hooks:Add("HopLibOnMinionAdded", "HopLibOnMinionAddedWFHud", function (unit, player_unit)
-		if Keepers and not Keepers.impostor or not WFHud.settings.joker_labels then
+		if unit:base().name_label_id or not WFHud.settings.joker_labels then
 			return
 		end
 
-		unit:base()._name_label_id = managers.hud:_add_name_label({
+		unit:base().name_label_id = managers.hud:_add_name_label({
 			name = "Joker",
 			unit = unit
 		})
 	end)
 
 	Hooks:Add("HopLibOnMinionRemoved", "HopLibOnMinionRemovedWFHud", function (unit, player_unit)
-		if unit:base()._name_label_id then
-			managers.hud:_remove_name_label(unit:base()._name_label_id)
+		if unit:base().name_label_id then
+			managers.hud:_remove_name_label(unit:base().name_label_id)
+			unit:unit_data().name_label_id = nil
 		end
 	end)
 
