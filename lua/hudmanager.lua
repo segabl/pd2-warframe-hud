@@ -364,10 +364,8 @@ Hooks:OverrideFunction(HUDManager, "_update_waypoints", function (self, t, dt)
 			data.bitmap:animate(function (o)
 				local start_alpha = o:alpha()
 				local target_alpha = in_steelsight and 0 or 1
-				wait(in_steelsight and 0.5 or 0)
-				over(math.abs(target_alpha - start_alpha) * 0.5, function (t)
-					local a = math.lerp(start_alpha, target_alpha, t)
-					o:set_alpha(a)
+				over(math.abs(target_alpha - start_alpha), function (t)
+					o:set_alpha(math.lerp(start_alpha, target_alpha, t))
 				end)
 			end)
 		end
