@@ -551,7 +551,7 @@ local time_functions = {
 function HUDCustomChat:receive_message(name, message, color)
 	local peer = managers.chat._last_message_peer
 	local private, line_text, color_ranges
-	if not peer and (not name or name == "" or name == managers.localization:to_upper_text("menu_system_message")) then
+	if not peer and (not name or name == "" or name:upper() == managers.localization:to_upper_text("menu_system_message")) then
 		line_text = message
 	else
 		local msg, subs = message:gsub("^%[PRIVATE%](.+)", "%1")
