@@ -265,6 +265,7 @@ if not WFHud then
 	local redirects = {
 		equipment_bank_manager_key = "equipment_keycard",
 		equipment_born_tool = "equipment_bfd_tool",
+		equipment_businesscard_corp = "equipment_rfid_tag_01",
 		equipment_elevator_key = "equipment_generic_key",
 		equipment_gasoline_pent = "equipment_diesel",
 		equipment_key_chain_pent = "equipment_key_chain_pex",
