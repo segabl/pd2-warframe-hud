@@ -132,6 +132,14 @@ local property_mapping = {
 	bullet_storm = {
 		category = "player",
 		upgrade = "no_ammo_cost"
+	},
+	intant_swap_to_primary = {
+		category = "weapon",
+		upgrade = "primary_reload_swap_secondary"
+	},
+	intant_swap_to_secondary = {
+		category = "weapon",
+		upgrade = "secondary_reload_swap_primary"
 	}
 }
 local function check_property(pm, name)
@@ -161,6 +169,7 @@ Hooks:PostHook(PlayerManager, "remove_property", "remove_property_wfhud", check_
 Hooks:PostHook(PlayerManager, "set_property", "set_property_wfhud", check_property)
 Hooks:PostHook(PlayerManager, "activate_temporary_property", "activate_temporary_property_wfhud", check_property)
 Hooks:PostHook(PlayerManager, "add_to_temporary_property", "add_to_temporary_property_wfhud", check_property)
+Hooks:PostHook(PlayerManager, "remove_temporary_property", "remove_temporary_property_wfhud", check_property)
 
 
 local categories = { "speed", "stamina", "critical_hit", "damage_dampener", "health", "armor" }
