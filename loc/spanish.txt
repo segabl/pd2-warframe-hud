@@ -119,6 +119,7 @@
 	"hud_fire_mode_underbarrel_raycast" : "Boquilla Inferior",
 	"hud_fire_mode_underbarrel_launcher" : "Lanzador",
 	"hud_fire_mode_volley" : "Volley",
+	"hud_fire_mode_alt" : "Alternate",
 	"hud_objectives_completed" : "Completado: $CURRENT/$TOTAL",
 	"hud_objectives_defeat_winters" : "Derrota al Capitán Winters",
 	"hud_objectives_damage_resistance" : "Reducción de Daño Enemigo: $NUM%",

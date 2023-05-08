@@ -119,6 +119,7 @@
 	"hud_fire_mode_underbarrel_raycast" : "下挂配件",
 	"hud_fire_mode_underbarrel_launcher" : "发射器",
 	"hud_fire_mode_volley" : "齐射",
+	"hud_fire_mode_alt" : "特殊",
 	"hud_objectives_completed" : "已完成: $CURRENT/$TOTAL",
 	"hud_objectives_defeat_winters" : "击退冬日队长",
 	"hud_objectives_damage_resistance" : "敌人伤害减免: $NUM%",

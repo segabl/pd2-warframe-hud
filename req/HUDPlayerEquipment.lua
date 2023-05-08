@@ -193,8 +193,8 @@ function HUDPlayerEquipment:set_fire_mode()
 	if gadget_base and gadget_base.is_underbarrel and gadget_base:is_underbarrel() then
 		fire_mode_text = gadget_base.GADGET_TYPE
 		loc_id = "hud_fire_mode_" .. fire_mode_text
-	elseif wbase:can_toggle_firemode() or wbase.has_underbarrel and wbase:has_underbarrel() then
-		fire_mode_text = (wbase.in_burst_mode and wbase:in_burst_mode() and "burst" or wbase:fire_mode())
+	elseif wbase:can_toggle_firemode() or wbase.has_underbarrel and wbase:has_underbarrel() or wbase._alt_fire_data then
+		fire_mode_text = wbase.in_burst_mode and wbase:in_burst_mode() and "burst" or wbase.alt_fire_active and wbase:alt_fire_active() and "alt" or wbase:fire_mode()
 		loc_id = "hud_fire_mode_" .. fire_mode_text
 	end
 	fire_mode_text = loc_id and managers.localization:exists(loc_id) and managers.localization:to_upper_text(loc_id) or fire_mode_text:upper()

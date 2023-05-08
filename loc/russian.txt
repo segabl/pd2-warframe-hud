@@ -119,6 +119,7 @@
 	"hud_fire_mode_underbarrel_raycast" : "Подствольный",
 	"hud_fire_mode_underbarrel_launcher" : "Гранатомет",
 	"hud_fire_mode_volley" : "Залп",
+	"hud_fire_mode_alt" : "Alternate",
 	"hud_objectives_completed" : "Выполнено: $CURRENT/$TOTAL",
 	"hud_objectives_defeat_winters" : "Одолейте Капитана Уинтерса",
 	"hud_objectives_damage_resistance" : "Снижение урона противникам: $NUM%",
