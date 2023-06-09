@@ -153,7 +153,7 @@ function HUDPlayerPanel:set_peer_id(id, ai)
 	self._level_bar:set_w(self._level_bar_bg:w() * ((peer:level() or 0) / 100))
 	self._level_bar:set_right(self._level_bar_bg:right())
 
-	if not WFHud.settings.player_panels.show_avatars then
+	if not WFHud.settings.player_panels.show_avatars or not Steam then
 		return
 	end
 
