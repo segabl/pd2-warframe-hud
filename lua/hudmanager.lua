@@ -164,7 +164,7 @@ end
 if WFHud.settings.world_interactions then
 	-- Why are you using a custom interaction radial for the downed HUD?
 	Hooks:OverrideFunction(HUDManager, "pd_start_progress", function (self, current, total, msg)
-		if not self:script(PlayerBase.PLAYER_DOWNED_HUD) then
+		if not alive(self:panel(PlayerBase.PLAYER_DOWNED_HUD)) then
 			return
 		end
 
@@ -174,7 +174,7 @@ if WFHud.settings.world_interactions then
 	end)
 
 	Hooks:OverrideFunction(HUDManager, "pd_stop_progress", function (self)
-		if not self:script(PlayerBase.PLAYER_DOWNED_HUD) then
+		if not alive(self:panel(PlayerBase.PLAYER_DOWNED_HUD)) then
 			return
 		end
 
@@ -236,8 +236,8 @@ function HUDManager:add_waypoint(id, data, ...)
 
 	add_waypoint_original(self, id, data, ...)
 
-	local hud = managers.hud:script(PlayerBase.PLAYER_INFO_HUD_PD2)
-	if not hud then
+	local panel = self:panel(PlayerBase.PLAYER_INFO_HUD_PD2)
+	if not panel then
 		return
 	end
 
@@ -284,7 +284,7 @@ function HUDManager:add_waypoint(id, data, ...)
 	end
 
 	if bg_visible then
-		wp_data.bg = hud.panel:bitmap({
+		wp_data.bg = panel:bitmap({
 			layer = wp_data.bitmap:layer() - 1,
 			name = "bg" .. id,
 			texture = "guis/textures/wfhud/icons",
@@ -323,13 +323,10 @@ Hooks:PreHook(HUDManager, "remove_waypoint", "remove_waypoint_wfhud", function (
 		return
 	end
 
-	local hud = managers.hud:script(PlayerBase.PLAYER_INFO_HUD_PD2)
-	if not hud then
-		return
+	local panel = managers.hud:panel(PlayerBase.PLAYER_INFO_HUD_PD2)
+	if alive(panel) then
+		panel:remove(wp_data.bg)
 	end
-
-	local waypoint_panel = hud.panel
-	waypoint_panel:remove(wp_data.bg)
 end)
 
 local mvec_dot = mvector3.dot
