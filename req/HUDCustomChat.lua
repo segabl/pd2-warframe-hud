@@ -10,6 +10,8 @@ HUDCustomChat.MESSAGE_DISPLAY_TIME = 10
 HUDCustomChat.MAX_MESSAGE_HISTORY = 100
 HUDCustomChat.MAX_MESSAGE_LENGTH = 200
 
+---@param ws any
+---@param panel Panel
 function HUDCustomChat:init(ws, panel)
 	self._scroll_offset = 0
 

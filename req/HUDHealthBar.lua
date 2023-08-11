@@ -11,6 +11,14 @@ HUDHealthBar.LEFT_TO_RIGHT = 2
 HUDHealthBar.ANIM_TIME_GAIN = 0.5
 HUDHealthBar.ANIM_TIME_LOSS = 0.2
 
+---@param panel Panel
+---@param x number
+---@param y number
+---@param width number
+---@param height number
+---@param text_size number?
+---@param has_caps boolean?
+---@param simple boolean?
 function HUDHealthBar:init(panel, x, y, width, height, text_size, has_caps, simple)
 	self._direction = HUDHealthBar.RIGHT_TO_LEFT
 

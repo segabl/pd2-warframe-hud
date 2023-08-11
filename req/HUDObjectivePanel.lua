@@ -27,6 +27,9 @@ HUDObjectivePanel.CHARACTER_COLORS = {
 	mrp = Color("ff66aa")
 }
 
+---@param panel Panel
+---@param x number
+---@param y number
 function HUDObjectivePanel:init(panel, x, y)
 	self._last_time = 0
 

@@ -27,6 +27,12 @@ HUDDamagePop.COLORS = {
 	"red_crit"
 }
 
+---@param panel Panel
+---@param pos Vector3
+---@param damage number
+---@param proc_type string?
+---@param is_crit boolean?
+---@param is_headshot boolean?
 function HUDDamagePop:init(panel, pos, damage, proc_type, is_crit, is_headshot)
 	self._crit_mod = (is_crit and 1 or 0) + (is_headshot and 1 or 0)
 

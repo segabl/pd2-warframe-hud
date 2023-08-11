@@ -20,6 +20,10 @@ HUDBuffListItem.CATEGORY_TEXTURE_RECTS = {
 	damage = { 192, 64, 64, 64 }
 }
 
+---@param parent_panel Panel
+---@param upgrade_data table
+---@param value any
+---@param duration number?
 function HUDBuffListItem:init(parent_panel, upgrade_data, value, duration)
 	self._upgrade_data = upgrade_data
 
@@ -224,6 +228,11 @@ end
 ---@field new fun(self, parent_panel, x, y, width, height):HUDBuffList
 HUDBuffList = HUDBuffList or WFHud:panel_class()
 
+---@param parent_panel Panel
+---@param x number
+---@param y number
+---@param width number
+---@param height number
 function HUDBuffList:init(parent_panel, x, y, width, height)
 	self.buff_list = {}
 	self._buff_map = {}

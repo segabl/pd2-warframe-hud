@@ -12,6 +12,9 @@ local tmp_vec2 = Vector3()
 ---@field new fun(self, panel, health_visible, managed_unit):HUDFloatingUnitLabel
 HUDFloatingUnitLabel = HUDFloatingUnitLabel or WFHud:panel_class()
 
+---@param panel Panel
+---@param health_visible boolean?
+---@param managed_unit Unit?
 function HUDFloatingUnitLabel:init(panel, health_visible, managed_unit)
 	self._health_faded_out = true
 	self._panel_faded_out = true

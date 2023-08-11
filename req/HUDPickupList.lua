@@ -8,6 +8,12 @@ HUDPickup = HUDPickup or WFHud:panel_class()
 HUDPickup.ICON_SIZE = WFHud.font_sizes.default * font_scale * hud_scale
 HUDPickup.DISPLAY_DURATION = 3
 
+---@param panel Panel
+---@param id string
+---@param icon string
+---@param icon_rect number[]?
+---@param amount number
+---@param item string
 function HUDPickup:init(panel, id, icon, icon_rect, amount, item)
 	self._id = id
 	self._amount = amount
@@ -102,6 +108,7 @@ end
 ---@field new fun(self, panel):HUDPickupList
 HUDPickupList = HUDPickupList or WFHud:panel_class()
 
+---@param panel Panel
 function HUDPickupList:init(panel)
 	self._pickups = {}
 

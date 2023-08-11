@@ -10,6 +10,7 @@ local label_offset = Vector3(0, 0, 20)
 ---@field new fun(self, panel):HUDInteractDisplay
 HUDInteractDisplay = HUDInteractDisplay or WFHud:panel_class()
 
+---@param panel Panel
 function HUDInteractDisplay:init(panel)
 	self._panel = panel:panel({
 		layer = -1,

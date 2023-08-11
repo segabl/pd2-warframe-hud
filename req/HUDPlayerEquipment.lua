@@ -5,6 +5,7 @@ local font_scale = WFHud.settings.font_scale
 ---@field new fun(self, panel):HUDPlayerEquipment
 HUDPlayerEquipment = HUDPlayerEquipment or WFHud:panel_class()
 
+---@param panel Panel
 function HUDPlayerEquipment:init(panel)
 	self._weapon_index = 1
 

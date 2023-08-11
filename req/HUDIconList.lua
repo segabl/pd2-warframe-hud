@@ -5,6 +5,12 @@ local font_scale = WFHud.settings.font_scale
 ---@field new fun(self, panel, x, y, width, height, icon_color):HUDIconList
 HUDIconList = HUDIconList or WFHud:panel_class()
 
+---@param panel Panel
+---@param x number
+---@param y number
+---@param width number
+---@param height number
+---@param icon_color Color
 function HUDIconList:init(panel, x, y, width, height, icon_color)
 	self._size = height
 	self._spacing = height / 8

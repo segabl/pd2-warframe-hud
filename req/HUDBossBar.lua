@@ -5,6 +5,8 @@ local font_scale = WFHud.settings.font_scale
 ---@field new fun(self, panel, y):HUDBossBar
 HUDBossBar = HUDBossBar or WFHud:panel_class()
 
+---@param panel Panel
+---@param y number
 function HUDBossBar:init(panel, y)
 	self._panel = panel:panel({
 		layer = 100,
