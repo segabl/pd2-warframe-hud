@@ -38,6 +38,11 @@ Hooks:PostHook(HUDPresenter, "init", "init_wfhud", function (self)
 end)
 
 Hooks:OverrideFunction(HUDPresenter, "present", function (self, params)
+	-- Vanilla doesn't present info that doesn't have the present_mid_text flag
+	if not params.present_mid_text then
+		return
+	end
+
 	-- Don't present objectives, we have an objective panel for that
 	-- Not the best way to do this but saves us from overriding a lot of functions in objectivesmanager
 	local callinfo = debug.getinfo(4, "S")
