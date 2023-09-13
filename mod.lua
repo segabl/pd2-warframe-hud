@@ -39,7 +39,6 @@ if not WFHud then
 		font_scale = 1,
 		margin_h = 48,
 		margin_v = 32,
-		vanilla_ammo = false,
 		vanilla_fonts = false,
 		buff_list = true,
 		rare_mission_equipment = true,
@@ -792,16 +791,6 @@ if not WFHud then
 			size = 16,
 			menu_id = menu_ids.main,
 			priority = 69
-		})
-
-		MenuHelper:AddToggle({
-			id = "vanilla_ammo",
-			title = "menu_wfhud_vanilla_ammo",
-			desc = "menu_wfhud_vanilla_ammo_desc",
-			callback = "WFHud_boolean_value",
-			value = WFHud.settings.vanilla_ammo,
-			menu_id = menu_ids.main,
-			priority = 68
 		})
 
 		MenuHelper:AddToggle({

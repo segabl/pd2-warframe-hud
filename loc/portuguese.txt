@@ -9,8 +9,6 @@
 	"menu_wfhud_margin_h_desc" : "Distância horizontal entre a HUD e as bordas, esquerda e direita, da tela\nPrecisa reiniciar o mapa para ter efeito",
 	"menu_wfhud_margin_v" : "Margem Vertical",
 	"menu_wfhud_margin_v_desc" : "Distância vertical entre a HUD e as bordas, acima e abaixo, da tela\nPrecisa reiniciar o mapa para ter efeito",
-	"menu_wfhud_vanilla_ammo" : "Estilo de munição Padrão",
-	"menu_wfhud_vanilla_ammo_desc" : "Munição total incluirá no carregador",
 	"menu_wfhud_vanilla_fonts" : "Fonte Padrão",
 	"menu_wfhud_vanilla_fonts_desc" : "Usará a fonte padrão do jogo invés da fonte do Warframe",
 	"menu_wfhud_buff_list" : "Buff list",

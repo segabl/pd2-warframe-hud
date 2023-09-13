@@ -9,8 +9,6 @@
 	"menu_wfhud_margin_h_desc" : "调整HUD中所有组件元素与屏幕左右的水平距离\n重启劫案以应用更改",
 	"menu_wfhud_margin_v" : "垂直边距",
 	"menu_wfhud_margin_v_desc" : "调整HUD中所有组件元素与屏幕上下的垂直距离\n重启劫案以应用更改",
-	"menu_wfhud_vanilla_ammo" : "原版弹药显示",
-	"menu_wfhud_vanilla_ammo_desc" : "按照原版弹药显示风格，在总弹量中计算已经被装填在弹匣中的弹药",
 	"menu_wfhud_vanilla_fonts" : "原版字体",
 	"menu_wfhud_vanilla_fonts_desc" : "使用游戏默认字体而并非使用HUD的自定义字体",
 	"menu_wfhud_buff_list" : "Buff列表",

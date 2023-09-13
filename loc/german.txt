@@ -9,8 +9,6 @@
 	"menu_wfhud_margin_h_desc" : "Horizontaler Abstand zwischen HUD Elementen und linkem und rechtem Bildschirmrand\nErfordert einen Neustart des Raubzugs",
 	"menu_wfhud_margin_v" : "Vertikaler Abstand",
 	"menu_wfhud_margin_v_desc" : "Vertikaler Abstand zwischen HUD Elementen und oberem und unterem Bildschirmrand\nErfordert einen Neustart des Raubzugs",
-	"menu_wfhud_vanilla_ammo" : "Vanilla Munitionsstil",
-	"menu_wfhud_vanilla_ammo_desc" : "Gesamtmunition beinhaltet Munition im Magazin",
 	"menu_wfhud_vanilla_fonts" : "Vanilla Schriftarten",
 	"menu_wfhud_vanilla_fonts_desc" : "Benutze die normalen Schriftarten des Spiels anstatt den neuen Warframe Schriftarten an",
 	"menu_wfhud_buff_list" : "Buffliste",

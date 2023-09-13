@@ -9,8 +9,6 @@
 	"menu_wfhud_margin_h_desc" : "HUD의 화면의 좌,우의 가장자리 사이의 수평 거리조절.\n적용하려면 습격을 다시 시작해야 합니다",
 	"menu_wfhud_margin_v" : "위,아래 여백 설정",
 	"menu_wfhud_margin_v_desc" : "HUD와 화면의 위와 아래 가장자리 사이의 수직 거리조절.\n적용하려면 습격을 다시 시작해야 합니다",
-	"menu_wfhud_vanilla_ammo" : "바닐라 탄약 스타일",
-	"menu_wfhud_vanilla_ammo_desc" : "총 탄약은 장전되있는 탄약을 포함합니다",
 	"menu_wfhud_vanilla_fonts" : "바닐라 폰트",
 	"menu_wfhud_vanilla_fonts_desc" : "워프레임허드에서 지원하는 폰트대신 기존의 폰트로 사용할수있습니다",
 	"menu_wfhud_buff_list" : "버프 리스트",

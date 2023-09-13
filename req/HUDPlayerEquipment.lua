@@ -172,10 +172,10 @@ function HUDPlayerEquipment:set_ammo()
 		self._ammo_text:set_alpha(mag < 1 and 0.5 or 1)
 		self._total_ammo_text:set_text("   ")
 	else
+		local alt_ammo = managers.user:get_setting("alt_hud_ammo") and getmetatable(wbase) ~= SawWeaponBase
 		self._ammo_text:set_text(tostring(mag))
 		self._ammo_text:set_alpha(1)
-		local ammo = (WFHud.settings.vanilla_ammo or getmetatable(wbase) == SawWeaponBase) and total or math.max(0, total - mag)
-		self._total_ammo_text:set_text(string.format("/ %u", ammo))
+		self._total_ammo_text:set_text(string.format("/ %u", alt_ammo and math.max(0, total - mag) or total))
 	end
 
 	self:_align_ammo_text()
