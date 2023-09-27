@@ -21,8 +21,8 @@ Hooks:OverrideFunction(HUDInteraction, "hide_interaction_bar", function (self, c
 	WFHud.interact_display:hide_interaction_circle()
 end)
 
-Hooks:OverrideFunction(HUDInteraction, "set_bar_valid", function (self, valid, text_id)
-	WFHud.interact_display:set_valid(not valid and managers.localization:to_upper_text(text_id))
+Hooks:OverrideFunction(HUDInteraction, "set_bar_valid", function (self, valid, text_id, macros)
+	WFHud.interact_display:set_valid(not valid and managers.localization:to_upper_text(text_id, macros))
 end)
 
 Hooks:OverrideFunction(HUDInteraction, "set_interaction_bar_width", function (self, current, total)
