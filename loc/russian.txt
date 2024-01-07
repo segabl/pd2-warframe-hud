@@ -1,5 +1,4 @@
 {
-	"debug_mugshot_electrified" : "Под током",
 	"menu_wfhud" : "Warframe HUD",
 	"menu_wfhud_hud_scale" : "Размер интерфейса",
 	"menu_wfhud_hud_scale_desc" : "Размер всех элементов интерфейса\nТребует перезагрузки ограбления",
@@ -13,6 +12,8 @@
 	"menu_wfhud_vanilla_fonts_desc" : "Использовать ванильный шрифт вместо шрифта Warframe",
 	"menu_wfhud_buff_list" : "Список баффов",
 	"menu_wfhud_buff_list_desc" : "Показывает активные эффекты, навыки и перки как иконки рядом с панелью игрока",
+	"menu_wfhud_pickup_list" : "Pickup list",
+	"menu_wfhud_pickup_list_desc" : "Displays picked up ammo, money and items in a list at the bottom of the screen",
 	"menu_wfhud_rare_mission_equipment" : "Редкие предметы",
 	"menu_wfhud_rare_mission_equipment_desc" : "Показывает взятые предметы как дроп редких ресурсов",
 	"menu_wfhud_health_labels" : "Полоски здоровья",

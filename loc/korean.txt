@@ -1,5 +1,4 @@
 {
-	"debug_mugshot_electrified" : "감전 상태",
 	"menu_wfhud" : "워프레임 허드",
 	"menu_wfhud_hud_scale" : "허드 조절",
 	"menu_wfhud_hud_scale_desc" : "모든 HUD관련 요소들의 크키조절을합니다.\n적용하려면 습격을 다시 시작해야 합니다 ",
@@ -13,6 +12,8 @@
 	"menu_wfhud_vanilla_fonts_desc" : "워프레임허드에서 지원하는 폰트대신 기존의 폰트로 사용할수있습니다",
 	"menu_wfhud_buff_list" : "버프 리스트",
 	"menu_wfhud_buff_list_desc" : "게임중 활성화되어있는 버프,디버프 아이콘을 오른쪽 위에 표시합니다.(다운카운트,인질수는 보입니다)",
+	"menu_wfhud_pickup_list" : "Pickup list",
+	"menu_wfhud_pickup_list_desc" : "Displays picked up ammo, money and items in a list at the bottom of the screen",
 	"menu_wfhud_rare_mission_equipment" : "패키지 자원 표시",
 	"menu_wfhud_rare_mission_equipment_desc" : "미션중에 얻은 희귀자원들이 표시됩니다.",
 	"menu_wfhud_health_labels" : "체력 표시 라벨",

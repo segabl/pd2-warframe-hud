@@ -1,5 +1,4 @@
 {
-	"debug_mugshot_electrified" : "电击",
 	"menu_wfhud" : "Warframe HUD",
 	"menu_wfhud_hud_scale" : "HUD缩放比例",
 	"menu_wfhud_hud_scale_desc" : "调整HUD中所有组件元素的缩放倍数\n重启劫案以应用更改",
@@ -13,6 +12,8 @@
 	"menu_wfhud_vanilla_fonts_desc" : "使用游戏默认字体而并非使用HUD的自定义字体",
 	"menu_wfhud_buff_list" : "Buff列表",
 	"menu_wfhud_buff_list_desc" : "在玩家界面附近显示正在生效的技能、天赋、效果",
+	"menu_wfhud_pickup_list" : "Pickup list",
+	"menu_wfhud_pickup_list_desc" : "Displays picked up ammo, money and items in a list at the bottom of the screen",
 	"menu_wfhud_rare_mission_equipment" : "稀有任务装备",
 	"menu_wfhud_rare_mission_equipment_desc" : "获得任务装备时显示稀有资源掉落提示",
 	"menu_wfhud_health_labels" : "浮动血条",

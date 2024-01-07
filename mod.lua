@@ -41,6 +41,7 @@ if not WFHud then
 		margin_v = 32,
 		vanilla_fonts = false,
 		buff_list = true,
+		pickup_list = true,
 		rare_mission_equipment = true,
 		health_labels = true,
 		joker_labels = true,
@@ -224,14 +225,14 @@ if not WFHud then
 	end
 
 	function WFHud:add_buff(category, upgrade, value, duration)
-		if self.buff_list and Utils:IsInHeist() then
+		if self.buff_list and Utils:IsInHeist() and self.settings.buff_list then
 			local upgrade_data = self.skill_map[category] and self.skill_map[category][upgrade]
 			if not upgrade_data then
 				log("[WFHud] No upgrade definition for " .. tostring(category) .. "." .. tostring(upgrade))
 				return
 			end
 
-			if not self.settings.buff_list and not upgrade_data.ignore_disabled then
+			if not upgrade_data.ignore_disabled then
 				return
 			end
 
@@ -249,7 +250,7 @@ if not WFHud then
 	end
 
 	function WFHud:add_pickup(id, amount, text, texture, texture_rect)
-		if self.pickup_list and Utils:IsInHeist() then
+		if self.pickup_list and Utils:IsInHeist() and self.settings.pickup_list then
 			local string_id = "hud_pickup_" .. id
 			self.pickup_list:add(id, texture, texture_rect, amount, text or managers.localization:exists(string_id) and managers.localization:text(string_id) or id:pretty(true))
 		end
@@ -716,13 +717,23 @@ if not WFHud then
 		})
 
 		MenuHelper:AddToggle({
+			id = "pickup_list",
+			title = "menu_wfhud_pickup_list",
+			desc = "menu_wfhud_pickup_list_desc",
+			callback = "WFHud_boolean_value",
+			value = WFHud.settings.pickup_list,
+			menu_id = menu_ids.main,
+			priority = 77
+		})
+
+		MenuHelper:AddToggle({
 			id = "rare_mission_equipment",
 			title = "menu_wfhud_rare_mission_equipment",
 			desc = "menu_wfhud_rare_mission_equipment_desc",
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.rare_mission_equipment,
 			menu_id = menu_ids.main,
-			priority = 77
+			priority = 76
 		})
 
 		MenuHelper:AddToggle({
@@ -732,7 +743,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.health_labels,
 			menu_id = menu_ids.main,
-			priority = 76
+			priority = 75
 		})
 
 		local keepers = Keepers and not Keepers.impostor
@@ -744,7 +755,7 @@ if not WFHud then
 			value = keepers and Keepers.settings.show_my_joker_name or not keepers and WFHud.settings.joker_labels,
 			disabled = keepers,
 			menu_id = menu_ids.main,
-			priority = 75
+			priority = 74
 		})
 
 		MenuHelper:AddToggle({
@@ -754,7 +765,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.boss_bar,
 			menu_id = menu_ids.main,
-			priority = 74
+			priority = 73
 		})
 
 		MenuHelper:AddToggle({
@@ -764,7 +775,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.damage_popups,
 			menu_id = menu_ids.main,
-			priority = 73
+			priority = 72
 		})
 
 		MenuHelper:AddToggle({
@@ -774,7 +785,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.waypoints,
 			menu_id = menu_ids.main,
-			priority = 72
+			priority = 71
 		})
 
 		MenuHelper:AddToggle({
@@ -784,7 +795,7 @@ if not WFHud then
 			callback = "WFHud_boolean_value",
 			value = WFHud.settings.world_interactions,
 			menu_id = menu_ids.main,
-			priority = 71
+			priority = 70
 		})
 
 		MenuHelper:AddDivider({

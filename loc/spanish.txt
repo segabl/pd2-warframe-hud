@@ -1,5 +1,4 @@
 {
-	"debug_mugshot_electrified" : "Electrocutado",
 	"menu_wfhud" : "Warframe HUD",
 	"menu_wfhud_hud_scale" : "HUD scale",
 	"menu_wfhud_hud_scale_desc" : "Scale multiplier for all HUD elements\nRequires a heist restart to take effect",
@@ -13,6 +12,8 @@
 	"menu_wfhud_vanilla_fonts_desc" : "Uses the game's original fonts instead of the custom Warframe fonts",
 	"menu_wfhud_buff_list" : "Buff list",
 	"menu_wfhud_buff_list_desc" : "Displays active effects, skills and perks as icons next to the player panel",
+	"menu_wfhud_pickup_list" : "Pickup list",
+	"menu_wfhud_pickup_list_desc" : "Displays picked up ammo, money and items in a list at the bottom of the screen",
 	"menu_wfhud_rare_mission_equipment" : "Rare mission equipment",
 	"menu_wfhud_rare_mission_equipment_desc" : "Obtaining mission equipment is displayed as rare resource drop",
 	"menu_wfhud_health_labels" : "Health labels",

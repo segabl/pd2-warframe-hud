@@ -1,5 +1,4 @@
 {
-	"debug_mugshot_electrified" : "Eletrocutado",
 	"menu_wfhud" : "Warframe HUD",
 	"menu_wfhud_hud_scale" : "Tamanho da HUD",
 	"menu_wfhud_hud_scale_desc" : "Muda o tamanho de todos os elementos da HUD\nPrecisa reiniciar o mapa para ter efeito",
@@ -13,6 +12,8 @@
 	"menu_wfhud_vanilla_fonts_desc" : "Usará a fonte padrão do jogo invés da fonte do Warframe",
 	"menu_wfhud_buff_list" : "Buff list",
 	"menu_wfhud_buff_list_desc" : "Displays active effects, skills and perks as icons next to the player panel",
+	"menu_wfhud_pickup_list" : "Pickup list",
+	"menu_wfhud_pickup_list_desc" : "Displays picked up ammo, money and items in a list at the bottom of the screen",
 	"menu_wfhud_rare_mission_equipment" : "Equipamento de Missão Raro",
 	"menu_wfhud_rare_mission_equipment_desc" : "Se obter um equipamento da missão exibirá como se fosse um recurso raro",
 	"menu_wfhud_health_labels" : "Barras de Vida",

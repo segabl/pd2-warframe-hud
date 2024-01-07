@@ -1,5 +1,4 @@
 {
-	"debug_mugshot_electrified" : "Geschockt",
 	"menu_wfhud" : "Warframe HUD",
 	"menu_wfhud_hud_scale" : "HUD Skalierung",
 	"menu_wfhud_hud_scale_desc" : "Skalierungsfaktor für alle HUD Elemente\nErfordert einen Neustart des Raubzugs",
@@ -13,6 +12,8 @@
 	"menu_wfhud_vanilla_fonts_desc" : "Benutze die normalen Schriftarten des Spiels anstatt den neuen Warframe Schriftarten an",
 	"menu_wfhud_buff_list" : "Buffliste",
 	"menu_wfhud_buff_list_desc" : "Zeigt aktive Effekte, Skills und Perks als Icons neben dem Spielerpanel an",
+	"menu_wfhud_pickup_list" : "Aufhebeliste",
+	"menu_wfhud_pickup_list_desc" : "Zeight aufgehobene Munition, Geld und Items in einer Liste am unteren Bildschirmrand an",
 	"menu_wfhud_rare_mission_equipment" : "Seltene Missionsausrüstung",
 	"menu_wfhud_rare_mission_equipment_desc" : "Erhaltene Missionsausrüstung wird als seltener Ressourcen-Drop angezeigt",
 	"menu_wfhud_health_labels" : "Gesundheitsleisten",
