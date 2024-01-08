@@ -7,7 +7,7 @@ local hide_value = {
 }
 local function set_invulnerable(state)
 	local teammate_panel = managers.hud and managers.hud:get_teammate_panel_by_peer()
-	if teammate_panel then
+	if teammate_panel and teammate_panel.set_invulnerable then
 		teammate_panel:set_invulnerable(state)
 	end
 end

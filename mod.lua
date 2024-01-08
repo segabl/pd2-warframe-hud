@@ -225,14 +225,14 @@ if not WFHud then
 	end
 
 	function WFHud:add_buff(category, upgrade, value, duration)
-		if self.buff_list and Utils:IsInHeist() and self.settings.buff_list then
+		if self.buff_list and Utils:IsInHeist() then
 			local upgrade_data = self.skill_map[category] and self.skill_map[category][upgrade]
 			if not upgrade_data then
 				log("[WFHud] No upgrade definition for " .. tostring(category) .. "." .. tostring(upgrade))
 				return
 			end
 
-			if not upgrade_data.ignore_disabled then
+			if not self.settings.buff_list and not upgrade_data.ignore_disabled then
 				return
 			end
 
