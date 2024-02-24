@@ -155,11 +155,11 @@ function HUDPlayerPanel:set_peer_id(id, ai)
 	self._level_bar:set_w(self._level_bar_bg:w() * ((peer:level() or 0) / 100))
 	self._level_bar:set_right(self._level_bar_bg:right())
 
-	if not WFHud.settings.player_panels.show_avatars or not Steam then
+	if not WFHud.settings.player_panels.show_avatars or not Steam or peer:account_type_str() ~= "STEAM" then
 		return
 	end
 
-	Steam:friend_avatar(Steam.MEDIUM_AVATAR, peer:user_id(), function (texture)
+	Steam:friend_avatar(Steam.MEDIUM_AVATAR, peer:account_id(), function (texture)
 		if peer == self._peer then
 			self._peer_avatar:set_image(texture)
 		end
