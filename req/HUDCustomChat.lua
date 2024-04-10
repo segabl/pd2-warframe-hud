@@ -132,9 +132,9 @@ function HUDCustomChat:_create_status_panel()
 		h = self._input_panel:h()
 	})
 
-	local connection_map = managers.controller:get_settings(managers.controller:get_default_wrapper_type()):get_connection_map()
-	local chat_binding = connection_map.toggle_chat:get_input_name_list()
-	local chat_key = chat_binding and chat_binding[1] or "t"
+	local default_binding = managers.controller:get_settings(managers.controller:get_default_wrapper_type()):get_connection_map().toggle_chat:get_input_name_list()
+	local user_binding = Global.controller_manager.user_mod and Global.controller_manager.user_mod.toggle_chat
+	local chat_key = user_binding and user_binding.connection or default_binding and default_binding[1] or "t"
 	local text = self._status_panel:text({
 		font = WFHud.fonts.default_no_shadow,
 		font_size = WFHud.font_sizes.small * hud_scale * font_scale,
@@ -483,7 +483,10 @@ function HUDCustomChat:send_message()
 	local text = self._input_text
 	local message = text:text()
 
-	if string.len(message) == 0 then
+	if message:len() == 0 then
+		if not WFHud.settings.chat.keep_open then
+			managers.hud:set_chat_focus(false)
+		end
 		return
 	end
 
