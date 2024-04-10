@@ -420,9 +420,15 @@ function HUDCustomChat:hide()
 	self._component_panel:hide()
 
 	self._output_panel:stop()
-	self._output_panel:animate(callback(self, self, "_animate_fade_out"), HUDCustomChat.MESSAGE_DISPLAY_TIME)
 	self._status_panel:stop()
-	self._status_panel:animate(callback(self, self, "_animate_fade_out"), HUDCustomChat.MESSAGE_DISPLAY_TIME)
+
+	if WFHud.settings.chat.keep_visible then
+		self._output_panel:set_alpha(1)
+		self._status_panel:set_alpha(1)
+	else
+		self._output_panel:animate(callback(self, self, "_animate_fade_out"), HUDCustomChat.MESSAGE_DISPLAY_TIME)
+		self._status_panel:animate(callback(self, self, "_animate_fade_out"), HUDCustomChat.MESSAGE_DISPLAY_TIME)
+	end
 
 	self._caret:stop()
 

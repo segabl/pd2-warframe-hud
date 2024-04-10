@@ -40,6 +40,8 @@
 	"menu_wfhud_chat_timestamps_heist_time" : "Время в ограблении",
 	"menu_wfhud_chat_keep_open" : "Оставлять открытым",
 	"menu_wfhud_chat_keep_open_desc" : "Оставляет чат открытым после отправки сообщения",
+	"menu_wfhud_chat_keep_visible" : "Keep visible",
+	"menu_wfhud_chat_keep_visible_desc" : "Keeps chat text visible when the chat is closed instead of fading it out after a while",
 	"menu_wfhud_chat_inline" : "ЛС в основном чате",
 	"menu_wfhud_chat_inline_desc" : "Показывает личные сообщения вмести со всеми остальными",
 	"menu_wfhud_chat_use_peer_colors_desc" : "Окрашивает имена игроков",

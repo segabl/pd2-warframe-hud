@@ -59,6 +59,7 @@ if not WFHud then
 			enabled = true,
 			timestamps = 1,
 			keep_open = true,
+			keep_visible = false,
 			inline = true,
 			use_peer_colors = false,
 			x = -1,
@@ -898,17 +899,15 @@ if not WFHud then
 			menu_id = menu_ids.chat,
 			priority = 78
 		})
-		--[[
 		MenuHelper:AddToggle({
-			id = "chat.inline",
-			title = "menu_wfhud_chat_inline",
-			desc = "menu_wfhud_chat_inline_desc",
+			id = "chat.keep_visible",
+			title = "menu_wfhud_chat_keep_visible",
+			desc = "menu_wfhud_chat_keep_visible_desc",
 			callback = "WFHud_boolean_value",
-			value = WFHud.settings.chat.inline,
+			value = WFHud.settings.chat.keep_visible,
 			menu_id = menu_ids.chat,
 			priority = 77
 		})
-		]]
 		MenuHelper:AddToggle({
 			id = "chat.use_peer_colors",
 			title = "menu_wfhud_use_peer_colors",

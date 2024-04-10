@@ -40,6 +40,8 @@
 	"menu_wfhud_chat_timestamps_heist_time" : "습격 시간",
 	"menu_wfhud_chat_keep_open" : "채팅창 활성화 유지",
 	"menu_wfhud_chat_keep_open_desc" : "채팅을 보낸뒤에도 채팅창을 열어둡니다 ",
+	"menu_wfhud_chat_keep_visible" : "Keep visible",
+	"menu_wfhud_chat_keep_visible_desc" : "Keeps chat text visible when the chat is closed instead of fading it out after a while",
 	"menu_wfhud_chat_inline" : "인라인 메세지",
 	"menu_wfhud_chat_inline_desc" : "인라인 메시지메인 채팅에서도 개인 메시지를 인라인으로 표시합니다",
 	"menu_wfhud_chat_use_peer_colors_desc" : "각 플레이어의 닉네임을 기존 색상으로 설정할수있습니다",

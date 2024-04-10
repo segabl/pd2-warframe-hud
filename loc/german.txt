@@ -40,6 +40,8 @@
 	"menu_wfhud_chat_timestamps_heist_time" : "Raubzug Zeit",
 	"menu_wfhud_chat_keep_open" : "Offen lassen",
 	"menu_wfhud_chat_keep_open_desc" : "Lässt den Chat offen nachdem eine Nachricht gesendet wurde",
+	"menu_wfhud_chat_keep_visible" : "Sichtbar lassen",
+	"menu_wfhud_chat_keep_visible_desc" : "Lässt den Text sichtbar wenn der Chat geschlossen wird statt ihn nach kurzer Zeit auszublenden",
 	"menu_wfhud_chat_inline" : "Inline-Nachrichten",
 	"menu_wfhud_chat_inline_desc" : "Zeigt private Nachrichten inline auch im Hauptchat an",
 	"menu_wfhud_chat_use_peer_colors_desc" : "Färbt Spielernamen gemäß deren Peer-Farbe",
