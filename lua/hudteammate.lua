@@ -23,7 +23,7 @@ Hooks:PostHook(HUDTeammate, "init", "init_wfhud", function (self, i, teammates_p
 	if self._main_player then
 		self._wfhud_panel:set_y(WFHud.settings.margin_v)
 	else
-		self._wfhud_item_list = HUDIconList:new(WFHud:panel(), 0, self._wfhud_panel:y(), WFHud:panel():w() - 200 * hud_scale, 24 * hud_scale, WFHud.settings.colors.buff)
+		self._wfhud_item_list = HUDIconList:new(WFHud:panel(), 0, self._wfhud_panel:y(), self._wfhud_panel:right() - 152 * hud_scale, 24 * hud_scale, WFHud.settings.colors.buff)
 		self._wfhud_item_list:hide()
 
 		table.insert(panels, self)

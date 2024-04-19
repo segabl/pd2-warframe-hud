@@ -683,6 +683,7 @@ if not WFHud then
 			max = 640,
 			step = 8,
 			show_value = true,
+			display_precision = 0,
 			menu_id = menu_ids.main,
 			priority = 88
 		})
@@ -697,6 +698,7 @@ if not WFHud then
 			max = 160,
 			step = 8,
 			show_value = true,
+			display_precision = 0,
 			menu_id = menu_ids.main,
 			priority = 87
 		})
