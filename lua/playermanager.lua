@@ -1,5 +1,9 @@
-local duration_index = {
+local duration_key = {
 	armor_break_invulnerable = 1
+}
+local cooldown_key = {
+	armor_break_invulnerable = 2,
+	mrwi_health_invulnerable = 3
 }
 local hide_value = {
 	armor_break_invulnerable = true,
@@ -13,13 +17,14 @@ local function set_invulnerable(state)
 end
 Hooks:PostHook(PlayerManager, "activate_temporary_upgrade", "activate_temporary_upgrade_wfhud", function (self, category, upgrade)
 	local data = self:upgrade_value(category, upgrade)
-	if type(data) == "table" then
-		WFHud:add_buff(category, upgrade, not hide_value[upgrade] and data[1], data[duration_index[upgrade] or 2])
-		-- not the best way but works
-		if upgrade == "armor_break_invulnerable" or upgrade == "mrwi_health_invulnerable" then
-			set_invulnerable(true)
-			DelayedCalls:Add("wfhud_player_invul_end", data[duration_index[upgrade] or 2], function () set_invulnerable(false) end)
-		end
+	if type(data) ~= "table" then
+		return
+	end
+	WFHud:add_buff(category, upgrade, not hide_value[upgrade] and data[1], data[duration_key[upgrade] or 2], data[cooldown_key[upgrade]])
+	-- not the best way but works
+	if upgrade == "armor_break_invulnerable" or upgrade == "mrwi_health_invulnerable" then
+		set_invulnerable(true)
+		DelayedCalls:Add("wfhud_player_invul_end", data[duration_key[upgrade] or 2], function () set_invulnerable(false) end)
 	end
 end)
 Hooks:PostHook(PlayerManager, "activate_temporary_upgrade_by_level", "activate_temporary_upgrade_by_level_wfhud", function (self, category, upgrade, level)
@@ -29,11 +34,17 @@ Hooks:PostHook(PlayerManager, "activate_temporary_upgrade_by_level", "activate_t
 	end
 	local data = self:upgrade_value_by_level(category, upgrade, level, 0)
 	if type(data) == "table" then
-		WFHud:add_buff(category, upgrade, not hide_value[upgrade] and data[1], data[duration_index[upgrade] or 2])
+		WFHud:add_buff(category, upgrade, not hide_value[upgrade] and data[1], data[duration_key[upgrade] or 2])
 	end
 end)
 Hooks:PostHook(PlayerManager, "deactivate_temporary_upgrade", "deactivate_temporary_upgrade_wfhud", function (self, category, upgrade)
 	WFHud:remove_buff(category, upgrade)
+end)
+Hooks:PostHook(PlayerManager, "disable_cooldown_upgrade", "disable_cooldown_upgrade_wfhud", function (self, category, upgrade)
+	local data = self:upgrade_value(category, upgrade)
+	if type(data) == "table" then
+		WFHud:add_buff(category, upgrade, nil, nil, data[2])
+	end
 end)
 
 

@@ -225,7 +225,7 @@ if not WFHud then
 		return HUDDamagePop:new(self:panel(), pos, damage, proc, attack_data.critical_hit, attack_data.headshot)
 	end
 
-	function WFHud:add_buff(category, upgrade, value, duration)
+	function WFHud:add_buff(category, upgrade, value, duration, cooldown)
 		if self.buff_list and Utils:IsInHeist() then
 			local upgrade_data = self.skill_map[category] and self.skill_map[category][upgrade]
 			if not upgrade_data then
@@ -237,7 +237,21 @@ if not WFHud then
 				return
 			end
 
-			self.buff_list:add_buff(upgrade_data, value, duration)
+			if value or duration or not cooldown then
+				self.buff_list:add_buff(upgrade_data, value, duration)
+			end
+
+			if not cooldown then
+				return
+			end
+
+			if not upgrade_data.cooldown then
+				upgrade_data.cooldown = clone(upgrade_data)
+				upgrade_data.cooldown.key = upgrade_data.key .. ".cooldown"
+				upgrade_data.cooldown.is_debuff = true
+			end
+
+			self.buff_list:add_buff(upgrade_data.cooldown, value, cooldown)
 		end
 	end
 
