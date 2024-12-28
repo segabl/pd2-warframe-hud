@@ -573,20 +573,20 @@ if not WFHud then
 		self.use_default_fonts = true
 	end
 
-	Hooks:Add("HopLibOnMinionAdded", "HopLibOnMinionAddedWFHud", function (unit, player_unit)
-		if unit:base().name_label_id or not WFHud.settings.joker_labels then
+	Hooks:Add("HopLibOnMinionAdded", "HopLibOnMinionAddedWFHud", function (unit)
+		if unit:unit_data().name_label_id or not WFHud.settings.joker_labels then
 			return
 		end
 
-		unit:base().name_label_id = managers.hud:_add_name_label({
+		unit:unit_data().name_label_id = managers.hud:_add_name_label({
 			name = "Joker",
 			unit = unit
 		})
 	end)
 
-	Hooks:Add("HopLibOnMinionRemoved", "HopLibOnMinionRemovedWFHud", function (unit, player_unit)
-		if unit:base().name_label_id then
-			managers.hud:_remove_name_label(unit:base().name_label_id)
+	Hooks:Add("HopLibOnMinionRemoved", "HopLibOnMinionRemovedWFHud", function (unit)
+		if unit:unit_data().name_label_id then
+			managers.hud:_remove_name_label(unit:unit_data().name_label_id)
 			unit:unit_data().name_label_id = nil
 		end
 	end)
