@@ -205,6 +205,13 @@ end
 
 function HUDPlayerEquipment:set_weapon(index)
 	local data = index == 1 and managers.blackmarket:equipped_secondary() or managers.blackmarket:equipped_primary()
+	local player_unit = managers.player:local_player()
+	if alive(player_unit) then
+		local weapon_unit = player_unit:inventory():unit_by_selection(index)
+		if alive(weapon_unit) and weapon_unit:base()._name_id ~= data.weapon_id then
+			data = { weapon_id = weapon_unit:base()._name_id }
+		end
+	end
 	self._weapon_name:set_text(data.custom_name or managers.localization:to_upper_text(tweak_data.weapon[data.weapon_id].name_id))
 
 	self._weapon_index = index
