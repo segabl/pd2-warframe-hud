@@ -294,3 +294,10 @@ Hooks:PostHook(HUDTeammate, "set_revives_amount", "set_revives_amount_wfhud", fu
 		end
 	end
 end)
+
+
+Hooks:PostHook(HUDTeammate, "set_ammo_amount_by_type", "set_ammo_amount_by_type", function (self, type, _, _, total, max)
+	if not self._main_player then
+		self._wfhud_panel:set_ammo(type, total, max)
+	end
+end)

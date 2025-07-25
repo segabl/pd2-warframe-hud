@@ -9,6 +9,7 @@ HUDPlayerPanel = HUDPlayerPanel or WFHud:panel_class()
 ---@param main_player boolean?
 function HUDPlayerPanel:init(panel, main_player)
 	self._is_main_player = main_player
+	self._ammo_ratios = {}
 
 	self._panel = panel:panel()
 
@@ -49,8 +50,8 @@ function HUDPlayerPanel:init(panel, main_player)
 	self._health_bar:set_right(main_player and self._panel:w() or self._peer_info_panel:x() - 4)
 
 
-	-- level bar
-	self._level_panel = self._panel:panel({
+	-- ammo bar
+	self._energy_panel = self._panel:panel({
 		visible = not main_player,
 		x = self._health_bar:x(),
 		y = self._health_bar:bottom() + 1,
@@ -59,30 +60,30 @@ function HUDPlayerPanel:init(panel, main_player)
 		layer = -1
 	})
 
-	self._level_bar_bg = self._level_panel:bitmap({
+	self._energy_bar_bg = self._energy_panel:bitmap({
 		texture = "guis/textures/wfhud/bar",
 		color = WFHud.settings.colors.bg:with_alpha(0.5),
-		w = self._level_panel:w(),
-		h = self._level_panel:h(),
+		w = self._energy_panel:w(),
+		h = self._energy_panel:h(),
 		layer = -1
 	})
 
-	self._level_bar = self._level_panel:bitmap({
+	self._energy_bar = self._energy_panel:bitmap({
 		texture = "guis/textures/wfhud/bar",
 		color = WFHud.settings.colors.default,
-		w = self._level_panel:w(),
-		h = self._level_panel:h()
+		w = self._energy_panel:w(),
+		h = self._energy_panel:h()
 	})
 
 
 	-- peer id
 	self._peer_id_panel = self._panel:panel({
-		y = main_player and self._health_bar:bottom() or self._level_panel:bottom(),
+		y = main_player and self._health_bar:bottom() or self._energy_panel:bottom(),
 		w = 16 * font_scale * hud_scale,
 		h = 16 * font_scale * hud_scale,
 		layer = -1
 	})
-	self._peer_id_panel:set_right(self._level_panel:right())
+	self._peer_id_panel:set_right(self._energy_panel:right())
 
 	self._peer_id_bg = self._peer_id_panel:bitmap({
 		texture = "guis/textures/wfhud/peer_bg",
@@ -109,8 +110,8 @@ function HUDPlayerPanel:init(panel, main_player)
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		color = WFHud.settings.colors.default,
 		align = "right",
-		y = main_player and self._health_bar:bottom() or self._level_panel:bottom(),
-		w = self._level_panel:right() - self._peer_id_panel:w() - (main_player and 8 or 4) * font_scale,
+		y = main_player and self._health_bar:bottom() or self._energy_panel:bottom(),
+		w = self._energy_panel:right() - self._peer_id_panel:w() - (main_player and 8 or 4) * font_scale,
 		layer = -1
 	})
 
@@ -120,8 +121,8 @@ function HUDPlayerPanel:init(panel, main_player)
 		font_size = WFHud.font_sizes.small * font_scale * hud_scale,
 		color = WFHud.settings.colors.default,
 		align = "right",
-		y = main_player and self._health_bar:bottom() or self._level_panel:bottom(),
-		w = self._level_panel:right() - self._peer_id_panel:w() - (main_player and 8 or 4) * font_scale,
+		y = main_player and self._health_bar:bottom() or self._energy_panel:bottom(),
+		w = self._energy_panel:right() - self._peer_id_panel:w() - (main_player and 8 or 4) * font_scale,
 		layer = -1
 	})
 
@@ -141,8 +142,8 @@ function HUDPlayerPanel:set_peer_id(id, ai)
 	local peer = not ai and managers.network:session():peer(id)
 	if not peer then
 		self._peer_rank:set_text("0")
-		self._level_bar:set_w(self._level_bar_bg:w())
-		self._level_bar:set_right(self._level_bar_bg:right())
+		self._energy_bar:set_w(self._energy_bar_bg:w())
+		self._energy_bar:set_right(self._energy_bar_bg:right())
 		if WFHud.settings.player_panels.show_avatars then
 			self._peer_avatar:set_image("guis/textures/wfhud/avatar_placeholder")
 		end
@@ -152,8 +153,6 @@ function HUDPlayerPanel:set_peer_id(id, ai)
 	self._peer = peer
 
 	self._peer_rank:set_text(tostring(peer:rank()))
-	self._level_bar:set_w(self._level_bar_bg:w() * ((peer:level() or 0) / 100))
-	self._level_bar:set_right(self._level_bar_bg:right())
 
 	if not WFHud.settings.player_panels.show_avatars or not Steam or peer:account_type_str() ~= "STEAM" then
 		return
@@ -174,7 +173,7 @@ function HUDPlayerPanel:set_name(name)
 
 		self._level_text:set_text(string.format(" [%u]", managers.experience:current_level()))
 		local _, _, tw = self._level_text:text_rect()
-		self._name_text:set_w(self._level_panel:right() -  self._peer_id_panel:w() - 8 * font_scale - tw)
+		self._name_text:set_w(self._energy_panel:right() -  self._peer_id_panel:w() - 8 * font_scale - tw)
 		name = managers.localization:to_upper_text(tweak_data.skilltree.specializations[spec].name_id)
 	end
 
@@ -188,6 +187,18 @@ function HUDPlayerPanel:set_character(character_name)
 
 	local icon = tweak_data.blackmarket:get_character_icon(character_name)
 	self._peer_avatar:set_image(icon or "guis/textures/wfhud/avatar_placeholder")
+end
+
+function HUDPlayerPanel:set_ammo(type, current, max)
+	self._ammo_ratios[type] = current / math.max(1, max)
+	local total_ratio = 0
+	for _, ratio in pairs(self._ammo_ratios) do
+		total_ratio = total_ratio + ratio
+	end
+	total_ratio = total_ratio / table.size(self._ammo_ratios)
+
+	self._energy_bar:set_w(self._energy_bar_bg:w() * total_ratio)
+	self._energy_bar:set_right(self._energy_bar_bg:right())
 end
 
 function HUDPlayerPanel:health_bar()
