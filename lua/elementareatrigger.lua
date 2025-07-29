@@ -1,29 +1,32 @@
-ElementAreaTrigger.ACTIVE_ESCAPES = 0
+ElementAreaTrigger.ACTIVE_ESCAPES = {}
 
-local function check_executed_objects(area_trigger, current, recursion_depth)
-	current = current or area_trigger
-	recursion_depth = recursion_depth or 2
+local function check_executed_objects(trigger, current, checked)
+	if not current or checked[current] then
+		return
+	end
+
+	checked[current] = true
 
 	for _, params in pairs(current._values.on_executed) do
 		local element = current:get_mission_element(params.id)
-		local element_class = getmetatable(element)
-		if element_class == ElementMissionEnd then
-			if area_trigger._values.enabled then
-				ElementAreaTrigger.ACTIVE_ESCAPES = ElementAreaTrigger.ACTIVE_ESCAPES + 1
-				WFHud.objective_panel:set_icon("extract")
-			else
-				ElementAreaTrigger.ACTIVE_ESCAPES = math.max(ElementAreaTrigger.ACTIVE_ESCAPES - 1, 0)
-				if ElementAreaTrigger.ACTIVE_ESCAPES <= 0 then
-					WFHud.objective_panel:set_icon(nil)
-				end
-			end
-			return true
-		elseif element_class == MissionScriptElement and recursion_depth > 0 then
-			if check_executed_objects(area_trigger, element, recursion_depth - 1) then
+		if getmetatable(element) == ElementMissionEnd then
+			if trigger._values.enabled then
 				return true
 			end
+		elseif check_executed_objects(trigger, element, checked) then
+			return true
 		end
 	end
 end
 
-Hooks:PostHook(ElementAreaTrigger, "on_set_enabled", "on_set_enabled_wfhud", check_executed_objects)
+Hooks:PostHook(ElementAreaTrigger, "on_set_enabled", "on_set_enabled_wfhud", function(self)
+	if check_executed_objects(self, self, {}) then
+		ElementAreaTrigger.ACTIVE_ESCAPES[self] = true
+		WFHud.objective_panel:set_icon("extract")
+	else
+		ElementAreaTrigger.ACTIVE_ESCAPES[self] = nil
+		if not next(ElementAreaTrigger.ACTIVE_ESCAPES) then
+			WFHud.objective_panel:set_icon(nil)
+		end
+	end
+end)
