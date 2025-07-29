@@ -189,13 +189,15 @@ function HUDPlayerPanel:set_character(character_name)
 	self._peer_avatar:set_image(icon or "guis/textures/wfhud/avatar_placeholder")
 end
 
-function HUDPlayerPanel:set_ammo(type, current, max)
-	self._ammo_ratios[type] = current / math.max(1, max)
+function HUDPlayerPanel:set_ammo(category, current, max)
+	self._ammo_ratios[category] = current / math.max(1, max)
+	local num_ratios = 0
 	local total_ratio = 0
 	for _, ratio in pairs(self._ammo_ratios) do
+		num_ratios = num_ratios + 1
 		total_ratio = total_ratio + ratio
 	end
-	total_ratio = total_ratio / table.size(self._ammo_ratios)
+	total_ratio = total_ratio / num_ratios
 
 	self._energy_bar:set_w(self._energy_bar_bg:w() * total_ratio)
 	self._energy_bar:set_right(self._energy_bar_bg:right())

@@ -119,9 +119,11 @@ Hooks:PostHook(HUDTeammate, "set_weapon_firemode", "set_weapon_firemode_wfhud", 
 	end
 end)
 
-Hooks:PostHook(HUDTeammate, "set_ammo_amount_by_type", "set_ammo_amount_by_type_wfhud", function (self)
+Hooks:PostHook(HUDTeammate, "set_ammo_amount_by_type", "set_ammo_amount_by_type_wfhud", function (self, category, _, _, total, max)
 	if self._main_player and managers.player:local_player() then
 		WFHud.equipment_panel:set_ammo()
+	elseif not self._main_player then
+		self._wfhud_panel:set_ammo(category, total, max)
 	end
 end)
 
@@ -292,12 +294,5 @@ Hooks:PostHook(HUDTeammate, "set_revives_amount", "set_revives_amount_wfhud", fu
 		else
 			self._wfhud_item_list:remove_icon("downs")
 		end
-	end
-end)
-
-
-Hooks:PostHook(HUDTeammate, "set_ammo_amount_by_type", "set_ammo_amount_by_type", function (self, type, _, _, total, max)
-	if not self._main_player then
-		self._wfhud_panel:set_ammo(type, total, max)
 	end
 end)
